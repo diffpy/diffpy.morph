@@ -21,7 +21,7 @@ from pathlib import Path
 import diffpy.morph.morph_helpers as helpers
 import diffpy.morph.morph_io as io
 import diffpy.morph.morphs as morphs
-import diffpy.morph.pdfplot as pdfplot
+import diffpy.morph.plot as plot
 import diffpy.morph.refine as refine
 import diffpy.morph.tools as tools
 from diffpy.morph import __save_morph_as__
@@ -603,7 +603,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
         maglim = opts.maglim
         mag = opts.mag
         l_width = opts.lwidth
-        pdfplot.comparePDFs(
+        plot.comparePDFs(
             pairlist,
             labels,
             rmin=pmin,
@@ -784,11 +784,11 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(
+                    plot.plot_param(
                         field_list, param_list, param_name, field
                     )
                 else:
-                    pdfplot.plot_param(
+                    plot.plot_param(
                         target_file_names, param_list, param_name
                     )
             # Can occur for non-refined plotting parameters
@@ -969,11 +969,11 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(
+                    plot.plot_param(
                         field_list, param_list, param_name, field
                     )
                 else:
-                    pdfplot.plot_param(
+                    plot.plot_param(
                         morph_file_names, param_list, param_name
                     )
             # Can occur for non-refined plotting parameters

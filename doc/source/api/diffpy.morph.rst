@@ -20,10 +20,10 @@ Subpackages
 Submodules
 ----------
 
-diffpy.morph.pdfplot module
+diffpy.morph.plot module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.pdfplot
+.. automodule:: diffpy.morph.plot
     :members:
     :undoc-members:
     :show-inheritance:
