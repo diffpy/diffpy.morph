@@ -36,7 +36,7 @@ def morph(file1, file2, **kwargs):
 
 
 def morph_multiple_targets(file, dir, **kwargs):
-    """Run diffpy.morph at Python level.
+    """Run diffpy.morph with multiple targets at Python level.
 
         Parameters
         ----------
@@ -66,7 +66,7 @@ def morph_multiple_targets(file, dir, **kwargs):
 
 
 def morph_multiple_morphs(dir, file, **kwargs):
-    """Run diffpy.morph at Python level.
+    """Run diffpy.morph with multiple files morphed at Python level.
 
         Parameters
         ----------
