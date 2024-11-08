@@ -11,10 +11,10 @@ authors = [
 maintainers = [
   { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
 ]
-description = "Tools for manipulating and comparing PDF profiles"
+description = "Python package for manipulating and comparing PDF profiles"
 keywords = ['diffpy', 'pdf', 'data interpretation']
 readme = "README.rst"
-requires-python = ">=3.10, <3.14"
+requires-python = ">=3.11, <3.14"
 classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -25,7 +25,6 @@ classifiers = [
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Operating System :: Unix',
-        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
@@ -49,11 +48,16 @@ dirty_template = "{tag}"
 [tool.setuptools.packages.find]
 where = ["src"]  # list of folders that contain the packages (["."] by default)
 include = ["*"]  # package names should match these glob patterns (["*"] by default)
-exclude = ["tests"]  # exclude packages matching these glob patterns (empty by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
+
+[tool.codespell]
+exclude-file = ".codespell/ignore_lines.txt"
+ignore-words = ".codespell/ignore_words.txt"
+skip = "*.cif,*.dat"
 
 [tool.black]
 line-length = 115
