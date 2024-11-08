@@ -1,7 +1,7 @@
 The PDFmorph app was developed by the Billinge group at Columbia University.
 The examples in the tutorial part of the manual were made possible by data
 collected by Soham Banerjee at Brookhaven National Laboratory,
-Benjamin Frandsen during his PhD at Columbia Unversity,
+Benjamin Frandsen during his PhD at Columbia University,
 and Long Yang from Tonji University.
 
 The DiffPy development team is the set of all contributors to DiffPy projects.

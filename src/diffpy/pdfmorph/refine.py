@@ -71,7 +71,7 @@ class Refiner(object):
         """Pearson correlation function.
 
         This gives e**-p (vector), where p is the pearson correlation function.
-        We seek to minimize this, which occurrs when the correlation is the largest.
+        We seek to minimize this, which occurs when the correlation is the largest.
         """
         self._update_chain(pvals)
         _x_morph, _y_morph, _x_target, _y_target = self.chain(

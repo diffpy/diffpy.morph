@@ -86,7 +86,7 @@ def pdfmorph(
     verbose=False,
     **kwargs,
 ):
-    """function to perfom PDF morphing.
+    """function to perform PDF morphing.
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def pdfmorph(
         - morph_chain: diffpy.pdfmorph.morphs.morphchain.MorphChain
               The instance of processed morph chain.
               Calling ``x_morph, y_morph, x_target, y_target = morph_chain.xyallout``
-              will conviniently retrun morphed data and reference data
+              will conveniently return morphed data and reference data
         - morphed_cfg: dict
               A dictionary of refined morphing parameters
         - rw: float
@@ -248,11 +248,11 @@ def plot_morph(chain, ax=None, **kwargs):
     ----------
     chain: diffpy.pdfmorph.morphs.morphchain.MorphChain
         An instance of processed morph chain.
-    ax: matplotlib.axes.Axes, optinal
+    ax: matplotlib.axes.Axes, optional
         An instance of Axes class to plot the morphing result.
         If ax is None, instances of new Figure and Axes will be created. Default to None.
     kwargs:
-        Additional keyword arguements will be passed to ``ax.plot(...**kwargs)``
+        Additional keyword arguments will be passed to ``ax.plot(...**kwargs)``
 
     Returns
     -------

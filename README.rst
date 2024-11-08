@@ -190,7 +190,7 @@ trying to commit again.
 
 Improvements and fixes are always appreciated.
 
-Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.pdfmorph/blob/main/CODE_OF_CONDUCT.rst>`_.
+Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.pdfmorph/blob/main/CODE_OF_CONDUCT.rst>`_.
 
 Contact
 -------

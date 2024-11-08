@@ -148,7 +148,7 @@ Basic PDFmorph Workflow
 
        We are getting closer to an acceptably close fit to our data!
 
-    8. Finally, we will examine the stretch factor. Provide an intial
+    8. Finally, we will examine the stretch factor. Provide an initial
        guess by typing ::
 
             pdfmorph --scale=0.8 --smear=-0.08 --stretch=0.5 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
@@ -183,5 +183,5 @@ Enjoy the software!
 Bug Reports
 -----------
 
-Please enjoy using our software! If you come accross any bugs in the
+Please enjoy using our software! If you come across any bugs in the
 application, please report them to diffpy-dev@googlegroups.com

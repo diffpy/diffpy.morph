@@ -44,7 +44,7 @@ def single_morph_output(
     morph_results: dict
         Resulting data after morphing.
     save_file
-        Name of file to print to. If None (defualt) print to terminal.
+        Name of file to print to. If None (default) print to terminal.
     morph_file
         Name of the morphed PDF file. Required when printing to a non-terminal file.
     param xy_out: list

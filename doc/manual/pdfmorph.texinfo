@@ -156,7 +156,7 @@ it has not been extensively tested beyond the PDF.
 It runs on Windows, Mac OS, Linux, and all major Unix systems.
 The source code is freely available at @url{https://github.com/diffpy/diffpy.pdfmorph}.
 
-If you come accross any bugs in the application, please open an
+If you come across any bugs in the application, please open an
 @url{https://github.com/diffpy/diffpy.pdfmorph/issues, issue} or email
 diffpy-dev@@googlegroups.com.
 
@@ -440,8 +440,8 @@ extra tutorial data @code{additionalData.zip}} before proceeding.
 @cindex  performing multiple morphs
 
 It may be useful to morph a PDF against multiple targets: for example, you may want
-to morph a PDF against a sequence of PDFs measured at various temepratures to determine
-whether a phase change has occured. PDFmorph currently allows users to morph a PDF
+to morph a PDF against a sequence of PDFs measured at various temperatures to determine
+whether a phase change has occurred. PDFmorph currently allows users to morph a PDF
 against all files in a selected directory and plot resulting @math{R_W} values from each morph.
 It is advised that the lowest temperature PDF be that morphed and the higher temperature PDFs
 act as targets as the smear morph is only able to account for increases in thermal motion.
@@ -619,7 +619,7 @@ Again, we can begin by plotting the bulk material against our nanoparticle.
 @example
 pdfmorph Ni_bulk.gr Ni_nano_spheroid.cgr
 @end example
-@item The nanoparticle shape of the calculated PDF is an oblate spheroid with equitorial
+@item The nanoparticle shape of the calculated PDF is an oblate spheroid with equatorial
 radius of about @math{12} and polar radius of about @math{6} (this information is contained
 within the @code{Ni_nano_spheroid.cgr} file). To apply the spheroidal shape effects onto the
 bulk, run
@@ -627,7 +627,7 @@ bulk, run
 pdfmorph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a
 @end example
 @itemize
-@item The @code{--radius} option corresponds to the equitorial radius.
+@item The @code{--radius} option corresponds to the equatorial radius.
 @item The @code{--pradius} option corresponds to the polar radius.
 @end itemize
 @item Run the same command without @code{-a} to refine. Refining should give
@@ -792,14 +792,14 @@ using atomic pair distribution function analysis. Phys. Rev. B, 76(11), 115413.
 The available shape morphs are listed below:
 @itemize
 @item @code{--radius=RADIUS} - Multiply the PDF by the nanoparticle form factor for a sphere of radius @code{RADIUS}.
-If used with @code{--pradius}, multiply the PDF by the nanoparticle form factor for a spheroid of equitorial radius
+If used with @code{--pradius}, multiply the PDF by the nanoparticle form factor for a spheroid of equatorial radius
 @code{RADIUS} and polar radius @code{PRADIUS}.
 @itemize
 @item The sphere form factor was computed by Kodama et al. @footnote{Kodama, K., Iikubo, S., Taguchi, T., &
 Shamoto, S. (2006). Finite size effects of nanoparticles on the atomic pair distribution functions.
 Acta Crystallographica Section A, 62(6), 444–453. @url{https://doi.org/10.1107/S0108767306034635}}.
 @end itemize
-@item @code{--pradius=PRADIUS} - Multiply the PDF by the nanoparticle form factor for a spheroid of equitorial radius
+@item @code{--pradius=PRADIUS} - Multiply the PDF by the nanoparticle form factor for a spheroid of equatorial radius
 @code{RADIUS} and polar radius @code{PRADIUS}.
 @itemize
 @item The spheroid form factor was computed by Lei et al. @footnote{Lei, M., de Graff, A. M. R., Thorpe, M. F., Wells,
@@ -807,9 +807,9 @@ S. A., & Sartbaeva, A. (2009). Uncovering the intrinsic geometry from the atomic
 nanomaterials. Phys. Rev. B, 80(2), 024118. @url{https://doi.org/10.1103/PhysRevB.80.024118}}.
 @end itemize
 @item @code{--iradius=IRADIUS} - Divide the PDF by the nanoparticle form factor for a sphere of radius @code{IRADIUS}.
-If used with @code{--ipradius}, divide the PDF by the nanoparticle form factor for a spheroid of equitorial radius
+If used with @code{--ipradius}, divide the PDF by the nanoparticle form factor for a spheroid of equatorial radius
 @code{IRADIUS} and polar radius @code{IPRADIUS}.
-@item @code{--ipradius=IPRADIUS} - Divide the PDF by the nanoparticle form factor for a spheroid of equitorial radius
+@item @code{--ipradius=IPRADIUS} - Divide the PDF by the nanoparticle form factor for a spheroid of equatorial radius
 @code{IRADIUS} and polar radius @code{IPRADIUS}.
 @end itemize
 
@@ -842,7 +842,7 @@ post-expansion. The volume of the nanoparticle also increases by a factor @math{
 @displaymath
 \gamma'_0(\vec{r}) = {1 \over {\alpha^3 V}} \int \int \int s'(\vec{r}')s'(\vec{r}'+\vec{r})d\vec{r}'.
 @end displaymath
-Aplying a change of variables @math{\vec{r}' \rightarrow \vec{r}' / \alpha} gives
+Applying a change of variables @math{\vec{r}' \rightarrow \vec{r}' / \alpha} gives
 @displaymath
 \gamma'_0(\vec{r}) = {1 \over {\alpha^3 V}} \int \int \int s'(\alpha \vec{r}')s'(\alpha \vec{r}'+\vec{r})\alpha^3d\vec{r}',
 @end displaymath
@@ -963,7 +963,7 @@ requires us to apply a Gaussian dampening envelope centered at @math{r=0} with w
 @noindent @code{--radius=RADIUS}
 @* @indent Apply the nanoparticle form factor @math{\gamma_0} for a sphere of radius @code{RADIUS}.
 If @code{PRADIUS} is also specified, instead apply the characteristic function of a spheroid with
-equitorial radius @code{RADIUS} and polar radius @code{PRADIUS}.
+equatorial radius @code{RADIUS} and polar radius @code{PRADIUS}.
 
 @noindent @code{--pradius=PRADIUS}
 @* @indent If @code{RADIUS} is also specified, see @code{--radius}. Otherwise, apply the characteristic
@@ -972,7 +972,7 @@ function of a sphere with radius @code{PRADIUS}.
 @noindent @code{--iradius=IRADIUS}
 @* @indent Apply the inverse characteristic function @math{1/\gamma_0} of a sphere of radius @code{IRADIUS}/
 If @code{IPRADIUS} is also specified, instead apply the characteristic function of a spheroid with
-equitorial radius @code{IRADIUS} and polar radius @code{PRADIUS}.
+equatorial radius @code{IRADIUS} and polar radius @code{PRADIUS}.
 
 @noindent @code{--ipradius=IPRADIUS}
 @* @indent If @code{IRADIUS} is also specified, see @code{--iradius}. Otherwise, apply the characteristic

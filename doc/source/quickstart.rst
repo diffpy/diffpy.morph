@@ -150,7 +150,7 @@ Basic PDFmorph Workflow
 
     We are getting closer to an acceptably close fit to our data!
 
-    8. Finally, we will examine the stretch factor. Provide an intial
+    8. Finally, we will examine the stretch factor. Provide an initial
        guess by typing ::
 
            pdfmorph --scale=0.8 --smear=-0.08 --stretch=0.5 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
@@ -193,7 +193,7 @@ Performing Multiple Morphs
 
 It may be useful to morph a PDF against multiple targets:
 for example, you may want to morph a PDF against multiple PDFs measured
-at various temepratures to determine whether a phase change has occured.
+at various temperatures to determine whether a phase change has occurred.
 PDFmorph currently allows users to morph a PDF against all files in a
 selected directory and plot resulting :math:`R_w` values from each morph.
 
@@ -285,7 +285,7 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
 
                pdfmorph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a
 
-           Note that the equitorial radius corresponds to the ``--radius`` parameter and polar radius to ``--pradius``.
+           Note that the equatorial radius corresponds to the ``--radius`` parameter and polar radius to ``--pradius``.
         3. Remove the ``-a`` tag to refine.
 
 There is also support for morphing from a nanoparticle to a bulk. When applying the inverse morphs,
@@ -294,5 +294,5 @@ it is recommended to set ``--rmax=psize`` where ``psize`` is the longest diamete
 Bug Reports
 ===========
 
-Please enjoy using our software! If you come accross any bugs in the
+Please enjoy using our software! If you come across any bugs in the
 application, please report them to diffpy-users@googlegroups.com.
