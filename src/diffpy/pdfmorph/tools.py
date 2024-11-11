@@ -116,9 +116,8 @@ def readPDF(fname):
     r,gr
         Arrays read from data.
     """
-    from diffpy.utils.parsers import loadData
 
-    rv = loadData(fname, unpack=True)
+    rv = parsers.loaddata.loadData(fname, unpack=True)
     if len(rv) >= 2:
         return rv[:2]
     return (None, None)
@@ -146,7 +145,7 @@ def deserialize(serial_file):
     dict
         Data read from serial file.
     """
-    return parsers.deserialize_data(serial_file)
+    return parsers.serialization.deserialize_data(serial_file)
 
 
 def case_insensitive_dictionary_search(key: str, dictionary: dict):
@@ -200,11 +199,11 @@ def field_sort(filepaths: list, field, reverse=False, serfile=None, get_field_va
     files_field_values = []
     if serfile is None:
         for path in filepaths:
-            fhd = parsers.loadData(path, headers=True)
+            fhd = parsers.loaddata.loadData(path, headers=True)
             files_field_values.append([path, case_insensitive_dictionary_search(field, fhd)])
     else:
         # deserialize the serial file
-        des_dict = parsers.deserialize_data(serfile)
+        des_dict = parsers.serialization.deserialize_data(serfile)
 
         # get names of each file to search the serial file
         import pathlib
