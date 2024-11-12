@@ -6,6 +6,8 @@
 # scale = None
 # stretch = None
 # smear = None
+# hshift = None
+# vshift = None
 
 # Labels: [Target] [Temperature] [Pearson] [Rw]
 f_180K.gr 180.0 0.999810 0.020141

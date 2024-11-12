@@ -121,12 +121,11 @@ def create_option_parser():
         help="""Exclude a manipulation from refinement by name. This can
  appear multiple times.""",
     )
-    group.add_option("--scale", type="float", metavar="SCALE", help="Apply scale factor SCALE.")
     group.add_option(
-        "--smear",
+        "--scale",
         type="float",
-        metavar="SMEAR",
-        help="Smear peaks with a Gaussian of width SMEAR.",
+        metavar="SCALE",
+        help="Apply scale factor SCALE.",
     )
     group.add_option(
         "--stretch",
@@ -135,11 +134,29 @@ def create_option_parser():
         help="Stretch PDF by a fraction STRETCH.",
     )
     group.add_option(
+        "--smear",
+        type="float",
+        metavar="SMEAR",
+        help="Smear peaks with a Gaussian of width SMEAR.",
+    )
+    group.add_option(
         "--slope",
         type="float",
         dest="baselineslope",
         help="""Slope of the baseline. This is used when applying the smear
  factor. It will be estimated if not provided.""",
+    )
+    group.add_option(
+        "--hshift",
+        type="float",
+        metavar="HSHIFT",
+        help="Shift the PDF horizontally by HSHIFT to the right.",
+    )
+    group.add_option(
+        "--vshift",
+        type="float",
+        metavar="VSHIFT",
+        help="Shift the PDF vertically by VSHIFT upward.",
     )
     group.add_option(
         "--qdamp",
@@ -318,6 +335,8 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     scale_in = "None"
     stretch_in = "None"
     smear_in = "None"
+    hshift_in = "None"
+    vshift_in = "None"
     config = {}
     config["rmin"] = opts.rmin
     config["rmax"] = opts.rmax
@@ -336,14 +355,33 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     if opts.scale is not None:
         scale_in = opts.scale
         chain.append(morphs.MorphScale())
-        config["scale"] = opts.scale
+        config["scale"] = scale_in
         refpars.append("scale")
     # Stretch
     if opts.stretch is not None:
         stretch_in = opts.stretch
         chain.append(morphs.MorphStretch())
-        config["stretch"] = opts.stretch
+        config["stretch"] = stretch_in
         refpars.append("stretch")
+    # Shift
+    if opts.hshift is not None:
+        hshift_in = opts.hshift
+        chain.append(morphs.MorphShift())
+        config["hshift"] = hshift_in
+        refpars.append("hshift")
+        if opts.vshift is None:
+            vshift_in = 0
+            config["vshift"] = vshift_in
+            refpars.append("vshift")
+    if opts.vshift is not None:
+        vshift_in = opts.vshift
+        chain.append(morphs.MorphShift())
+        config["vshift"] = vshift_in
+        refpars.append("vshift")
+        if opts.hshift is None:
+            hshift_in = 0
+            config["hshift"] = hshift_in
+            refpars.append("hshift")
     # Smear
     if opts.smear is not None:
         smear_in = opts.smear
@@ -351,7 +389,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
         chain.append(morphs.MorphSmear())
         chain.append(helpers.TransformXtalRDFtoPDF())
         refpars.append("smear")
-        config["smear"] = opts.smear
+        config["smear"] = smear_in
         # Set baselineslope if not given
         config["baselineslope"] = opts.baselineslope
         if opts.baselineslope is None:
@@ -432,6 +470,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
 
     # Input morph parameters
     morph_inputs = {"scale": scale_in, "stretch": stretch_in, "smear": smear_in}
+    morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
 
     # Output morph parameters
     morph_results = dict(config.items())
@@ -582,6 +621,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
         target_file_names.append(key)
 
     morph_inputs = {"scale": opts.scale, "stretch": opts.stretch, "smear": opts.smear}
+    morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
     try:
         # Print summary of morphs to terminal and to file (if requested)
@@ -726,6 +766,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
         morph_file_names.append(key)
 
     morph_inputs = {"scale": opts.scale, "stretch": opts.stretch, "smear": opts.smear}
+    morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
     try:
         # Print summary of morphs to terminal and to file (if requested)

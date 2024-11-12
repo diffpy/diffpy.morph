@@ -6,6 +6,8 @@
 # scale = None
 # stretch = None
 # smear = None
+# hshift = None
+# vshift = None
 
 # Target: f_180K.gr
 # Optimized morphing parameters:

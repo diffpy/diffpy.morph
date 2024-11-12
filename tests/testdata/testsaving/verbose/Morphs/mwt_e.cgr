@@ -5,6 +5,8 @@
 # scale = None
 # stretch = None
 # smear = None
+# hshift = None
+# vshift = None
 
 # Optimized morphing parameters:
 # rmin = 0.000000
