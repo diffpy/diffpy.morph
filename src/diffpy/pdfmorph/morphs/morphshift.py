@@ -48,18 +48,18 @@ class MorphShift(Morph):
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply the shifts."""
         try:
-            self.hshift
+            hshift = self.hshift
         except AttributeError:
-            self.hshift = 0
+            hshift = 0
         try:
-            self.vshift
+            vshift = self.vshift
         except AttributeError:
-            self.vshift = 0
+            vshift = 0
 
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-        r = self.x_morph_in - self.hshift
+        r = self.x_morph_in - hshift
         self.y_morph_out = numpy.interp(r, self.x_morph_in, self.y_morph_in)
-        self.y_morph_out += self.vshift
+        self.y_morph_out += vshift
         return self.xyallout
 
 
