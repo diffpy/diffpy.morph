@@ -364,14 +364,14 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
         config["stretch"] = stretch_in
         refpars.append("stretch")
     # Shift
+    if opts.hshift is not None or opts.vshift is not None:
+        chain.append(morphs.MorphShift())
     if opts.hshift is not None:
         hshift_in = opts.hshift
-        chain.append(morphs.MorphShift())
         config["hshift"] = hshift_in
         refpars.append("hshift")
     if opts.vshift is not None:
         vshift_in = opts.vshift
-        chain.append(morphs.MorphShift())
         config["vshift"] = vshift_in
         refpars.append("vshift")
     # Smear
