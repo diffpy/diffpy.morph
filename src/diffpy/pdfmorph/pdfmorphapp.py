@@ -369,19 +369,11 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
         chain.append(morphs.MorphShift())
         config["hshift"] = hshift_in
         refpars.append("hshift")
-        if opts.vshift is None:
-            vshift_in = 0
-            config["vshift"] = vshift_in
-            refpars.append("vshift")
     if opts.vshift is not None:
         vshift_in = opts.vshift
         chain.append(morphs.MorphShift())
         config["vshift"] = vshift_in
         refpars.append("vshift")
-        if opts.hshift is None:
-            hshift_in = 0
-            config["hshift"] = hshift_in
-            refpars.append("hshift")
     # Smear
     if opts.smear is not None:
         smear_in = opts.smear

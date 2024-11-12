@@ -47,9 +47,13 @@ class MorphShift(Morph):
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply the shifts."""
-        if self.hshift is None:
+        try:
+            self.hshift
+        except AttributeError:
             self.hshift = 0
-        if self.vshift is None:
+        try:
+            self.vshift
+        except AttributeError:
             self.vshift = 0
 
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
