@@ -20,7 +20,8 @@
 
 import numpy
 
-import diffpy.utils.parsers as parsers
+from diffpy.utils.parsers.loaddata import loadData
+from diffpy.utils.parsers.serialization import deserialize_data
 
 
 def estimateScale(y_morph_in, y_target_in):
@@ -117,7 +118,7 @@ def readPDF(fname):
         Arrays read from data.
     """
 
-    rv = parsers.loaddata.loadData(fname, unpack=True)
+    rv = loadData(fname, unpack=True)
     if len(rv) >= 2:
         return rv[:2]
     return (None, None)
@@ -145,7 +146,7 @@ def deserialize(serial_file):
     dict
         Data read from serial file.
     """
-    return parsers.serialization.deserialize_data(serial_file)
+    return deserialize_data(serial_file)
 
 
 def case_insensitive_dictionary_search(key: str, dictionary: dict):
@@ -199,11 +200,11 @@ def field_sort(filepaths: list, field, reverse=False, serfile=None, get_field_va
     files_field_values = []
     if serfile is None:
         for path in filepaths:
-            fhd = parsers.loaddata.loadData(path, headers=True)
+            fhd = loadData(path, headers=True)
             files_field_values.append([path, case_insensitive_dictionary_search(field, fhd)])
     else:
         # deserialize the serial file
-        des_dict = parsers.serialization.deserialize_data(serfile)
+        des_dict = deserialize_data(serfile)
 
         # get names of each file to search the serial file
         import pathlib
