@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* import `loadData` and `deserialize_data` directly to integrate with `diffpy.utils(3.6.0)`
+* <news item>
 
 **Deprecated:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* import `loadData` and `deserialize_data` directly to integrate with `diffpy.utils(3.6.0)`
 
 **Security:**
 
