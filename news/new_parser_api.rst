@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* change the way importing modules in `diffpy.utils.parsers`
+* import `loadData` and `deserialize_data` directly to integrate with `diffpy.utils(3.6.0)`
 
 **Deprecated:**
 
