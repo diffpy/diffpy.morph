@@ -6,7 +6,9 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
+from diffpy.pdfmorph.morph_helpers.transformrdftopdf import (
+    TransformXtalRDFtoPDF,
+)
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")
@@ -28,7 +30,9 @@ class TestTransformXtalRDFtoPDF:
         config = {"baselineslope": -1.0}
         transform = TransformXtalRDFtoPDF(config)
 
-        x_morph, y_morph, x_target, y_target = transform(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = transform(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         rdf1 = numpy.exp(-0.5 * (x_morph - 1.0) ** 2) / x_morph - x_morph
         rdf2 = numpy.exp(-0.5 * (x_target - 2.0) ** 2) / x_target - x_target

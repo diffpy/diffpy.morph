@@ -6,8 +6,12 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
-from diffpy.pdfmorph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
+from diffpy.pdfmorph.morph_helpers.transformpdftordf import (
+    TransformXtalPDFtoRDF,
+)
+from diffpy.pdfmorph.morph_helpers.transformrdftopdf import (
+    TransformXtalRDFtoPDF,
+)
 from diffpy.pdfmorph.morphs.morphchain import MorphChain
 from diffpy.pdfmorph.morphs.morphscale import MorphScale
 from diffpy.pdfmorph.morphs.morphsmear import MorphSmear
@@ -37,7 +41,9 @@ class TestRefine:
         }
 
         mscale = MorphScale(config)
-        refiner = Refiner(mscale, self.x_morph, self.y_morph, self.x_target, self.y_target)
+        refiner = Refiner(
+            mscale, self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         refiner.refine()
 
         x_morph, y_morph, x_target, y_target = mscale.xyallout
@@ -60,7 +66,9 @@ class TestRefine:
         mstretch = MorphStretch(config)
         chain = MorphChain(config, mscale, mstretch)
 
-        refiner = Refiner(chain, self.x_morph, self.y_morph, self.x_target, self.y_target)
+        refiner = Refiner(
+            chain, self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         res = refiner.refine()
 
         # Compare the morph to the target. Note that due to
@@ -82,9 +90,13 @@ class TestRefineUC:
     @pytest.fixture
     def setup(self):
         morph_file = os.path.join(testdata_dir, "nickel_ss0.01.cgr")
-        self.x_morph, self.y_morph = numpy.loadtxt(morph_file, unpack=True, skiprows=8)
+        self.x_morph, self.y_morph = numpy.loadtxt(
+            morph_file, unpack=True, skiprows=8
+        )
         target_file = os.path.join(testdata_dir, "nickel_ss0.02_eps0.002.cgr")
-        self.x_target, self.y_target = numpy.loadtxt(target_file, unpack=True, skiprows=8)
+        self.x_target, self.y_target = numpy.loadtxt(
+            target_file, unpack=True, skiprows=8
+        )
         self.y_target *= 1.5
         return
 
@@ -105,7 +117,9 @@ class TestRefineUC:
         chain.append(MorphSmear())
         chain.append(TransformXtalRDFtoPDF())
 
-        refiner = Refiner(chain, self.x_morph, self.y_morph, self.x_target, self.y_target)
+        refiner = Refiner(
+            chain, self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         # Do this as two-stage fit. First refine amplitude parameters, and then
         # position parameters.

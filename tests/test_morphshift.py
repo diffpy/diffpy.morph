@@ -34,7 +34,9 @@ class TestMorphShift:
         config = {"hshift": self.hshift, "vshift": self.vshift}
         morph = MorphShift(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         # Only care about the shifted data past the shift
         # Everything to left of shift is outside our input data domain

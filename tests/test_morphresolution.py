@@ -28,7 +28,9 @@ class TestMorphScale:
         config = {"qdamp": 0.01}
         morph = MorphResolutionDamping(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert numpy.allclose(self.y_target, y_target)
         assert numpy.allclose(y_morph, y_target)

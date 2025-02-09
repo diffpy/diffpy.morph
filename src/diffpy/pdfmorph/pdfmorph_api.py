@@ -40,7 +40,9 @@ _morph_step_dict = dict(
     ],
     qdamp=morphs.MorphResolutionDamping,
 )
-_default_config = dict(scale=None, stretch=None, smear=None, baselineslope=None, qdamp=None)
+_default_config = dict(
+    scale=None, stretch=None, smear=None, baselineslope=None, qdamp=None
+)
 
 
 def morph_default_config(**kwargs):
@@ -172,7 +174,11 @@ def pdfmorph(
     # input config
     rv_cfg = dict(kwargs)
     # configure morph operations
-    active_morphs = [k for k, v in rv_cfg.items() if (v is not None) and k in _morph_step_dict]
+    active_morphs = [
+        k
+        for k, v in rv_cfg.items()
+        if (v is not None) and k in _morph_step_dict
+    ]
     rv_cfg["rmin"] = rmin
     rv_cfg["rmax"] = rmax
     rv_cfg["rstep"] = rstep
@@ -230,7 +236,9 @@ def pdfmorph(
             print("== INFO: Following steps are fixed during morphing ==:\n")
             print("\n".join(fixed_operations))
         print("== INFO: Refined morph parameters ==:\n")
-        output = "\n".join(["# %s = %f" % (k, v) for k, v in rv_cfg.items() if v is not None])
+        output = "\n".join(
+            ["# %s = %f" % (k, v) for k, v in rv_cfg.items() if v is not None]
+        )
         output += "\n# Rw = %f" % rw
         output += "\n# Pearson = %f" % pcc
         print(output)

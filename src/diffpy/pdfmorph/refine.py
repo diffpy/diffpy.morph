@@ -114,7 +114,9 @@ class Refiner(object):
             return 0.0
 
         initial = [config[p] for p in self.pars]
-        sol, cov_sol, infodict, emesg, ier = leastsq(self.residual, initial, full_output=1)
+        sol, cov_sol, infodict, emesg, ier = leastsq(
+            self.residual, initial, full_output=1
+        )
         fvec = infodict["fvec"]
         if ier not in (1, 2, 3, 4):
             emesg

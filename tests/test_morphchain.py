@@ -40,7 +40,9 @@ class TestMorphChain:
         mscale = MorphScale()
         chain = MorphChain(config, mgrid, mscale)
 
-        x_morph, y_morph, x_target, y_target = chain(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = chain(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert (x_morph == x_target).all()
         pytest.approx(x_morph[0], 1.0)

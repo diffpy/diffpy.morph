@@ -58,10 +58,17 @@ def single_morph_output(
 
     # Input and output parameters
     morphs_in = "\n# Input morphing parameters:\n"
-    morphs_in += "\n".join(f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys()) + "\n"
+    morphs_in += (
+        "\n".join(
+            f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys()
+        )
+        + "\n"
+    )
 
     morphs_out = "# Optimized morphing parameters:\n"
-    morphs_out += "\n".join(f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys())
+    morphs_out += "\n".join(
+        f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys()
+    )
 
     # Printing to terminal
     if stdout_flag:
@@ -158,10 +165,20 @@ def get_multisave_names(target_list: list, save_names_file=None, mm=False):
         if target_file.name not in save_names.keys():
             if not mm:
                 save_names.update(
-                    {target_file.name: {__save_morph_as__: f"Morph_with_Target_{target_file.stem}.cgr"}}
+                    {
+                        target_file.name: {
+                            __save_morph_as__: f"Morph_with_Target_{target_file.stem}.cgr"
+                        }
+                    }
                 )
             else:
-                save_names.update({target_file.name: {__save_morph_as__: f"Morph_of_{target_file.stem}.cgr"}})
+                save_names.update(
+                    {
+                        target_file.name: {
+                            __save_morph_as__: f"Morph_of_{target_file.stem}.cgr"
+                        }
+                    }
+                )
     return save_names
 
 
@@ -211,7 +228,9 @@ def multiple_morph_output(
 
     # Input parameters used for every morph
     inputs = "\n# Input morphing parameters:\n"
-    inputs += "\n".join(f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys())
+    inputs += "\n".join(
+        f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys()
+    )
 
     # Verbose to get output for every morph
     verbose_outputs = ""
@@ -224,7 +243,8 @@ def multiple_morph_output(
                 output = f"\n# Morph: {target}\n"
             output += "# Optimized morphing parameters:\n"
             output += "\n".join(
-                f"# {param} = {morph_results[target][param]:.6f}" for param in morph_results[target]
+                f"# {param} = {morph_results[target][param]:.6f}"
+                for param in morph_results[target]
             )
             verbose_outputs += f"{output}\n"
 
@@ -270,13 +290,19 @@ def multiple_morph_output(
         else:
             header += f"# from morphing directory {target_path_name}\n"
             header += f"# with target {morph_path_name}"
-        reference_table = Path(save_directory).joinpath("Morph_Reference_Table.txt")
+        reference_table = Path(save_directory).joinpath(
+            "Morph_Reference_Table.txt"
+        )
         with open(reference_table, "w") as reference:
-            print(f"{header}\n{inputs}\n{verbose_outputs}{table}", file=reference)
+            print(
+                f"{header}\n{inputs}\n{verbose_outputs}{table}", file=reference
+            )
 
         if stdout_flag:
             # Indicate successful save
-            save_message = f"# Morphs saved in the directory {save_directory}\n"
+            save_message = (
+                f"# Morphs saved in the directory {save_directory}\n"
+            )
             print(save_message)
 
 
@@ -302,6 +328,10 @@ def tabulate_results(multiple_morph_results):
     tabulated_results = {}
     for param in relevant_parameters:
         tabulated_results.update(
-            {param: tools.get_values_from_dictionary_collection(multiple_morph_results, param)}
+            {
+                param: tools.get_values_from_dictionary_collection(
+                    multiple_morph_results, param
+                )
+            }
         )
     return tabulated_results

@@ -51,7 +51,9 @@ class TransformXtalPDFtoRDF(Morph):
         morph_baseline = self.baselineslope * self.x_morph_in
         self.y_morph_out = self.x_morph_in * (self.y_morph_in - morph_baseline)
         target_baseline = self.baselineslope * self.x_target_in
-        self.y_target_out = self.x_target_in * (self.y_target_in - target_baseline)
+        self.y_target_out = self.x_target_in * (
+            self.y_target_in - target_baseline
+        )
         return self.xyallout
 
 

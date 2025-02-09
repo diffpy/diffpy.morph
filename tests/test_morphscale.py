@@ -28,7 +28,9 @@ class TestMorphScale:
         config = {"scale": 2.0}
         morph = MorphScale(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert numpy.allclose(2 * self.y_morph, y_morph)
         assert numpy.allclose(self.y_target, y_target)

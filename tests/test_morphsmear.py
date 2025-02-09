@@ -20,7 +20,9 @@ class TestMorphSmear:
         self.smear = 0.1
         self.r0 = 7 * numpy.pi / 22.0 * 2
         self.x_morph = numpy.arange(0.01, 5, 0.01)
-        self.y_morph = numpy.exp(-0.5 * ((self.x_morph - self.r0) / self.smear) ** 2)
+        self.y_morph = numpy.exp(
+            -0.5 * ((self.x_morph - self.r0) / self.smear) ** 2
+        )
         self.x_target = self.x_morph.copy()
         self.y_target = self.x_target.copy()
         return
@@ -30,7 +32,9 @@ class TestMorphSmear:
         morph = MorphSmear()
         morph.smear = 0.15
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         # Target should be unchanged
         assert numpy.allclose(self.y_target, y_target)

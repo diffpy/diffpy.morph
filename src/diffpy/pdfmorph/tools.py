@@ -171,7 +171,9 @@ def case_insensitive_dictionary_search(key: str, dictionary: dict):
     return dictionary.get(key)
 
 
-def field_sort(filepaths: list, field, reverse=False, serfile=None, get_field_values=False):
+def field_sort(
+    filepaths: list, field, reverse=False, serfile=None, get_field_values=False
+):
     """Sort a list of files by a field stored in header information.
     All files must contain this header information.
 
@@ -201,7 +203,9 @@ def field_sort(filepaths: list, field, reverse=False, serfile=None, get_field_va
     if serfile is None:
         for path in filepaths:
             fhd = loadData(path, headers=True)
-            files_field_values.append([path, case_insensitive_dictionary_search(field, fhd)])
+            files_field_values.append(
+                [path, case_insensitive_dictionary_search(field, fhd)]
+            )
     else:
         # deserialize the serial file
         des_dict = deserialize_data(serfile)
@@ -221,12 +225,16 @@ def field_sort(filepaths: list, field, reverse=False, serfile=None, get_field_va
     except (ValueError, TypeError):
         raise KeyError("Field missing.")
     if get_field_values:
-        return [pair[0] for pair in files_field_values], [pair[1] for pair in files_field_values]
+        return [pair[0] for pair in files_field_values], [
+            pair[1] for pair in files_field_values
+        ]
     else:
         return [pair[0] for pair in files_field_values]
 
 
-def get_values_from_dictionary_collection(dictionary_collection: iter, target_key):
+def get_values_from_dictionary_collection(
+    dictionary_collection: iter, target_key
+):
     """In an (iterable) collection of dictionaries, search for a target key in each dictionary.
     Return a list of all found values corresponding to that key.
 

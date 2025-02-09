@@ -178,7 +178,15 @@ def comparePDFs(
 
     if maglim is not None:
         # Add a line for the magnification cutoff
-        plt.axvline(maglim, 0, 1, linestyle="--", color="black", linewidth=1.5, dashes=(14, 7))
+        plt.axvline(
+            maglim,
+            0,
+            1,
+            linestyle="--",
+            color="black",
+            linewidth=1.5,
+            dashes=(14, 7),
+        )
         # FIXME - look for a place to put the maglim
         xpos = (rvmax * 0.85 + maglim) / 2 / (rvmax - rvmin)
         if xpos <= 0.9:

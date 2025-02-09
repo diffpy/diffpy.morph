@@ -42,7 +42,9 @@ class TestMorphRGrid:
             "rstep": 0.1,
         }
         morph = MorphRGrid(config)
-        xyallout = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        xyallout = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         pytest.approx(config["rmin"], morph.rmin)
         pytest.approx(config["rmax"], morph.rmax)
         pytest.approx(config["rstep"], morph.rstep)
@@ -58,7 +60,9 @@ class TestMorphRGrid:
             "rstep": 0.1,
         }
         morph = MorphRGrid(config)
-        xyallout = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        xyallout = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         pytest.approx(config["rmin"], morph.rmin)
         pytest.approx(5, morph.rmax)
         pytest.approx(config["rstep"], morph.rstep)
@@ -74,7 +78,9 @@ class TestMorphRGrid:
             "rstep": 0.01,
         }
         morph = MorphRGrid(config)
-        xyallout = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        xyallout = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         pytest.approx(1.0, morph.rmin)
         pytest.approx(config["rmax"], morph.rmax)
         pytest.approx(config["rstep"], morph.rstep)
@@ -90,7 +96,9 @@ class TestMorphRGrid:
             "rstep": 0.001,
         }
         morph = MorphRGrid(config)
-        xyallout = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        xyallout = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
         pytest.approx(config["rmin"], morph.rmin)
         pytest.approx(config["rmax"], morph.rmax)
         pytest.approx(0.01, morph.rstep)

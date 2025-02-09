@@ -234,7 +234,9 @@ class Morph(object):
 
         pargs = dict(plotargs)
         pargs.pop("label", None)
-        rv = plot(self.x_target_out, self.y_target_out, label="target", **pargs)
+        rv = plot(
+            self.x_target_out, self.y_target_out, label="target", **pargs
+        )
         rv = plot(self.x_morph_out, self.y_morph_out, label="morph", **pargs)
         if xylabels:
             xlabel(self.xoutlabel)

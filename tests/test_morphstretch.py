@@ -30,7 +30,9 @@ class TestMorphStretch:
 
         # Stretch by 50%
         morph.stretch = 0.5
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         # Target should be unchanged
         assert numpy.allclose(self.y_target, y_target)
@@ -45,7 +47,9 @@ class TestMorphStretch:
 
         # Stretch by -10%
         morph.stretch = -0.1
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         # Target should be unchanged
         assert numpy.allclose(self.y_target, y_target)

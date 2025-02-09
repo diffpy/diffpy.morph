@@ -31,7 +31,9 @@ from diffpy.pdfmorph.version import __version__
 def create_option_parser():
     import optparse
 
-    prog_short = Path(sys.argv[0]).name  # Program name, compatible w/ all OS paths
+    prog_short = Path(
+        sys.argv[0]
+    ).name  # Program name, compatible w/ all OS paths
 
     class CustomParser(optparse.OptionParser):
         def __init__(self, *args, **kwargs):
@@ -61,7 +63,12 @@ def create_option_parser():
         ),
     )
 
-    parser.add_option("-V", "--version", action="version", help="Show program version and exit.")
+    parser.add_option(
+        "-V",
+        "--version",
+        action="version",
+        help="Show program version and exit.",
+    )
     parser.version = __version__
     parser.add_option(
         "-s",
@@ -79,8 +86,16 @@ def create_option_parser():
         action="store_true",
         help="Print additional header details to saved files.",
     )
-    parser.add_option("--rmin", type="float", help="Minimum r-value to use for PDF comparisons.")
-    parser.add_option("--rmax", type="float", help="Maximum r-value to use for PDF comparisons.")
+    parser.add_option(
+        "--rmin",
+        type="float",
+        help="Minimum r-value to use for PDF comparisons.",
+    )
+    parser.add_option(
+        "--rmax",
+        type="float",
+        help="Maximum r-value to use for PDF comparisons.",
+    )
     parser.add_option(
         "--pearson",
         action="store_true",
@@ -226,11 +241,29 @@ def create_option_parser():
         dest="tlabel",
         help="Set label for target data to TLABEL on plot. Default label is FILE2.",
     )
-    group.add_option("--pmin", type="float", help="Minimum r-value to plot. Defaults to RMIN.")
-    group.add_option("--pmax", type="float", help="Maximum r-value to plot. Defaults to RMAX.")
-    group.add_option("--maglim", type="float", help="Magnify plot curves beyond r=MAGLIM by MAG.")
-    group.add_option("--mag", type="float", help="Magnify plot curves beyond r=MAGLIM by MAG.")
-    group.add_option("--lwidth", type="float", help="Line thickness of plotted curves.")
+    group.add_option(
+        "--pmin",
+        type="float",
+        help="Minimum r-value to plot. Defaults to RMIN.",
+    )
+    group.add_option(
+        "--pmax",
+        type="float",
+        help="Maximum r-value to plot. Defaults to RMAX.",
+    )
+    group.add_option(
+        "--maglim",
+        type="float",
+        help="Magnify plot curves beyond r=MAGLIM by MAG.",
+    )
+    group.add_option(
+        "--mag",
+        type="float",
+        help="Magnify plot curves beyond r=MAGLIM by MAG.",
+    )
+    group.add_option(
+        "--lwidth", type="float", help="Line thickness of plotted curves."
+    )
 
     # Multiple morph options
     group = optparse.OptionGroup(
@@ -320,7 +353,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
     elif len(pargs) > 2:
-        parser.error("Too many arguments. Make sure you only supply FILE1 and FILE2.")
+        parser.error(
+            "Too many arguments. Make sure you only supply FILE1 and FILE2."
+        )
 
     # Get the PDFs
     x_morph, y_morph = getPDFFromFile(pargs[0])
@@ -341,7 +376,11 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     config["rmin"] = opts.rmin
     config["rmax"] = opts.rmax
     config["rstep"] = None
-    if opts.rmin is not None and opts.rmax is not None and opts.rmax <= opts.rmin:
+    if (
+        opts.rmin is not None
+        and opts.rmax is not None
+        and opts.rmax <= opts.rmin
+    ):
         e = "rmin must be less than rmax"
         parser.custom_error(e)
 
@@ -447,7 +486,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     # Note that baselineslope is only added to the refine list if smear is applied
     elif "baselineslope" in refpars:
         try:
-            refiner.refine("baselineslope", baselineslope=config["baselineslope"])
+            refiner.refine(
+                "baselineslope", baselineslope=config["baselineslope"]
+            )
         except ValueError as e:
             parser.custom_error(str(e))
     else:
@@ -461,7 +502,11 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     chain(x_morph, y_morph, x_target, y_target)
 
     # Input morph parameters
-    morph_inputs = {"scale": scale_in, "stretch": stretch_in, "smear": smear_in}
+    morph_inputs = {
+        "scale": scale_in,
+        "stretch": stretch_in,
+        "smear": smear_in,
+    }
     morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
 
     # Output morph parameters
@@ -521,17 +566,25 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
 def multiple_targets(parser, opts, pargs, stdout_flag=True):
     # Custom error messages since usage is distinct when --multiple tag is applied
     if len(pargs) < 2:
-        parser.custom_error("You must supply FILE and DIRECTORY. See --multiple-targets under --help for usage.")
+        parser.custom_error(
+            "You must supply FILE and DIRECTORY. See --multiple-targets under --help for usage."
+        )
     elif len(pargs) > 2:
-        parser.custom_error("Too many arguments. You must only supply a FILE and a DIRECTORY.")
+        parser.custom_error(
+            "Too many arguments. You must only supply a FILE and a DIRECTORY."
+        )
 
     # Parse paths
     morph_file = Path(pargs[0])
     if not morph_file.is_file():
-        parser.custom_error(f"{morph_file} is not a file. Go to --help for usage.")
+        parser.custom_error(
+            f"{morph_file} is not a file. Go to --help for usage."
+        )
     target_directory = Path(pargs[1])
     if not target_directory.is_dir():
-        parser.custom_error(f"{target_directory} is not a directory. Go to --help for usage.")
+        parser.custom_error(
+            f"{target_directory} is not a directory. Go to --help for usage."
+        )
 
     # Get list of files from target directory
     target_list = list(target_directory.iterdir())
@@ -556,13 +609,21 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     if field is not None:
         try:
             target_list, field_list = tools.field_sort(
-                target_list, field, opts.reverse, opts.serfile, get_field_values=True
+                target_list,
+                field,
+                opts.reverse,
+                opts.serfile,
+                get_field_values=True,
             )
         except KeyError:
             if opts.serfile is not None:
-                parser.custom_error("The requested field was not found in the metadata file.")
+                parser.custom_error(
+                    "The requested field was not found in the metadata file."
+                )
             else:
-                parser.custom_error("The requested field is missing from a PDF file header.")
+                parser.custom_error(
+                    "The requested field is missing from a PDF file header."
+                )
     else:
         # Default is alphabetical sort
         target_list.sort(reverse=opts.reverse)
@@ -573,7 +634,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
 
     # Set up saving
     save_directory = opts.slocation  # User-given directory for saves
-    save_names_file = opts.snamesfile  # User-given serialfile with names for each morph
+    save_names_file = (
+        opts.snamesfile
+    )  # User-given serialfile with names for each morph
     save_morphs_here = None  # Subdirectory for saving morphed PDFs
     save_names = {}  # Dictionary of names to save each morph as
     if save_directory is not None:
@@ -586,7 +649,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
             parser.custom_error(save_fail_message)
 
         try:
-            save_names = io.get_multisave_names(target_list, save_names_file=save_names_file)
+            save_names = io.get_multisave_names(
+                target_list, save_names_file=save_names_file
+            )
             # Could not create directory or find names to save morphs as
         except FileNotFoundError:
             save_fail_message = "\nUnable to read from save names file"
@@ -604,7 +669,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
             pargs = [morph_file, target_file]
             morph_results.update(
                 {
-                    target_file.name: single_morph(parser, opts, pargs, stdout_flag=False),
+                    target_file.name: single_morph(
+                        parser, opts, pargs, stdout_flag=False
+                    ),
                 }
             )
 
@@ -612,7 +679,11 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     for key in morph_results.keys():
         target_file_names.append(key)
 
-    morph_inputs = {"scale": opts.scale, "stretch": opts.stretch, "smear": opts.smear}
+    morph_inputs = {
+        "scale": opts.scale,
+        "stretch": opts.stretch,
+        "smear": opts.smear,
+    }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
     try:
@@ -642,16 +713,24 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
         # Find parameter if specified
         if opts.plotparam is not None:
             param_name = opts.plotparam
-            param_list = tools.case_insensitive_dictionary_search(opts.plotparam, plot_results)
+            param_list = tools.case_insensitive_dictionary_search(
+                opts.plotparam, plot_results
+            )
         # Not an available parameter to plot or no values found for the parameter
         if param_list is None:
-            parser.custom_error("Cannot find specified plot parameter. No plot shown.")
+            parser.custom_error(
+                "Cannot find specified plot parameter. No plot shown."
+            )
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(field_list, param_list, param_name, field)
+                    pdfplot.plot_param(
+                        field_list, param_list, param_name, field
+                    )
                 else:
-                    pdfplot.plot_param(target_file_names, param_list, param_name)
+                    pdfplot.plot_param(
+                        target_file_names, param_list, param_name
+                    )
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the plotting parameter
             except ValueError:
@@ -666,17 +745,25 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
 def multiple_morphs(parser, opts, pargs, stdout_flag=True):
     # Custom error messages since usage is distinct when --multiple tag is applied
     if len(pargs) < 2:
-        parser.custom_error("You must supply DIRECTORY and FILE. See --multiple-morphs under --help for usage.")
+        parser.custom_error(
+            "You must supply DIRECTORY and FILE. See --multiple-morphs under --help for usage."
+        )
     elif len(pargs) > 2:
-        parser.custom_error("Too many arguments. You must only supply a DIRECTORY and FILE.")
+        parser.custom_error(
+            "Too many arguments. You must only supply a DIRECTORY and FILE."
+        )
 
     # Parse paths
     target_file = Path(pargs[1])
     if not target_file.is_file():
-        parser.custom_error(f"{target_file} is not a file. Go to --help for usage.")
+        parser.custom_error(
+            f"{target_file} is not a file. Go to --help for usage."
+        )
     morph_directory = Path(pargs[0])
     if not morph_directory.is_dir():
-        parser.custom_error(f"{morph_directory} is not a directory. Go to --help for usage.")
+        parser.custom_error(
+            f"{morph_directory} is not a directory. Go to --help for usage."
+        )
 
     # Get list of files from morph directory
     morph_list = list(morph_directory.iterdir())
@@ -701,13 +788,21 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
     if field is not None:
         try:
             morph_list, field_list = tools.field_sort(
-                morph_list, field, opts.reverse, opts.serfile, get_field_values=True
+                morph_list,
+                field,
+                opts.reverse,
+                opts.serfile,
+                get_field_values=True,
             )
         except KeyError:
             if opts.serfile is not None:
-                parser.custom_error("The requested field was not found in the metadata file.")
+                parser.custom_error(
+                    "The requested field was not found in the metadata file."
+                )
             else:
-                parser.custom_error("The requested field is missing from a PDF file header.")
+                parser.custom_error(
+                    "The requested field is missing from a PDF file header."
+                )
     else:
         # Default is alphabetical sort
         morph_list.sort(reverse=opts.reverse)
@@ -718,7 +813,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
 
     # Set up saving
     save_directory = opts.slocation  # User-given directory for saves
-    save_names_file = opts.snamesfile  # User-given serialfile with names for each morph
+    save_names_file = (
+        opts.snamesfile
+    )  # User-given serialfile with names for each morph
     save_morphs_here = None  # Subdirectory for saving morphed PDFs
     save_names = {}  # Dictionary of names to save each morph as
     if save_directory is not None:
@@ -731,7 +828,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
             parser.custom_error(save_fail_message)
 
         try:
-            save_names = io.get_multisave_names(morph_list, save_names_file=save_names_file)
+            save_names = io.get_multisave_names(
+                morph_list, save_names_file=save_names_file
+            )
             # Could not create directory or find names to save morphs as
         except FileNotFoundError:
             save_fail_message = "\nUnable to read from save names file"
@@ -749,7 +848,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
             pargs = [morph_file, target_file]
             morph_results.update(
                 {
-                    morph_file.name: single_morph(parser, opts, pargs, stdout_flag=False),
+                    morph_file.name: single_morph(
+                        parser, opts, pargs, stdout_flag=False
+                    ),
                 }
             )
 
@@ -757,7 +858,11 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
     for key in morph_results.keys():
         morph_file_names.append(key)
 
-    morph_inputs = {"scale": opts.scale, "stretch": opts.stretch, "smear": opts.smear}
+    morph_inputs = {
+        "scale": opts.scale,
+        "stretch": opts.stretch,
+        "smear": opts.smear,
+    }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
     try:
@@ -788,16 +893,24 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
         # Find parameter if specified
         if opts.plotparam is not None:
             param_name = opts.plotparam
-            param_list = tools.case_insensitive_dictionary_search(opts.plotparam, plot_results)
+            param_list = tools.case_insensitive_dictionary_search(
+                opts.plotparam, plot_results
+            )
         # Not an available parameter to plot or no values found for the parameter
         if param_list is None:
-            parser.custom_error("Cannot find specified plot parameter. No plot shown.")
+            parser.custom_error(
+                "Cannot find specified plot parameter. No plot shown."
+            )
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(field_list, param_list, param_name, field)
+                    pdfplot.plot_param(
+                        field_list, param_list, param_name, field
+                    )
                 else:
-                    pdfplot.plot_param(morph_file_names, param_list, param_name)
+                    pdfplot.plot_param(
+                        morph_file_names, param_list, param_name
+                    )
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the plotting parameter
             except ValueError:

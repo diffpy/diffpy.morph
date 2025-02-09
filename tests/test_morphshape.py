@@ -31,7 +31,9 @@ class TestMorphSphere:
         config = {"radius": 17.5}
         morph = MorphSphere(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert numpy.allclose(self.y_target, y_target)
         assert numpy.allclose(y_morph, y_target)
@@ -52,7 +54,9 @@ class TestMorphSpheroid:
     ispheroid_configs = [iconfig_sphere, iconfig_oblate]
 
     # Files used for testing
-    flag_inverse = 0  # Indicates whether we are testing MorphSpheroid or MorphISpheroid
+    flag_inverse = (
+        0  # Indicates whether we are testing MorphSpheroid or MorphISpheroid
+    )
     testfiles = [
         ["ni_qmax25.cgr", "ni_qmax25_psize35.cgr"],  # Sphere
         ["ni_qmax25.cgr", "ni_qmax25_e17.5_p5.0.cgr"],  # Oblate spheroid
@@ -63,9 +67,13 @@ class TestMorphSpheroid:
         if len(self.testfile) == 0:
             # Ignore first init
             return
-        morph_file = os.path.join(testdata_dir, self.testfile[0 - self.flag_inverse])
+        morph_file = os.path.join(
+            testdata_dir, self.testfile[0 - self.flag_inverse]
+        )
         self.x_morph, self.y_morph = numpy.loadtxt(morph_file, unpack=True)
-        target_file = os.path.join(testdata_dir, self.testfile[1 - self.flag_inverse])
+        target_file = os.path.join(
+            testdata_dir, self.testfile[1 - self.flag_inverse]
+        )
         self.x_target, self.y_target = numpy.loadtxt(target_file, unpack=True)
         return
 
@@ -89,7 +97,9 @@ class TestMorphSpheroid:
     def shape_test_helper(self, config):
         morph = MorphSpheroid(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert numpy.allclose(self.y_target, y_target)
         assert numpy.allclose(y_morph, y_target)
@@ -98,7 +108,9 @@ class TestMorphSpheroid:
     def ishape_test_helper(self, config):
         morph = MorphISpheroid(config)
 
-        x_morph, y_morph, x_target, y_target = morph(self.x_morph, self.y_morph, self.x_target, self.y_target)
+        x_morph, y_morph, x_target, y_target = morph(
+            self.x_morph, self.y_morph, self.x_target, self.y_target
+        )
 
         assert numpy.allclose(self.y_target, y_target)
 

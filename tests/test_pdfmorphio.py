@@ -4,7 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from diffpy.pdfmorph.pdfmorphapp import create_option_parser, multiple_targets, single_morph
+from diffpy.pdfmorph.pdfmorphapp import (
+    create_option_parser,
+    multiple_targets,
+    single_morph,
+)
 
 # Support Python 2
 try:
@@ -116,7 +120,9 @@ class TestApp:
         # Save a single verbose morph
         svm = tmp_verbose.joinpath("single_verbose_morph.cgr")
         svm_name = svm.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(["-s", svm_name, "-n", "--verbose"])
+        (opts, pargs) = self.parser.parse_args(
+            ["-s", svm_name, "-n", "--verbose"]
+        )
         pargs = [morph_file, target_file]
         single_morph(self.parser, opts, pargs, stdout_flag=False)
 
