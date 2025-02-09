@@ -89,7 +89,8 @@ class MorphSpheroid(Morph):
 def _sphericalCF(r, psize):
     """Spherical nanoparticle characteristic function.
 
-    From Kodama et al., Acta Cryst. A, 62, 444-453 (converted from radius to diameter).
+    From Kodama et al., Acta Cryst. A, 62, 444-453
+    (converted from radius to diameter).
 
     Parameters
     ----------

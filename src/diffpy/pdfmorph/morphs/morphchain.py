@@ -20,8 +20,9 @@
 class MorphChain(list):
     """Class for chaining morphs together.
 
-    This class is a queue of morphs that get executed in order via the 'morph' method.
-    This class derives from the built-in list, and list methods are used to modify the queue.
+    This class is a queue of morphs that get executed in order via the 'morph'
+    method. This class derives from the built-in list, and list methods are
+    used to modify the queue.
 
     This derives from list and relies on its methods where possible.
 
@@ -57,7 +58,8 @@ class MorphChain(list):
     xy_target_out
         Tuple of (x_target_out, y_target_out) from last morph.
     xyallout
-        Tuple of (x_morph_out, y_morph_out, x_target_out, y_target_out) from last morph.
+        Tuple of (x_morph_out, y_morph_out, x_target_out, y_target_out)
+        from last morph.
     parnames
         Names of parameters collected from morphs (Read only).
 
@@ -117,7 +119,8 @@ class MorphChain(list):
 
         Notes
         -----
-            Additional arguments are morphs that will extend the queue of morphs.
+            Additional arguments are morphs that will extend the queue of
+            morphs.
         """
         self.config = config
         self.extend(args)
@@ -136,7 +139,8 @@ class MorphChain(list):
         Returns
         -------
         tuple
-            A tuple of numpy arrays (x_morph_out, y_morph_out, x_target_out, y_target_out).
+            A tuple of numpy arrays
+            (x_morph_out, y_morph_out, x_target_out, y_target_out).
 
         Notes
         -----

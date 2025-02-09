@@ -85,7 +85,8 @@ class TestTools:
             print(path)
             sorted_sequence.append(path.name)
 
-        # Temperature sort should produce same result as alphanumerical if leading character is removed
+        # Temperature sort should produce same result as alphanumerical if
+        # leading character is removed
         sequence_files.sort(key=lambda entry: entry[2:])
         assert sequence_files == sorted_sequence
 
@@ -104,7 +105,8 @@ class TestTools:
         sequence_files.sort()
         assert sequence_files == reversed_sequence
 
-        # Check we get the same sequence when we load header information from a serial file
+        # Check we get the same sequence when we load header information from
+        # a serial file
         serial_file = os.path.join(
             testdata_dir, "testsequence_serialfile.json"
         )

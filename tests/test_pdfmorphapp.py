@@ -127,7 +127,8 @@ class TestApp:
             single_morph(self.parser, opts, pargs, stdout_flag=False)
 
         # ###Tests exclusive to multiple morphs###
-        # Make sure we save to a directory that exists (user must create the directory if non-existing)
+        # Make sure we save to a directory that exists
+        # (user must create the directory if non-existing)
         (opts, pargs) = self.parser.parse_args(
             [
                 f"{nickel_PDF}",

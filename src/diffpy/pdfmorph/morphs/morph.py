@@ -26,10 +26,12 @@ LABEL_RR = "R (1/A)"  # RDF R(r)
 class Morph(object):
     """Base class for implementing a morph given a target.
 
-    Adapted from diffpy.pdfgetx to include two sets of arrays that get passed through.
+    Adapted from diffpy.pdfgetx to include two sets of arrays that get passed
+    through.
 
-    Attributes are taken from config when not found locally. The morph may modify the config dictionary.
-    This is the means by which to communicate automatically modified attributes.
+    Attributes are taken from config when not found locally. The morph may
+    modify the config dictionary. This is the means by which to communicate
+    automatically modified attributes.
 
     Class Attributes
     ----------------
@@ -142,7 +144,8 @@ class Morph(object):
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Morph arrays morphed or target.
 
-        Identity operation. This method should be overloaded in a derived class.
+        Identity operation.
+        This method should be overloaded in a derived class.
 
         Parameters
         ----------
@@ -154,7 +157,8 @@ class Morph(object):
         Returns
         -------
         tuple
-            A tuple of numpy arrays (x_morph_out, y_morph_out, x_target_out, y_target_out)
+            A tuple of numpy arrays
+            (x_morph_out, y_morph_out, x_target_out, y_target_out)
         """
         self.x_morph_in = x_morph
         self.y_morph_in = y_morph
@@ -223,7 +227,8 @@ class Morph(object):
         xylabels: bool
             Flag for updating x and y axes labels.
         plotargs
-            Arguments passed to the pylab plot function. Note that "label" will be ignored.
+            Arguments passed to the pylab plot function.
+            Note that "label" will be ignored.
 
         Returns
         -------

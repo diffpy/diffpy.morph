@@ -5,6 +5,7 @@ import diffpy.pdfmorph
 
 
 def test_package_version():
-    """Ensure the package version is defined and not set to the initial placeholder."""
+    """Ensure the package version is defined and not set to the initial
+    placeholder."""
     assert hasattr(diffpy.pdfmorph, "__version__")
     assert diffpy.pdfmorph.__version__ != "0.0.0"

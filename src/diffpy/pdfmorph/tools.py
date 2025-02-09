@@ -43,14 +43,17 @@ def estimateBaselineSlope(r, gr, rmin=None, rmax=None):
     gr
         The PDF over the r-grid.
     rmin
-        The minimum r-value to consider. If this is None (default) is None, then the minimum of r is used.
+        The minimum r-value to consider. If this is None (default) is None,
+        then the minimum of r is used.
     rmax
-        The maximum r-value to consider. If this is None (default) is None, then the maximum of r is used.
+        The maximum r-value to consider. If this is None (default) is None,
+        then the maximum of r is used.
 
     Returns
     -------
     slope: float
-        The slope of baseline. If the PDF is scaled properly, this is equal to -4*pi*rho0.
+        The slope of baseline. If the PDF is scaled properly, this is equal
+        to -4*pi*rho0.
     """
     from numpy import dot
     from scipy.optimize import leastsq
@@ -127,7 +130,10 @@ def readPDF(fname):
 def nn_value(val, name):
     """Convenience function for ensuring certain non-negative inputs."""
     if val < 0:
-        negative_value_warning = f"\n# Negative value for {name} given. Using absolute value instead."
+        negative_value_warning = (
+            f"\n# Negative value for {name} given. "
+            "Using absolute value instead."
+        )
         print(negative_value_warning)
         return -val
     return val
@@ -188,14 +194,16 @@ def field_sort(
     serfile
         Path to a serial file with field information for each file.
     get_field_values: bool
-        Boolean indicating whether to also return a List of field values (default False).
-        This List of field values is parallel to the sorted list of filepaths with items
-        in the same position corresponding to each other.
+        Boolean indicating whether to also return a List of field values
+        (default False). This List of field values is parallel to the sorted
+        list of filepaths with items in the same position corresponding to
+        each other.
 
     Returns
     -------
     list
-        Sorted list of paths. When get_fv is true, also return an associated field list.
+        Sorted list of paths. When get_fv is true, also return an associated
+        field list.
     """
 
     # Get the field from each file
@@ -235,16 +243,18 @@ def field_sort(
 def get_values_from_dictionary_collection(
     dictionary_collection: iter, target_key
 ):
-    """In an (iterable) collection of dictionaries, search for a target key in each dictionary.
-    Return a list of all found values corresponding to that key.
+    """In an (iterable) collection of dictionaries, search for a target key
+        in each dictionary. Return a list of all found values corresponding
+        to that key.
 
     Parameters
     ----------
     dictionary_collection: iter
         The collection of dictionaries to search through.
     target_key
-        The key to search for in each dictionary. For each dictionary in dictionary_collection that has that key,
-        the corresponding value is appended to a List called values.
+        The key to search for in each dictionary. For each dictionary in
+        dictionary_collection that has that key, the corresponding value is
+        appended to a List called values.
 
     Returns
     -------
@@ -257,7 +267,8 @@ def get_values_from_dictionary_collection(
 
     # Handle dictionary-type iterable
     if type(dictionary_collection) is dict:
-        # Assume the dictionaries are stored in the values and keys indicate names of the dictionaries
+        # Assume the dictionaries are stored in the values and keys indicate
+        # names of the dictionaries
         dictionary_collection = dictionary_collection.values()
     # All other type iterables are handled the same way as a list
 

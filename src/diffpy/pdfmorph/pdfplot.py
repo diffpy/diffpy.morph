@@ -31,15 +31,18 @@ def plotPDFs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
     pairlist
         Iterable of (r, gr) pairs to plot.
     labels
-        Iterable of names for the pairs. If this is not the same length as the pairlist, a legend will not
-        be shown (default []).
+        Iterable of names for the pairs. If this is not the same length as
+        the pairlist, a legend will not be shown (default []).
     offset
-        Offset to place between plots. PDFs will be sequentially shifted in the y-direction by the offset.
-        If offset is 'auto' (default), the optimal offset will be determined automatically.
+        Offset to place between plots. PDFs will be sequentially shifted in
+        the y-direction by the offset. If offset is 'auto' (default), the
+        optimal offset will be determined automatically.
     rmin
-        The minimum r-value to plot. If this is None (default), the lower bound of the PDF is not altered.
+        The minimum r-value to plot. If this is None (default), the lower
+        bound of the PDF is not altered.
     rmax
-        The maximum r-value to plot. If this is None (default), the upper bound of the PDF is not altered.
+        The maximum r-value to plot. If this is None (default), the upper
+        bound of the PDF is not altered.
     """
     if labels is None:
         labels = []
@@ -79,24 +82,27 @@ def comparePDFs(
 ):
     """Plot two PDFs on top of each other and difference curve.
 
-    The second PDF will be shown as blue circles below and the first as a red line.
-    The difference curve will be in green and offset for clarity.
+    The second PDF will be shown as blue circles below and the first as a red
+    line. The difference curve will be in green and offset for clarity.
 
     Parameters
     ----------
     pairlist
         Iterable of (r, gr) pairs to plot
     labels
-        Iterable of names for the pairs. If this is not the same length as the pairlist, a legend will not
-        be shown (default []).
+        Iterable of names for the pairs. If this is not the same length as
+        the pairlist, a legend will not be shown (default []).
     rmin
-        The minimum r-value to plot. If this is None (default), the lower bound of the PDF is not altered.
+        The minimum r-value to plot. If this is None (default), the lower
+        bound of the PDF is not altered.
     rmax
-        The maximum r-value to plot. If this is None (default), the upper bound of the PDF is not altered.
+        The maximum r-value to plot. If this is None (default), the upper
+        bound of the PDF is not altered.
     show
         Show the plot (default True)
     maglim
-        Point after which to magnify the signal by mag. If None (default), no magnification will take place.
+        Point after which to magnify the signal by mag. If None (default), no
+        magnification will take place.
     mag
         Magnification factor (default 5)
     rw
@@ -227,14 +233,17 @@ def plot_param(target_labels, param_list, param_name=None, field=None):
     Parameters
     ----------
     target_labels: list
-        Names (or field if --sort-by given) of each file acting as target for the morph.
+        Names (or field if --sort-by given) of each file acting as target for
+        the morph.
     param_list: list
         Contains the values of some parameter corresponding to each file.
     param_name: str
         Name of the parameter.
     field: list or None
-        When not None and entries in field are numerical, a line chart of Rw versus field is made.
-        When None (default) or values are non-numerical, it plots a bar chart of Rw values per file.
+        When not None and entries in field are numerical, a line chart of Rw
+        versus field is made.
+        When None (default) or values are non-numerical, it plots a bar chart
+        of Rw values per file.
     """
 
     # ensure all entries in target_labels are distinct for plotting
@@ -306,9 +315,11 @@ def truncatePDFs(r, gr, rmin=None, rmax=None):
     gr
         PDF g(r) values.
     rmin
-        The minimum r-value. If this is None (default), the lower bound of the PDF is not altered.
+        The minimum r-value. If this is None (default), the lower bound of
+        the PDF is not altered.
     rmax
-        The maximum r-value. If this is None (default), the upper bound of the PDF is not altered.
+        The maximum r-value. If this is None (default), the upper bound of
+        the PDF is not altered.
 
     Returns
     -------

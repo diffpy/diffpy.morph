@@ -39,7 +39,8 @@ class Refiner(object):
     pars
         List of names of parameters to be refined.
     residual
-        The residual function to optimize. Default _residual. Can be assigned to other functions.
+        The residual function to optimize. Default _residual. Can be assigned
+        to other functions.
     """
 
     def __init__(self, chain, x_morph, y_morph, x_target, y_target):
@@ -71,7 +72,8 @@ class Refiner(object):
         """Pearson correlation function.
 
         This gives e**-p (vector), where p is the pearson correlation function.
-        We seek to minimize this, which occurs when the correlation is the largest.
+        We seek to minimize this, which occurs when the correlation is the
+        largest.
         """
         self._update_chain(pvals)
         _x_morph, _y_morph, _x_target, _y_target = self.chain(
@@ -90,14 +92,17 @@ class Refiner(object):
     def refine(self, *args, **kw):
         """Refine the chain.
 
-        Additional arguments are used to specify which parameters are to be refined.
+        Additional arguments are used to specify which parameters are to be
+        refined.
         If no arguments are passed, then all parameters will be refined.
-        Keywords pass initial values to the parameters, whether or not they are refined.
+        Keywords pass initial values to the parameters, whether or not they
+        are refined.
 
         This uses the leastsq algorithm from scipy.optimize.
 
         This returns the final scalar residual value.
-        The parameters from the fit can be retrieved from the config dictionary of the morph or morph chain.
+        The parameters from the fit can be retrieved from the config
+        dictionary of the morph or morph chain.
 
         Raises
         ------
