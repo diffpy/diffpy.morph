@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* reduce the line width limit to 79
+* <news item>
 
 **Deprecated:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* reduce the line width limit to 79
 
 **Security:**
 

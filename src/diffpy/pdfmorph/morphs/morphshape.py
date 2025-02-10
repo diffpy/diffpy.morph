@@ -164,31 +164,19 @@ def _spheroidalCF2(r, psize, axrat):
         r = rx[rx <= v * psize]
         r2 = r * r
         f1 = (
-            1
-            - 3 * r / (4 * d * v) * (1 - r2 / (4 * d2) * (1 + 2.0 / (3 * v2)))
-            - 3
-            * r
-            / (4 * d)
-            * (1 - r2 / (4 * d2))
-            * v
-            / sqrt(1 - v2)
-            * atanh(sqrt(1 - v2))
+            1 - 3*r/(4*d*v)*(1-r2/(4*d2)*(1+2.0/(3*v2))) - 3*r/(4*d)*(1-r2/(4*d2))*v/sqrt(1-v2)*atanh(sqrt(1-v2))  # fmt: skip # noqa: E501
         )
 
         r = rx[numpy.logical_and(rx > v * psize, rx <= psize)]
         r2 = r * r
+        # fmt: off
         f2 = (
             (
-                3 * d / (8 * r) * (1 + r2 / (2 * d2)) * sqrt(1 - r2 / d2)
-                - 3
-                * r
-                / (4 * d)
-                * (1 - r2 / (4 * d2))
-                * atanh(sqrt(1 - r2 / d2))
+                3*d/(8*r)*(1+r2/(2*d2))*sqrt(1-r2/d2) - 3*r/(4*d)*(1-r2/(4*d2))*atanh(sqrt(1-r2/d2))  # noqa: E501
             )
-            * v
-            / sqrt(1 - v2)
+            * v / sqrt(1-v2)
         )
+        # fmt: on
 
         r = rx[rx > psize]
         f3 = numpy.zeros_like(r)
@@ -199,35 +187,13 @@ def _spheroidalCF2(r, psize, axrat):
         r = rx[rx <= psize]
         r2 = r * r
         f1 = (
-            1
-            - 3 * r / (4 * d * v) * (1 - r2 / (4 * d2) * (1 + 2.0 / (3 * v2)))
-            - 3
-            * r
-            / (4 * d)
-            * (1 - r2 / (4 * d2))
-            * v
-            / sqrt(v2 - 1)
-            * atan(sqrt(v2 - 1))
+            1 - 3*r/(4*d*v)*(1-r2/(4*d2)*(1+2.0/(3*v2))) - 3*r/(4*d)*(1-r2/(4*d2))*v/sqrt(v2-1)*atan(sqrt(v2-1))  # fmt: skip # noqa: E501
         )
 
         r = rx[numpy.logical_and(rx > psize, rx <= v * psize)]
         r2 = r * r
         f2 = (
-            1
-            - 3 * r / (4 * d * v) * (1 - r2 / (4 * d2) * (1 + 2.0 / (3 * v2)))
-            - 3.0
-            / 8
-            * (1 + r2 / (2 * d2))
-            * sqrt(1 - d2 / r2)
-            * v
-            / sqrt(v2 - 1)
-            - 3
-            * r
-            / (4 * d)
-            * (1 - r2 / (4 * d2))
-            * v
-            / sqrt(v2 - 1)
-            * (atan(sqrt(v2 - 1)) - atan(sqrt(r2 / d2 - 1)))
+            1 - 3*r/(4*d*v)*(1-r2/(4*d2)*(1+2.0/(3*v2))) - 3.0/8*(1+r2/(2*d2))*sqrt(1-d2/r2)*v/sqrt(v2-1) - 3*r/(4*d)*(1-r2/(4*d2))*v/sqrt(v2-1)*(atan(sqrt(v2-1))-atan(sqrt(r2/d2-1)))  # fmt: skip # noqa:E501
         )
 
         r = rx[rx > v * psize]
