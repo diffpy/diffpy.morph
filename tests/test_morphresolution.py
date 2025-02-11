@@ -24,7 +24,7 @@ class TestMorphScale:
         return
 
     def test_morph(self, setup):
-        """check MorphScale.morph()"""
+        """Check MorphScale.morph()"""
         config = {"qdamp": 0.01}
         morph = MorphResolutionDamping(config)
 

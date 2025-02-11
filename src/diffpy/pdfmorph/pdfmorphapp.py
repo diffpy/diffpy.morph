@@ -42,8 +42,8 @@ def create_option_parser():
         def custom_error(self, msg):
             """custom_error(msg : string)
 
-            Print a message incorporating 'msg' to stderr and exit.
-            Does not print usage.
+            Print a message incorporating 'msg' to stderr and exit. Does
+            not print usage.
             """
             self.exit(2, "%s: error: %s\n" % (self.get_prog_name(), msg))
 

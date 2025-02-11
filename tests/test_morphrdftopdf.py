@@ -26,7 +26,7 @@ class TestTransformXtalRDFtoPDF:
         return
 
     def test_transform(self, setup):
-        """check TransformXtalRDFtoPDF.morph()"""
+        """Check TransformXtalRDFtoPDF.morph()"""
         config = {"baselineslope": -1.0}
         transform = TransformXtalRDFtoPDF(config)
 

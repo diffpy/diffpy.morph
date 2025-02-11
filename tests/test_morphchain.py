@@ -27,7 +27,7 @@ class TestMorphChain:
         return
 
     def test_morph(self, setup):
-        """check MorphChain.morph()"""
+        """Check MorphChain.morph()"""
         # Define the morphs
         config = {
             "rmin": 1,

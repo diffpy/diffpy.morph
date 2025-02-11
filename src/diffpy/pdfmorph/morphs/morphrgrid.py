@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphRGrid -- put morph and target on desired grid.
-"""
+"""Class MorphRGrid -- put morph and target on desired grid."""
 
 
 import numpy

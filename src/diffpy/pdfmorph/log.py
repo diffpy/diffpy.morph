@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """Configuration of loggers used in this package.
 
 Logger instances:

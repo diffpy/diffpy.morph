@@ -12,8 +12,7 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
-"""Tools for manipulating and comparing PDF profiles"""
+"""Tools for manipulating and comparing PDF profiles."""
 
 # key used when saving multiple morphs
 __save_morph_as__ = "save_morph_as"

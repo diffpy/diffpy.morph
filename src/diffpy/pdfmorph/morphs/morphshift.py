@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphShift -- shift the morph
-"""
+"""Class MorphShift -- shift the morph."""
 
 
 import numpy

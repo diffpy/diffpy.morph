@@ -1,7 +1,7 @@
 Authors
 =======
 
-Billinge Group and community contributors.
+Billinge Group members and community contributors
 
 Contributors
 ------------

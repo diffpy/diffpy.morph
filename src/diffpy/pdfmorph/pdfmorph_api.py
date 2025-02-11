@@ -46,7 +46,7 @@ _default_config = dict(
 
 
 def morph_default_config(**kwargs):
-    """function to generate default morph configuration
+    """Function to generate default morph configuration.
 
     Parameters
     ----------
@@ -88,7 +88,7 @@ def pdfmorph(
     verbose=False,
     **kwargs,
 ):
-    """function to perform PDF morphing.
+    """Function to perform PDF morphing.
 
     Parameters
     ----------

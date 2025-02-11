@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphSmear -- smear the morph.
-"""
+"""Class MorphSmear -- smear the morph."""
 
 
 import numpy

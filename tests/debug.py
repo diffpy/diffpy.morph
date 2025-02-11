@@ -12,9 +12,7 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
-"""
-Convenience module for debugging the unit tests using
+"""Convenience module for debugging the unit tests using.
 
 python -m diffpy.pdfmorph.tests.debug
 
