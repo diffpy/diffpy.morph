@@ -403,7 +403,7 @@ def create_option_parser():
     return parser
 
 
-def single_morph(parser, opts, pargs, stdout_flag=True):
+def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
     elif len(pargs) > 2:
@@ -614,6 +614,8 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
             l_width=l_width,
         )
 
+    if return_morph:
+        return morph_results, chain.x_morph_out, chain.y_morph_out
     return morph_results
 
 
