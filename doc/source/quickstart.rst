@@ -4,8 +4,7 @@ PDFmorph Tutorial
 #################
 
 Welcome! This will be a quick tutorial to accquaint users with PDFmorph
-and some of what it can do. For a more detailed tutorial, check out
-our :download:`user manual <../manual/pdfmorph.pdf>`.
+and some of what it can do.
 
 As we described in the README and installation instructions, please make
 sure that you are familiar with working with your command line terminal

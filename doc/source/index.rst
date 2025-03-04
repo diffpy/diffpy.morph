@@ -39,8 +39,7 @@ the plotted PDFs.
 Finally, we note that though ``PDFmorph`` should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.
 
-To get started, please download our :download:`user manual  <../manual/pdfmorph.pdf>`
-or visit the :ref:`quick_start`.
+To get started, please visit the :ref:`quick_start`.
 
 =======
 Authors
