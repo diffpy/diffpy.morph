@@ -216,7 +216,7 @@ at various temperatures to determine whether a phase change has occurred.
 PDFmorph currently allows users to morph a PDF against all files in a
 selected directory and plot resulting :math:`R_w` values from each morph.
 
-1. Within the ``additionalData`` directory, ``cd`` into the ``morphMultiple`` directory.
+1. Within the ``additionalData`` directory, ``cd`` into the ``morphsequence`` directory.
    Inside, you will find multiple PDFs of :math:`SrFe_2As_2` measured at various temperatures.
    These PDFs are from `"Atomic Pair Distribution Function Analysis: A primer" <https://github.com/Billingegroup/pdfttp_data/>`_.
 2. Let us start by getting the Rw of ``SrFe2As2_150K.gr`` compared to all other files in the
@@ -226,7 +226,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
 
    The multiple tag indicates we are comparing PDF file (first input) against all PDFs in
    a directory (second input). Our choice of file was ``SeFe2As2_150K.gr``
-   and directory was the cwd, which should be ``morphMultiple``.
+   and directory was the cwd, which should be ``morphsequence``.
 
 .. figure:: images/ex_tutorial_bar.png
    :align: center
@@ -257,7 +257,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    The :math:`R_W` plotted against the temperature the target PDF was measured at.
 
 4. Between 192K and 198K, the Rw has a sharp increase, indicating that we may have a phase change.
-   To confirm, let us now apply morphs onto ``SrFe2As2_150K.gr`` with all other files in ``morphMultiple``
+   To confirm, let us now apply morphs onto ``SrFe2As2_150K.gr`` with all other files in ``morphsequence``
    as targets ::
 
        pdfmorph --scale=1 --stretch=0 SrFe2As2_150K.gr . --multiple-targets --sort-by=temperature
