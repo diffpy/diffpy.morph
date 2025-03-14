@@ -4,8 +4,7 @@ PDFmorph Tutorial
 #################
 
 Welcome! This will be a quick tutorial to accquaint users with PDFmorph
-and some of what it can do. For a more detailed tutorial, check out
-our :download:`user manual <../manual/pdfmorph.pdf>`.
+and some of what it can do. 
 
 As we described in the README and installation instructions, please make
 sure that you are familiar with working with your command line terminal
@@ -13,6 +12,8 @@ before using this application.
 
 Before you've started this tutorial, please ensure that you've installed
 all necessary software and dependencies.
+
+In this tutorial, we will demonstrate how to use PDFmorph to compare two PDFs measured from the same material at different temperatures. The morphs showcased include "stretch", "scale", and "smear".
 
 Basic PDFmorph Workflow
 =======================
@@ -81,6 +82,12 @@ Basic PDFmorph Workflow
          and the second as the "target", as the PDFmorph display
          does.
 
+    .. figure:: images/qs_tutorial_unmorphed.png
+       :align: center
+       :figwidth: 100%
+
+       Using ``pdfmorph`` to compare two different PDFs without morphing.
+
     6. Now, we will start the morphing process, which requires us to
        provide initial guesses for our scaling factor, Gaussian smear,
        and stretch, separately. We will start with the scaling factor.
@@ -116,6 +123,12 @@ Basic PDFmorph Workflow
          optimized value on the first guess or diverge greatly.
          In this tutorial, we will use it every time to check
          for convergence.
+
+    .. figure:: images/qs_tutorial_scaled.png
+       :align: center
+       :figwidth: 100%
+
+       ``PDFmorph`` found an optimal value for the scale factor.
 
     7. Now, we will examine the Gaussian smearing factor. We provide an
        initial guess by typing ::
@@ -168,6 +181,12 @@ Basic PDFmorph Workflow
        the optimized ``--stretch=0.001762``. We have now reached
        the optimal fit for our PDF!
 
+    .. figure:: images/qs_tutorial_morphed.png
+       :align: center
+       :figwidth: 100%
+
+       The optimal fit after applying the scale, smear, and stretch morphs.
+
     9. Now, try it on your own! If you have personally collected or
        otherwise readily available PDF data, try this process to see if
        you can morph your PDFs to one another. Many of the parameters
@@ -208,6 +227,14 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    The multiple tag indicates we are comparing PDF file (first input) against all PDFs in
    a directory (second input). Our choice of file was ``SeFe2As2_150K.gr``
    and directory was the cwd, which should be ``morphMultiple``.
+
+.. figure:: images/ex_tutorial_bar.png
+   :align: center
+   :figwidth: 100%
+
+   Bar chart of :math:`R_W` values for each target file. Target files are
+   listed in ASCII sort order.
+
 3. After running this, we get chart of Rw values for each target file. However, this chart can
    be a bit confusing to interpret. To get a more understandable plot, run ::
 
@@ -215,7 +242,20 @@ selected directory and plot resulting :math:`R_w` values from each morph.
 
    This plots the Rw against the temperature parameter value provided at the top of each file.
    Parameters are entries of the form ``<parameter_name> = <parameter_value>`` and are located
-   above the ``r`` versus ``gr`` table in each PDF file.
+   above the ``r`` versus ``gr`` table in each PDF file.::
+
+     # SrFe2As2_150K.gr
+     [PDF Parameters]
+     temperature = 150
+     wavelength = 0.1
+     ...
+
+.. figure:: images/ex_tutorial_temp.png
+   :align: center
+   :figwidth: 100%
+
+   The :math:`R_W` plotted against the temperature the target PDF was measured at.
+
 4. Between 192K and 198K, the Rw has a sharp increase, indicating that we may have a phase change.
    To confirm, let us now apply morphs onto ``SrFe2As2_150K.gr`` with all other files in ``morphMultiple``
    as targets ::
@@ -231,7 +271,19 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    These are very similar, meaning that thermal lattice expansion (accounted for by ``stretch``)
    is not occurring. This, coupled with the fact that the Rw significantly increases suggests
    a phase change in this temperature regime. (In fact, :math:`SrFe_2As_2` does transition from
-   orthorhombic at lower temperature to tetragonal at higher temperature!)
+   orthorhombic at lower temperature to tetragonal at higher temperature!). More sophisticated analysis
+   can be done with `PDFgui <https://www.diffpy.org/products/pdfgui.html>`_.
+8. Finally, let us save all the morphed PDFs into a directory named ``savedMorphs``. ::
+
+     pdfmorph SrFe2As2_150K.gr . --scale=1 --stretch=0 --multiple-targets \
+    --sort-by=temperature --plot-parameter=stretch \
+    --save=savedMorphs
+
+   Entering the directory with ``cd`` and viewing its contents with ``ls``, we see a file named
+   ``Morph_Reference_Table.txt`` with data about the input morph parameters and re-
+   fined output parameters and a directory named ``Morphs`` containing all the morphed
+   PDFs. See the ``--save-names-file`` option to see how you can set the names for these
+   saved morphs!
 
 Nanoparticle Shape Effects
 --------------------------
