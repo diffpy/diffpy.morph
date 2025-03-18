@@ -5,8 +5,12 @@ PDFmorph Tutorial
 
 Welcome! This will be a quick tutorial to accquaint users with PDFmorph
 and some of what it can do. To see more details and definitions about
-the morphs
-please see the publication describing ``diffpy.pdfmorph``.
+the morphs please see the publication describing ``diffpy.pdfmorph``.
+
+To be published:
+
+*
+
 
 As we described in the README and installation instructions, please make
 sure that you are familiar with working with your command line terminal
