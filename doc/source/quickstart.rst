@@ -296,16 +296,16 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    `PDFgui <https://www.diffpy.org/products/pdfgui.html>`_.
 
 8. Finally, let us save all the morphed PDFs into a directory
-   named ``savedMorphs``. ::
+   named ``saved-morphs``. ::
 
      pdfmorph SrFe2As2_150K.gr . --scale=1 --stretch=0 --multiple-targets \
-    --sort-by=temperature --plot-parameter=stretch \
-    --save=savedMorphs
+     --sort-by=temperature --plot-parameter=stretch \
+     --save=saved-morphs
 
    Entering the directory with ``cd`` and viewing its contents with
-   ``ls``, we see a file named ``Morph_Reference_Table.txt`` with data
+   ``ls``, we see a file named ``morph_reference_table.txt`` with data
    about the input morph parameters and re- fined output parameters
-   and a directory named ``Morphs`` containing all the morphed
+   and a directory named ``morphs`` containing all the morphed
    PDFs. See the ``--save-names-file`` option to see how you can set
    the names for these saved morphs!
 
@@ -321,7 +321,8 @@ include: spheres and spheroids.
   ``morphShape`` subdirectory. Inside, you will find a sample Ni bulk
   material PDF ``Ni_bulk.gr``. This PDF is from `"Atomic Pair
   Distribution Function Analysis:
-  A primer" <https://github.com/Billingegroup/pdfttp_data/>`_.
+  A primer" <https://global.oup.com/academic/product/
+   atomic-pair-distribution-function-analysis-9780198885801>`_.
   There are also multiple ``.cgr`` files with calculated Ni nanoparticle PDFs.
 
 * Let us apply various shape effect morphs on the bulk material to
