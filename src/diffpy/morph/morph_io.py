@@ -109,8 +109,8 @@ def create_morphs_directory(save_directory):
     """Create a directory for saving multiple morphed PDFs.
 
     Takes in a user-given path to a directory save_directory and create a
-    subdirectory named Morphs. diffpy.morph will save all morphs into the Morphs
-    subdirectory while metadata about the morphs will be stored in
+    subdirectory named Morphs. diffpy.morph will save all morphs into the
+    Morphs subdirectory while metadata about the morphs will be stored in
     save_directory outside Morphs.
 
     Parameters
