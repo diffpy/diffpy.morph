@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy
 import pytest
 
-import diffpy.pdfmorph.tools as tools
+import diffpy.morph.tools as tools
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

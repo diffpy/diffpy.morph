@@ -7,7 +7,7 @@
 # File coded by: Billinge Group members and community contributors.
 #
 # See GitHub contributions for a more detailed list of contributors.
-# https://github.com/diffpy/diffpy.pdfmorph/graphs/contributors
+# https://github.com/diffpy/diffpy.morph/graphs/contributors
 #
 # See LICENSE.rst for license information.
 #
@@ -19,7 +19,7 @@
 __save_morph_as__ = "save_morph_as"
 
 # package version
-from diffpy.pdfmorph.version import __version__
+from diffpy.morph.version import __version__
 
 # silence the pyflakes syntax checker
 assert __version__ or True

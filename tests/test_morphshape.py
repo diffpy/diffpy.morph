@@ -6,8 +6,8 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphishape import MorphISpheroid
-from diffpy.pdfmorph.morphs.morphshape import MorphSphere, MorphSpheroid
+from diffpy.morph.morphs.morphishape import MorphISpheroid
+from diffpy.morph.morphs.morphshape import MorphSphere, MorphSpheroid
 
 # FIXME: add MorphISphere test
 

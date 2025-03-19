@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morph_helpers.transformrdftopdf import (
+from diffpy.morph.morph_helpers.transformrdftopdf import (
     TransformXtalRDFtoPDF,
 )
 

@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from diffpy.pdfmorph.pdfmorph_api import morph_default_config, pdfmorph
+from diffpy.morph.morph_api import morph_default_config, morph
 from tests.test_morphstretch import heaviside
 
 
@@ -16,7 +16,7 @@ def test_morphfunc_verbose():
     x_morph = x_target.copy()
     y_morph = heaviside(x_target, lb * (1 + stretch), ub * (1 + stretch))
     cfg = morph_default_config(stretch=0.1)  # off init
-    pdfmorph(x_morph, y_morph, x_target, y_target, verbose=True, **cfg)
+    morph(x_morph, y_morph, x_target, y_target, verbose=True, **cfg)
 
 
 def test_fixed_morph_with_morphfunc():
@@ -29,7 +29,7 @@ def test_fixed_morph_with_morphfunc():
     y_morph = heaviside(x_target, lb * (1 + stretch), ub * (1 + stretch))
     cfg = morph_default_config(stretch=0.1)  # off init
     cfg["scale"] = 30
-    pdfmorph(
+    morph(
         x_morph,
         y_morph,
         x_target,
@@ -50,7 +50,7 @@ def test_stretch_with_morphfunc():
     x_morph = x_target.copy()
     y_morph = heaviside(x_target, lb * (1 + stretch), ub * (1 + stretch))
     cfg = morph_default_config(stretch=0.1)  # off init
-    morph_rv = pdfmorph(x_morph, y_morph, x_target, y_target, **cfg)
+    morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
     # verified they are morphable
     x1, y1, x0, y0 = morph_rv["morph_chain"].xyallout
@@ -72,7 +72,7 @@ def test_scale_with_morphfunc():
     y_morph = y_target.copy()
     y_morph *= scale
     cfg = morph_default_config(scale=1.5)  # off init
-    morph_rv = pdfmorph(x_morph, y_morph, x_target, y_target, **cfg)
+    morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
     # verified they are morphable
     x1, y1, x0, y0 = morph_rv["morph_chain"].xyallout
@@ -93,7 +93,7 @@ def test_smear_with_morph_func():
     x_morph = x_target.copy()
     y_morph = np.exp(-0.5 * ((x_morph - r0) / sigma0) ** 2)
     cfg = morph_default_config(smear=0.1, scale=1.1, stretch=0.1)  # off init
-    morph_rv = pdfmorph(x_morph, y_morph, x_target, y_target, **cfg)
+    morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
     # verified they are morphable
     x1, y1, x0, y0 = morph_rv["morph_chain"].xyallout

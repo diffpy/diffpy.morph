@@ -1,4 +1,4 @@
-name: diffpy.pdfmorph
+name: diffpy.morph
 channels:
   - conda-forge
 dependencies:
