@@ -7,4 +7,4 @@ Contributors
 ------------
 
 For a list of contributors, visit
-https://github.com/diffpy/diffpy.pdfmorph/graphs/contributors
+https://github.com/diffpy/diffpy.morph/graphs/contributors

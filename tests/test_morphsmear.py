@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphsmear import MorphSmear
+from diffpy.morph.morphs.morphsmear import MorphSmear
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

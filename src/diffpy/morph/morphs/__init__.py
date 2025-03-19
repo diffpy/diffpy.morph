@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -17,16 +17,16 @@
 """
 
 
-from diffpy.pdfmorph.morphs.morph import Morph  # noqa: F401
-from diffpy.pdfmorph.morphs.morphchain import MorphChain  # noqa: F401
-from diffpy.pdfmorph.morphs.morphishape import MorphISphere, MorphISpheroid
-from diffpy.pdfmorph.morphs.morphresolution import MorphResolutionDamping
-from diffpy.pdfmorph.morphs.morphrgrid import MorphRGrid
-from diffpy.pdfmorph.morphs.morphscale import MorphScale
-from diffpy.pdfmorph.morphs.morphshape import MorphSphere, MorphSpheroid
-from diffpy.pdfmorph.morphs.morphshift import MorphShift
-from diffpy.pdfmorph.morphs.morphsmear import MorphSmear
-from diffpy.pdfmorph.morphs.morphstretch import MorphStretch
+from diffpy.morph.morphs.morph import Morph  # noqa: F401
+from diffpy.morph.morphs.morphchain import MorphChain  # noqa: F401
+from diffpy.morph.morphs.morphishape import MorphISphere, MorphISpheroid
+from diffpy.morph.morphs.morphresolution import MorphResolutionDamping
+from diffpy.morph.morphs.morphrgrid import MorphRGrid
+from diffpy.morph.morphs.morphscale import MorphScale
+from diffpy.morph.morphs.morphshape import MorphSphere, MorphSpheroid
+from diffpy.morph.morphs.morphshift import MorphShift
+from diffpy.morph.morphs.morphsmear import MorphSmear
+from diffpy.morph.morphs.morphstretch import MorphStretch
 
 # List of morphs
 morphs = [

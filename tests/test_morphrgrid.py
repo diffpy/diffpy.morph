@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphrgrid import MorphRGrid
+from diffpy.morph.morphs.morphrgrid import MorphRGrid
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

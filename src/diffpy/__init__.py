@@ -13,7 +13,7 @@
 #
 ##############################################################################
 
-"""pdfmorph - tools for manipulating and comparing PDF data.
+"""morph - tools for manipulating and comparing PDF data.
 
 """
 
