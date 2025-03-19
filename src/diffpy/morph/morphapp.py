@@ -19,8 +19,8 @@ import sys
 from pathlib import Path
 
 import diffpy.morph.morph_helpers as helpers
-import diffpy.morph.morphs as morphs
 import diffpy.morph.morph_io as io
+import diffpy.morph.morphs as morphs
 import diffpy.morph.pdfplot as pdfplot
 import diffpy.morph.refine as refine
 import diffpy.morph.tools as tools
