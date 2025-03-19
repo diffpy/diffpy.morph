@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from diffpy.morph.morph_api import morph_default_config, morph
+from diffpy.morph.morph_api import morph, morph_default_config
 from tests.test_morphstretch import heaviside
 
 

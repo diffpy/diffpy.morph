@@ -6,12 +6,8 @@ import os
 import numpy
 import pytest
 
-from diffpy.morph.morph_helpers.transformpdftordf import (
-    TransformXtalPDFtoRDF,
-)
-from diffpy.morph.morph_helpers.transformrdftopdf import (
-    TransformXtalRDFtoPDF,
-)
+from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
+from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
 from diffpy.morph.morphs.morphchain import MorphChain
 from diffpy.morph.morphs.morphscale import MorphScale
 from diffpy.morph.morphs.morphsmear import MorphSmear

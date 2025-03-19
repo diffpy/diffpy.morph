@@ -14,12 +14,8 @@
 """List of helpers for certain morphing operations
 (currently only used for smear)."""
 
-from diffpy.morph.morph_helpers.transformpdftordf import (
-    TransformXtalPDFtoRDF,
-)
-from diffpy.morph.morph_helpers.transformrdftopdf import (
-    TransformXtalRDFtoPDF,
-)
+from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
+from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
 
 # List of helpers
 morph_helpers = [
