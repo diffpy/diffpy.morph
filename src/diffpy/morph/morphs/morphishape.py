@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -21,8 +21,8 @@ class MorphISpheroid -- apply inverse spheroidal shape function
 
 import numpy
 
-from diffpy.pdfmorph.morphs.morph import LABEL_GR, LABEL_RA, Morph
-from diffpy.pdfmorph.morphs.morphshape import _sphericalCF, _spheroidalCF
+from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
+from diffpy.morph.morphs.morphshape import _sphericalCF, _spheroidalCF
 
 
 class MorphISphere(Morph):

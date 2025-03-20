@@ -16,7 +16,7 @@
 """
 Convenience module for debugging the unit tests using
 
-python -m diffpy.pdfmorph.tests.debug
+python -m diffpy.morph.tests.debug
 
 Exceptions raised by failed tests or other errors are not caught.
 """

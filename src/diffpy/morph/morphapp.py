@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -18,14 +18,14 @@ from __future__ import print_function
 import sys
 from pathlib import Path
 
-import diffpy.pdfmorph.morph_helpers as helpers
-import diffpy.pdfmorph.morphs as morphs
-import diffpy.pdfmorph.pdfmorph_io as io
-import diffpy.pdfmorph.pdfplot as pdfplot
-import diffpy.pdfmorph.refine as refine
-import diffpy.pdfmorph.tools as tools
-from diffpy.pdfmorph import __save_morph_as__
-from diffpy.pdfmorph.version import __version__
+import diffpy.morph.morph_helpers as helpers
+import diffpy.morph.morph_io as io
+import diffpy.morph.morphs as morphs
+import diffpy.morph.pdfplot as pdfplot
+import diffpy.morph.refine as refine
+import diffpy.morph.tools as tools
+from diffpy.morph import __save_morph_as__
+from diffpy.morph.version import __version__
 
 
 def create_option_parser():
@@ -59,8 +59,8 @@ def create_option_parser():
             [
                 "Please report bugs to diffpy-users@googlegroups.com.",
                 (
-                    "For more information, see the PDFmorph website at "
-                    "https://www.diffpy.org/diffpy.pdfmorph."
+                    "For more information, see the diffpy.morph website at "
+                    "https://www.diffpy.org/diffpy.morph."
                 ),
             ]
         ),
@@ -371,7 +371,7 @@ def create_option_parser():
             "as follows: each target PDF is an entry in NAMESFILE. For each "
             "entry, there should be a key {__save_morph_as__} whose value "
             "specifies the name to save the manipulated PDF as. An example "
-            ".json serial file is shown in the PDFmorph manual."
+            ".json serial file is shown in the diffpy.morph manual."
         ),
     )
     group.add_option(
@@ -987,7 +987,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
 
 
 def getPDFFromFile(fn):
-    from diffpy.pdfmorph.tools import readPDF
+    from diffpy.morph.tools import readPDF
 
     try:
         r, gr = readPDF(fn)

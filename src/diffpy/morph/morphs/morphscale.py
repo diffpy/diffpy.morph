@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -18,7 +18,7 @@
 """
 
 
-from diffpy.pdfmorph.morphs.morph import LABEL_GR, LABEL_RA, Morph
+from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphScale(Morph):

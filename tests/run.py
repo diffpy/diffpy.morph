@@ -7,13 +7,13 @@
 # File coded by: Billinge Group members and community contributors.
 #
 # See GitHub contributions for a more detailed list of contributors.
-# https://github.com/diffpy/diffpy.pdfmorph/graphs/contributors
+# https://github.com/diffpy/diffpy.morph/graphs/contributors
 #
 # See LICENSE.rst for license information.
 #
 ##############################################################################
 """Convenience module for executing all unit tests with
-python -m diffpy.pdfmorph.tests.run
+python -m diffpy.morph.tests.run
 """
 
 import sys

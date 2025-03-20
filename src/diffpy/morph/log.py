@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2010 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -23,11 +23,11 @@ plog -- logger instance for normal operation
 import logging
 
 # logging configuration
-plog = logging.getLogger("diffpy.pdfmorph")
+plog = logging.getLogger("diffpy.morph")
 
 
 def set_verbosity(vb):
-    """Set verbosity of the pdfmorph logger.
+    """Set verbosity of the diffpy.morph logger.
 
     Parameters
     ----------

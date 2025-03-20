@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphshift import MorphShift
+from diffpy.morph.morphs.morphshift import MorphShift
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")
