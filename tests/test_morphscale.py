@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphscale import MorphScale
+from diffpy.morph.morphs.morphscale import MorphScale
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

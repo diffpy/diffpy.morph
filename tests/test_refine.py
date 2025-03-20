@@ -6,17 +6,13 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morph_helpers.transformpdftordf import (
-    TransformXtalPDFtoRDF,
-)
-from diffpy.pdfmorph.morph_helpers.transformrdftopdf import (
-    TransformXtalRDFtoPDF,
-)
-from diffpy.pdfmorph.morphs.morphchain import MorphChain
-from diffpy.pdfmorph.morphs.morphscale import MorphScale
-from diffpy.pdfmorph.morphs.morphsmear import MorphSmear
-from diffpy.pdfmorph.morphs.morphstretch import MorphStretch
-from diffpy.pdfmorph.refine import Refiner
+from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
+from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
+from diffpy.morph.morphs.morphchain import MorphChain
+from diffpy.morph.morphs.morphscale import MorphScale
+from diffpy.morph.morphs.morphsmear import MorphSmear
+from diffpy.morph.morphs.morphstretch import MorphStretch
+from diffpy.morph.refine import Refiner
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

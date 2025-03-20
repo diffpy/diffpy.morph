@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphresolution import MorphResolutionDamping
+from diffpy.morph.morphs.morphresolution import MorphResolutionDamping
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

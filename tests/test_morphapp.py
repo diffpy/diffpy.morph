@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from diffpy.pdfmorph.pdfmorphapp import (
+from diffpy.morph.morphapp import (
     create_option_parser,
     multiple_targets,
     single_morph,

@@ -21,6 +21,6 @@
 # obtain version information
 from importlib.metadata import version
 
-__version__ = version("diffpy.pdfmorph")
+__version__ = version("diffpy.morph")
 
 # End of file

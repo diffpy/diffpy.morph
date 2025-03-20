@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfmorph   by DANSE Diffraction group
+# diffpy.morph      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2018 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
@@ -24,9 +24,9 @@ else:
 
 import matplotlib.pyplot as plt
 
-from diffpy.pdfmorph import morph_helpers, morphs
-from diffpy.pdfmorph import refine as ref
-from diffpy.pdfmorph import tools
+from diffpy.morph import morph_helpers, morphs
+from diffpy.morph import refine as ref
+from diffpy.morph import tools
 
 # map of operation dict
 # TODO: include morphing on psize
@@ -73,7 +73,7 @@ def morph_default_config(**kwargs):
     return rv
 
 
-def pdfmorph(
+def morph(
     x_morph,
     y_morph,
     x_target,
@@ -141,7 +141,7 @@ def pdfmorph(
     morph_rv_dict: dict
         A dictionary contains following key-value pairs:
 
-        - morph_chain: diffpy.pdfmorph.morphs.morphchain.MorphChain
+        - morph_chain: diffpy.morph.morphs.morphchain.MorphChain
               The instance of processed morph chain.
               Calling
               ``x_morph, y_morph, x_target, y_target = morph_chain.xyallout``
@@ -158,11 +158,11 @@ def pdfmorph(
     Examples
     --------
     # morphing (x_morph, y_morph) pair to (x_target, y_target) pair with
-    scaling from diffpy.pdfmorph.pdfmorph_api import pdfmorph,
+    scaling from diffpy.morph.morph_api import morph,
     morph_default_config, plot_morph
 
     morph_cfg = morph_default_config(scale=1.01)
-    morph_rv_dict = pdfmorph(x_morph, y_morph, x_target, y_target, **morph_cfg)
+    morph_rv_dict = morph(x_morph, y_morph, x_target, y_target, **morph_cfg)
 
     # plot morhing result
     plot_morph(morph_rv_dict['morph_chain'])
@@ -256,7 +256,7 @@ def plot_morph(chain, ax=None, **kwargs):
 
     Parameters
     ----------
-    chain: diffpy.pdfmorph.morphs.morphchain.MorphChain
+    chain: diffpy.morph.morphs.morphchain.MorphChain
         An instance of processed morph chain.
     ax: matplotlib.axes.Axes, optional
         An instance of Axes class to plot the morphing result.

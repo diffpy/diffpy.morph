@@ -5,11 +5,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 
-from diffpy.pdfmorph.pdfmorph_api import (
-    morph_default_config,
-    pdfmorph,
-    plot_morph,
-)
+from diffpy.morph.morph_api import morph, morph_default_config, plot_morph
 from tests.test_morphstretch import heaviside
 
 
@@ -23,9 +19,7 @@ def test_plot_morph():
     x_morph = x_target.copy()
     y_morph = heaviside(x_target, lb * (1 + stretch), ub * (1 + stretch))
     cfg = morph_default_config(stretch=0.1)  # off init
-    morph_rv = pdfmorph(
-        x_morph, y_morph, x_target, y_target, verbose=True, **cfg
-    )
+    morph_rv = morph(x_morph, y_morph, x_target, y_target, verbose=True, **cfg)
     chain = morph_rv["morph_chain"]
     fig, ax = plt.subplots()
     l_list = plot_morph(chain, ax)
