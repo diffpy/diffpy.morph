@@ -1,6 +1,6 @@
 **Added:**
 
-* add temperature field to tutorial/additionalData.
+* <news item>
 
 **Changed:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* add temperature field to tutorial/additionalData.
 
 **Security:**
 
