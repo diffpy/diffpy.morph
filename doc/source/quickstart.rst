@@ -307,7 +307,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
      --save=saved-morphs
 
    Entering the directory with ``cd`` and viewing its contents with
-   ``ls``, we see a file named ``morph_reference_table.txt`` with data
+   ``ls``, we see a file named ``morph-reference-table.txt`` with data
    about the input morph parameters and re- fined output parameters
    and a directory named ``morphs`` containing all the morphed
    PDFs. See the ``--save-names-file`` option to see how you can set
