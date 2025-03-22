@@ -6,21 +6,20 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfmorph documentation &mdash; diffpy.pdfmorph 0.1.3 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=7ab3649f" />
+  <title>diffpy.morph documentation &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1807f793"></script>
+      <script src="_static/documentation_options.js?v=27619e95"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PDFmorph Tutorial" href="quickstart.html" /> 
+    <link rel="next" title="diffpy.morph Tutorial" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +31,7 @@
           
           
           <a href="#" class="icon icon-home">
-            diffpy.pdfmorph
+            diffpy.morph
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -43,10 +42,10 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">PDFmorph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">diffpy.morph Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/diffpy.pdfmorph.html">Package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
 </ul>
 
         </div>
@@ -55,7 +54,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">diffpy.pdfmorph</a>
+          <a href="#">diffpy.morph</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -63,7 +62,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">diffpy.pdfmorph documentation</li>
+      <li class="breadcrumb-item active">diffpy.morph documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,16 +72,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="diffpy-pdfmorph-documentation">
-<h1>diffpy.pdfmorph documentation<a class="headerlink" href="#diffpy-pdfmorph-documentation" title="Link to this heading"></a></h1>
-<p>diffpy.pdfmorph - Tools for manipulating and comparing PDF profiles.</p>
+  <section id="diffpy-morph-documentation">
+<h1>diffpy.morph documentation<a class="headerlink" href="#diffpy-morph-documentation" title="Link to this heading"></a></h1>
+<p>diffpy.morph - Tools for manipulating and comparing diffraction data.</p>
 <div class="line-block">
-<div class="line">Software version 0.1.3.</div>
-<div class="line">Last updated October 25, 2024.</div>
+<div class="line">Software version 0.1.4rc1.</div>
+<div class="line">Last updated March 22, 2025.</div>
 </div>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">PDFmorph</span></code> is a Python package that increases the insight
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> is a Python package that increases the insight
 researchers can obtain from measured atomic pair distribution functions
 (PDFs) in a model-independent way. It was designed to help a
 researcher answer the question: “Has my material undergone a phase
@@ -91,48 +90,47 @@ transition between these two measurements?”</p>
 difference curve underneath. However, significant signal can be seen in
 the difference curve from benign effects such as thermal expansion (peak
 shifts) and increased thermal motion (peak broadening) or a change in
-scale due to differences in incident flux, for example. <code class="docutils literal notranslate"><span class="pre">PDFmorph</span></code> will
+scale due to differences in incident flux, for example. <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> will
 do its best to correct for these benign effects before computing and
 plotting the difference curve. One measured PDF (typically that
 collected under higher temperature) is identified as the target PDF and
 the second PDF is then morphed by “stretching” (changing the r-axis to
 simulate a uniform lattice expansion), “smearing” (broadening peaks
 through a uniform convolution to simulate increased thermal motion), and
-“scaling” (self-explanatory). PDFmorph will vary the amplitude of the
+“scaling” (self-explanatory). <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> will vary the amplitude of the
 morphing transformations to obtain the best fit between the morphed and
 the target PDFs, then plot them on top of each other with the difference
 plotted below.</p>
 <p>There are also a few other morphing transformations in the program.
-If no morphing transformation is specified, <code class="docutils literal notranslate"><span class="pre">PDFmorph</span></code> will return just
+If no morphing transformation is specified, <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> will return just
 the plotted PDFs.</p>
-<p>Finally, we note that though <code class="docutils literal notranslate"><span class="pre">PDFmorph</span></code> should work on other spectra
+<p>Finally, we note that though <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.</p>
-<p>To get started, please download our <a class="reference download internal" download="" href="_downloads/455760c5d9bd673f8e4565edb5dc6bf8/pdfmorph.pdf"><code class="xref download docutils literal notranslate"><span class="pre">user</span> <span class="pre">manual</span></code></a>
-or visit the <a class="reference internal" href="quickstart.html#quick-start"><span class="std std-ref">PDFmorph Tutorial</span></a>.</p>
+<p>To get started, please visit the <a class="reference internal" href="quickstart.html#quick-start"><span class="std std-ref">diffpy.morph Tutorial</span></a>.</p>
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Link to this heading"></a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">PDFmorph</span></code> is developed by members of the Billinge Group at
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> is developed by members of the Billinge Group at
 Columbia University and Brookhaven National Laboratory including
 Christopher L. Farrow, Christopher J. Wright, Pavol Juhás, Chia-Hao
 (Timothy) Liu, Andrew Yang, and Simon J. L. Billinge.</p>
 <p>For a detailed list of contributors see
-<a class="reference external" href="https://github.com/diffpy/diffpy.pdfmorph/graphs/contributors">https://github.com/diffpy/diffpy.pdfmorph/graphs/contributors</a>.</p>
+<a class="reference external" href="https://github.com/diffpy/diffpy.morph/graphs/contributors">https://github.com/diffpy/diffpy.morph/graphs/contributors</a>.</p>
 </section>
 <section id="installation">
 <h3>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h3>
-<p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.pdfmorph#installation">README</a>
+<p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.morph#installation">README</a>
 file included with the distribution.</p>
 </section>
 <section id="table-of-contents">
 <h3>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">PDFmorph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">diffpy.morph Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api/diffpy.pdfmorph.html">Package API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.pdfmorph.morphs.html">diffpy.pdfmorph.morphs package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.pdfmorph.morph_helpers.html">diffpy.pdfmorph.morph_helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.morph.morphs.html">diffpy.morph.morphs package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.morph.morph_helpers.html">diffpy.morph.morph_helpers package</a></li>
 </ul>
 </li>
 </ul>
@@ -152,13 +150,13 @@ file included with the distribution.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="PDFmorph Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="diffpy.morph Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

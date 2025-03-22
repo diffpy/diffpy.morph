@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.morph.morph_io &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=27619e95"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            diffpy.morph
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.morph.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">diffpy.morph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.morph.morph_io</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.morph.morph_io</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.morph      by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2010 Trustees of the Columbia University</span>
+<span class="c1">#                   in the City of New York.  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph</span><span class="w"> </span><span class="kn">import</span> <span class="n">__save_morph_as__</span>
+
+
+<div class="viewcode-block" id="single_morph_output">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.single_morph_output">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">single_morph_output</span><span class="p">(</span>
+    <span class="n">morph_inputs</span><span class="p">,</span>
+    <span class="n">morph_results</span><span class="p">,</span>
+    <span class="n">save_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">morph_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">xy_out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function for printing details about a single morph.</span>
+<span class="sd">    Handles both printing to terminal and printing to a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    morph_inputs: dict</span>
+<span class="sd">        Parameters given by the user.</span>
+<span class="sd">    morph_results: dict</span>
+<span class="sd">        Resulting data after morphing.</span>
+<span class="sd">    save_file</span>
+<span class="sd">        Name of file to print to. If None (default) print to terminal.</span>
+<span class="sd">    morph_file</span>
+<span class="sd">        Name of the morphed PDF file. Required when printing to a</span>
+<span class="sd">        non-terminal file.</span>
+<span class="sd">    param xy_out: list</span>
+<span class="sd">        List of the form [x_morph_out, y_morph_out]. x_morph_out is a List of</span>
+<span class="sd">        r values and y_morph_out is a List of gr values.</span>
+<span class="sd">    verbose: bool</span>
+<span class="sd">        Print additional details about the morph when True (default False).</span>
+<span class="sd">    stdout_flag: bool</span>
+<span class="sd">        Print to terminal when True (default False).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Input and output parameters</span>
+    <span class="n">morphs_in</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Input morphing parameters:</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">morphs_in</span> <span class="o">+=</span> <span class="p">(</span>
+        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">morph_inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">morph_inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">morphs_out</span> <span class="o">=</span> <span class="s2">&quot;# Optimized morphing parameters:</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">morphs_out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">morph_results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">morph_results</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Printing to terminal</span>
+    <span class="k">if</span> <span class="n">stdout_flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morphs_in</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">morphs_out</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Saving to file</span>
+    <span class="k">if</span> <span class="n">save_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">path_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">morph_file</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;# PDF created by diffpy.morph</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;# from </span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">header_verbose</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morphs_in</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">morphs_out</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">save_file</span> <span class="o">!=</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+                <span class="c1"># Print out a header (more if verbose)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">header_verbose</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
+
+                <span class="c1"># Print table with label</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Labels: [r] [gr]&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">outfile</span><span class="p">)</span>
+                <span class="n">numpy</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">xy_out</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">stdout_flag</span><span class="p">:</span>
+                <span class="c1"># Indicate successful save</span>
+                <span class="n">save_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# Morph saved to </span><span class="si">{</span><span class="n">save_file</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">save_message</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Just print table with label if save is to stdout</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;# Labels: [r] [gr]&quot;</span><span class="p">)</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">xy_out</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="create_morphs_directory">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.create_morphs_directory">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_morphs_directory</span><span class="p">(</span><span class="n">save_directory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a directory for saving multiple morphed PDFs.</span>
+
+<span class="sd">    Takes in a user-given path to a directory save_directory and create a</span>
+<span class="sd">    subdirectory named Morphs. diffpy.morph will save all morphs into the</span>
+<span class="sd">    Morphs subdirectory while metadata about the morphs will be stored in</span>
+<span class="sd">    save_directory outside Morphs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    save_directory</span>
+<span class="sd">        Path to a directory. diffpy.morph will save all generated files within</span>
+<span class="sd">        this directory.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The absolute path to the Morph subdirectory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Make directory to save files in if it does not already exist</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Morphs will be saved in the subdirectory &quot;Morphs&quot;</span>
+    <span class="n">morphs_subdirectory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;Morphs&quot;</span><span class="p">)</span>
+    <span class="n">morphs_subdirectory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">morphs_subdirectory</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="get_multisave_names">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.get_multisave_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_multisave_names</span><span class="p">(</span><span class="n">target_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">save_names_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create or import a dictionary that specifies names to save morphs as.</span>
+<span class="sd">    First attempt to import names from a specified file.</span>
+<span class="sd">    If names for certain morphs not found, use default naming scheme:</span>
+<span class="sd">    &#39;Morph_with_Target_&lt;target file name&gt;.cgr&#39;.</span>
+
+<span class="sd">    Used when saving multiple morphs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    target_list: list</span>
+<span class="sd">        Target (or Morph if mm enabled) PDFs used for each morph.</span>
+<span class="sd">    save_names_file</span>
+<span class="sd">        Name of file to import save names dictionary from (default None).</span>
+<span class="sd">    mm: bool</span>
+<span class="sd">        Rather than multiple targets, multiple morphs are being done.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        The names to save each morph as. Keys are the target PDF file names</span>
+<span class="sd">        used to produce that morph.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Dictionary storing save file names</span>
+    <span class="n">save_names</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Import names from a serial file</span>
+    <span class="k">if</span> <span class="n">save_names_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Names should be stored properly in save_names_file</span>
+        <span class="n">save_names</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">save_names_file</span><span class="p">)</span>
+    <span class="c1"># Apply default naming scheme to missing targets</span>
+    <span class="k">for</span> <span class="n">target_file</span> <span class="ow">in</span> <span class="n">target_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">target_file</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">save_names</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">mm</span><span class="p">:</span>
+                <span class="n">save_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="n">target_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="n">__save_morph_as__</span><span class="p">:</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Morph_with_Target_</span><span class="si">{</span><span class="n">target_file</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.cgr&quot;</span>
+                            <span class="p">)</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">save_names</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="n">target_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="n">__save_morph_as__</span><span class="p">:</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Morph_of_</span><span class="si">{</span><span class="n">target_file</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.cgr&quot;</span>
+                            <span class="p">)</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+    <span class="k">return</span> <span class="n">save_names</span></div>
+
+
+
+<div class="viewcode-block" id="multiple_morph_output">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.multiple_morph_output">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiple_morph_output</span><span class="p">(</span>
+    <span class="n">morph_inputs</span><span class="p">,</span>
+    <span class="n">morph_results</span><span class="p">,</span>
+    <span class="n">target_files</span><span class="p">,</span>
+    <span class="n">field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">field_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">save_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">morph_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">target_directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">mm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function for printing details about a series of multiple morphs.</span>
+<span class="sd">    Handles both printing to terminal and printing to a file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    morph_inputs: dict</span>
+<span class="sd">        Input parameters given by the user.</span>
+<span class="sd">    morph_results: dict</span>
+<span class="sd">        Resulting data after morphing.</span>
+<span class="sd">    target_files: list</span>
+<span class="sd">        PDF files that acted as targets to morphs.</span>
+<span class="sd">    save_directory</span>
+<span class="sd">        Name of directory to save morphs in.</span>
+<span class="sd">    field</span>
+<span class="sd">        Name of field if data was sorted by a particular field.</span>
+<span class="sd">        Otherwise, leave blank.</span>
+<span class="sd">    field_list: list</span>
+<span class="sd">        List of field values for each target PDF.</span>
+<span class="sd">        Generated by diffpy.morph.tools.field_sort().</span>
+<span class="sd">    morph_file</span>
+<span class="sd">        Name of the morphed PDF file.</span>
+<span class="sd">        Required to give summary data after saving to a directory.</span>
+<span class="sd">    target_directory</span>
+<span class="sd">        Name of the directory containing the target PDF files.</span>
+<span class="sd">        Required to give summary data after saving to a directory.</span>
+<span class="sd">    verbose: bool</span>
+<span class="sd">        Print additional summary details when True (default False).</span>
+<span class="sd">    stdout_flag: bool</span>
+<span class="sd">        Print to terminal when True (default False).</span>
+<span class="sd">    mm: bool</span>
+<span class="sd">        Multiple morphs done with a single target rather than multiple</span>
+<span class="sd">        targets for a single morphed file. Swaps morph and target in the code.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Input parameters used for every morph</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Input morphing parameters:</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">inputs</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">morph_inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">morph_inputs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Verbose to get output for every morph</span>
+    <span class="n">verbose_outputs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+        <span class="c1"># Output for every morph</span>
+        <span class="c1"># (information repeated in a succinct table below)</span>
+        <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">morph_results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">mm</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Target: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Morph: </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;# Optimized morphing parameters:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">morph_results</span><span class="p">[</span><span class="n">target</span><span class="p">][</span><span class="n">param</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">morph_results</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">verbose_outputs</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Get items we want to put in table</span>
+    <span class="n">tabulated_results</span> <span class="o">=</span> <span class="n">tabulate_results</span><span class="p">(</span><span class="n">morph_results</span><span class="p">)</span>
+
+    <span class="c1"># Table labels</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">mm</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Labels: [Target]&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"># Labels: [Morph]&quot;</span>
+    <span class="k">if</span> <span class="n">field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; [</span><span class="si">{</span><span class="n">field</span><span class="si">}</span><span class="s2">]&quot;</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">tabulated_results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tabulated_results</span><span class="p">[</span><span class="n">param</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">labels</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; [</span><span class="si">{</span><span class="n">param</span><span class="si">}</span><span class="s2">]&quot;</span>
+
+    <span class="c1"># Corresponding table</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">labels</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">target_files</span><span class="p">)):</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_files</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">field_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">field_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">tabulated_results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tabulated_results</span><span class="p">[</span><span class="n">param</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">idx</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">tabulated_results</span><span class="p">[</span><span class="n">param</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span><span class="si">:</span><span class="s2">0.6f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">table</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Remove extra indent</span>
+
+    <span class="c1"># Printing summary to terminal</span>
+    <span class="k">if</span> <span class="n">stdout_flag</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">verbose_outputs</span><span class="si">}{</span><span class="n">table</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Saving summary as a file</span>
+    <span class="k">if</span> <span class="n">save_directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">morph_path_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">morph_file</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+        <span class="n">target_path_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">target_directory</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+
+        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;# Data generated by diffpy.morph</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mm</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;# from morphing </span><span class="si">{</span><span class="n">morph_path_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;# with target directory </span><span class="si">{</span><span class="n">target_path_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;# from morphing directory </span><span class="si">{</span><span class="n">target_path_name</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;# with target </span><span class="si">{</span><span class="n">morph_path_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">reference_table</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+            <span class="s2">&quot;Morph_Reference_Table.txt&quot;</span>
+        <span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reference_table</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reference</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">header</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">inputs</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">verbose_outputs</span><span class="si">}{</span><span class="n">table</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">reference</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">stdout_flag</span><span class="p">:</span>
+            <span class="c1"># Indicate successful save</span>
+            <span class="n">save_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;# Morphs saved in the directory </span><span class="si">{</span><span class="n">save_directory</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">save_message</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="tabulate_results">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.tabulate_results">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">tabulate_results</span><span class="p">(</span><span class="n">multiple_morph_results</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to make a data table summarizing details about the</span>
+<span class="sd">    results of multiple morphs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    multiple_morph_results</span>
+<span class="sd">        A collection of Dictionaries. Each Dictionary summarizes the</span>
+<span class="sd">        resultsof a single morph.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tabulated_results: dict</span>
+<span class="sd">        Keys in tabulated_results are the table&#39;s column names and each</span>
+<span class="sd">        corresponding value is a list of data for that column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># We only care about the following parameters in our data tables</span>
+    <span class="n">relevant_parameters</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Scale&quot;</span><span class="p">,</span> <span class="s2">&quot;Smear&quot;</span><span class="p">,</span> <span class="s2">&quot;Stretch&quot;</span><span class="p">,</span> <span class="s2">&quot;Pearson&quot;</span><span class="p">,</span> <span class="s2">&quot;Rw&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Keys in this table represent column names and the value will be a list</span>
+    <span class="c1"># of column data</span>
+    <span class="n">tabulated_results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">relevant_parameters</span><span class="p">:</span>
+        <span class="n">tabulated_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="n">param</span><span class="p">:</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_values_from_dictionary_collection</span><span class="p">(</span>
+                    <span class="n">multiple_morph_results</span><span class="p">,</span> <span class="n">param</span>
+                <span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">tabulated_results</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

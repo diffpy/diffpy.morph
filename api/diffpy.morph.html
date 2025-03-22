@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.morph package &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=27619e95"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="diffpy.morph.morphs package" href="diffpy.morph.morphs.html" />
+    <link rel="prev" title="Release Notes" href="../release.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            diffpy.morph
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Package API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.morph.morphs.html">diffpy.morph.morphs package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.morph.morph_helpers.html">diffpy.morph.morph_helpers package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">diffpy.morph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">diffpy.morph package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/diffpy.morph.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-diffpy.morph">
+<span id="diffpy-morph-package"></span><h1>diffpy.morph package<a class="headerlink" href="#module-diffpy.morph" title="Link to this heading"></a></h1>
+<p>Tools for manipulating and comparing PDF profiles</p>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.morph.morphs.html">diffpy.morph.morphs package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.morph.morph_helpers.html">diffpy.morph.morph_helpers package</a></li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+<section id="module-diffpy.morph.pdfplot">
+<span id="diffpy-morph-pdfplot-module"></span><h3>diffpy.morph.pdfplot module<a class="headerlink" href="#module-diffpy.morph.pdfplot" title="Link to this heading"></a></h3>
+<p>Collection of plotting functions for PDFs.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.pdfplot.comparePDFs">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.pdfplot.</span></span><span class="sig-name descname"><span class="pre">comparePDFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maglim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/pdfplot.html#comparePDFs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.pdfplot.comparePDFs" title="Link to this definition"></a></dt>
+<dd><p>Plot two PDFs on top of each other and difference curve.</p>
+<p>The second PDF will be shown as blue circles below and the first as a red
+line. The difference curve will be in green and offset for clarity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairlist</strong> – Iterable of (r, gr) pairs to plot</p></li>
+<li><p><strong>labels</strong> – Iterable of names for the pairs. If this is not the same length as
+the pairlist, a legend will not be shown (default []).</p></li>
+<li><p><strong>rmin</strong> – The minimum r-value to plot. If this is None (default), the lower
+bound of the PDF is not altered.</p></li>
+<li><p><strong>rmax</strong> – The maximum r-value to plot. If this is None (default), the upper
+bound of the PDF is not altered.</p></li>
+<li><p><strong>show</strong> – Show the plot (default True)</p></li>
+<li><p><strong>maglim</strong> – Point after which to magnify the signal by mag. If None (default), no
+magnification will take place.</p></li>
+<li><p><strong>mag</strong> – Magnification factor (default 5)</p></li>
+<li><p><strong>rw</strong> – Rw value to display on the plot, if any.</p></li>
+<li><p><strong>legend</strong> – Display the legend (default True).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.pdfplot.plotPDFs">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.pdfplot.</span></span><span class="sig-name descname"><span class="pre">plotPDFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/pdfplot.html#plotPDFs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.pdfplot.plotPDFs" title="Link to this definition"></a></dt>
+<dd><p>Plots several PDFs on top of one another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pairlist</strong> – Iterable of (r, gr) pairs to plot.</p></li>
+<li><p><strong>labels</strong> – Iterable of names for the pairs. If this is not the same length as
+the pairlist, a legend will not be shown (default []).</p></li>
+<li><p><strong>offset</strong> – Offset to place between plots. PDFs will be sequentially shifted in
+the y-direction by the offset. If offset is ‘auto’ (default), the
+optimal offset will be determined automatically.</p></li>
+<li><p><strong>rmin</strong> – The minimum r-value to plot. If this is None (default), the lower
+bound of the PDF is not altered.</p></li>
+<li><p><strong>rmax</strong> – The maximum r-value to plot. If this is None (default), the upper
+bound of the PDF is not altered.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.pdfplot.plot_param">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.pdfplot.</span></span><span class="sig-name descname"><span class="pre">plot_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/pdfplot.html#plot_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.pdfplot.plot_param" title="Link to this definition"></a></dt>
+<dd><p>Plot Rw values for multiple morphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_labels</strong> (<em>list</em>) – Names (or field if –sort-by given) of each file acting as target for
+the morph.</p></li>
+<li><p><strong>param_list</strong> (<em>list</em>) – Contains the values of some parameter corresponding to each file.</p></li>
+<li><p><strong>param_name</strong> (<em>str</em>) – Name of the parameter.</p></li>
+<li><p><strong>field</strong> (<em>list</em><em> or </em><em>None</em>) – When not None and entries in field are numerical, a line chart of Rw
+versus field is made.
+When None (default) or values are non-numerical, it plots a bar chart
+of Rw values per file.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.pdfplot.truncatePDFs">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.pdfplot.</span></span><span class="sig-name descname"><span class="pre">truncatePDFs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/pdfplot.html#truncatePDFs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.pdfplot.truncatePDFs" title="Link to this definition"></a></dt>
+<dd><p>Truncate a PDF to specified bounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> – r-values of the PDF.</p></li>
+<li><p><strong>gr</strong> – PDF g(r) values.</p></li>
+<li><p><strong>rmin</strong> – The minimum r-value. If this is None (default), the lower bound of
+the PDF is not altered.</p></li>
+<li><p><strong>rmax</strong> – The maximum r-value. If this is None (default), the upper bound of
+the PDF is not altered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns the truncated r, gr.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>r, gr</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morph_api">
+<span id="diffpy-morph-morph-api-module"></span><h3>diffpy.morph.morph_api module<a class="headerlink" href="#module-diffpy.morph.morph_api" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_api.morph">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_api.</span></span><span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rstep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pearson</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_pearson</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_operations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_api.html#morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_api.morph" title="Link to this definition"></a></dt>
+<dd><p>function to perform PDF morphing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_morph</strong> (<em>numpy.array</em>) – An array of morphed x values, i.e., those will be manipulated by
+morphing.</p></li>
+<li><p><strong>y_morph</strong> (<em>numpy.array</em>) – An array of morphed y values, i.e., those will be manipulated by
+morphing.</p></li>
+<li><p><strong>x_target</strong> (<em>numpy.array</em>) – An array of target x values, i.e., those will be kept constant by
+morphing.</p></li>
+<li><p><strong>y_morph</strong> – An array of target y values, i.e., those will be kept constant by
+morphing.</p></li>
+<li><p><strong>rmin</strong> (<em>float</em><em>, </em><em>optional</em>) – A value to specify lower r-limit of morph operations.</p></li>
+<li><p><strong>rmax</strong> (<em>float</em><em>, </em><em>optional</em>) – A value to specify upper r-limit of morph operations.</p></li>
+<li><p><strong>rstep</strong> (<em>float</em><em>, </em><em>optional</em>) – A value to specify rstep of morph operations.</p></li>
+<li><p><strong>pearson</strong> (<em>Bool</em><em>, </em><em>optional</em>) – <dl class="simple">
+<dt>Option to include Pearson coefficient as a minimizing target</dt><dd><p>during morphing. Default to False.</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>add_pearson</strong> (<em>Bool</em><em>, </em><em>optional</em>) – Option to include <strong>both</strong> Pearson coefficient and Rw as
+minimizing targets during morphing. Default to False.</p></li>
+<li><p><strong>fixed_operations</strong> (<em>list</em><em>, </em><em>optional</em>) – A list of string specifying operations will be keep fixed during
+morphing. Default is None.</p></li>
+<li><p><strong>refine</strong> (<em>bool</em><em>, </em><em>optional</em>) – Option to execute the minimization step in morphing. If False,
+the morphing will be applied with parameter values specified in
+<cite>morph_config</cite>. Default to True.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Option to print full result after morph. Default to False.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>A dictionary with morph parameters as keys and initial
+values of morph parameters as values. Currently supported morph
+parparameters are:</p>
+<blockquote>
+<div><ul>
+<li><p>’scale’</p></li>
+<li><p>’stretch’</p></li>
+<li><p>’smear’</p></li>
+<li><p>’baselineslope’</p></li>
+<li><p>’qdamp’</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>morph_rv_dict</strong> – A dictionary contains following key-value pairs:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>morph_chain: diffpy.morph.morphs.morphchain.MorphChain</dt><dd><p>The instance of processed morph chain.
+Calling
+<code class="docutils literal notranslate"><span class="pre">x_morph,</span> <span class="pre">y_morph,</span> <span class="pre">x_target,</span> <span class="pre">y_target</span> <span class="pre">=</span> <span class="pre">morph_chain.xyallout</span></code>
+will conveniently return morphed data and reference data</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>morphed_cfg: dict</dt><dd><p>A dictionary of refined morphing parameters</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>rw: float</dt><dd><p>The agreement factor between morphed data and reference
+data</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pcc: float</dt><dd><dl class="simple">
+<dt>The pearson correlation coefficient between morphed</dt><dd><p>data and referenced data</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p># morphing (x_morph, y_morph) pair to (x_target, y_target) pair with
+scaling from diffpy.morph.morph_api import morph,
+morph_default_config, plot_morph</p>
+<p>morph_cfg = morph_default_config(scale=1.01)
+morph_rv_dict = morph(x_morph, y_morph, x_target, y_target, <a href="#id1"><span class="problematic" id="id2">**</span></a>morph_cfg)</p>
+<p># plot morhing result
+plot_morph(morph_rv_dict[‘morph_chain’])</p>
+<p># print morphing parameters, pearson correlation coefficient, Rw
+print(morph_rv_dict[‘morphed_cfg’])
+print(morph_rv_dict[‘pcc’])
+print(morph_rv_dict[‘rw’])</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_api.morph_default_config">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_api.</span></span><span class="sig-name descname"><span class="pre">morph_default_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_api.html#morph_default_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_api.morph_default_config" title="Link to this definition"></a></dt>
+<dd><p>function to generate default morph configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – extra keyword arguments passed to the default morph config</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>morph_default_config</strong> – A dictionary of morph configuration</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>morph_cfg = morph_default_config(scale=1.01)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_api.plot_morph">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_api.</span></span><span class="sig-name descname"><span class="pre">plot_morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_api.html#plot_morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_api.plot_morph" title="Link to this definition"></a></dt>
+<dd><p>Plot the morphed PDF and the target PDF of a morphing operation.</p>
+<p>Open a new figure unless a specific axis is provided for plotting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chain</strong> (<a class="reference internal" href="diffpy.morph.morphs.html#diffpy.morph.morphs.morphchain.MorphChain" title="diffpy.morph.morphs.morphchain.MorphChain"><em>diffpy.morph.morphs.morphchain.MorphChain</em></a>) – An instance of processed morph chain.</p></li>
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em><em>, </em><em>optional</em>) – An instance of Axes class to plot the morphing result.
+If ax is None, instances of new Figure and Axes will be created.
+Default to None.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments will be passed to <code class="docutils literal notranslate"><span class="pre">ax.plot(...**kwargs)</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>l_list</strong> – A list of <code class="docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code> objects representing the
+plotted data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.refine">
+<span id="diffpy-morph-refine-module"></span><h3>diffpy.morph.refine module<a class="headerlink" href="#module-diffpy.morph.refine" title="Link to this heading"></a></h3>
+<p>refine – Refine a morph or morph chain</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.refine.Refiner">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.refine.</span></span><span class="sig-name descname"><span class="pre">Refiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for refining a Morph or MorphChain.</p>
+<p>This is provided to allow for custom residuals and refinement algorithms.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.refine.Refiner.chain">
+<span class="sig-name descname"><span class="pre">chain</span></span><a class="headerlink" href="#diffpy.morph.refine.Refiner.chain" title="Link to this definition"></a></dt>
+<dd><p>The Morph or MorphChain to refine.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">x_morph,</span> <span class="pre">y_morph</span></span></dt>
+<dd><p>Morphed arrays.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">x_target,</span> <span class="pre">y_target</span></span></dt>
+<dd><p>Target arrays.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.refine.Refiner.pars">
+<span class="sig-name descname"><span class="pre">pars</span></span><a class="headerlink" href="#diffpy.morph.refine.Refiner.pars" title="Link to this definition"></a></dt>
+<dd><p>List of names of parameters to be refined.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.refine.Refiner.residual">
+<span class="sig-name descname"><span class="pre">residual</span></span><a class="headerlink" href="#diffpy.morph.refine.Refiner.residual" title="Link to this definition"></a></dt>
+<dd><p>The residual function to optimize. Default _residual. Can be assigned
+to other functions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.refine.Refiner.refine">
+<span class="sig-name descname"><span class="pre">refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner.refine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner.refine" title="Link to this definition"></a></dt>
+<dd><p>Refine the chain.</p>
+<p>Additional arguments are used to specify which parameters are to be
+refined.
+If no arguments are passed, then all parameters will be refined.
+Keywords pass initial values to the parameters, whether or not they
+are refined.</p>
+<p>This uses the leastsq algorithm from scipy.optimize.</p>
+<p>This returns the final scalar residual value.
+The parameters from the fit can be retrieved from the config
+dictionary of the morph or morph chain.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – Exception raised if a minimum cannot be found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.tools">
+<span id="diffpy-morph-tools-module"></span><h3>diffpy.morph.tools module<a class="headerlink" href="#module-diffpy.morph.tools" title="Link to this heading"></a></h3>
+<p>Tools used in morphs and morph chains.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.case_insensitive_dictionary_search">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">case_insensitive_dictionary_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dictionary</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#case_insensitive_dictionary_search"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.case_insensitive_dictionary_search" title="Link to this definition"></a></dt>
+<dd><p>Search for key in dictionary ignoring case.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<em>str</em>)</p></li>
+<li><p><strong>dictionary</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Corresponding value if key is in dictionary. None otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>value or None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.deserialize">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#deserialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.deserialize" title="Link to this definition"></a></dt>
+<dd><p>Call deserialize_data from diffpy.utils.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>serial_file</strong> – Name of file to deserialize.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data read from serial file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.estimateBaselineSlope">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimateBaselineSlope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimateBaselineSlope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimateBaselineSlope" title="Link to this definition"></a></dt>
+<dd><p>Estimate the slope of the linear baseline of a PDF.</p>
+<p>This fits a slope into the equation slope*r through the bottom of the PDF.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> – The r-grid used for the PDF.</p></li>
+<li><p><strong>gr</strong> – The PDF over the r-grid.</p></li>
+<li><p><strong>rmin</strong> – The minimum r-value to consider. If this is None (default) is None,
+then the minimum of r is used.</p></li>
+<li><p><strong>rmax</strong> – The maximum r-value to consider. If this is None (default) is None,
+then the maximum of r is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>slope</strong> – The slope of baseline. If the PDF is scaled properly, this is equal
+to -4*pi*rho0.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.estimateScale">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimateScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_morph_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimateScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimateScale" title="Link to this definition"></a></dt>
+<dd><p>Set the scale that best matches the morph to the target.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.field_sort">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">field_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepaths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_field_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#field_sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.field_sort" title="Link to this definition"></a></dt>
+<dd><p>Sort a list of files by a field stored in header information.
+All files must contain this header information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepaths</strong> – List of paths to files that we want to sort.</p></li>
+<li><p><strong>field</strong> – The field we want to sort by. Not case-sensitive.</p></li>
+<li><p><strong>reverse</strong> – Sort in reverse alphabetical/numerical order.</p></li>
+<li><p><strong>serfile</strong> – Path to a serial file with field information for each file.</p></li>
+<li><p><strong>get_field_values</strong> (<em>bool</em>) – Boolean indicating whether to also return a List of field values
+(default False). This List of field values is parallel to the sorted
+list of filepaths with items in the same position corresponding to
+each other.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sorted list of paths. When get_fv is true, also return an associated
+field list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.getRw">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">getRw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#getRw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.getRw" title="Link to this definition"></a></dt>
+<dd><p>Get Rw from the outputs of a morph or chain.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.get_pearson">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">get_pearson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#get_pearson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.get_pearson" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.get_values_from_dictionary_collection">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">get_values_from_dictionary_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dictionary_collection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">iter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#get_values_from_dictionary_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.get_values_from_dictionary_collection" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>In an (iterable) collection of dictionaries, search for a target key</dt><dd><p>in each dictionary. Return a list of all found values corresponding
+to that key.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary_collection</strong> (<em>iter</em>) – The collection of dictionaries to search through.</p></li>
+<li><p><strong>target_key</strong> – The key to search for in each dictionary. For each dictionary in
+dictionary_collection that has that key, the corresponding value is
+appended to a List called values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The found values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.nn_value">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">nn_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#nn_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.nn_value" title="Link to this definition"></a></dt>
+<dd><p>Convenience function for ensuring certain non-negative inputs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.readPDF">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">readPDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#readPDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.readPDF" title="Link to this definition"></a></dt>
+<dd><p>Reads an .gr file, loads r and G(r) vectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> – Name of the file we want to read.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Arrays read from data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>r,gr</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morph_io">
+<span id="diffpy-morph-morph-io-module"></span><h3>diffpy.morph.morph_io module<a class="headerlink" href="#module-diffpy.morph.morph_io" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.create_morphs_directory">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">create_morphs_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#create_morphs_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.create_morphs_directory" title="Link to this definition"></a></dt>
+<dd><p>Create a directory for saving multiple morphed PDFs.</p>
+<p>Takes in a user-given path to a directory save_directory and create a
+subdirectory named Morphs. diffpy.morph will save all morphs into the
+Morphs subdirectory while metadata about the morphs will be stored in
+save_directory outside Morphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_directory</strong> – Path to a directory. diffpy.morph will save all generated files within
+this directory.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The absolute path to the Morph subdirectory.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.get_multisave_names">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">get_multisave_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_names_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#get_multisave_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.get_multisave_names" title="Link to this definition"></a></dt>
+<dd><p>Create or import a dictionary that specifies names to save morphs as.
+First attempt to import names from a specified file.
+If names for certain morphs not found, use default naming scheme:
+‘Morph_with_Target_&lt;target file name&gt;.cgr’.</p>
+<p>Used when saving multiple morphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_list</strong> (<em>list</em>) – Target (or Morph if mm enabled) PDFs used for each morph.</p></li>
+<li><p><strong>save_names_file</strong> – Name of file to import save names dictionary from (default None).</p></li>
+<li><p><strong>mm</strong> (<em>bool</em>) – Rather than multiple targets, multiple morphs are being done.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The names to save each morph as. Keys are the target PDF file names
+used to produce that morph.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.multiple_morph_output">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">multiple_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#multiple_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.multiple_morph_output" title="Link to this definition"></a></dt>
+<dd><p>Helper function for printing details about a series of multiple morphs.
+Handles both printing to terminal and printing to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>morph_inputs</strong> (<em>dict</em>) – Input parameters given by the user.</p></li>
+<li><p><strong>morph_results</strong> (<em>dict</em>) – Resulting data after morphing.</p></li>
+<li><p><strong>target_files</strong> (<em>list</em>) – PDF files that acted as targets to morphs.</p></li>
+<li><p><strong>save_directory</strong> – Name of directory to save morphs in.</p></li>
+<li><p><strong>field</strong> – Name of field if data was sorted by a particular field.
+Otherwise, leave blank.</p></li>
+<li><p><strong>field_list</strong> (<em>list</em>) – List of field values for each target PDF.
+Generated by diffpy.morph.tools.field_sort().</p></li>
+<li><p><strong>morph_file</strong> – Name of the morphed PDF file.
+Required to give summary data after saving to a directory.</p></li>
+<li><p><strong>target_directory</strong> – Name of the directory containing the target PDF files.
+Required to give summary data after saving to a directory.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Print additional summary details when True (default False).</p></li>
+<li><p><strong>stdout_flag</strong> (<em>bool</em>) – Print to terminal when True (default False).</p></li>
+<li><p><strong>mm</strong> (<em>bool</em>) – Multiple morphs done with a single target rather than multiple
+targets for a single morphed file. Swaps morph and target in the code.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.single_morph_output">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">single_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#single_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.single_morph_output" title="Link to this definition"></a></dt>
+<dd><p>Helper function for printing details about a single morph.
+Handles both printing to terminal and printing to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>morph_inputs</strong> (<em>dict</em>) – Parameters given by the user.</p></li>
+<li><p><strong>morph_results</strong> (<em>dict</em>) – Resulting data after morphing.</p></li>
+<li><p><strong>save_file</strong> – Name of file to print to. If None (default) print to terminal.</p></li>
+<li><p><strong>morph_file</strong> – Name of the morphed PDF file. Required when printing to a
+non-terminal file.</p></li>
+<li><p><strong>xy_out</strong> (<em>param</em>) – List of the form [x_morph_out, y_morph_out]. x_morph_out is a List of
+r values and y_morph_out is a List of gr values.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – Print additional details about the morph when True (default False).</p></li>
+<li><p><strong>stdout_flag</strong> (<em>bool</em>) – Print to terminal when True (default False).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.tabulate_results">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">tabulate_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">multiple_morph_results</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#tabulate_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.tabulate_results" title="Link to this definition"></a></dt>
+<dd><p>Helper function to make a data table summarizing details about the
+results of multiple morphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>multiple_morph_results</strong> – A collection of Dictionaries. Each Dictionary summarizes the
+resultsof a single morph.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tabulated_results</strong> – Keys in tabulated_results are the table’s column names and each
+corresponding value is a list of data for that column.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.log">
+<span id="diffpy-morph-log-module"></span><h3>diffpy.morph.log module<a class="headerlink" href="#module-diffpy.morph.log" title="Link to this heading"></a></h3>
+<p>Configuration of loggers used in this package.</p>
+<p>Logger instances:</p>
+<p>plog – logger instance for normal operation</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.log.set_verbosity">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.log.</span></span><span class="sig-name descname"><span class="pre">set_verbosity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/log.html#set_verbosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.log.set_verbosity" title="Link to this definition"></a></dt>
+<dd><p>Set verbosity of the diffpy.morph logger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vb</strong> – Integer or one of (‘debug’, ‘info’, ‘warning’, ‘error’) strings.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>No return value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morphapp">
+<span id="diffpy-morph-morphapp-module"></span><h3>diffpy.morph.morphapp module<a class="headerlink" href="#module-diffpy.morph.morphapp" title="Link to this heading"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.create_option_parser">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">create_option_parser</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#create_option_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.create_option_parser" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.getPDFFromFile">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">getPDFFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#getPDFFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.getPDFFromFile" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.main">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.multiple_morphs">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">multiple_morphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#multiple_morphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.multiple_morphs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.multiple_targets">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">multiple_targets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#multiple_targets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.multiple_targets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.single_morph">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">single_morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#single_morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.single_morph" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../release.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diffpy.morph.morphs.html" class="btn btn-neutral float-right" title="diffpy.morph.morphs package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
