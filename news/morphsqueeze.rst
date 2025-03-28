@@ -4,7 +4,8 @@
 
 **Changed:**
 
-* Nothing changed
+* Added cubic and quadratic terms, as well as
+* squeeze_1 and squeeze_2 parameters
 
 **Deprecated:**
 

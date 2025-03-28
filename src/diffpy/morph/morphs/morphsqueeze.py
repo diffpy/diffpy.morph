@@ -14,7 +14,7 @@ class MorphSqueeze(Morph):
     yinlabel = LABEL_GR  # This label need to change to be more generic
     xoutlabel = LABEL_RA  # This label need to change to be more generic
     youtlabel = LABEL_GR  # This label need to change to be more generic
-    parnames = ["squeeze"]
+    parnames = ["squeeze_1", "squeeze_2"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Resample arrays onto the specified grid using a non-linear squeeze.
@@ -35,12 +35,17 @@ class MorphSqueeze(Morph):
         # Initialize the parent class to set up attributes
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
 
-        # If squeeze is zero, return original output
-        if self.squeeze == 0:
+        # If squeeze_1 and squeeze_2 are zero, return original output
+        if self.squeeze_1 == 0 and self.squeeze_2 == 0:
             return self.xyallout
 
         # Compute new x positions using the non-linear squeeze transformation:
-        new_x = self.x_morph_in + self.squeeze * np.sin(self.x_morph_in)
+        new_x = (
+            self.x_morph_in
+            + self.squeeze_1 * self.x_morph_in**2
+            + self.squeeze_2 * self.x_morph_in**3
+        )
+
         self.x_morph_out = new_x
 
         # Interpolate the y-values at the new x positions.
