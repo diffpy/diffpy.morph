@@ -53,11 +53,12 @@ class TestMorphSqueeze:
             + morph.squeeze_1 * self.x_morph**2
             + morph.squeeze_2 * self.x_morph**3
         )
-        expected_y = np.interp(expected_x, self.x_morph, self.y_morph)
+        expected_y = np.sin(self.x_morph)
 
-        # Allow for some tolerance because of numerical interpolation if used
         res = sum(np.fabs(expected_y - y_new))
-        assert res < 1
+        res2 = sum(np.fabs(expected_x - x_new))
+        assert res < 0.1
+        assert res2 < 0.1
 
 
 if __name__ == "__main__":

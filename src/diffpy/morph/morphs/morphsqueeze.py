@@ -1,9 +1,7 @@
 """class MorphSqueeze -- apply a non-linear squeeze to the morph.
 This morph non-linearly adjusts the x-coordinates.
-The y-values are then recomputed by interpolating the original data.
+The y-values are the same as initial, just on a new grid.
 """
-
-import numpy as np
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
@@ -48,8 +46,8 @@ class MorphSqueeze(Morph):
 
         self.x_morph_out = new_x
 
-        # Interpolate the y-values at the new x positions.
-        self.y_morph_out = np.interp(new_x, self.x_morph_in, self.y_morph_in)
+        # The y-axis should be the same
+        self.y_morph_out = self.y_morph_in
 
         return self.xyallout
 

@@ -5,7 +5,9 @@
 **Changed:**
 
 * Added cubic and quadratic terms, as well as
-* squeeze_1 and squeeze_2 parameters
+* squeeze_1 and squeeze_2 parameters.
+* I was not keeping the y-axis constant and
+* corrected for it
 
 **Deprecated:**
 
@@ -17,7 +19,7 @@
 
 **Fixed:**
 
-* <news item>
+* I was not keeping the y-values constant, fixed now
 
 **Security:**
 
