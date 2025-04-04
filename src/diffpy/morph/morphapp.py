@@ -786,13 +786,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         else:
             try:
                 if field_list is not None:
-                    plot.plot_param(
-                        field_list, param_list, param_name, field
-                    )
+                    plot.plot_param(field_list, param_list, param_name, field)
                 else:
-                    plot.plot_param(
-                        target_file_names, param_list, param_name
-                    )
+                    plot.plot_param(target_file_names, param_list, param_name)
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter
@@ -975,13 +971,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         else:
             try:
                 if field_list is not None:
-                    plot.plot_param(
-                        field_list, param_list, param_name, field
-                    )
+                    plot.plot_param(field_list, param_list, param_name, field)
                 else:
-                    plot.plot_param(
-                        morph_file_names, param_list, param_name
-                    )
+                    plot.plot_param(morph_file_names, param_list, param_name)
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter
