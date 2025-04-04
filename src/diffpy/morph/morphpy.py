@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import numpy as np
+
 from diffpy.morph.morphapp import (
     create_option_parser,
     multiple_morphs,

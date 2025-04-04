@@ -411,9 +411,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             "Too many arguments. Make sure you only supply FILE1 and FILE2."
         )
     elif len(pargs) != 6 and not python_wrap:
-        parser.error(
-            "Python wrapper error."
-        )
+        parser.error("Python wrapper error.")
 
     # Get the PDFs
     # If we get from python, we may wrap, which has input size 4
