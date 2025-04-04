@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# diffpy.pdfmorph documentation build configuration file, created by
+# diffpy.morph documentation build configuration file, created by
 # sphinx-quickstart on Thu Jan 30 15:49:41 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -63,7 +63,7 @@ source_suffix = [".rst", ".md"]
 master_doc = "index"
 
 # General information about the project.
-project = "diffpy.pdfmorph"
+project = "diffpy.morph"
 copyright = "%Y, The Trustees of Columbia University in the City of New York"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -113,7 +113,7 @@ exclude_patterns = ["build"]
 pygments_style = "sphinx"
 
 # A list of ignored prefixes for module index sorting.
-modindex_common_prefix = ["diffpy.pdfmorph"]
+modindex_common_prefix = ["diffpy.morph"]
 
 # Display all warnings for missing links.
 nitpicky = True
@@ -204,7 +204,7 @@ html_theme_options = {
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-basename = "diffpy.pdfmorph".replace(" ", "").replace(".", "")
+basename = "diffpy.morph".replace(" ", "").replace(".", "")
 htmlhelp_basename = basename + "doc"
 
 
@@ -225,8 +225,8 @@ latex_elements = {
 latex_documents = [
     (
         "index",
-        "diffpy.pdfmorph.tex",
-        "diffpy.pdfmorph Documentation",
+        "diffpy.morph.tex",
+        "diffpy.morph Documentation",
         ab_authors,
         "manual",
     ),
@@ -260,8 +260,8 @@ latex_documents = [
 man_pages = [
     (
         "index",
-        "diffpy.pdfmorph",
-        "diffpy.pdfmorph Documentation",
+        "diffpy.morph",
+        "diffpy.morph Documentation",
         ab_authors,
         1,
     )
@@ -279,10 +279,10 @@ man_pages = [
 texinfo_documents = [
     (
         "index",
-        "diffpy.pdfmorph",
-        "diffpy.pdfmorph Documentation",
+        "diffpy.morph",
+        "diffpy.morph Documentation",
         ab_authors,
-        "diffpy.pdfmorph",
+        "diffpy.morph",
         "One line description of project.",
         "Miscellaneous",
     ),

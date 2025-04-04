@@ -11,7 +11,7 @@ jobs:
   tests-on-pr:
     uses: Billingegroup/release-scripts/.github/workflows/_tests-on-pr.yml@v0
     with:
-      project: diffpy.pdfmorph
+      project: diffpy.morph
       c_extension: false
       headless: false
     secrets:

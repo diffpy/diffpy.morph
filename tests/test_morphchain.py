@@ -6,9 +6,9 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphchain import MorphChain
-from diffpy.pdfmorph.morphs.morphrgrid import MorphRGrid
-from diffpy.pdfmorph.morphs.morphscale import MorphScale
+from diffpy.morph.morphs.morphchain import MorphChain
+from diffpy.morph.morphs.morphrgrid import MorphRGrid
+from diffpy.morph.morphs.morphscale import MorphScale
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")

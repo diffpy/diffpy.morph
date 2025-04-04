@@ -6,7 +6,7 @@ import os
 import numpy
 import pytest
 
-from diffpy.pdfmorph.morphs.morphstretch import MorphStretch
+from diffpy.morph.morphs.morphstretch import MorphStretch
 
 # useful variables
 thisfile = locals().get("__file__", "file.py")
