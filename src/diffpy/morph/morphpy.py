@@ -42,7 +42,9 @@ def morph(morph_file, target_file, **kwargs):
     )
 
 
-def morphpy(morph_table, target_table, morph_header=None, target_header=None, **kwargs):
+def morphpy(
+    morph_table, target_table, morph_header=None, target_header=None, **kwargs
+):
     """Run diffpy.morph at Python level.
 
     Parameters
