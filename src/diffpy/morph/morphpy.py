@@ -32,7 +32,7 @@ def morph(file1, file2, **kwargs):
     (opts, pargs) = parser.parse_args(inputs)
     pargs = [file1, file2]
 
-    return single_morph(parser, opts, pargs)
+    return single_morph(parser, opts, pargs, stdout_flag=False, python_wrap=True)
 
 
 def morph_multiple_targets(file, dir, **kwargs):

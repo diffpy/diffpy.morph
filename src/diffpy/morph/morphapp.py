@@ -403,7 +403,7 @@ def create_option_parser():
     return parser
 
 
-def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
+def single_morph(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
     elif len(pargs) > 2:
@@ -614,12 +614,14 @@ def single_morph(parser, opts, pargs, stdout_flag=True, return_morph=False):
             l_width=l_width,
         )
 
-    if return_morph:
+    # Return different things depending on whether it is python interfaced
+    if python_wrap:
         return morph_results, chain.x_morph_out, chain.y_morph_out
-    return morph_results
+    else:
+        return morph_results
 
 
-def multiple_targets(parser, opts, pargs, stdout_flag=True):
+def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
@@ -800,10 +802,14 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
                     "morph and target pair. No plot shown."
                 )
 
-    return morph_results
+    if python_wrap:
+        # FIXME: Return dictionary of morphs
+        return morph_results
+    else:
+        return morph_results
 
 
-def multiple_morphs(parser, opts, pargs, stdout_flag=True):
+def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
@@ -985,7 +991,11 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
                     "morph and target pair. No plot shown."
                 )
 
-    return morph_results
+    if python_wrap:
+        # FIXME: Return dictionary of morphs
+        return morph_results
+    else:
+        return morph_results
 
 
 def getPDFFromFile(fn):
