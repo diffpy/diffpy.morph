@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-from pathlib import Path
-
 from diffpy.morph.morphapp import (
     create_option_parser,
     multiple_morphs,

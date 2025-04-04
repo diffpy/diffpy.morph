@@ -34,8 +34,8 @@ def plotPDFs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
         Iterable of names for the pairs. If this is not the same length as
         the pairlist, a legend will not be shown (default []).
     offset
-        Offset to place between plots. Functions will be sequentially shifted in
-        the y-direction by the offset. If offset is 'auto' (default), the
+        Offset to place between plots. Functions will be sequentially shifted
+        in the y-direction by the offset. If offset is 'auto' (default), the
         optimal offset will be determined automatically.
     rmin
         The minimum r-value to plot. If this is None (default), the lower
@@ -82,8 +82,8 @@ def comparePDFs(
 ):
     """Plot two functions on top of each other and difference curve.
 
-    The second function will be shown as blue circles below and the first as a red
-    line. The difference curve will be in green and offset for clarity.
+    The second function will be shown as blue circles below and the first as
+    a red line. The difference curve will be in green and offset for clarity.
 
     Parameters
     ----------
