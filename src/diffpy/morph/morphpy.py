@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import numpy as np
 from diffpy.morph.morphapp import (
     create_option_parser,
     multiple_morphs,
@@ -8,14 +9,14 @@ from diffpy.morph.morphapp import (
 )
 
 
-def morph(file1, file2, **kwargs):
+def morph(morph_file, target_file, **kwargs):
     """Run diffpy.morph at Python level.
 
     Parameters
     ----------
-    file1: str
+    morph_file: str
         Path-like object to the file to be morphed.
-    file2: str
+    target_file: str
         Path-like object to the target file.
     kwargs: dict
         See the diffpy.morph manual for options.
@@ -33,7 +34,53 @@ def morph(file1, file2, **kwargs):
         inputs.append(f"--{key}")
         inputs.append(f"{value}")
     (opts, pargs) = parser.parse_args(inputs)
-    pargs = [file1, file2]
+    pargs = [morph_file, target_file]
+
+    return single_morph(
+        parser, opts, pargs, stdout_flag=False, python_wrap=True
+    )
+
+
+def morphpy(morph_table, target_table, morph_header, target_header, **kwargs):
+    """Run diffpy.morph at Python level.
+
+    Parameters
+    ----------
+    morph_table: numpy.array
+        Two-column array of (r, gr) for morphed function.
+    target_table: numpy.array
+        Two-column array of (r, gr) for target function.
+    morph_header: dict
+        Any relevant parameters (e.g. wavelength, composition, temperature)
+        for the morphed function.
+    target_header: dict
+        Any relevant parameters for the target ction.
+    kwargs: dict
+        See the diffpy.morph manual for options.
+
+    Returns
+    -------
+    dict:
+        Summary of morphs.
+    """
+
+    parser = create_option_parser()
+
+    inputs = []
+    for key, value in kwargs.items():
+        inputs.append(f"--{key}")
+        inputs.append(f"{value}")
+    (opts, pargs) = parser.parse_args(inputs)
+
+    morph_table = np.array(morph_table)
+    target_table = np.array(target_table)
+
+    x_morph = morph_table[:, 0]
+    y_morph = morph_table[:, 1]
+    x_target = target_table[:, 0]
+    y_target = target_table[:, 1]
+
+    pargs = ["Morph", "Target", x_morph, y_morph, x_target, y_target]
 
     return single_morph(
         parser, opts, pargs, stdout_flag=False, python_wrap=True

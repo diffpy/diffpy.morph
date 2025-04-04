@@ -406,19 +406,30 @@ def create_option_parser():
 def single_morph(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
-    elif len(pargs) > 2:
+    elif len(pargs) > 2 and not python_wrap:
         parser.error(
             "Too many arguments. Make sure you only supply FILE1 and FILE2."
         )
+    elif len(pargs) != 6 and not python_wrap:
+        parser.error(
+            "Python wrapper error."
+        )
 
     # Get the PDFs
-    x_morph, y_morph = getPDFFromFile(pargs[0])
-    x_target, y_target = getPDFFromFile(pargs[1])
+    # If we get from python, we may wrap, which has input size 4
+    if len(pargs) == 6 and python_wrap:
+        x_morph = pargs[1]
+        y_morph = pargs[2]
+        x_target = pargs[3]
+        y_target = pargs[4]
+    else:
+        x_morph, y_morph = getPDFFromFile(pargs[0])
+        x_target, y_target = getPDFFromFile(pargs[1])
 
     if y_morph is None:
-        parser.error(f"No data table found in file: {pargs[0]}.")
+        parser.error(f"No data table found in: {pargs[0]}.")
     if y_target is None:
-        parser.error(f"No data table found in file: {pargs[1]}.")
+        parser.error(f"No data table found in: {pargs[1]}.")
 
     # Get configuration values
     scale_in = "None"
