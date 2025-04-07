@@ -1,6 +1,6 @@
 **Added:**
 
-* Squeeze test: given a squeezed signal, unsqueezing recovers the original
+* Polynomial squeeze of x-axis of morphed data
 
 **Changed:**
 
