@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
-from scipy.interpolate import interp1d
+
+from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
 
 @pytest.mark.parametrize(
@@ -20,41 +21,28 @@ from scipy.interpolate import interp1d
         [0.1, 0.3],
         # 4th order squeeze coefficients
         [0.2, -0.01, 0.001, -0.001, 0.0001],
+        # Testing zeros
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ],
 )
 def test_morphsqueeze(squeeze_coeffs):
-    # Uniform x-axis grid. This is the same x-axis for all data.
-    x = np.linspace(0, 10, 1000)
-    # Expected uniform target
-    y_expected = np.sin(x)
 
-    # Create polynomial based on a list of values for polynomial coefficients
+    x_target = np.linspace(0, 10, 1000)
+    y_target = np.sin(x_target)
+
     squeeze_polynomial = Polynomial(squeeze_coeffs)
-    # Apply squeeze parameters to uniform data to get the squeezed data
-    x_squeezed = x + squeeze_polynomial(x)
-    y_squeezed = np.sin(x_squeezed)
+    x_squeezed = x_target + squeeze_polynomial(x_target)
 
-    # Unsqueeze the data by interpolating back to uniform grid
-    y_unsqueezed = interp1d(
-        x_squeezed,
-        y_squeezed,
-        kind="cubic",
-        bounds_error=False,
-        fill_value="extrapolate",
-    )(x)
-    y_actual = y_unsqueezed
+    x_morph = x_target.copy()
+    y_morph = np.sin(x_squeezed)
 
-    # Check that the unsqueezed (actual) data matches the expected data
+    morph = MorphSqueeze()
+    morph.squeeze = squeeze_coeffs
+
+    x_actual, y_actual, x_expected, y_expected = morph(
+        x_morph, y_morph, x_target, y_target
+    )
+
+    # Check that the morphed (actual) data matches the expected data
     # Including tolerance error because of extrapolation error
-    assert np.allclose(y_actual, y_expected, atol=1)
-
-    # This plotting code was used for the comments in the github
-    # PR https://github.com/diffpy/diffpy.morph/pull/180
-    # plt.figure(figsize=(7, 4))
-    # plt.plot(x, y_expected, color="black", label="Expected uniform data")
-    # plt.plot(x, y_squeezed, "--", color="purple", label="Squeezed data")
-    # plt.plot(x, y_unsqueezed, "--", color="gold", label="Unsqueezed data")
-    # plt.xlabel("x")
-    # plt.ylabel("y")
-    # plt.legend()
-    # plt.show()
+    assert np.allclose(y_actual, y_expected, atol=0.1)
