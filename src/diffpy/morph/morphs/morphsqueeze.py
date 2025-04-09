@@ -26,7 +26,6 @@ class MorphSqueeze(Morph):
     parnames = ["squeeze"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
-
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
         if self.squeeze is None or np.allclose(self.squeeze, 0):
             self.x_morph_out = self.x_morph_in
@@ -37,12 +36,8 @@ class MorphSqueeze(Morph):
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
 
         self.y_morph_out = interp1d(
-            x_squeezed,
-            self.y_morph_in,
-            kind="cubic",
-            bounds_error=False,
-            fill_value="extrapolate",
+            x_squeezed, self.y_morph_in, kind="cubic", bounds_error=False
         )(self.x_morph_in)
-        self.x_morph_out = self.x_morph_in
 
+        self.x_morph_out = self.x_morph_in
         return self.xyallout
