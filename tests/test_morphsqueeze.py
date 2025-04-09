@@ -1,7 +1,6 @@
 import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
-from scipy.interpolate import interp1d
 
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
@@ -29,29 +28,20 @@ from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
     ],
 )
 def test_morphsqueeze(squeeze_coeffs):
-    x_expected = np.linspace(0, 10, 1001)
-    y_expected = np.sin(x_expected)
-    x_make = np.linspace(-3, 13, 3250)
+    x_target_expected = np.linspace(0, 10, 101)
+    y_target_expected = np.sin(x_target_expected)
+    # Different grid for morph data to test inputs with different grids
+    # Morph grid must be finer than the target to avoid interpolation issues
+    x_morph = np.linspace(-3, 13, 301)
     squeeze_polynomial = Polynomial(squeeze_coeffs)
-    x_squeezed = x_make + squeeze_polynomial(x_make)
+    x_squeezed = x_morph + squeeze_polynomial(x_morph)
     y_morph = np.sin(x_squeezed)
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
-    x_actual, y_actual, x_target, y_target = morph(
-        x_make, y_morph, x_expected, y_expected
+    x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = morph(
+        x_morph, y_morph, x_target_expected, y_target_expected
     )
-    y_actual = interp1d(x_actual, y_actual)(x_target)
-    x_actual = x_target
-    assert np.allclose(y_actual, y_expected)
-    assert np.allclose(x_actual, x_expected)
-    assert np.allclose(x_target, x_expected)
-    assert np.allclose(y_target, y_expected)
-
-    # Plotting code used for figures in PR comments
-    # https://github.com/diffpy/diffpy.morph/pull/180
-    # plt.figure()
-    # plt.scatter(x_expected, y_expected, color='black', label='Expected')
-    # plt.plot(x_make, y_morph, color='purple', label='morph')
-    # plt.plot(x_actual, y_actual, '--', color='gold', label='Actual')
-    # plt.legend()
-    # plt.show()
+    assert np.allclose(y_morph_actual, y_target_expected)
+    assert np.allclose(x_morph_actual, x_target_expected)
+    assert np.allclose(x_target_actual, x_target_expected)
+    assert np.allclose(y_target_actual, y_target_expected)

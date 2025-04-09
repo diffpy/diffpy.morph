@@ -1,5 +1,5 @@
 from numpy.polynomial import Polynomial
-from scipy.interpolate import interp1d
+from scipy.interpolate import CubicSpline
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
@@ -33,8 +33,11 @@ class MorphSqueeze(Morph):
 
         squeeze_polynomial = Polynomial(self.squeeze)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
-        self.y_morph_out = interp1d(
-            x_squeezed, self.y_morph_in, kind="cubic", bounds_error=False
-        )(self.x_morph_in)
-        self.x_morph_out = self.x_morph_in
+        self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
+            self.x_morph_in
+        )
+        self.y_morph_out = CubicSpline(self.x_morph_in, self.y_morph_out)(
+            self.x_target_in
+        )
+        self.x_morph_out = self.x_target_in
         return self.xyallout
