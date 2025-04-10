@@ -52,18 +52,6 @@ def test_morphsqueeze_target_extends_beyond_morph(squeeze_coeffs):
     assert np.allclose(x_target_actual, x_morph_expected)
     assert np.allclose(y_target_actual, y_morph_expected)
 
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-    plt.plot(x_target, y_target, color="gray", label="target")
-    plt.plot(x_morph, y_morph, color="black", label="morph")
-    plt.scatter(x_morph_actual, y_morph_actual, color="gold", label="actual")
-    plt.plot(
-        x_morph_expected, y_morph_expected, color="purple", label="expected"
-    )
-    plt.legend()
-    plt.show()
-
 
 @pytest.mark.parametrize(
     "squeeze_coeffs",
