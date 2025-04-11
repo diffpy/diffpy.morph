@@ -25,17 +25,17 @@ squeeze_coeffs_list = [
 ]
 morph_target_grids = [
     # UCs from issue 181: https://github.com/diffpy/diffpy.morph/issues/181
-    # UC2: Same grid
+    # UC2: Same range and same grid density
     (np.linspace(0, 10, 101), np.linspace(0, 10, 101)),
-    # UC4: Target extends beyond morph
+    # UC4: Target range wider than morph, same grid density
     (np.linspace(0, 10, 101), np.linspace(-2, 20, 221)),
-    # UC6: Target extends beyond morph; morph coarser
+    # UC6: Target range wider than morph, finer target grid density
     (np.linspace(0, 10, 101), np.linspace(-2, 20, 421)),
-    # UC8: Target extends beyond morph; target coarser
+    # UC8: Target range wider than morph, finer morph grid density
     (np.linspace(0, 10, 401), np.linspace(-2, 20, 200)),
-    # UC10: morph starts earlier than target
+    # UC10: Morph range starts and ends earlier than target, same grid density
     (np.linspace(-2, 10, 121), np.linspace(0, 20, 201)),
-    # UC12: morph extends beyond target
+    # UC12: Morph range wider than target, same grid density
     (np.linspace(-2, 20, 221), np.linspace(0, 10, 101)),
 ]
 
