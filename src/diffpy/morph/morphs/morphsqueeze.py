@@ -21,12 +21,12 @@ class MorphSqueeze(Morph):
     >>> from numpy.polynomial import Polynomial
     >>> from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
-    >>> x_morph = np.linspace(0, 10, 101)
     >>> x_target = np.linspace(0, 10, 101)
+    >>> y_target = np.sin(x_target)
+    >>> x_morph = np.linspace(0, 10, 101)
     >>> squeeze_coeff = [0.1, -0.01, 0.005]
     >>> poly = Polynomial(squeeze_coeff)
     >>> y_morph = np.sin(x_morph + poly(x_morph))
-    >>> y_target = np.sin(x_target)
 
     >>> morph = MorphSqueeze()
     >>> morph.squeeze = squeeze_coeff

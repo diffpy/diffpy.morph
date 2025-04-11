@@ -29,9 +29,9 @@ morph_target_grids = [
     (np.linspace(0, 10, 101), np.linspace(0, 10, 101)),
     # UC4: Target range wider than morph, same grid density
     (np.linspace(0, 10, 101), np.linspace(-2, 20, 221)),
-    # UC6: Target range wider than morph, finer target grid density
+    # UC6: Target range wider than morph, target grid density finer than morph
     (np.linspace(0, 10, 101), np.linspace(-2, 20, 421)),
-    # UC8: Target range wider than morph, finer morph grid density
+    # UC8: Target range wider than morph, morph grid density finer than target
     (np.linspace(0, 10, 401), np.linspace(-2, 20, 200)),
     # UC10: Morph range starts and ends earlier than target, same grid density
     (np.linspace(-2, 10, 121), np.linspace(0, 20, 201)),
