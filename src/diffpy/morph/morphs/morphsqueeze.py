@@ -4,12 +4,8 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 class MorphSqueeze(Morph):
     """Squeeze the morph function.
 
-    This applies a polynomial to squeeze the morph non-linearly. The resulting
-    squeezed morph is interpolated to the (trimmed) target grid.
-    Only the overlapping region between the squeezed morph and the target
-    grid is used. The target is trimmed (or not) accordingly, and the final
-    outputs (morph and target) are returned on the same grid, defined by this
-    trimmed target range.
+    This applies a polynomial to squeeze the morph non-linearly. The morphed
+    data is returned on the same grid as the unmorphed data.
 
     Configuration Variables
     -----------------------
@@ -28,9 +24,5 @@ class MorphSqueeze(Morph):
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-        if self.squeeze is None:
-            self.x_morph_out = self.x_morph_in
-            self.y_morph_out = self.y_morph_in
-            return self.xyallout
 
         return self.xyallout
