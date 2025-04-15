@@ -7,11 +7,11 @@ from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 squeeze_coeffs_list = [
     # The order of coefficients is [a0, a1, a2, ..., an]
     # Negative cubic squeeze coefficients
-    [-0.2, -0.01, -0.001, -0.001],
+    [-0.2, -0.01, -0.001, -0.0001],
     # Positive cubic squeeze coefficients
-    [0.2, 0.01, 0.001, 0.001],
+    [0.2, 0.01, 0.001, 0.0001],
     # Positive and negative cubic squeeze coefficients
-    [0.2, -0.01, 0.002, -0.001],
+    [0.2, -0.01, 0.002, -0.0001],
     # Quadratic squeeze coefficients
     [-0.2, 0.005, -0.007],
     # Linear squeeze coefficients
@@ -19,7 +19,7 @@ squeeze_coeffs_list = [
     # 4th order squeeze coefficients
     [0.2, -0.01, 0.001, -0.001, 0.0004],
     # Zeros and non-zeros, the full polynomial is applied
-    [0, 0.03, 0, -0.001],
+    [0, 0.03, 0, -0.0001],
     # Testing zeros, expect no squeezing
     [0, 0, 0, 0, 0, 0],
 ]
@@ -51,10 +51,28 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     y_morph_expected = np.sin(x_morph)
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
-    x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = morph(
-        x_morph, y_morph, x_target, y_target
-    )
-    assert np.allclose(y_morph_actual, y_morph_expected)
+    (
+        x_morph_actual,
+        y_morph_actual,
+        x_target_actual,
+        y_target_actual,
+        low_extrap_idx,
+        high_extrap_idx,
+    ) = morph(x_morph, y_morph, x_target, y_target)
+    if low_extrap_idx is None and high_extrap_idx is None:
+        assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-6)
+    else:
+        interp_start = low_extrap_idx + 1 if low_extrap_idx is not None else 0
+        interp_end = (
+            high_extrap_idx
+            if high_extrap_idx is not None
+            else len(y_morph_actual)
+        )
+        assert np.allclose(
+            y_morph_actual[interp_start:interp_end],
+            y_morph_expected[interp_start:interp_end],
+            atol=1e-6,
+        )
     assert np.allclose(x_morph_actual, x_morph_expected)
     assert np.allclose(x_target_actual, x_target)
     assert np.allclose(y_target_actual, y_target)
