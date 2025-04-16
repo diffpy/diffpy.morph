@@ -16,6 +16,10 @@ class MorphSqueeze(Morph):
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
     parnames = ["squeeze"]
+    # extrap_index_low: last index before interpolation region
+    # extrap_index_high: first index after interpolation region
+    extrap_index_low = None
+    extrap_index_high = None
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Squeeze the morph function.
@@ -32,13 +36,10 @@ class MorphSqueeze(Morph):
 
         Returns
         -------
-            A tuple (x_morph_out, y_morph_out, x_target_out, y_target_out,
-            min_index, max_index) where the target values remain the same and
-            the morph data is shifted according to the squeeze. The morphed
-            data is returned on the same grid as the unmorphed data.
-            The min_index and max_index are the last index before the
-            interpolated region and the first index after the interpolated
-            region, respectively. If there is no extrapolation it returns None.
+            A tuple (x_morph_out, y_morph_out, x_target_out, y_target_out)
+            where the target values remain the same and the morph data is
+            shifted according to the squeeze. The morphed data is returned on
+            the same grid as the unmorphed data.
 
         Example
         -------
@@ -66,8 +67,8 @@ class MorphSqueeze(Morph):
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
-        left_extrap = np.where(self.x_morph_in < x_squeezed[0])[0]
-        right_extrap = np.where(self.x_morph_in > x_squeezed[-1])[0]
-        min_index = left_extrap[-1] if left_extrap.size else None
-        max_index = right_extrap[0] if right_extrap.size else None
-        return self.xyallout + (min_index, max_index)
+        low_extrap = np.where(self.x_morph_in < x_squeezed[0])[0]
+        high_extrap = np.where(self.x_morph_in > x_squeezed[-1])[0]
+        self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
+        self.extrap_index_high = high_extrap[0] if high_extrap.size else None
+        return self.xyallout

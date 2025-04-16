@@ -47,32 +47,40 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     squeeze_polynomial = Polynomial(squeeze_coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     y_morph = np.sin(x_squeezed)
+    low_extrap = np.where(x_morph < x_squeezed[0])[0]
+    high_extrap = np.where(x_morph > x_squeezed[-1])[0]
+    extrap_index_low_expected = low_extrap[-1] if low_extrap.size else None
+    extrap_index_high_expected = high_extrap[0] if high_extrap.size else None
     x_morph_expected = x_morph
     y_morph_expected = np.sin(x_morph)
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
-    (
-        x_morph_actual,
-        y_morph_actual,
-        x_target_actual,
-        y_target_actual,
-        low_extrap_idx,
-        high_extrap_idx,
-    ) = morph(x_morph, y_morph, x_target, y_target)
-    if low_extrap_idx is None and high_extrap_idx is None:
-        assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-6)
-    else:
-        interp_start = low_extrap_idx + 1 if low_extrap_idx is not None else 0
-        interp_end = (
-            high_extrap_idx
-            if high_extrap_idx is not None
-            else len(y_morph_actual)
-        )
-        assert np.allclose(
-            y_morph_actual[interp_start:interp_end],
-            y_morph_expected[interp_start:interp_end],
-            atol=1e-6,
-        )
+    x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = morph(
+        x_morph, y_morph, x_target, y_target
+    )
+    extrap_index_low = morph.extrap_index_low
+    extrap_index_high = morph.extrap_index_high
+    if extrap_index_low is None:
+        extrap_index_low = 0
+    elif extrap_index_high is None:
+        extrap_index_high = -1
+    assert np.allclose(
+        y_morph_actual[extrap_index_low + 1 : extrap_index_high],
+        y_morph_expected[extrap_index_low + 1 : extrap_index_high],
+        atol=1e-6,
+    )
+    assert np.allclose(
+        y_morph_actual[:extrap_index_low],
+        y_morph_expected[:extrap_index_low],
+        atol=1e-3,
+    )
+    assert np.allclose(
+        y_morph_actual[extrap_index_high:],
+        y_morph_expected[extrap_index_high:],
+        atol=1e-3,
+    )
+    assert morph.extrap_index_low == extrap_index_low_expected
+    assert morph.extrap_index_high == extrap_index_high_expected
     assert np.allclose(x_morph_actual, x_morph_expected)
     assert np.allclose(x_target_actual, x_target)
     assert np.allclose(y_target_actual, y_target)
