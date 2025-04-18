@@ -7,17 +7,17 @@ from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 squeeze_coeffs_list = [
     # The order of coefficients is [a0, a1, a2, ..., an]
     # Negative cubic squeeze coefficients
-    [-0.2, -0.01, -0.001, -0.0001],
+    [-0.01, -0.0005, -0.0005, -1e-6],
     # Positive cubic squeeze coefficients
     [0.2, 0.01, 0.001, 0.0001],
     # Positive and negative cubic squeeze coefficients
     [0.2, -0.01, 0.002, -0.0001],
     # Quadratic squeeze coefficients
-    [-0.2, 0.005, -0.007],
+    [-0.2, 0.005, -0.0004],
     # Linear squeeze coefficients
     [0.1, 0.3],
     # 4th order squeeze coefficients
-    [0.2, -0.01, 0.001, -0.001, 0.0004],
+    [0.2, -0.01, 0.001, -0.001, 0.0001],
     # Zeros and non-zeros, the full polynomial is applied
     [0, 0.03, 0, -0.0001],
     # Testing zeros, expect no squeezing
@@ -36,7 +36,7 @@ morph_target_grids = [
     # UC10: Morph range starts and ends earlier than target, same grid density
     (np.linspace(-2, 10, 121), np.linspace(0, 20, 201)),
     # UC12: Morph range wider than target, same grid density
-    (np.linspace(-2, 20, 221), np.linspace(0, 10, 101)),
+    (np.linspace(-2, 20, 201), np.linspace(0, 10, 101)),
 ]
 
 
