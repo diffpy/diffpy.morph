@@ -21,7 +21,7 @@ tests_dir = Path(thisfile).parent.resolve()
 testdata_dir = tests_dir.joinpath("testdata")
 testsequence_dir = testdata_dir.joinpath("testsequence")
 
-testsaving_dir = testdata_dir.joinpath("testsaving")
+testsaving_dir = testsequence_dir.joinpath("testsaving")
 test_saving_succinct = testsaving_dir.joinpath("succinct")
 test_saving_verbose = testsaving_dir.joinpath("verbose")
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
