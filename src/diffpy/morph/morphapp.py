@@ -21,7 +21,7 @@ from pathlib import Path
 import diffpy.morph.morph_helpers as helpers
 import diffpy.morph.morph_io as io
 import diffpy.morph.morphs as morphs
-import diffpy.morph.pdfplot as pdfplot
+import diffpy.morph.plot as plot
 import diffpy.morph.refine as refine
 import diffpy.morph.tools as tools
 from diffpy.morph import __save_morph_as__
@@ -588,14 +588,14 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         parser.custom_error(save_fail_message)
 
     if opts.plot:
-        pairlist = [chain.xy_morph_out, chain.xy_target_out]
-        labels = [pargs[0], pargs[1]]  # Default is to use file names
+        pairlist = [chain.xy_target_out, chain.xy_morph_out]
+        labels = [pargs[1], pargs[0]]  # Default is to use file names
 
         # If user chooses labels
         if opts.mlabel is not None:
-            labels[0] = opts.mlabel
+            labels[1] = opts.mlabel
         if opts.tlabel is not None:
-            labels[1] = opts.tlabel
+            labels[0] = opts.tlabel
 
         # Plot extent defaults to calculation extent
         pmin = opts.pmin if opts.pmin is not None else opts.rmin
@@ -603,7 +603,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         maglim = opts.maglim
         mag = opts.mag
         l_width = opts.lwidth
-        pdfplot.comparePDFs(
+        plot.compare_funcs(
             pairlist,
             labels,
             rmin=pmin,
@@ -644,9 +644,12 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
 
     # Get list of files from target directory
     target_list = list(target_directory.iterdir())
+    to_remove = []
     for target in target_list:
         if target.is_dir():
-            target_list.remove(target)
+            to_remove.append(target)
+    for target in to_remove:
+        target_list.remove(target)
 
     # Do not morph morph_file against itself if it is in the same directory
     if morph_file in target_list:
@@ -782,13 +785,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(
-                        field_list, param_list, param_name, field
-                    )
+                    plot.plot_param(field_list, param_list, param_name, field)
                 else:
-                    pdfplot.plot_param(
-                        target_file_names, param_list, param_name
-                    )
+                    plot.plot_param(target_file_names, param_list, param_name)
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter
@@ -828,9 +827,12 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
 
     # Get list of files from morph directory
     morph_list = list(morph_directory.iterdir())
+    to_remove = []
     for morph in morph_list:
         if morph.is_dir():
-            morph_list.remove(morph)
+            to_remove.append(morph)
+    for morph in to_remove:
+        morph_list.remove(morph)
 
     # Do not morph target_file against itself if it is in the same directory
     if target_file in morph_list:
@@ -967,13 +969,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
         else:
             try:
                 if field_list is not None:
-                    pdfplot.plot_param(
-                        field_list, param_list, param_name, field
-                    )
+                    plot.plot_param(field_list, param_list, param_name, field)
                 else:
-                    pdfplot.plot_param(
-                        morph_file_names, param_list, param_name
-                    )
+                    plot.plot_param(morph_file_names, param_list, param_name)
             # Can occur for non-refined plotting parameters
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter

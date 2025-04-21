@@ -60,10 +60,16 @@ class TestTools:
             pytest.approx(tools.nn_value(-value, name=None), abs(-value))
 
     def test_field_sort(self, setup):
-        sequence_files = [*os.listdir(testsequence_dir)]
+        sequence_files = [file for file in Path(testsequence_dir).iterdir()]
+        to_remove = []
+        for file in sequence_files:
+            if file.is_dir():
+                to_remove.append(file)
+        for d in to_remove:
+            sequence_files.remove(d)
         absolute_sf = []
         for file in sequence_files:
-            absolute_sf.append(os.path.join(testsequence_dir, file))
+            absolute_sf.append(Path(testsequence_dir) / file.name)
 
         # Fisher-Yates randomization
         import random
@@ -87,8 +93,8 @@ class TestTools:
 
         # Temperature sort should produce same result as alphanumerical if
         # leading character is removed
-        sequence_files.sort(key=lambda entry: entry[2:])
-        assert sequence_files == sorted_sequence
+        sequence_files.sort(key=lambda entry: entry.name[2:])
+        assert [file.name for file in sequence_files] == sorted_sequence
 
         # Check temperatures are correct
         assert fvs == [174, 180, 186, 192, 198, 204, 210]
@@ -103,7 +109,7 @@ class TestTools:
 
         # Reversed sort should match alphanumerical sort
         sequence_files.sort()
-        assert sequence_files == reversed_sequence
+        assert [file.name for file in sequence_files] == reversed_sequence
 
         # Check we get the same sequence when we load header information from
         # a serial file
@@ -116,7 +122,7 @@ class TestTools:
         metadata_sequence = []
         for path in metadata_path_sequence:
             metadata_sequence.append(path.name)
-        assert sequence_files == metadata_sequence
+        assert [file.name for file in sequence_files] == metadata_sequence
 
         # Check error thrown when field does not exist
         with pytest.raises(KeyError):

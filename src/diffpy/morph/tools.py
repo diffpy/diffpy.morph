@@ -93,9 +93,9 @@ def getRw(chain):
     # Make sure we put these on the proper grid
     x_morph, y_morph, x_target, y_target = chain.xyallout
     diff = y_target - y_morph
-    rw = numpy.dot(diff, diff)
-    rw /= numpy.dot(y_target, y_target)
-    rw = rw**0.5
+    rw = numpy.dot(x_morph * diff, diff)
+    rw /= numpy.dot(x_morph * y_morph, y_morph)
+    rw = rw
     return rw
 
 

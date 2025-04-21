@@ -18,7 +18,7 @@ testsequence_dir = testdata_dir.joinpath("testsequence")
 nickel_PDF = testdata_dir.joinpath("nickel_ss0.01.cgr")
 serial_JSON = testdata_dir.joinpath("testsequence_serialfile.json")
 
-testsaving_dir = testdata_dir.joinpath("testsaving")
+testsaving_dir = testsequence_dir.joinpath("testsaving")
 test_saving_succinct = testsaving_dir.joinpath("succinct")
 test_saving_verbose = testsaving_dir.joinpath("verbose")
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
