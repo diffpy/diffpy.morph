@@ -12,7 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Collection of plotting functions for PDFs."""
+"""Collection of plotting functions (originally specifically) for PDFs."""
 
 import matplotlib.pyplot as plt
 import numpy
@@ -23,8 +23,8 @@ plt.style.use(all_styles["bg-style"])
 
 # FIXME - make this return the figure object in the future, so several views
 # can be composed.
-def plotPDFs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
-    """Plots several PDFs on top of one another.
+def plot_funcs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
+    """Plots several functions g(r) on top of one another.
 
     Parameters
     ----------
@@ -34,15 +34,15 @@ def plotPDFs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
         Iterable of names for the pairs. If this is not the same length as
         the pairlist, a legend will not be shown (default []).
     offset
-        Offset to place between plots. PDFs will be sequentially shifted in
-        the y-direction by the offset. If offset is 'auto' (default), the
+        Offset to place between plots. Functions will be sequentially shifted
+        in the y-direction by the offset. If offset is 'auto' (default), the
         optimal offset will be determined automatically.
     rmin
         The minimum r-value to plot. If this is None (default), the lower
-        bound of the PDF is not altered.
+        bound of the function is not altered.
     rmax
         The maximum r-value to plot. If this is None (default), the upper
-        bound of the PDF is not altered.
+        bound of the function is not altered.
     """
     if labels is None:
         labels = []
@@ -68,7 +68,7 @@ def plotPDFs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
     return
 
 
-def comparePDFs(
+def compare_funcs(
     pairlist,
     labels=None,
     rmin=None,
@@ -80,10 +80,10 @@ def comparePDFs(
     legend=True,
     l_width=1.5,
 ):
-    """Plot two PDFs on top of each other and difference curve.
+    """Plot two functions g(r) on top of each other and difference curve.
 
-    The second PDF will be shown as blue circles below and the first as a red
-    line. The difference curve will be in green and offset for clarity.
+    The second function will be shown as blue circles below and the first as
+    a red line. The difference curve will be in green and offset for clarity.
 
     Parameters
     ----------
@@ -94,10 +94,10 @@ def comparePDFs(
         the pairlist, a legend will not be shown (default []).
     rmin
         The minimum r-value to plot. If this is None (default), the lower
-        bound of the PDF is not altered.
+        bound of the function is not altered.
     rmax
         The maximum r-value to plot. If this is None (default), the upper
-        bound of the PDF is not altered.
+        bound of the function is not altered.
     show
         Show the plot (default True)
     maglim
@@ -158,7 +158,7 @@ def comparePDFs(
     offset = -1.1 * (ymax - ymin)
 
     # Scale the x-limit based on the r-extent of the signal. This gives a nice
-    # density of PDF peaks.
+    # density of function peaks.
     rlim = rvmax - rvmin
     scale = rlim / 25.0
     # Set a reasonable minimum of .8 and maximum of 1
@@ -305,21 +305,21 @@ def plot_param(target_labels, param_list, param_name=None, field=None):
     return
 
 
-def truncatePDFs(r, gr, rmin=None, rmax=None):
-    """Truncate a PDF to specified bounds.
+def truncate_func(r, gr, rmin=None, rmax=None):
+    """Truncate a function g(r) to specified bounds.
 
     Parameters
     ----------
     r
-        r-values of the PDF.
+        The r-values of the function g(r).
     gr
-        PDF g(r) values.
+        Function g(r) values.
     rmin
         The minimum r-value. If this is None (default), the lower bound of
-        the PDF is not altered.
+        the function is not altered.
     rmax
         The maximum r-value. If this is None (default), the upper bound of
-        the PDF is not altered.
+        the function is not altered.
 
     Returns
     -------
@@ -340,7 +340,7 @@ def truncatePDFs(r, gr, rmin=None, rmax=None):
 
 
 def _find_offset(pairlist):
-    """Find an optimal offset between PDFs."""
+    """Find an optimal offset between functions."""
     maxlist = [max(p[1]) for p in pairlist]
     minlist = [min(p[1]) for p in pairlist]
     difflist = numpy.subtract(maxlist[:-1], minlist[1:])
