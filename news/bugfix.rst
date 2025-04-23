@@ -17,7 +17,6 @@
 **Fixed:**
 
 * Multiple morphs/targets used to break given multiple subdirectories.
-* Fixed the Rw calculation. Previously returned an analogue to chi square.
 
 **Security:**
 
