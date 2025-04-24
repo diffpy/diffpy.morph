@@ -37,18 +37,22 @@ class MorphFuncy(Morph):
         -------
         Import the funcy morph function:
         >>> from diffpy.morph.morphs.morphfuncy import MorphFuncy
+
         Define or import the user-supplied transformation function:
         >>> def sine_function(x, y, amplitude, frequency):
         >>>     return amplitude * np.sin(frequency * x) * y
+
         Provide initial guess for parameters:
         >>> parameters = {'amplitude': 2, 'frequency': 2}
+
         Run the funcy morph given input morph array (x_morph, y_morph)
         and target array (x_target, y_target):
         >>> morph = MorphFuncy()
         >>> morph.function = sine_function
         >>> morph.parameters = parameters
-        >>> x_morph_out, y_morph_out, x_target_out, y_target_out = morph(
+        >>> x_morph_out, y_morph_out, x_target_out, y_target_out = morph.morph(
         ...     x_morph, y_morph, x_target, y_target)
+
         To access parameters from the morph instance:
         >>> x_morph_in = morph.x_morph_in
         >>> y_morph_in = morph.y_morph_in
@@ -61,5 +65,4 @@ class MorphFuncy(Morph):
         self.y_morph_out = self.function(
             self.x_morph_in, self.y_morph_in, **self.parameters
         )
-
         return self.xyallout

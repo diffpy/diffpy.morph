@@ -67,6 +67,7 @@ def test_funcy(function, parameters, expected_function):
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = (
         morph.morph(x_morph, y_morph, x_target, y_target)
     )
+
     assert np.allclose(y_morph_actual, y_morph_expected)
     assert np.allclose(x_morph_actual, x_morph_expected)
     assert np.allclose(x_target_actual, x_target)
