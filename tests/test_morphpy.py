@@ -23,7 +23,7 @@ test_saving_verbose = testsaving_dir.joinpath("verbose")
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
 
 
-class TestApp:
+class TestMorphpy:
     @pytest.fixture
     def setup_morph(self):
         self.parser = create_option_parser()
@@ -117,4 +117,4 @@ class TestApp:
 
 
 if __name__ == "__main__":
-    TestApp()
+    TestMorphpy()
