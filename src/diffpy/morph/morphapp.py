@@ -18,6 +18,8 @@ from __future__ import print_function
 import sys
 from pathlib import Path
 
+import numpy
+
 import diffpy.morph.morph_helpers as helpers
 import diffpy.morph.morph_io as io
 import diffpy.morph.morphs as morphs
@@ -450,22 +452,31 @@ def create_option_parser():
     return parser
 
 
-def single_morph(parser, opts, pargs, stdout_flag=True):
+def single_morph(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
-    elif len(pargs) > 2:
+    elif len(pargs) > 2 and not python_wrap:
         parser.error(
             "Too many arguments. Make sure you only supply FILE1 and FILE2."
         )
+    elif not (len(pargs) == 2 or len(pargs) == 6) and python_wrap:
+        parser.error("Python wrapper error.")
 
     # Get the PDFs
-    x_morph, y_morph = getPDFFromFile(pargs[0])
-    x_target, y_target = getPDFFromFile(pargs[1])
+    # If we get from python, we may wrap, which has input size 4
+    if len(pargs) == 6 and python_wrap:
+        x_morph = pargs[2]
+        y_morph = pargs[3]
+        x_target = pargs[4]
+        y_target = pargs[5]
+    else:
+        x_morph, y_morph = getPDFFromFile(pargs[0])
+        x_target, y_target = getPDFFromFile(pargs[1])
 
     if y_morph is None:
-        parser.error(f"No data table found in file: {pargs[0]}.")
+        parser.error(f"No data table found in: {pargs[0]}.")
     if y_target is None:
-        parser.error(f"No data table found in file: {pargs[1]}.")
+        parser.error(f"No data table found in: {pargs[1]}.")
 
     # Get tolerance
     tolerance = 1e-08
@@ -698,10 +709,16 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
             l_width=l_width,
         )
 
-    return morph_results
+    # Return different things depending on whether it is python interfaced
+    if python_wrap:
+        morph_info = morph_results
+        morph_table = numpy.array([chain.x_morph_out, chain.y_morph_out]).T
+        return morph_info, morph_table
+    else:
+        return morph_results
 
 
-def multiple_targets(parser, opts, pargs, stdout_flag=True):
+def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
@@ -884,7 +901,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     return morph_results
 
 
-def multiple_morphs(parser, opts, pargs, stdout_flag=True):
+def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
