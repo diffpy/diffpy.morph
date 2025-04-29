@@ -155,6 +155,7 @@ class Refiner(object):
         fvec = infodict["fvec"]
 
         if ier not in (1, 2, 3, 4):
+            emesg
             raise ValueError(emesg)
 
         # Place the fit parameters back into config
