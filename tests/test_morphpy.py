@@ -2,18 +2,12 @@
 
 from pathlib import Path
 
-import pytest
 import numpy
+import pytest
 
-from diffpy.morph.morphapp import (
-    create_option_parser,
-    single_morph,
-)
+from diffpy.morph.morphapp import create_option_parser, single_morph
+from diffpy.morph.morphpy import morph, morphpy
 from diffpy.morph.tools import getRw
-from diffpy.morph.morphpy import (
-    morph,
-    morphpy,
-)
 
 thisfile = locals().get("__file__", "file.py")
 tests_dir = Path(thisfile).parent.resolve()
@@ -78,15 +72,25 @@ class TestApp:
         morph_results = {}
         morph_file = self.testfiles[0]
         for target_file in self.testfiles[1:]:
-            mr, grm = morph(morph_file, target_file, scale=1, stretch=0, sort_by="temperature")
+            mr, grm = morph(
+                morph_file,
+                target_file,
+                scale=1,
+                stretch=0,
+                sort_by="temperature",
+            )
             _, grt = morph(target_file, target_file)
             morph_results.update({target_file.name: mr})
+
             class Chain:
                 xyallout = grm[:, 0], grm[:, 1], grt[:, 0], grt[:, 1]
+
             chain = Chain()
             rw = getRw(chain)
             del chain
-            assert numpy.allclose([rw], [self.morphapp_results[target_file.name]["Rw"]])
+            assert numpy.allclose(
+                [rw], [self.morphapp_results[target_file.name]["Rw"]]
+            )
         assert morph_results == self.morphapp_results
 
     def test_morphpy(self, setup_morph):
@@ -95,7 +99,9 @@ class TestApp:
         for target_file in self.testfiles[1:]:
             _, grm0 = morph(morph_file, morph_file)
             _, grt = morph(target_file, target_file)
-            mr, grm = morphpy(grm0, grt, scale=1, stretch=0, sort_by="temperature")
+            mr, grm = morphpy(
+                grm0, grt, scale=1, stretch=0, sort_by="temperature"
+            )
             morph_results.update({target_file.name: mr})
 
             class Chain:
@@ -104,7 +110,9 @@ class TestApp:
             chain = Chain()
             rw = getRw(chain)
             del chain
-            assert numpy.allclose([rw], [self.morphapp_results[target_file.name]["Rw"]])
+            assert numpy.allclose(
+                [rw], [self.morphapp_results[target_file.name]["Rw"]]
+            )
         assert morph_results == self.morphapp_results
 
 
