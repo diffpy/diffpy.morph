@@ -24,7 +24,15 @@ def get_args(parser, params, kwargs):
     return opts, pargs
 
 
-def morph(morph_file, target_file, scale=None, stretch=None, smear=None, plot=False, **kwargs):
+def morph(
+    morph_file,
+    target_file,
+    scale=None,
+    stretch=None,
+    smear=None,
+    plot=False,
+    **kwargs,
+):
     """Run diffpy.morph at Python level.
     Parameters
     ----------
@@ -52,7 +60,12 @@ def morph(morph_file, target_file, scale=None, stretch=None, smear=None, plot=Fa
     """
 
     parser = create_option_parser()
-    params = {"scale": scale, "stretch": stretch, "smear": smear, "noplot": True if not plot else None}
+    params = {
+        "scale": scale,
+        "stretch": stretch,
+        "smear": smear,
+        "noplot": True if not plot else None,
+    }
     opts, pargs = get_args(parser, params, kwargs)
 
     pargs = [morph_file, target_file]
@@ -62,7 +75,15 @@ def morph(morph_file, target_file, scale=None, stretch=None, smear=None, plot=Fa
     )
 
 
-def morphpy(morph_table, target_table, scale=None, stretch=None, smear=None, plot=False, **kwargs):
+def morphpy(
+    morph_table,
+    target_table,
+    scale=None,
+    stretch=None,
+    smear=None,
+    plot=False,
+    **kwargs,
+):
     """Run diffpy.morph at Python level.
     Parameters
     ----------
@@ -90,7 +111,12 @@ def morphpy(morph_table, target_table, scale=None, stretch=None, smear=None, plo
     """
 
     parser = create_option_parser()
-    params = {"scale": scale, "stretch": stretch, "smear": smear, "noplot": True if not plot else None}
+    params = {
+        "scale": scale,
+        "stretch": stretch,
+        "smear": smear,
+        "noplot": True if not plot else None,
+    }
     opts, pargs = get_args(parser, params, kwargs)
 
     morph_table = np.array(morph_table)
