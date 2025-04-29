@@ -26,6 +26,8 @@ from scipy.stats import pearsonr
 class Refiner(object):
     """Class for refining a Morph or MorphChain.
 
+    This is provided to allow for custom residuals and refinement algorithms.
+
     Attributes
     ----------
     chain
@@ -158,7 +160,7 @@ class Refiner(object):
             emesg
             raise ValueError(emesg)
 
-        # Place the fit parameters back into config
+        # Place the fit parameters in config
         vals = sol
         if not hasattr(vals, "__iter__"):
             vals = [vals]
