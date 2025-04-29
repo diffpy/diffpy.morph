@@ -39,9 +39,17 @@ _morph_step_dict = dict(
         morph_helpers.TransformXtalRDFtoPDF,
     ],
     qdamp=morphs.MorphResolutionDamping,
+    squeeze=morphs.MorphSqueeze,
+    parameters=morphs.MorphFuncy,
 )
 _default_config = dict(
-    scale=None, stretch=None, smear=None, baselineslope=None, qdamp=None
+    scale=None,
+    stretch=None,
+    smear=None,
+    baselineslope=None,
+    qdamp=None,
+    squeeze=None,
+    parameters=None,
 )
 
 
@@ -197,6 +205,14 @@ def morph(
         if k == "smear":
             [chain.append(el()) for el in morph_cls]
             refpars.append("baselineslope")
+        elif k == "parameters":
+            morph_inst = morph_cls()
+            morph_inst.function = rv_cfg.get("function", None)
+            if morph_inst.function is None:
+                raise ValueError(
+                    "Must provide a 'function' when using 'parameters'"
+                )
+            chain.append(morph_inst)
         else:
             chain.append(morph_cls())
         refpars.append(k)

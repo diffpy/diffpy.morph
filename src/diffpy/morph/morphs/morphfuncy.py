@@ -11,6 +11,7 @@ class MorphFuncy(Morph):
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
+    parnames = ["parameters"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """General morph function that applies a user-supplied function to the

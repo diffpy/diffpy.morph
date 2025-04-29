@@ -26,8 +26,6 @@ from scipy.stats import pearsonr
 class Refiner(object):
     """Class for refining a Morph or MorphChain.
 
-    This is provided to allow for custom residuals and refinement algorithms.
-
     Attributes
     ----------
     chain
@@ -51,12 +49,27 @@ class Refiner(object):
         self.y_target = y_target
         self.pars = []
         self.residual = self._residual
+        self.flat_to_grouped = {}
         return
 
     def _update_chain(self, pvals):
         """Update the parameters in the chain."""
-        pairs = zip(self.pars, pvals)
-        self.chain.config.update(pairs)
+        updated = {}
+        for idx, val in enumerate(pvals):
+            p, subkey = self.flat_to_grouped[idx]
+            if subkey is None:
+                updated[p] = val
+            else:
+                if p not in updated:
+                    updated[p] = {} if isinstance(subkey, str) else []
+                if isinstance(updated[p], dict):
+                    updated[p][subkey] = val
+                else:
+                    while len(updated[p]) <= subkey:
+                        updated[p].append(0.0)
+                    updated[p][subkey] = val
+
+        self.chain.config.update(updated)
         return
 
     def _residual(self, pvals):
@@ -118,20 +131,38 @@ class Refiner(object):
         if not self.pars:
             return 0.0
 
-        initial = [config[p] for p in self.pars]
+        # Build flat list of initial parameters and flat_to_grouped mapping
+        initial = []
+        self.flat_to_grouped = {}
+
+        for p in self.pars:
+            val = config[p]
+            if isinstance(val, dict):
+                for k, v in val.items():
+                    initial.append(v)
+                    self.flat_to_grouped[len(initial) - 1] = (p, k)
+            elif isinstance(val, list):
+                for i, v in enumerate(val):
+                    initial.append(v)
+                    self.flat_to_grouped[len(initial) - 1] = (p, i)
+            else:
+                initial.append(val)
+                self.flat_to_grouped[len(initial) - 1] = (p, None)
+
+        # Perform least squares refinement
         sol, cov_sol, infodict, emesg, ier = leastsq(
             self.residual, initial, full_output=1
         )
         fvec = infodict["fvec"]
+
         if ier not in (1, 2, 3, 4):
-            emesg
             raise ValueError(emesg)
 
-        # Place the fit parameters in config
+        # Place the fit parameters back into config
         vals = sol
         if not hasattr(vals, "__iter__"):
             vals = [vals]
-        self.chain.config.update(zip(self.pars, vals))
+        self._update_chain(vals)
 
         return dot(fvec, fvec)
 
