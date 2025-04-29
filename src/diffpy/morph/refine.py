@@ -55,20 +55,20 @@ class Refiner(object):
     def _update_chain(self, pvals):
         """Update the parameters in the chain."""
         updated = {}
-        for idx, val in enumerate(pvals):
-            p, subkey = self.flat_to_grouped[idx]
-            if subkey is None:
-                updated[p] = val
+        for idx, value in enumerate(pvals):
+            param, subkey = self.flat_to_grouped[idx]
+            if subkey is None:  # Scalar
+                updated[param] = value
             else:
-                if p not in updated:
-                    updated[p] = {} if isinstance(subkey, str) else []
-                if isinstance(updated[p], dict):
-                    updated[p][subkey] = val
+                if param not in updated:
+                    updated[param] = {} if isinstance(subkey, str) else []
+                if isinstance(updated[param], dict):
+                    updated[param][subkey] = value
                 else:
-                    while len(updated[p]) <= subkey:
-                        updated[p].append(0.0)
-                    updated[p][subkey] = val
-
+                    while len(updated[param]) <= subkey:
+                        updated[param].append(0.0)
+                    updated[param][subkey] = value
+        # Apply the reconstructed grouped parameter back to config
         self.chain.config.update(updated)
         return
 
@@ -149,7 +149,6 @@ class Refiner(object):
                 initial.append(val)
                 self.flat_to_grouped[len(initial) - 1] = (p, None)
 
-        # Perform least squares refinement
         sol, cov_sol, infodict, emesg, ier = leastsq(
             self.residual, initial, full_output=1
         )

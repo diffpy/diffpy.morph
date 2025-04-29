@@ -143,6 +143,8 @@ def morph(
             - 'smear'
             - 'baselineslope'
             - 'qdamp'
+            - 'squeeze'
+            - 'parameters'
 
     Returns
     -------

@@ -107,22 +107,22 @@ def test_squeeze_with_morph_func():
     squeeze_init = [0, -0.001, -0.0001, 0.0001]
     x_morph = np.linspace(0, 10, 101)
     y_morph = 2 * np.sin(
-        x_morph + x_morph * (-0.01) - 0.0001 * x_morph**2 + 0.0002 * x_morph**3
+        x_morph + x_morph * 0.01 + 0.0001 * x_morph**2 + 0.001 * x_morph**3
     )
-    expected_squeeze = [0, -0.01, -0.0001, 0.0002]
+    expected_squeeze = [0, 0.01, 0.0001, 0.001]
     expected_scale = 1 / 2
-    x_target = x_morph.copy()
+    x_target = np.linspace(0, 10, 101)
     y_target = np.sin(x_target)
-    cfg = morph_default_config(scale=1.1, squeeze=squeeze_init)  # off init
+    cfg = morph_default_config(scale=1.1, squeeze=squeeze_init)
     morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
-    # verified they are morphable
-    x1, y1, x0, y0 = morph_rv["morph_chain"].xyallout
-    assert np.allclose(x0, x1)
-    assert np.allclose(y0, y1, atol=1e-3)  # numerical error -> 1e-4
-    # verify morphed param
-    assert np.allclose(expected_squeeze, morphed_cfg["squeeze"], atol=1e-4)
-    assert np.allclose(expected_scale, morphed_cfg["scale"], atol=1e-4)
+    x_morph_out, y_morph_out, x_target_out, y_target_out = morph_rv[
+        "morph_chain"
+    ].xyallout
+    assert np.allclose(x_morph_out, x_target_out)
+    assert np.allclose(y_morph_out, y_target_out, atol=1e-6)
+    assert np.allclose(expected_squeeze, morphed_cfg["squeeze"], atol=1e-6)
+    assert np.allclose(expected_scale, morphed_cfg["scale"], atol=1e-6)
 
 
 def test_funcy_with_morph_func():
@@ -137,9 +137,11 @@ def test_funcy_with_morph_func():
     cfg["function"] = linear_function
     morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
-    x1, y1, x0, y0 = morph_rv["morph_chain"].xyallout
-    assert np.allclose(x0, x1)
-    assert np.allclose(y0, y1, atol=1e-6)
+    x_morph_out, y_morph_out, x_target_out, y_target_out = morph_rv[
+        "morph_chain"
+    ].xyallout
+    assert np.allclose(x_morph_out, x_target_out)
+    assert np.allclose(y_morph_out, y_target_out, atol=1e-6)
     fitted_parameters = morphed_cfg["parameters"]
     assert np.allclose(fitted_parameters["scale"], 2, atol=1e-6)
     assert np.allclose(fitted_parameters["offset"], 0.4, atol=1e-6)
