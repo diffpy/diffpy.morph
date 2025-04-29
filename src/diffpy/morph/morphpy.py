@@ -2,12 +2,7 @@
 
 import numpy as np
 
-from diffpy.morph.morphapp import (
-    create_option_parser,
-    multiple_morphs,
-    multiple_targets,
-    single_morph,
-)
+from diffpy.morph.morphapp import create_option_parser, single_morph
 
 
 def get_args(parser, params, kwargs):
@@ -48,15 +43,18 @@ def morph(
     smear: float, optional
         Initial guess for the smearing parameter.
     plot: bool
-        Show a plot of the morphed and target functions as well as the difference curve (default: False).
+        Show a plot of the morphed and target functions as well as the
+        difference curve (default: False).
     kwargs: dict
         See the diffpy.morph website for full list of options.
     Returns
     -------
     morph_info: dict
-        Summary of morph parameters (e.g. scale, stretch, smear, rmin, rmax) and results (e.g. Pearson, Rw).
+        Summary of morph parameters (e.g. scale, stretch, smear, rmin, rmax)
+        and results (e.g. Pearson, Rw).
     morph_table: list
-        Function after morph where morph_table[:,0] is the abscissa and morph_table[:,1] is the ordinate.
+        Function after morph where morph_table[:,0] is the abscissa and
+        morph_table[:,1] is the ordinate.
     """
 
     parser = create_option_parser()
@@ -99,15 +97,18 @@ def morphpy(
     smear: float, optional
         Initial guess for the smearing parameter.
     plot: bool
-        Show a plot of the morphed and target functions as well as the difference curve (default: False).
+        Show a plot of the morphed and target functions as well as the
+        difference curve (default: False).
     kwargs: dict
         See the diffpy.morph website for full list of options.
     Returns
     -------
     morph_info: dict
-        Summary of morph parameters (e.g. scale, stretch, smear, rmin, rmax) and results (e.g. Pearson, Rw).
+        Summary of morph parameters (e.g. scale, stretch, smear, rmin, rmax)
+        and results (e.g. Pearson, Rw).
     morph_table: list
-        Function after morph where morph_table[:,0] is the abscissa and morph_table[:,1] is the ordinate.
+        Function after morph where morph_table[:,0] is the abscissa and
+        morph_table[:,1] is the ordinate.
     """
 
     parser = create_option_parser()
