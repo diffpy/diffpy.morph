@@ -4,24 +4,24 @@ from numpy.polynomial import Polynomial
 
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
-squeeze_coeffs_list = [
-    # The order of coefficients is [a0, a1, a2, ..., an]
+squeeze_coeffs_dic = [
+    # The order of coefficients is {a0, a1, a2, ..., an}
     # Negative cubic squeeze coefficients
-    [-0.01, -0.0005, -0.0005, -1e-6],
+    {"a0": -0.01, "a1": -0.0005, "a2": -0.0005, "a3": -1e-6},
     # Positive cubic squeeze coefficients
-    [0.2, 0.01, 0.001, 0.0001],
+    {"a0": 0.2, "a1": 0.01, "a2": 0.001, "a3": 0.0001},
     # Positive and negative cubic squeeze coefficients
-    [0.2, -0.01, 0.002, -0.0001],
+    {"a0": 0.2, "a1": -0.01, "a2": 0.002, "a3": -0.0001},
     # Quadratic squeeze coefficients
-    [-0.2, 0.005, -0.0004],
+    {"a0": -0.2, "a1": 0.005, "a2": -0.0004},
     # Linear squeeze coefficients
-    [0.1, 0.3],
+    {"a0": 0.1, "a1": 0.3},
     # 4th order squeeze coefficients
-    [0.2, -0.01, 0.001, -0.001, 0.0001],
+    {"a0": 0.2, "a1": -0.01, "a2": 0.001, "a3": -0.001, "a4": 0.0001},
     # Zeros and non-zeros, the full polynomial is applied
-    [0, 0.03, 0, -0.0001],
+    {"a0": 0, "a1": 0.03, "a2": 0, "a3": -0.0001},
     # Testing zeros, expect no squeezing
-    [0, 0, 0, 0, 0, 0],
+    {"a0": 0, "a1": 0, "a2": 0, "a3": 0, "a4": 0, "a5": 0},
 ]
 morph_target_grids = [
     # UCs from issue 181: https://github.com/diffpy/diffpy.morph/issues/181
@@ -41,10 +41,11 @@ morph_target_grids = [
 
 
 @pytest.mark.parametrize("x_morph, x_target", morph_target_grids)
-@pytest.mark.parametrize("squeeze_coeffs", squeeze_coeffs_list)
+@pytest.mark.parametrize("squeeze_coeffs", squeeze_coeffs_dic)
 def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     y_target = np.sin(x_target)
-    squeeze_polynomial = Polynomial(squeeze_coeffs)
+    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
+    squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     y_morph = np.sin(x_squeezed)
     low_extrap = np.where(x_morph < x_squeezed[0])[0]

@@ -104,12 +104,12 @@ def test_smear_with_morph_func():
 
 
 def test_squeeze_with_morph_func():
-    squeeze_init = [0, -0.001, -0.0001, 0.0001]
+    squeeze_init = {"a0": 0, "a1": -0.001, "a2": -0.0001, "a3": 0.0001}
     x_morph = np.linspace(0, 10, 101)
     y_morph = 2 * np.sin(
         x_morph + x_morph * 0.01 + 0.0001 * x_morph**2 + 0.001 * x_morph**3
     )
-    expected_squeeze = [0, 0.01, 0.0001, 0.001]
+    expected_squeeze = {"a0": 0, "a1": 0.01, "a2": 0.0001, "a3": 0.001}
     expected_scale = 1 / 2
     x_target = np.linspace(0, 10, 101)
     y_target = np.sin(x_target)
@@ -121,7 +121,18 @@ def test_squeeze_with_morph_func():
     ].xyallout
     assert np.allclose(x_morph_out, x_target_out)
     assert np.allclose(y_morph_out, y_target_out, atol=1e-6)
-    assert np.allclose(expected_squeeze, morphed_cfg["squeeze"], atol=1e-6)
+    assert np.allclose(
+        expected_squeeze["a0"], morphed_cfg["squeeze"]["a0"], atol=1e-6
+    )
+    assert np.allclose(
+        expected_squeeze["a1"], morphed_cfg["squeeze"]["a1"], atol=1e-6
+    )
+    assert np.allclose(
+        expected_squeeze["a2"], morphed_cfg["squeeze"]["a2"], atol=1e-6
+    )
+    assert np.allclose(
+        expected_squeeze["a3"], morphed_cfg["squeeze"]["a3"], atol=1e-6
+    )
     assert np.allclose(expected_scale, morphed_cfg["scale"], atol=1e-6)
 
 

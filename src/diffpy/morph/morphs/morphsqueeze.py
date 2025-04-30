@@ -28,11 +28,11 @@ class MorphSqueeze(Morph):
 
         Configuration Variables
         -----------------------
-        squeeze : list
-            The polynomial coefficients [a0, a1, ..., an] for the squeeze
+        squeeze : Dictionary
+            The polynomial coefficients {a0, a1, ..., an} for the squeeze
             function where the polynomial would be of the form
             a0 + a1*x + a2*x^2 and so on.  The order of the polynomial is
-            determined by the length of the list.
+            determined by the length of the dictionary.
 
         Returns
         -------
@@ -46,7 +46,7 @@ class MorphSqueeze(Morph):
         Import the squeeze morph function:
         >>> from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
         Provide initial guess for squeezing coefficients:
-        >>> squeeze_coeff = [0.1, -0.01, 0.005]
+        >>> squeeze_coeff = {"a0":0.1, "a1":-0.01, "a2":0.005}
         Run the squeeze morph given input morph array (x_morph, y_morph)
         and target array (x_target, y_target):
         >>> morph = MorphSqueeze()
@@ -62,7 +62,8 @@ class MorphSqueeze(Morph):
         """
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
 
-        squeeze_polynomial = Polynomial(self.squeeze)
+        coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
+        squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in

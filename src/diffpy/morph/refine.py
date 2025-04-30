@@ -63,13 +63,9 @@ class Refiner(object):
                 updated[param] = value
             else:
                 if param not in updated:
-                    updated[param] = {} if isinstance(subkey, str) else []
-                if isinstance(updated[param], dict):
-                    updated[param][subkey] = value
-                else:
-                    while len(updated[param]) <= subkey:
-                        updated[param].append(0.0)
-                    updated[param][subkey] = value
+                    updated[param] = {}
+                updated[param][subkey] = value
+
         # Apply the reconstructed grouped parameter back to config
         self.chain.config.update(updated)
         return
@@ -143,10 +139,6 @@ class Refiner(object):
                 for k, v in val.items():
                     initial.append(v)
                     self.flat_to_grouped[len(initial) - 1] = (p, k)
-            elif isinstance(val, list):
-                for i, v in enumerate(val):
-                    initial.append(v)
-                    self.flat_to_grouped[len(initial) - 1] = (p, i)
             else:
                 initial.append(val)
                 self.flat_to_grouped[len(initial) - 1] = (p, None)
