@@ -40,7 +40,7 @@ _morph_step_dict = dict(
     ],
     qdamp=morphs.MorphResolutionDamping,
     squeeze=morphs.MorphSqueeze,
-    parameters=morphs.MorphFuncy,
+    funcy=morphs.MorphFuncy,
 )
 _default_config = dict(
     scale=None,
@@ -49,7 +49,7 @@ _default_config = dict(
     baselineslope=None,
     qdamp=None,
     squeeze=None,
-    parameters=None,
+    funcy=None,
 )
 
 
@@ -144,7 +144,7 @@ def morph(
             - 'baselineslope'
             - 'qdamp'
             - 'squeeze'
-            - 'parameters'
+            - 'funcy'
 
     Returns
     -------
@@ -207,7 +207,7 @@ def morph(
         if k == "smear":
             [chain.append(el()) for el in morph_cls]
             refpars.append("baselineslope")
-        elif k == "parameters":
+        elif k == "funcy":
             morph_inst = morph_cls()
             morph_inst.function = rv_cfg.get("function", None)
             if morph_inst.function is None:

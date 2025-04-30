@@ -11,7 +11,7 @@ class MorphFuncy(Morph):
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
-    parnames = ["parameters"]
+    parnames = ["funcy"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """General morph function that applies a user-supplied function to the
@@ -50,7 +50,7 @@ class MorphFuncy(Morph):
         and target array (x_target, y_target):
         >>> morph = MorphFuncy()
         >>> morph.function = sine_function
-        >>> morph.parameters = parameters
+        >>> morph.funcy = parameters
         >>> x_morph_out, y_morph_out, x_target_out, y_target_out = morph.morph(
         ...     x_morph, y_morph, x_target, y_target)
 
@@ -59,11 +59,11 @@ class MorphFuncy(Morph):
         >>> y_morph_in = morph.y_morph_in
         >>> x_target_in = morph.x_target_in
         >>> y_target_in = morph.y_target_in
-        >>> parameters_out = morph.parameters
+        >>> parameters_out = morph.funcy
         """
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
 
         self.y_morph_out = self.function(
-            self.x_morph_in, self.y_morph_in, **self.parameters
+            self.x_morph_in, self.y_morph_in, **self.funcy
         )
         return self.xyallout

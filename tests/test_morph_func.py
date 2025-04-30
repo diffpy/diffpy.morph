@@ -133,7 +133,7 @@ def test_funcy_with_morph_func():
     y_morph = np.sin(x_morph)
     x_target = x_morph.copy()
     y_target = np.sin(x_target) * 2 * x_target + 0.4
-    cfg = morph_default_config(parameters={"scale": 1.2, "offset": 0.1})
+    cfg = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
     cfg["function"] = linear_function
     morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
@@ -142,6 +142,6 @@ def test_funcy_with_morph_func():
     ].xyallout
     assert np.allclose(x_morph_out, x_target_out)
     assert np.allclose(y_morph_out, y_target_out, atol=1e-6)
-    fitted_parameters = morphed_cfg["parameters"]
+    fitted_parameters = morphed_cfg["funcy"]
     assert np.allclose(fitted_parameters["scale"], 2, atol=1e-6)
     assert np.allclose(fitted_parameters["offset"], 0.4, atol=1e-6)

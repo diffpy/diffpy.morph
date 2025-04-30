@@ -63,7 +63,7 @@ def test_funcy(function, parameters, expected_function):
     y_morph_expected = expected_function(x_morph, y_morph)
     morph = MorphFuncy()
     morph.function = function
-    morph.parameters = parameters
+    morph.funcy = parameters
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = (
         morph.morph(x_morph, y_morph, x_target, y_target)
     )
