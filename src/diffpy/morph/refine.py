@@ -51,12 +51,23 @@ class Refiner(object):
         self.y_target = y_target
         self.pars = []
         self.residual = self._residual
+        self.flat_to_grouped = {}
         return
 
     def _update_chain(self, pvals):
         """Update the parameters in the chain."""
-        pairs = zip(self.pars, pvals)
-        self.chain.config.update(pairs)
+        updated = {}
+        for idx, value in enumerate(pvals):
+            param, subkey = self.flat_to_grouped[idx]
+            if subkey is None:  # Scalar
+                updated[param] = value
+            else:
+                if param not in updated:
+                    updated[param] = {}
+                updated[param][subkey] = value
+
+        # Apply the reconstructed grouped parameter back to config
+        self.chain.config.update(updated)
         return
 
     def _residual(self, pvals):
@@ -118,11 +129,25 @@ class Refiner(object):
         if not self.pars:
             return 0.0
 
-        initial = [config[p] for p in self.pars]
+        # Build flat list of initial parameters and flat_to_grouped mapping
+        initial = []
+        self.flat_to_grouped = {}
+
+        for p in self.pars:
+            val = config[p]
+            if isinstance(val, dict):
+                for k, v in val.items():
+                    initial.append(v)
+                    self.flat_to_grouped[len(initial) - 1] = (p, k)
+            else:
+                initial.append(val)
+                self.flat_to_grouped[len(initial) - 1] = (p, None)
+
         sol, cov_sol, infodict, emesg, ier = leastsq(
             self.residual, initial, full_output=1
         )
         fvec = infodict["fvec"]
+
         if ier not in (1, 2, 3, 4):
             emesg
             raise ValueError(emesg)
@@ -131,7 +156,7 @@ class Refiner(object):
         vals = sol
         if not hasattr(vals, "__iter__"):
             vals = [vals]
-        self.chain.config.update(zip(self.pars, vals))
+        self._update_chain(vals)
 
         return dot(fvec, fvec)
 
