@@ -1,5 +1,1 @@
 numpy
-scipy
-diffpy.utils
-matplotlib-base
-bg-mpl-stylesheets

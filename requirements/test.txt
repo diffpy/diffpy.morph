@@ -2,5 +2,5 @@ flake8
 pytest
 codecov
 coverage
-pytest-env
 pytest-cov
+pytest-env
