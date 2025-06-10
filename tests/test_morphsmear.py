@@ -28,7 +28,7 @@ class TestMorphSmear:
         return
 
     def test_morph(self, setup):
-        """check MorphSmear.morph()"""
+        """Check MorphSmear.morph()"""
         morph = MorphSmear()
         morph.smear = 0.15
 

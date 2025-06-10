@@ -30,7 +30,7 @@ class TestMorphShift:
         return
 
     def test_morph(self, setup):
-        """check MorphScale.morph()"""
+        """Check MorphScale.morph()"""
         config = {"hshift": self.hshift, "vshift": self.vshift}
         morph = MorphShift(config)
 

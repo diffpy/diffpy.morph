@@ -27,7 +27,7 @@ class TestMorphSphere:
         return
 
     def test_morph(self, setup):
-        """check MorphSphere.morph()"""
+        """Check MorphSphere.morph()"""
         config = {"radius": 17.5}
         morph = MorphSphere(config)
 
@@ -78,7 +78,7 @@ class TestMorphSpheroid:
         return
 
     def test_morph(self):
-        """check MorphSpheroid.morph() and MorphISpheroid.morph()"""
+        """Check MorphSpheroid.morph() and MorphISpheroid.morph()"""
 
         for idx in range(len(self.testfiles)):
             self.testfile = self.testfiles[idx]

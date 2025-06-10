@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class TransformXtalPDFtoRDF -- Transform crystal PDFs to RDFs.
-"""
+"""Class TransformXtalPDFtoRDF -- Transform crystal PDFs to RDFs."""
 
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, LABEL_RR, Morph
@@ -34,7 +31,6 @@ class TransformXtalPDFtoRDF(Morph):
 
     With s = baselineslope,
     R(r) = r * (G(r) - r * s)
-
     """
 
     # Define input output types

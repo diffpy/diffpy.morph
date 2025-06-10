@@ -227,8 +227,7 @@ def compare_funcs(
 
 
 def plot_param(target_labels, param_list, param_name=None, field=None):
-    """
-    Plot Rw values for multiple morphs.
+    """Plot Rw values for multiple morphs.
 
     Parameters
     ----------

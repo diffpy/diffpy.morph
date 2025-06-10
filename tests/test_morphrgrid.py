@@ -34,7 +34,7 @@ class TestMorphRGrid:
         return
 
     def testRangeInBounds(self, setup):
-        """Selected range is within input bounds"""
+        """Selected range is within input bounds."""
 
         config = {
             "rmin": 1.0,
@@ -52,7 +52,7 @@ class TestMorphRGrid:
         return
 
     def testRmaxOut(self, setup):
-        """Selected rmax is outside of input bounds"""
+        """Selected rmax is outside of input bounds."""
 
         config = {
             "rmin": 1.0,
@@ -70,7 +70,7 @@ class TestMorphRGrid:
         return
 
     def testRminOut(self, setup):
-        """Selected rmin is outside of input bounds"""
+        """Selected rmin is outside of input bounds."""
 
         config = {
             "rmin": 0.0,
@@ -88,7 +88,7 @@ class TestMorphRGrid:
         return
 
     def testRstepOut(self, setup):
-        """Selected rstep is outside of input bounds"""
+        """Selected rstep is outside of input bounds."""
 
         config = {
             "rmin": 1.0,
