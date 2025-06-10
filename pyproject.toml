@@ -32,6 +32,9 @@ classifiers = [
         'Topic :: Scientific/Engineering :: Chemistry',
 ]
 
+[project.scripts]
+"diffpy.morph" = "diffpy.morph.morphapp:main"
+
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.morph/"
 Issues = "https://github.com/diffpy/diffpy.morph/issues/"
@@ -54,7 +57,7 @@ dependencies = {file = ["requirements/pip.txt"]}
 [tool.codespell]
 exclude-file = ".codespell/ignore_lines.txt"
 ignore-words = ".codespell/ignore_words.txt"
-skip = "*.cif,*.dat"
+skip = "*.cif,*.dat,*agr"
 
 [tool.black]
 line-length = 79
