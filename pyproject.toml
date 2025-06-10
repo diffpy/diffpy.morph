@@ -6,10 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "diffpy.morph"
 dynamic=['version', 'dependencies']
 authors = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon Billinge", email="simon.billinge@gmail.com" },
 ]
 maintainers = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon Billinge", email="simon.billinge@gmail.com" },
 ]
 description = "Python package for manipulating and comparing PDF profiles"
 keywords = ['diffpy', 'pdf', 'data interpretation']
@@ -31,9 +31,6 @@ classifiers = [
         'Topic :: Scientific/Engineering :: Physics',
         'Topic :: Scientific/Engineering :: Chemistry',
 ]
-
-[project.scripts]
-"diffpy.morph" = "diffpy.morph.morphapp:main"
 
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.morph/"
@@ -57,7 +54,7 @@ dependencies = {file = ["requirements/pip.txt"]}
 [tool.codespell]
 exclude-file = ".codespell/ignore_lines.txt"
 ignore-words = ".codespell/ignore_words.txt"
-skip = "*.cif,*.dat,*agr"
+skip = "*.cif,*.dat"
 
 [tool.black]
 line-length = 79
