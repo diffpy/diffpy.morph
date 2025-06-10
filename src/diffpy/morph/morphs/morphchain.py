@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """MorphChain -- Chain of morphs executed in order.
 """
 

@@ -3,7 +3,7 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 class MorphFuncy(Morph):
     """Apply the user-supplied Python function to the y-coordinates of the
-    morph data"""
+    morph data."""
 
     # Define input output types
     summary = "Apply a Python function to the y-axis data"

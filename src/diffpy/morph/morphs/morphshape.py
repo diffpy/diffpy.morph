@@ -12,11 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphSphere -- apply a spherical shape function to the morph
-class MorphSpheroid -- apply a spheroidal shape function to the morph
-"""
+"""Class MorphSphere -- apply a spherical shape function to the morph class
+MorphSpheroid -- apply a spheroidal shape function to the morph."""
 
 
 import numpy
@@ -28,7 +25,7 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphSphere(Morph):
-    """Apply a spherical characteristic function to the morph
+    """Apply a spherical characteristic function to the morph.
 
     Configuration Variables
     -----------------------
@@ -56,7 +53,7 @@ class MorphSphere(Morph):
 
 
 class MorphSpheroid(Morph):
-    """Apply a spherical characteristic function to the morph
+    """Apply a spherical characteristic function to the morph.
 
     Configuration Variables
     -----------------------
@@ -143,7 +140,6 @@ def _spheroidalCF2(r, psize, axrat):
     axrat  --  The ratio of axis lengths
 
     From Lei et al., Phys. Rev. B, 80, 024118 (2009)
-
     """
     pelpt = axrat
 

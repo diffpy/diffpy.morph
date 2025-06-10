@@ -12,11 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphISphere -- apply inverse spherical shape function
-class MorphISpheroid -- apply inverse spheroidal shape function
-"""
+"""Class MorphISphere -- apply inverse spherical shape function class
+MorphISpheroid -- apply inverse spheroidal shape function."""
 
 
 import numpy
@@ -26,7 +23,7 @@ from diffpy.morph.morphs.morphshape import _sphericalCF, _spheroidalCF
 
 
 class MorphISphere(Morph):
-    """Apply inverse spherical characteristic function to the morph
+    """Apply inverse spherical characteristic function to the morph.
 
     Configuration Variables
     -----------------------
@@ -56,7 +53,7 @@ class MorphISphere(Morph):
 
 
 class MorphISpheroid(Morph):
-    """Apply inverse spherical characteristic function to the morph
+    """Apply inverse spherical characteristic function to the morph.
 
     Configuration Variables
     -----------------------

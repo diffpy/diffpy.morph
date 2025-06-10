@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Unit tests for tools.py
-"""
+"""Unit tests for tools.py."""
 
 
 import os
@@ -29,14 +28,14 @@ class TestTools:
         return
 
     def test_estimateBaselineSlope(self, setup):
-        """check estimateBaselineSlope() using calculated data"""
+        """Check estimateBaselineSlope() using calculated data."""
         slope = tools.estimateBaselineSlope(self.x_morph, self.y_morph)
         slopecalc = -4 * numpy.pi * self.rho0
         assert numpy.allclose(slopecalc, slope, 1e-2)
         return
 
     def test_estimateScale(self, setup):
-        """check estimateScale() using calculated data"""
+        """Check estimateScale() using calculated data."""
         import random
 
         x = random.random()

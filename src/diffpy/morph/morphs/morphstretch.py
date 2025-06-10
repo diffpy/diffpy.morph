@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphStretch -- stretch the morph.
-"""
+"""Class MorphStretch -- stretch the morph."""
 
 
 import numpy
