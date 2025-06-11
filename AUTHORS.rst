@@ -1,7 +1,7 @@
 Authors
 =======
 
-Sangjoon Lee, Simon Billinge, Billinge Group members
+Billinge Group and community contributors.
 
 Contributors
 ------------
