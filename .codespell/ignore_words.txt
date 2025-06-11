@@ -4,5 +4,11 @@
 ;; abbreviation for "materials" often used in a journal title
 mater
 
+;; alternative use of socioeconomic
+socio-economic
+
 ;; Frobenius norm used in np.linalg.norm
 fro
+
+;; library used for Python package release, no longer used
+rever
