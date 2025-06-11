@@ -1,7 +1,6 @@
 **Added:**
 
-* Spelling check via Codespell in pre-commit
-* Coverage report in each PR
+* <news item>
 
 **Changed:**
 
@@ -17,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Support ``scikit-package`` Level 5 standard (https://scikit-package.github.io/scikit-package/).
 
 **Security:**
 
