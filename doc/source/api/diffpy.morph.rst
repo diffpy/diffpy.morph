@@ -1,7 +1,9 @@
 :tocdepth: -1
 
-diffpy.morph package
-====================
+|title|
+=======
+
+.. |title| replace:: diffpy.morph package
 
 .. automodule:: diffpy.morph
     :members:
@@ -12,66 +14,17 @@ Subpackages
 -----------
 
 .. toctree::
-    :titlesonly:
-
-    diffpy.morph.morphs
-    diffpy.morph.morph_helpers
+   diffpy.morph.example_package
 
 Submodules
 ----------
 
-diffpy.morph.plot module
-^^^^^^^^^^^^^^^^^^^^^^^^
+|module|
+--------
 
-.. automodule:: diffpy.morph.plot
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. |module| replace:: diffpy.morph.example_submodule module
 
-diffpy.morph.morph_api module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morph_api
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.refine module
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.refine
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.tools module
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.tools
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.morph_io module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morph_io
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.log module
-^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.log
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.morphapp module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morphapp
+.. automodule:: diffpy.morph.example_submodule
     :members:
     :undoc-members:
     :show-inheritance:
