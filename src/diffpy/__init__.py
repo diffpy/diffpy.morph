@@ -12,7 +12,6 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """morph - tools for manipulating and comparing PDF data.
 """
 
