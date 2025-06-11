@@ -1,11 +1,14 @@
-|Icon| `diffpy.morph <https://diffpy.github.io/diffpy.morph>`_
-==============================================================
+|Icon| |title|_
+===============
+
+.. |title| replace:: diffpy.morph
+.. _title: https://diffpy.github.io/diffpy.morph
 
 .. |Icon| image:: https://avatars.githubusercontent.com/diffpy
         :target: https://diffpy.github.io/diffpy.morph
         :height: 100px
 
-|PyPi| |Forge| |PythonVersion| |PR|
+|PyPI| |Forge| |PythonVersion| |PR|
 
 |CI| |Codecov| |Black| |Tracking|
 
@@ -23,7 +26,7 @@
 
 .. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
 
-.. |PyPi| image:: https://img.shields.io/pypi/v/diffpy.morph
+.. |PyPI| image:: https://img.shields.io/pypi/v/diffpy.morph
         :target: https://pypi.org/project/diffpy.morph/
 
 .. |PythonVersion| image:: https://img.shields.io/pypi/pyversions/diffpy.morph
@@ -32,7 +35,7 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.morph/issues
 
-Tools for manipulating and comparing PDF profiles
+Python package for manipulating and comparing PDF profiles
 
 ``diffpy.morph`` is a Python software package designed to increase the insight
 researchers can obtain from measured atomic pair distribution functions
@@ -107,19 +110,15 @@ The following creates and activates a new environment named ``diffpy.morph_env``
         conda create -n diffpy.morph_env diffpy.morph
         conda activate diffpy.morph_env
 
-To confirm that the installation was successful, type::
+To confirm that the installation was successful, type ::
 
         python -c "import diffpy.morph; print(diffpy.morph.__version__)"
 
-        The output should print the latest version displayed on the badges above.
+The output should print the latest version displayed on the badges above.
 
 If the above does not work, you can use ``pip`` to download and install the latest release from
 `Python Package Index <https://pypi.python.org>`_.
-To install using ``pip`` into your ``diffpy.morph_env`` environment, we will also have to install dependencies ::
-
-        pip install -r https://raw.githubusercontent.com/diffpy/diffpy.morph/main/requirements/pip.txt
-
-and then install the package ::
+To install using ``pip`` into your ``diffpy.morph_env`` environment, type ::
 
         pip install diffpy.morph
 
@@ -165,16 +164,14 @@ Enjoy!
 Support and Contribute
 ----------------------
 
-`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.morph. Please join the diffpy.morph users community by joining the Google group. The diffpy.morph project welcomes your expertise and enthusiasm!
-
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.morph/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.morph/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_.
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.morph/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.morph/pulls>`_.
 
 Feel free to fork the project and contribute. To install diffpy.morph
 in a development mode, with its sources being directly used by Python
 rather than copied to a package directory, use the following in the root
 directory ::
 
-	pip install -e .
+        pip install -e .
 
 To ensure code quality and to prevent accidental commits into the default branch, please set up the use of our pre-commit
 hooks.
@@ -195,4 +192,9 @@ Before contributing, please read our `Code of Conduct <https://github.com/diffpy
 Contact
 -------
 
-For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.
+For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon J.L. Billinge group at simon.billinge@gmail.com.
+
+Acknowledgements
+----------------
+
+``diffpy.morph`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
