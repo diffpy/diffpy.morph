@@ -1,0 +1,15 @@
+The PDFmorph app was developed by the Billinge group at Columbia University.
+The examples in the tutorial part of the manual were made possible by data
+collected by Soham Banerjee at Brookhaven National Laboratory,
+Benjamin Frandsen during his PhD at Columbia University,
+and Long Yang from Tonji University.
+
+The DiffPy development team is the set of all contributors to DiffPy projects.
+Each member of the development team maintains copyright on their individual
+contributions to the code base. For a detailed contribution history of
+@code{PDFmorph}, see the git logs at @url{https://github.com/diffpy/diffpy.pdfmorph}.
+
+For more information about the application, please visit
+@url{https://www.diffpy.org/diffpy.pdfmorph}.
+Report any bugs to diffpy-users@@googlegroups.com or submit
+an issue to @url{https://github.com/diffpy/diffpy.pdfmorph/issues}.
