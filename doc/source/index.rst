@@ -21,7 +21,11 @@ To get started, please visit the :ref:`Getting started <getting-started>` page.
 Authors
 =======
 
-``diffpy.morph`` is developed by Sangjoon Lee, Simon Billinge, Billinge Group members. The maintainer for this project is Simon J.L. Billinge group. For a detailed list of contributors see
+``diffpy.morph`` is developed by members of the Billinge Group at
+Columbia University and Brookhaven National Laboratory including
+Christopher L. Farrow, Christopher J. Wright, Pavol Juhás, Chia-Hao
+(Timothy) Liu, Andrew Yang, and Simon J. L. Billinge.
+For a detailed list of contributors, see
 https://github.com/diffpy/diffpy.morph/graphs/contributors.
 
 ============

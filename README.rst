@@ -164,7 +164,9 @@ Enjoy!
 Support and Contribute
 ----------------------
 
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.morph/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.morph/pulls>`_.
+`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.morph. Please join the diffpy.morph users community by joining the Google group. The diffpy.morph project welcomes your expertise and enthusiasm!
+
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.morph/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.morph/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_.
 
 Feel free to fork the project and contribute. To install diffpy.morph
 in a development mode, with its sources being directly used by Python
@@ -192,7 +194,7 @@ Before contributing, please read our `Code of Conduct <https://github.com/diffpy
 Contact
 -------
 
-For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon J.L. Billinge group at simon.billinge@gmail.com.
+For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon J.L. Billinge group at sb2896@columbia.edu.
 
 Acknowledgements
 ----------------
