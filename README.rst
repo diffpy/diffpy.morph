@@ -118,7 +118,11 @@ The output should print the latest version displayed on the badges above.
 
 If the above does not work, you can use ``pip`` to download and install the latest release from
 `Python Package Index <https://pypi.python.org>`_.
-To install using ``pip`` into your ``diffpy.morph_env`` environment, type ::
+To install using ``pip`` into your ``diffpy.morph_env`` environment, we will also have to install dependencies ::
+
+        pip install -r https://raw.githubusercontent.com/diffpy/diffpy.morph/main/requirements/pip.txt
+
+and then install the package ::
 
         pip install diffpy.morph
 

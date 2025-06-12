@@ -1,10 +1,8 @@
 #######
-|title|
+diffpy.morph documentation
 #######
 
-.. |title| replace:: diffpy.morph documentation
-
-``diffpy.morph`` - Python package for manipulating and comparing PDF profiles
+``diffpy.morph`` - Tools for manipulating and comparing PDF profiles
 
 | Software version |release|
 | Last updated |today|.
