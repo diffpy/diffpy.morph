@@ -34,8 +34,8 @@ def single_morph_output(
     verbose=False,
     stdout_flag=False,
 ):
-    """Helper function for printing details about a single morph.
-    Handles both printing to terminal and printing to a file.
+    """Helper function for printing details about a single morph. Handles both
+    printing to terminal and printing to a file.
 
     Parameters
     ----------
@@ -136,9 +136,9 @@ def create_morphs_directory(save_directory):
 
 def get_multisave_names(target_list: list, save_names_file=None, mm=False):
     """Create or import a dictionary that specifies names to save morphs as.
-    First attempt to import names from a specified file.
-    If names for certain morphs not found, use default naming scheme:
-    'Morph_with_Target_<target file name>.cgr'.
+    First attempt to import names from a specified file. If names for certain
+    morphs not found, use default naming scheme: 'Morph_with_Target_<target
+    file name>.cgr'.
 
     Used when saving multiple morphs.
 

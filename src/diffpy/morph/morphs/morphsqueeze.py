@@ -6,8 +6,10 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphSqueeze(Morph):
-    """Apply a polynomial to squeeze the morph function. The morphed
-    data is returned on the same grid as the unmorphed data."""
+    """Apply a polynomial to squeeze the morph function.
+
+    The morphed data is returned on the same grid as the unmorphed data.
+    """
 
     # Define input output types
     summary = "Squeeze morph by polynomial shift"

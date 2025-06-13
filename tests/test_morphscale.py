@@ -24,7 +24,7 @@ class TestMorphScale:
         return
 
     def test_morph(self, setup):
-        """check MorphScale.morph()"""
+        """Check MorphScale.morph()"""
         config = {"scale": 2.0}
         morph = MorphScale(config)
 

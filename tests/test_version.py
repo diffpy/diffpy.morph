@@ -1,7 +1,6 @@
-"""Unit tests for __version__.py
-"""
+"""Unit tests for __version__.py."""
 
-import diffpy.morph
+import diffpy.morph  # noqa
 
 
 def test_package_version():

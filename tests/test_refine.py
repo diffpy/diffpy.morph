@@ -30,7 +30,7 @@ class TestRefine:
         return
 
     def test_refine_morph(self, setup):
-        """refine a morph"""
+        """Refine a morph."""
         # Define the morphs
         config = {
             "scale": 1.0,
@@ -50,7 +50,7 @@ class TestRefine:
         return
 
     def test_refine_chain(self, setup):
-        """refine a chain"""
+        """Refine a chain."""
         # Give this some texture
         self.y_morph[30:] = 5
         self.y_target[33:] = 15

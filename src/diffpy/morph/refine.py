@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """refine -- Refine a morph or morph chain
 """
 
@@ -82,9 +81,9 @@ class Refiner(object):
     def _pearson(self, pvals):
         """Pearson correlation function.
 
-        This gives e**-p (vector), where p is the pearson correlation function.
-        We seek to minimize this, which occurs when the correlation is the
-        largest.
+        This gives e**-p (vector), where p is the pearson correlation
+        function. We seek to minimize this, which occurs when the
+        correlation is the largest.
         """
         self._update_chain(pvals)
         _x_morph, _y_morph, _x_target, _y_target = self.chain(
