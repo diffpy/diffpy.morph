@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* Renamed PDFmorph to diffpy.morph
+* <news item>
 
 **Deprecated:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Support ``scikit-package`` Level 5 standard (https://scikit-package.github.io/scikit-package/).
 
 **Security:**
 

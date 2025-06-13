@@ -1,10 +1,10 @@
-#############################################
+#######
 diffpy.morph documentation
-#############################################
+#######
 
-diffpy.morph - Tools for manipulating and comparing diffraction data.
+``diffpy.morph`` - Tools for manipulating and comparing PDF profiles
 
-| Software version |release|.
+| Software version |release|
 | Last updated |today|.
 
 Introduction
@@ -41,15 +41,14 @@ that are not PDFs, it has not been extensively tested beyond the PDF.
 
 To get started, please visit the :ref:`quick_start`.
 
-========
+=======
 Authors
-========
+=======
 
 ``diffpy.morph`` is developed by members of the Billinge Group at
 Columbia University and Brookhaven National Laboratory including
 Christopher L. Farrow, Christopher J. Wright, Pavol Juhás, Chia-Hao
 (Timothy) Liu, Andrew Yang, and Simon J. L. Billinge.
-
 For a detailed list of contributors see
 https://github.com/diffpy/diffpy.morph/graphs/contributors.
 
@@ -59,6 +58,12 @@ Installation
 
 See the `README <https://github.com/diffpy/diffpy.morph#installation>`_
 file included with the distribution.
+
+================
+Acknowledgements
+================
+
+``diffpy.morph`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
 
 =================
 Table of contents
@@ -71,9 +76,9 @@ Table of contents
    release
    Package API <api/diffpy.morph>
 
-========
+=======
 Indices
-========
+=======
 
 * :ref:`genindex`
 * :ref:`search`
