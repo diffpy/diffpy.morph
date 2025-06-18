@@ -12,7 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Collection of plotting functions (originally specifically) for PDFs."""
+"""Collection of plotting functions (originally specifically) for
+PDFs."""
 
 import matplotlib.pyplot as plt
 import numpy
@@ -80,7 +81,8 @@ def compare_funcs(
     legend=True,
     l_width=1.5,
 ):
-    """Plot two functions g(r) on top of each other and difference curve.
+    """Plot two functions g(r) on top of each other and difference
+    curve.
 
     The second function will be shown as blue circles below and the first as
     a red line. The difference curve will be in green and offset for clarity.
