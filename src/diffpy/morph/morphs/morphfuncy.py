@@ -2,8 +2,8 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphFuncy(Morph):
-    """Apply the user-supplied Python function to the y-coordinates of the
-    morph data."""
+    """Apply the user-supplied Python function to the y-coordinates of
+    the morph data."""
 
     # Define input output types
     summary = "Apply a Python function to the y-axis data"
@@ -14,8 +14,9 @@ class MorphFuncy(Morph):
     parnames = ["funcy"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
-        """General morph function that applies a user-supplied function to the
-        y-coordinates of morph data to make it align with a target.
+        """General morph function that applies a user-supplied function
+        to the y-coordinates of morph data to make it align with a
+        target.
 
         Configuration Variables
         -----------------------

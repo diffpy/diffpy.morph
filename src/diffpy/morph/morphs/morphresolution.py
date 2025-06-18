@@ -12,7 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Class MorphResolutionDamping -- apply resolution broadening to the morph."""
+"""Class MorphResolutionDamping -- apply resolution broadening to the
+morph."""
 
 
 import numpy
