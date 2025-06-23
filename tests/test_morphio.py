@@ -137,6 +137,3 @@ class TestApp:
                     generated = filter(ignore_path, gf)
                     target = filter(ignore_path, tf)
                     assert all(x == y for x, y in zip(generated, target))
-
-    def test_morphsmear(self, setup, tmp_path):
-        pass

@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from diffpy.morph.morphapp import (
@@ -254,6 +255,68 @@ class TestApp:
             self.parser, opts, pargs, stdout_flag=False
         )
         assert s_sequence_results == sequence_results
+
+    def test_morphsmear(self, setup_parser, tmp_path):
+        def gaussian(x, mu, sigma):
+            return np.exp(-((x - mu) ** 2) / (2 * sigma**2)) / (
+                sigma * np.sqrt(2 * np.pi)
+            )
+
+        # Generate the test files
+        x_grid = np.linspace(1, 101, 1001)
+        # Gaussian with STD 3 (morph)
+        g2 = gaussian(x_grid, 51, 3)
+        mf = tmp_path / "morph.txt"
+        with open(mf, "w") as f:
+            np.savetxt(f, np.array([x_grid, g2]).T)
+        # Gaussian with STD 5 (target)
+        g3 = gaussian(x_grid, 51, 5)
+        tf = tmp_path / "target.txt"
+        with open(tf, "w") as f:
+            np.savetxt(f, np.array([x_grid, g3]).T)
+        # Gaussian with STD 3 and baseline slope -0.5 (PDF morph)
+        g2_bl = gaussian(x_grid, 51, 3) / x_grid - 0.5 * x_grid
+        pmf = tmp_path / "pdf_morph.txt"
+        with open(pmf, "w") as f:
+            np.savetxt(f, np.array([x_grid, g2_bl]).T)
+        # Gaussian with STD 5 with baseline slope -0.5 (PDF target)
+        g3_bl = gaussian(x_grid, 51, 5) / x_grid - 0.5 * x_grid
+        ptf = tmp_path / "pdf_target.txt"
+        with open(ptf, "w") as f:
+            np.savetxt(f, np.array([x_grid, g3_bl]).T)
+
+        # No PDF smear (should not activate baseline slope)
+        (opts, _) = self.parser.parse_args(
+            [
+                "--smear",
+                "1",
+                "-n",
+            ]
+        )
+        pargs = [mf, tf]
+        smear_results = single_morph(
+            self.parser, opts, pargs, stdout_flag=False
+        )
+        # Variances add, and 3^2+4^2=5^2
+        assert pytest.approx(abs(smear_results["smear"])) == 4.0
+        assert pytest.approx(smear_results["Rw"]) == 0.0
+
+        # PDF-specific smear (should activate baseline slope)
+        (opts, _) = self.parser.parse_args(
+            [
+                "--smear",
+                "100",
+                "--smear-pdf",
+                "1",
+                "-n",
+            ]
+        )
+        pargs = [pmf, ptf]
+        pdf_smear_results = single_morph(
+            self.parser, opts, pargs, stdout_flag=False
+        )
+        assert pytest.approx(abs(pdf_smear_results["smear"])) == 4.0
+        assert pytest.approx(pdf_smear_results["Rw"]) == 0.0
 
 
 if __name__ == "__main__":
