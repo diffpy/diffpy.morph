@@ -167,18 +167,25 @@ def create_option_parser():
         "--smear",
         type="float",
         metavar="SMEAR",
-        help="""Smear the peaks with a Guassian of width SMEAR.
- This is done by convolving the function with a Gaussian with standard
- deviation SMEAR. If both --smear and --smear-pdf are enabled, only
- --smear-pdf will be applied.""",
+        help=(
+            "Smear the peaks with a Gaussian of width SMEAR. "
+            "This is done by convolving the function with a "
+            "Gaussian with standard deviation SMEAR. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
+        ),
     )
     group.add_option(
         "--smear-pdf",
         type="float",
         metavar="SMEAR",
-        help="""Convert PDF to RDF. Then, smear peaks with a Gaussian of
- width SMEAR. Convert back to PDF. If both --smear and --smear-pdf are
- enabled, only --smear-pdf will be applied.""",
+        help=(
+            "Convert PDF to RDF. "
+            "Then, smear peaks with a Gaussian of width SMEAR. "
+            "Convert back to PDF. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
+        ),
     )
     group.add_option(
         "--slope",
