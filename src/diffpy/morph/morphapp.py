@@ -148,26 +148,50 @@ def create_option_parser():
         action="append",
         dest="exclude",
         metavar="MANIP",
-        help="""Exclude a manipulation from refinement by name. This can
- appear multiple times.""",
+        help=(
+            "Exclude a manipulation from refinement by name. "
+            "This can appear multiple times."
+        ),
     )
     group.add_option(
         "--scale",
         type="float",
         metavar="SCALE",
-        help="Apply scale factor SCALE.",
+        help=(
+            "Apply scale factor SCALE. "
+            "This multiplies the function ordinate by SCALE."
+        ),
     )
     group.add_option(
         "--stretch",
         type="float",
         metavar="STRETCH",
-        help="Stretch PDF by a fraction STRETCH.",
+        help=(
+            "Stretch function grid by a fraction STRETCH. "
+            "This multiplies the function grid by 1+STRETCH."
+        ),
+    )
+    group.add_option(
+        "--squeeze",
+        metavar="a0,a1,...,an",
+        help=(
+            "Squeeze function grid given a polynomial "
+            "a0+a1*x+a2*x^2+...a_n*x^n."
+            "n is dependent on the number of values in the "
+            "user-inputted comma-separated list. "
+            "When this option is enabled, --hshift is disabled. "
+            "When n>1, --stretch is disabled. "
+            "See online documentation for more information."
+        ),
     )
     group.add_option(
         "--smear",
         type="float",
         metavar="SMEAR",
-        help="Smear peaks with a Gaussian of width SMEAR.",
+        help=(
+            "Smear peaks with a Gaussian of width SMEAR. "
+            "This convolves the function with a Guassian of width SMEAR."
+        ),
     )
     group.add_option(
         "--slope",
@@ -431,9 +455,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     config["rmax"] = opts.rmax
     config["rstep"] = None
     if (
-        opts.rmin is not None
-        and opts.rmax is not None
-        and opts.rmax <= opts.rmin
+            opts.rmin is not None
+            and opts.rmax is not None
+            and opts.rmax <= opts.rmin
     ):
         e = "rmin must be less than rmax"
         parser.custom_error(e)
@@ -444,6 +468,17 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     chain.append(morphs.MorphRGrid())
     refpars = []
 
+    # Squeeze
+    squeeze_poly_deg = -1
+    if opts.squeeze is not None:
+        squeeze_coeffs = opts.squeeze.strip().split(',')
+        squeeze_dict_in = {}
+        for idx, coeff in enumerate(squeeze_coeffs):
+            squeeze_dict_in.update({f"a{idx}": float(coeff)})
+        squeeze_poly_deg = len(squeeze_coeffs) - 1
+        chain.append(morphs.MorphSqueeze())
+        config["squeeze"] = squeeze_dict_in
+        refpars.append("squeeze")
     # Scale
     if opts.scale is not None:
         scale_in = opts.scale
@@ -451,15 +486,18 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         config["scale"] = scale_in
         refpars.append("scale")
     # Stretch
-    if opts.stretch is not None:
+    # Only enable stretch if squeeze is lower than degree 1
+    if opts.stretch is not None and squeeze_poly_deg < 1:
         stretch_in = opts.stretch
         chain.append(morphs.MorphStretch())
         config["stretch"] = stretch_in
         refpars.append("stretch")
     # Shift
-    if opts.hshift is not None or opts.vshift is not None:
+    # Only enable hshift is squeeze is not enabled
+    if ((opts.hshift is not None and squeeze_poly_deg < 0)
+            or opts.vshift is not None):
         chain.append(morphs.MorphShift())
-    if opts.hshift is not None:
+    if opts.hshift is not None and squeeze_poly_deg < 0:
         hshift_in = opts.hshift
         config["hshift"] = hshift_in
         refpars.append("hshift")
@@ -557,13 +595,27 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     chain[0] = morphs.Morph()
     chain(x_morph, y_morph, x_target, y_target)
 
+    # FOR FUTURE MAINTAINERS
+    # Any new morph should have their input morph parameters updated here
     # Input morph parameters
     morph_inputs = {
         "scale": scale_in,
         "stretch": stretch_in,
         "smear": smear_in,
     }
-    morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
+    morph_inputs.update(
+        {"hshift": hshift_in, "vshift": vshift_in}
+    )
+    # More complex input morph parameters are only displayed conditionally
+    if opts.squeeze is not None:
+        squeeze_coeffs = opts.squeeze.strip().split(',')
+        squeeze_dict = {}
+        for idx, coeff in enumerate(squeeze_coeffs):
+            squeeze_dict.update({f"a{idx}": float(coeff)})
+        for idx, _ in enumerate(squeeze_dict):
+            morph_inputs.update(
+                {f"squeeze a{idx}": squeeze_dict[f"a{idx}"]}
+            )
 
     # Output morph parameters
     morph_results = dict(config.items())
