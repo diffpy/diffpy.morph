@@ -45,15 +45,14 @@ class TestMorphSphere:
 
 class TestMorphSpheroid:
     # Common configs for testing MorphSpheroid and MorphISpheroid
-    # FIXME: add test data for prolate spheroids
     config_sphere = {"radius": 17.5, "pradius": 17.5}
     config_oblate = {"radius": 17.5, "pradius": 5.0}
     config_prolate = {"radius": 5.0, "pradius": 17.5}
-    spheroid_configs = [config_sphere, config_oblate]
+    spheroid_configs = [config_sphere, config_oblate, config_prolate]
     iconfig_sphere = {"iradius": 17.5, "ipradius": 17.5}
     iconfig_oblate = {"iradius": 17.5, "ipradius": 5.0}
     iconfig_prolate = {"iradius": 5.0, "ipradius": 17.5}
-    ispheroid_configs = [iconfig_sphere, iconfig_oblate]
+    ispheroid_configs = [iconfig_sphere, iconfig_oblate, iconfig_prolate]
 
     # Files used for testing
     flag_inverse = (
