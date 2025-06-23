@@ -455,9 +455,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     config["rmax"] = opts.rmax
     config["rstep"] = None
     if (
-            opts.rmin is not None
-            and opts.rmax is not None
-            and opts.rmax <= opts.rmin
+        opts.rmin is not None
+        and opts.rmax is not None
+        and opts.rmax <= opts.rmin
     ):
         e = "rmin must be less than rmax"
         parser.custom_error(e)
@@ -471,7 +471,7 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     # Squeeze
     squeeze_poly_deg = -1
     if opts.squeeze is not None:
-        squeeze_coeffs = opts.squeeze.strip().split(',')
+        squeeze_coeffs = opts.squeeze.strip().split(",")
         squeeze_dict_in = {}
         for idx, coeff in enumerate(squeeze_coeffs):
             squeeze_dict_in.update({f"a{idx}": float(coeff)})
@@ -494,8 +494,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         refpars.append("stretch")
     # Shift
     # Only enable hshift is squeeze is not enabled
-    if ((opts.hshift is not None and squeeze_poly_deg < 0)
-            or opts.vshift is not None):
+    if (
+        opts.hshift is not None and squeeze_poly_deg < 0
+    ) or opts.vshift is not None:
         chain.append(morphs.MorphShift())
     if opts.hshift is not None and squeeze_poly_deg < 0:
         hshift_in = opts.hshift
@@ -603,19 +604,15 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         "stretch": stretch_in,
         "smear": smear_in,
     }
-    morph_inputs.update(
-        {"hshift": hshift_in, "vshift": vshift_in}
-    )
+    morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
     # More complex input morph parameters are only displayed conditionally
     if opts.squeeze is not None:
-        squeeze_coeffs = opts.squeeze.strip().split(',')
+        squeeze_coeffs = opts.squeeze.strip().split(",")
         squeeze_dict = {}
         for idx, coeff in enumerate(squeeze_coeffs):
             squeeze_dict.update({f"a{idx}": float(coeff)})
         for idx, _ in enumerate(squeeze_dict):
-            morph_inputs.update(
-                {f"squeeze a{idx}": squeeze_dict[f"a{idx}"]}
-            )
+            morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
 
     # Output morph parameters
     morph_results = dict(config.items())

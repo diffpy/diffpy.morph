@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-import pytest
 import numpy as np
+import pytest
 
 from diffpy.morph.morphapp import (
     create_option_parser,
@@ -158,9 +158,20 @@ class TestApp:
         sqr_name = sqr.resolve().as_posix()
         # Note that stretch and hshift should not be considered
         (opts, _) = self.parser.parse_args(
-            ["--scale", "2", "--squeeze", "0,-0.001,-0.0001,0.0001",
-             "--stretch", "1", "--hshift", "1",
-             "-s", sqr_name, "-n", "--verbose"]
+            [
+                "--scale",
+                "2",
+                "--squeeze",
+                "0,-0.001,-0.0001,0.0001",
+                "--stretch",
+                "1",
+                "--hshift",
+                "1",
+                "-s",
+                sqr_name,
+                "-n",
+                "--verbose",
+            ]
         )
         pargs = [morph_file, target_file]
         single_morph(self.parser, opts, pargs, stdout_flag=False)
@@ -176,6 +187,8 @@ class TestApp:
                     assert len(m_row) == len(t_row)
                     for idx, _ in enumerate(m_row):
                         if isfloat(m_row[idx]) and isfloat(t_row[idx]):
-                            assert np.isclose(float(m_row[idx]), float(t_row[idx]))
+                            assert np.isclose(
+                                float(m_row[idx]), float(t_row[idx])
+                            )
                         else:
                             assert m_row[idx] == t_row[idx]
