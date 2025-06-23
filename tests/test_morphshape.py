@@ -48,9 +48,11 @@ class TestMorphSpheroid:
     # FIXME: add test data for prolate spheroids
     config_sphere = {"radius": 17.5, "pradius": 17.5}
     config_oblate = {"radius": 17.5, "pradius": 5.0}
+    config_prolate = {"radius": 5.0, "pradius": 17.5}
     spheroid_configs = [config_sphere, config_oblate]
     iconfig_sphere = {"iradius": 17.5, "ipradius": 17.5}
     iconfig_oblate = {"iradius": 17.5, "ipradius": 5.0}
+    iconfig_prolate = {"iradius": 5.0, "ipradius": 17.5}
     ispheroid_configs = [iconfig_sphere, iconfig_oblate]
 
     # Files used for testing
@@ -60,6 +62,7 @@ class TestMorphSpheroid:
     testfiles = [
         ["ni_qmax25.cgr", "ni_qmax25_psize35.cgr"],  # Sphere
         ["ni_qmax25.cgr", "ni_qmax25_e17.5_p5.0.cgr"],  # Oblate spheroid
+        ["ni_qmax25.cgr", "ni_qmax25_e5.0_p17.5.cgr"],  # Prolate spheroid
     ]
     testfile = []  # Initialize testfile array
 
