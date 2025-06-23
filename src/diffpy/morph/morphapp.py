@@ -190,7 +190,7 @@ def create_option_parser():
         metavar="SMEAR",
         help=(
             "Smear peaks with a Gaussian of width SMEAR. "
-            "This convolves the function with a Guassian of width SMEAR."
+            "This convolves the function with a Gaussian of width SMEAR."
         ),
     )
     group.add_option(
