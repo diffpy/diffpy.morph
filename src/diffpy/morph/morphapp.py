@@ -105,6 +105,13 @@ def create_option_parser():
         help="Maximum r-value to use for PDF comparisons.",
     )
     parser.add_option(
+        "--tolerance",
+        "-t",
+        type="float",
+        metavar="TOL",
+        help="Specify refiner tolerance as TOL. Default: 10e-8.",
+    )
+    parser.add_option(
         "--pearson",
         action="store_true",
         dest="pearson",
@@ -420,6 +427,11 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     if y_target is None:
         parser.error(f"No data table found in file: {pargs[1]}.")
 
+    # Get tolerance
+    tolerance = 1e-08
+    if opts.tolerance is not None:
+        tolerance = opts.tolerance
+
     # Get configuration values
     scale_in = "None"
     stretch_in = "None"
@@ -519,7 +531,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         refpars = list(set(refpars) - set(opts.exclude))
 
     # Refine or execute the morph
-    refiner = refine.Refiner(chain, x_morph, y_morph, x_target, y_target)
+    refiner = refine.Refiner(
+        chain, x_morph, y_morph, x_target, y_target, tolerance=tolerance
+    )
     if opts.pearson:
         refiner.residual = refiner._pearson
     if opts.addpearson:

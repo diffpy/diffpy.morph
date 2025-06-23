@@ -42,12 +42,15 @@ class Refiner(object):
         to other functions.
     """
 
-    def __init__(self, chain, x_morph, y_morph, x_target, y_target):
+    def __init__(
+        self, chain, x_morph, y_morph, x_target, y_target, tolerance=1e-08
+    ):
         self.chain = chain
         self.x_morph = x_morph
         self.y_morph = y_morph
         self.x_target = x_target
         self.y_target = y_target
+        self.tolerance = tolerance
         self.pars = []
         self.residual = self._residual
         self.flat_to_grouped = {}
@@ -143,7 +146,11 @@ class Refiner(object):
                 self.flat_to_grouped[len(initial) - 1] = (p, None)
 
         sol, cov_sol, infodict, emesg, ier = leastsq(
-            self.residual, initial, full_output=1
+            self.residual,
+            initial,
+            full_output=1,
+            ftol=self.tolerance,
+            xtol=self.tolerance,
         )
         fvec = infodict["fvec"]
 
