@@ -82,7 +82,7 @@ and typing into a terminal window or Windows command prompt. It is
 recommended that you consult online resources and become somewhat
 familiar before using ``diffpy.morph``.
 
-``diffpy.morph`` can be run with Python 3.10 or higher. It makes use of several third party
+``diffpy.morph`` can be run with Python 3.11 or higher. It makes use of several third party
 libraries that you'll need to run the app and its components.
 
 * `NumPy`              - library for scientific computing with Python
@@ -140,8 +140,7 @@ You may consult our `online documentation <https://diffpy.github.io/diffpy.morph
 USING diffpy.morph
 ------------------
 
-For detailed instructions and full tutorial, consult the user manual
-on our `website <www.diffpy.org/diffpy.morph/>`.
+For detailed instructions and full tutorial, see our `website <www.diffpy.org/diffpy.morph/>`.
 
 Once the required software, including ``diffpy.morph`` is all installed, open
 up a terminal and check installation has worked properly by running ::
@@ -158,9 +157,8 @@ of ``diffpy.morph`` that you have installed on your system. To begin using
 
 where both PDFs file are text files which contain PDF data, such as ``.gr``
 or ``.cgr`` files that are produced by ``PDFgetX2``, ``PDFgetX3``,
-or ``PDFgui``. Though some file extensions other than ``.gr`` or ``.cgr``,
-but with the same content structure, have been shown to work with
-``diffpy.morph``, it is recommended to stick with ``.gr`` files.
+or ``PDFgui``. File extensions other than ``.gr`` or ``.cgr``,
+but with the same content structure, also work with ``diffpy.morph``.
 
 Enjoy!
 

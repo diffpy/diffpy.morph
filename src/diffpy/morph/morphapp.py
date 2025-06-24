@@ -402,7 +402,8 @@ def create_option_parser():
             "as follows: each target PDF is an entry in NAMESFILE. For each "
             "entry, there should be a key {__save_morph_as__} whose value "
             "specifies the name to save the manipulated PDF as. An example "
-            ".json serial file is shown in the diffpy.morph manual."
+            ".json serial file is included in the tutorial directory "
+            "on the package GitHub repository."
         ),
     )
     group.add_option(
