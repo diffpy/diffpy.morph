@@ -46,7 +46,7 @@ class TestRefine:
 
         assert (x_morph == x_target).all()
         assert numpy.allclose(y_morph, y_target)
-        pytest.approx(config["scale"], 3.0)
+        assert pytest.approx(config["scale"]) == 3.0
         return
 
     def test_refine_chain(self, setup):
@@ -74,8 +74,44 @@ class TestRefine:
         err = 15.0 * 2
         res = sum(numpy.fabs(y_target - y_morph))
         assert res < err
-        pytest.approx(chain.scale, 3, 2)
-        pytest.approx(chain.stretch, 0.1, 2)
+        assert pytest.approx(chain.scale, 0.01, 0.01) == 3.0
+        assert pytest.approx(chain.stretch, 0.01, 0.01) == 0.1
+        return
+
+    def test_refine_tolerance(self, setup):
+        # Check that small tolerance gives good result
+        stol = 1e-16
+        config = {
+            "scale": 1.0,
+        }
+        mscale = MorphScale(config)
+        refiner = Refiner(
+            mscale,
+            self.x_morph,
+            self.y_morph,
+            self.x_target,
+            self.y_target,
+            tolerance=stol,
+        )
+        refiner.refine()
+        assert pytest.approx(config["scale"], stol, stol) == 3.0
+
+        # Check that larger tolerance does not give as good of result
+        ltol = 100
+        config = {
+            "scale": 1.0,
+        }
+        mscale = MorphScale(config)
+        refiner = Refiner(
+            mscale,
+            self.x_morph,
+            self.y_morph,
+            self.x_target,
+            self.y_target,
+            tolerance=ltol,
+        )
+        refiner.refine()
+        assert not pytest.approx(config["scale"], stol, stol) == 3.0
         return
 
 
