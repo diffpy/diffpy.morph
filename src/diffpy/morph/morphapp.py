@@ -196,16 +196,31 @@ def create_option_parser():
         type="float",
         metavar="SMEAR",
         help=(
-            "Smear peaks with a Gaussian of width SMEAR. "
-            "This convolves the function with a Gaussian of width SMEAR."
+            "Smear the peaks with a Gaussian of width SMEAR. "
+            "This is done by convolving the function with a "
+            "Gaussian with standard deviation SMEAR. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
+        ),
+    )
+    group.add_option(
+        "--smear-pdf",
+        type="float",
+        metavar="SMEAR",
+        help=(
+            "Convert PDF to RDF. "
+            "Then, smear peaks with a Gaussian of width SMEAR. "
+            "Convert back to PDF. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
         ),
     )
     group.add_option(
         "--slope",
         type="float",
         dest="baselineslope",
-        help="""Slope of the baseline. This is used when applying the smear
- factor. It will be estimated if not provided.""",
+        help="""Slope of the baseline. This is used with the option --smear-pdf
+ to convert from the PDF to RDF. It will be estimated if not provided.""",
     )
     group.add_option(
         "--hshift",
@@ -520,8 +535,8 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         config["vshift"] = vshift_in
         refpars.append("vshift")
     # Smear
-    if opts.smear is not None:
-        smear_in = opts.smear
+    if opts.smear_pdf is not None:
+        smear_in = opts.smear_pdf
         chain.append(helpers.TransformXtalPDFtoRDF())
         chain.append(morphs.MorphSmear())
         chain.append(helpers.TransformXtalRDFtoPDF())
@@ -532,6 +547,11 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         if opts.baselineslope is None:
             config["baselineslope"] = -0.5
         refpars.append("baselineslope")
+    elif opts.smear is not None:
+        smear_in = opts.smear
+        chain.append(morphs.MorphSmear())
+        refpars.append("smear")
+        config["smear"] = smear_in
     # Size
     radii = [opts.radius, opts.pradius]
     nrad = 2 - radii.count(None)
@@ -806,7 +826,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     morph_inputs = {
         "scale": opts.scale,
         "stretch": opts.stretch,
-        "smear": opts.smear,
+        "smear": opts.smear_pdf,
     }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
@@ -989,7 +1009,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
     morph_inputs = {
         "scale": opts.scale,
         "stretch": opts.stretch,
-        "smear": opts.smear,
+        "smear": opts.smear_pdf,
     }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
