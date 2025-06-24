@@ -67,6 +67,17 @@ def single_morph_output(
     )
 
     morphs_out = "# Optimized morphing parameters:\n"
+    # Handle special inputs
+    if "squeeze" in morph_results:
+        sq_dict = morph_results.pop("squeeze")
+        rw_pos = list(morph_results.keys()).index("Rw")
+        morph_results_list = list(morph_results.items())
+        for idx, _ in enumerate(sq_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
+            )
+        morph_results = dict(morph_results_list)
+    # Normal inputs
     morphs_out += "\n".join(
         f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys()
     )

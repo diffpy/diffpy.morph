@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from diffpy.morph.morphapp import (
@@ -27,6 +28,27 @@ test_saving_verbose = testsaving_dir.joinpath("verbose")
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
 
 
+# Ignore PATH data when comparing files
+def ignore_path(line):
+    # Lines containing FILE PATH data begin with '# from '
+    if "# from " in line:
+        return False
+    # Lines containing DIRECTORY PATH data begin with '# with '
+    if "# with " in line:
+        return False
+    return True
+
+
+def isfloat(s):
+    """True if s is convertible to float."""
+    try:
+        float(s)
+        return True
+    except ValueError:
+        pass
+    return False
+
+
 class TestApp:
     @pytest.fixture
     def setup(self):
@@ -46,16 +68,6 @@ class TestApp:
         return
 
     def test_morph_outputs(self, setup, tmp_path):
-        # Ignore PATH data when comparing files
-        def ignore_path(line):
-            # Lines containing FILE PATH data begin with '# from '
-            if "# from " in line:
-                return False
-            # Lines containing DIRECTORY PATH data begin with '# with '
-            if "# with " in line:
-                return False
-            return True
-
         morph_file = self.testfiles[0]
         target_file = self.testfiles[-1]
 
@@ -137,3 +149,46 @@ class TestApp:
                     generated = filter(ignore_path, gf)
                     target = filter(ignore_path, tf)
                     assert all(x == y for x, y in zip(generated, target))
+
+    def test_morph_squeeze_outputs(self, setup, tmp_path):
+        # The file squeeze_morph has a squeeze and stretch applied
+        morph_file = testdata_dir / "squeeze_morph.cgr"
+        target_file = testdata_dir / "squeeze_target.cgr"
+        sqr = tmp_path / "squeeze_morph_result.cgr"
+        sqr_name = sqr.resolve().as_posix()
+        # Note that stretch and hshift should not be considered
+        (opts, _) = self.parser.parse_args(
+            [
+                "--scale",
+                "2",
+                "--squeeze",
+                "0,-0.001,-0.0001,0.0001",
+                "--stretch",
+                "1",
+                "--hshift",
+                "1",
+                "-s",
+                sqr_name,
+                "-n",
+                "--verbose",
+            ]
+        )
+        pargs = [morph_file, target_file]
+        single_morph(self.parser, opts, pargs, stdout_flag=False)
+
+        # Check squeeze morph generates the correct output
+        with open(sqr) as mf:
+            with open(target_file) as tf:
+                morphed = filter(ignore_path, mf)
+                target = filter(ignore_path, tf)
+                for m, t in zip(morphed, target):
+                    m_row = m.split()
+                    t_row = t.split()
+                    assert len(m_row) == len(t_row)
+                    for idx, _ in enumerate(m_row):
+                        if isfloat(m_row[idx]) and isfloat(t_row[idx]):
+                            assert np.isclose(
+                                float(m_row[idx]), float(t_row[idx])
+                            )
+                        else:
+                            assert m_row[idx] == t_row[idx]
