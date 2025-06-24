@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Definition of morphs.
-"""
+"""Definition of morphs."""
 
 
 from diffpy.morph.morphs.morph import Morph  # noqa: F401

@@ -27,7 +27,7 @@ class TestMorphSphere:
         return
 
     def test_morph(self, setup):
-        """check MorphSphere.morph()"""
+        """Check MorphSphere.morph()"""
         config = {"radius": 17.5}
         morph = MorphSphere(config)
 
@@ -45,13 +45,14 @@ class TestMorphSphere:
 
 class TestMorphSpheroid:
     # Common configs for testing MorphSpheroid and MorphISpheroid
-    # FIXME: add test data for prolate spheroids
     config_sphere = {"radius": 17.5, "pradius": 17.5}
     config_oblate = {"radius": 17.5, "pradius": 5.0}
-    spheroid_configs = [config_sphere, config_oblate]
+    config_prolate = {"radius": 5.0, "pradius": 17.5}
+    spheroid_configs = [config_sphere, config_oblate, config_prolate]
     iconfig_sphere = {"iradius": 17.5, "ipradius": 17.5}
     iconfig_oblate = {"iradius": 17.5, "ipradius": 5.0}
-    ispheroid_configs = [iconfig_sphere, iconfig_oblate]
+    iconfig_prolate = {"iradius": 5.0, "ipradius": 17.5}
+    ispheroid_configs = [iconfig_sphere, iconfig_oblate, iconfig_prolate]
 
     # Files used for testing
     flag_inverse = (
@@ -60,6 +61,7 @@ class TestMorphSpheroid:
     testfiles = [
         ["ni_qmax25.cgr", "ni_qmax25_psize35.cgr"],  # Sphere
         ["ni_qmax25.cgr", "ni_qmax25_e17.5_p5.0.cgr"],  # Oblate spheroid
+        ["ni_qmax25.cgr", "ni_qmax25_e5.0_p17.5.cgr"],  # Prolate spheroid
     ]
     testfile = []  # Initialize testfile array
 
@@ -78,7 +80,7 @@ class TestMorphSpheroid:
         return
 
     def test_morph(self):
-        """check MorphSpheroid.morph() and MorphISpheroid.morph()"""
+        """Check MorphSpheroid.morph() and MorphISpheroid.morph()"""
 
         for idx in range(len(self.testfiles)):
             self.testfile = self.testfiles[idx]

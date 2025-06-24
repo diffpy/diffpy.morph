@@ -67,6 +67,17 @@ def single_morph_output(
     )
 
     morphs_out = "# Optimized morphing parameters:\n"
+    # Handle special inputs
+    if "squeeze" in morph_results:
+        sq_dict = morph_results.pop("squeeze")
+        rw_pos = list(morph_results.keys()).index("Rw")
+        morph_results_list = list(morph_results.items())
+        for idx, _ in enumerate(sq_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
+            )
+        morph_results = dict(morph_results_list)
+    # Normal inputs
     morphs_out += "\n".join(
         f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys()
     )
@@ -135,9 +146,9 @@ def create_morphs_directory(save_directory):
 
 
 def get_multisave_names(target_list: list, save_names_file=None, mm=False):
-    """Create or import a dictionary that specifies names to save morphs as.
-    First attempt to import names from a specified file.
-    If names for certain morphs not found, use default naming scheme:
+    """Create or import a dictionary that specifies names to save morphs
+    as. First attempt to import names from a specified file. If names
+    for certain morphs not found, use default naming scheme:
     'Morph_with_Target_<target file name>.cgr'.
 
     Used when saving multiple morphs.
@@ -204,8 +215,8 @@ def multiple_morph_output(
     stdout_flag=False,
     mm=False,
 ):
-    """Helper function for printing details about a series of multiple morphs.
-    Handles both printing to terminal and printing to a file.
+    """Helper function for printing details about a series of multiple
+    morphs. Handles both printing to terminal and printing to a file.
 
     Parameters
     ----------
@@ -320,8 +331,8 @@ def multiple_morph_output(
 
 
 def tabulate_results(multiple_morph_results):
-    """Helper function to make a data table summarizing details about the
-    results of multiple morphs.
+    """Helper function to make a data table summarizing details about
+    the results of multiple morphs.
 
     Parameters
     ----------

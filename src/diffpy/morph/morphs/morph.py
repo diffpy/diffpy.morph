@@ -12,8 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
 """Morph -- base class for defining a morph.
 """
 
@@ -198,7 +196,7 @@ class Morph(object):
         return
 
     def plotInputs(self, xylabels=True):
-        """Plot input arrays using matplotlib.pyplot
+        """Plot input arrays using matplotlib.pyplot.
 
         Parameters
         ----------
@@ -220,7 +218,7 @@ class Morph(object):
         return rv
 
     def plotOutputs(self, xylabels=True, **plotargs):
-        """Plot output arrays using matplotlib.pyplot
+        """Plot output arrays using matplotlib.pyplot.
 
         Parameters
         ----------

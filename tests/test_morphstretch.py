@@ -25,7 +25,7 @@ class TestMorphStretch:
         return
 
     def test_morph(self, setup):
-        """check MorphStretch.morph()"""
+        """Check MorphStretch.morph()"""
         morph = MorphStretch()
 
         # Stretch by 50%

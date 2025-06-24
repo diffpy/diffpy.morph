@@ -1,5 +1,5 @@
 Authors
-========
+=======
 
 Billinge Group and community contributors.
 

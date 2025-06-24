@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class MorphScale -- scale the morph data
-"""
+"""Class MorphScale -- scale the morph data."""
 
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph

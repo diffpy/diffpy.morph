@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """refine -- Refine a morph or morph chain
 """
 
@@ -43,12 +42,15 @@ class Refiner(object):
         to other functions.
     """
 
-    def __init__(self, chain, x_morph, y_morph, x_target, y_target):
+    def __init__(
+        self, chain, x_morph, y_morph, x_target, y_target, tolerance=1e-08
+    ):
         self.chain = chain
         self.x_morph = x_morph
         self.y_morph = y_morph
         self.x_target = x_target
         self.y_target = y_target
+        self.tolerance = tolerance
         self.pars = []
         self.residual = self._residual
         self.flat_to_grouped = {}
@@ -82,9 +84,9 @@ class Refiner(object):
     def _pearson(self, pvals):
         """Pearson correlation function.
 
-        This gives e**-p (vector), where p is the pearson correlation function.
-        We seek to minimize this, which occurs when the correlation is the
-        largest.
+        This gives e**-p (vector), where p is the pearson correlation
+        function. We seek to minimize this, which occurs when the
+        correlation is the largest.
         """
         self._update_chain(pvals)
         _x_morph, _y_morph, _x_target, _y_target = self.chain(
@@ -144,7 +146,11 @@ class Refiner(object):
                 self.flat_to_grouped[len(initial) - 1] = (p, None)
 
         sol, cov_sol, infodict, emesg, ier = leastsq(
-            self.residual, initial, full_output=1
+            self.residual,
+            initial,
+            full_output=1,
+            ftol=self.tolerance,
+            xtol=self.tolerance,
         )
         fvec = infodict["fvec"]
 

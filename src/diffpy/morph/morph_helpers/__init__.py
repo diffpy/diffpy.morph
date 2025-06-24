@@ -10,9 +10,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""List of helpers for certain morphing operations
-(currently only used for smear)."""
+"""List of helpers for certain morphing operations (currently only used
+for smear)."""
 
 from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
 from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF

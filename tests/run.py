@@ -12,9 +12,8 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-"""Convenience module for executing all unit tests with
-python -m diffpy.morph.tests.run
-"""
+"""Convenience module for executing all unit tests with python -m
+diffpy.morph.tests.run."""
 
 import sys
 
