@@ -209,7 +209,6 @@ class TestApp:
             apply=True,
             save=tmp_path / "funcy_target.cgr",
             verbose=True,
-            plot=True,
         )
 
         with open(testdata_dir.joinpath("funcy_target.cgr")) as tf:
