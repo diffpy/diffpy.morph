@@ -66,20 +66,34 @@ def single_morph_output(
         + "\n"
     )
 
+    mr_copy = morph_results.copy()
     morphs_out = "# Optimized morphing parameters:\n"
-    # Handle special inputs
-    if "squeeze" in morph_results:
-        sq_dict = morph_results.pop("squeeze")
-        rw_pos = list(morph_results.keys()).index("Rw")
-        morph_results_list = list(morph_results.items())
+    # Handle special inputs (numerical)
+    if "squeeze" in mr_copy:
+        sq_dict = mr_copy.pop("squeeze")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
         for idx, _ in enumerate(sq_dict):
             morph_results_list.insert(
                 rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
             )
-        morph_results = dict(morph_results_list)
+        mr_copy = dict(morph_results_list)
+    funcy_function = None
+    if "function" in mr_copy:
+        funcy_function = mr_copy.pop("function")
+        print(funcy_function)
+    if "funcy" in mr_copy:
+        fy_dict = mr_copy.pop("funcy")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
+        for idx, key in enumerate(fy_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"funcy {key}", fy_dict[key])
+            )
+        mr_copy = dict(morph_results_list)
     # Normal inputs
     morphs_out += "\n".join(
-        f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys()
+        f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
     )
 
     # Printing to terminal
@@ -88,7 +102,10 @@ def single_morph_output(
 
     # Saving to file
     if save_file is not None:
-        path_name = str(Path(morph_file).resolve())
+        if not Path(morph_file).exists():
+            path_name = "NO FILE PATH PROVIDED"
+        else:
+            path_name = str(Path(morph_file).resolve())
         header = "# PDF created by diffpy.morph\n"
         header += f"# from {path_name}"
 

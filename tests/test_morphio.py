@@ -11,6 +11,8 @@ from diffpy.morph.morphapp import (
     single_morph,
 )
 
+# from diffpy.morph.morphpy import morphpy
+
 # Support Python 2
 try:
     from future_builtins import filter, zip
@@ -150,7 +152,7 @@ class TestApp:
                     target = filter(ignore_path, tf)
                     assert all(x == y for x, y in zip(generated, target))
 
-    def test_morph_squeeze_outputs(self, setup, tmp_path):
+    def test_morphsqueeze_outputs(self, setup, tmp_path):
         # The file squeeze_morph has a squeeze and stretch applied
         morph_file = testdata_dir / "squeeze_morph.cgr"
         target_file = testdata_dir / "squeeze_target.cgr"
@@ -192,3 +194,7 @@ class TestApp:
                             )
                         else:
                             assert m_row[idx] == t_row[idx]
+
+    def test_morphfuncy_outputs(self, tmp_path):
+        def quadratic(x, y, a0, a1, a2):
+            return a0 + a1 * x + a2 * y**2

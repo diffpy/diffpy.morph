@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-import numpy
+import numpy as np
 import pytest
 
 from diffpy.morph.morphapp import create_option_parser, single_morph
@@ -88,7 +88,7 @@ class TestMorphpy:
             chain = Chain()
             rw = getRw(chain)
             del chain
-            assert numpy.allclose(
+            assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]
             )
         assert morph_results == self.morphapp_results
@@ -110,10 +110,60 @@ class TestMorphpy:
             chain = Chain()
             rw = getRw(chain)
             del chain
-            assert numpy.allclose(
+            assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]
             )
         assert morph_results == self.morphapp_results
+
+    def test_morphfuncy(self, setup_morph):
+        def gaussian(x, mu, sigma):
+            return np.exp(-((x - mu) ** 2) / (2 * sigma**2)) / (
+                sigma * np.sqrt(2 * np.pi)
+            )
+
+        def gaussian_like_function(x, y, mu):
+            return gaussian((x + y) / 2, mu, 3)
+
+        morph_r = np.linspace(0, 100, 1001)
+        morph_gr = np.linspace(0, 100, 1001)
+
+        target_r = np.linspace(0, 100, 1001)
+        target_gr = 0.5 * gaussian(target_r, 50, 5) + 0.05
+
+        morph_info, _ = morphpy(
+            np.array([morph_r, morph_gr]).T,
+            np.array([target_r, target_gr]).T,
+            scale=1,
+            vshift=0.01,
+            smear=3.75,
+            funcy=(gaussian_like_function, {"mu": 47.5}),
+            tolerance=1e-12,
+        )
+
+        assert pytest.approx(morph_info["scale"]) == 0.5
+        assert pytest.approx(morph_info["vshift"]) == 0.05
+        assert pytest.approx(abs(morph_info["smear"])) == 4.0
+        assert pytest.approx(morph_info["funcy"]["mu"]) == 50.0
+
+    def test_morphpy_outputs(self, tmp_path):
+        r = np.linspace(0, 1, 11)
+        gr = np.linspace(0, 1, 11)
+
+        def linear(x, y, s):
+            return s * (x + y)
+
+        morph_info, _ = morphpy(
+            np.array([r, gr]).T,
+            np.array([r, gr]).T,
+            squeeze=[1, 2, 3, 4, 5],
+            funcy=(linear, {"s": 2.5}),
+            apply=True,
+        )
+
+        print(morph_info)
+        for i in range(5):
+            assert pytest.approx(morph_info["squeeze"][f"a{i}"]) == i + 1
+        assert pytest.approx(morph_info["funcy"]["s"]) == 2.5
 
 
 if __name__ == "__main__":
