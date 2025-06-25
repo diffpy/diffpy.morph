@@ -530,6 +530,12 @@ def single_morph(
             and opts.squeeze[-1] == "]"
         ):
             opts.squeeze = opts.squeeze[1:-1]
+        elif (
+            len(opts.squeeze) > 1
+            and opts.squeeze[0] == "("
+            and opts.squeeze[-1] == ")"
+        ):
+            opts.squeeze = opts.squeeze[1:-1]
         squeeze_coeffs = opts.squeeze.strip().split(",")
         squeeze_dict_in = {}
         for idx, coeff in enumerate(squeeze_coeffs):

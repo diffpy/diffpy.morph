@@ -15,7 +15,8 @@
 # funcy a2 = 3.0
 # funcy function =
 """
-
+def quadratic(x, y, a0, a1, a2):
+    return a0 + a1 * x + a2 * y**2
 """
 
 # Optimized morphing parameters:

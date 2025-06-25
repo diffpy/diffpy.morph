@@ -10,8 +10,7 @@ from diffpy.morph.morphapp import (
     multiple_targets,
     single_morph,
 )
-
-# from diffpy.morph.morphpy import morphpy
+from diffpy.morph.morphpy import morphpy
 
 # Support Python 2
 try:
@@ -198,3 +197,25 @@ class TestApp:
     def test_morphfuncy_outputs(self, tmp_path):
         def quadratic(x, y, a0, a1, a2):
             return a0 + a1 * x + a2 * y**2
+
+        r = np.linspace(0, 10, 101)
+        gr = np.linspace(0, 10, 101)
+
+        morphpy(
+            np.array([r, gr]).T,
+            np.array([r, quadratic(r, gr, 1, 2, 3)]).T,
+            squeeze=[0, 0, 0],
+            funcy=(quadratic, {"a0": 1.0, "a1": 2.0, "a2": 3.0}),
+            apply=True,
+            save=tmp_path / "funcy_target.cgr",
+            verbose=True,
+            plot=True,
+        )
+
+        with open(testdata_dir.joinpath("funcy_target.cgr")) as tf:
+            with open(tmp_path.joinpath("funcy_target.cgr")) as gf:
+                generated = filter(ignore_path, gf)
+                target = filter(ignore_path, tf)
+                for x, y in zip(generated, target):
+                    assert x == y
+                assert all(x == y for x, y in zip(generated, target))

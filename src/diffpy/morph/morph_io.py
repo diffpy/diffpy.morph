@@ -16,6 +16,7 @@
 
 from __future__ import print_function
 
+import inspect
 import sys
 from pathlib import Path
 
@@ -95,6 +96,15 @@ def single_morph_output(
     morphs_out += "\n".join(
         f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
     )
+    # Special inputs (functional)
+    if funcy_function is not None:
+        morphs_in += '# funcy function =\n"""\n'
+        f_code, _ = inspect.getsourcelines(funcy_function)
+        n_leading = len(f_code[0]) - len(f_code[0].lstrip())
+        for idx, f_line in enumerate(f_code):
+            f_code[idx] = f_line[n_leading:]
+        morphs_in += "".join(f_code)
+        morphs_in += '"""\n'
 
     # Printing to terminal
     if stdout_flag:
