@@ -59,7 +59,8 @@ Python Morphing Functions
 
     9. Notice that the two-column format of the input to ``morph_arrays`` is the same as the
        output of ``morph`` and ``morph_arrays``. It is VERY IMPORTANT that the data is in two-column format
-       rather than the traditional two-row format. This is to reflect the file format used to store PDFs.
+       rather than the traditional two-row format. This is to reflect the file formats conventionally
+       used to store PDFs.
     10. For a full list of parameters used by (both) ``morph`` and ``morph_arrays``, see the Full Parameter List
         section below.
 
@@ -155,7 +156,7 @@ funcy: tuple (function, dict)
 Python-Specific Morphs
 ======================
 
-Some morphs in diffpy.morph are supported only in Python. Here, we detail
+Some morphs in ``diffpy.morph`` are supported only in Python. Here, we detail
 how they are used and how to call them.
 
 funcy: tuple (function, dict)
