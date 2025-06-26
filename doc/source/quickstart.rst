@@ -4,7 +4,11 @@ diffpy.morph Tutorial
 #####################
 
 Welcome! This will be a quick tutorial to accquaint users with ``diffpy.morph``
-and some of what it can do. To see more details and definitions about
+and some of what it can do on the command-line.
+For those wishing to integrate ``diffpy.morph`` into their Python scripts,
+see the `morphpy tutorial <morphpy.html>`__.
+
+To see more details and definitions about
 the morphs please see the publication describing ``diffpy.morph``.
 
 To be published:

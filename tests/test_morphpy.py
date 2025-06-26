@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from diffpy.morph.morphapp import create_option_parser, single_morph
-from diffpy.morph.morphpy import morph, morphpy
+from diffpy.morph.morphpy import morph, morph_arrays
 from diffpy.morph.tools import getRw
 
 thisfile = locals().get("__file__", "file.py")
@@ -99,7 +99,7 @@ class TestMorphpy:
         for target_file in self.testfiles[1:]:
             _, grm0 = morph(morph_file, morph_file)
             _, grt = morph(target_file, target_file)
-            mr, grm = morphpy(
+            mr, grm = morph_arrays(
                 grm0, grt, scale=1, stretch=0, sort_by="temperature"
             )
             morph_results.update({target_file.name: mr})
@@ -130,12 +130,12 @@ class TestMorphpy:
         target_r = np.linspace(0, 100, 1001)
         target_gr = 0.5 * gaussian(target_r, 50, 5) + 0.05
 
-        morph_info, _ = morphpy(
+        morph_info, _ = morph_arrays(
             np.array([morph_r, morph_gr]).T,
             np.array([target_r, target_gr]).T,
             scale=1,
-            vshift=0.01,
             smear=3.75,
+            vshift=0.01,
             funcy=(gaussian_like_function, {"mu": 47.5}),
             tolerance=1e-12,
         )
@@ -152,7 +152,7 @@ class TestMorphpy:
         def linear(x, y, s):
             return s * (x + y)
 
-        morph_info, _ = morphpy(
+        morph_info, _ = morph_arrays(
             np.array([r, gr]).T,
             np.array([r, gr]).T,
             squeeze=[1, 2, 3, 4, 5],

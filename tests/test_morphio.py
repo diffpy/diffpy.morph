@@ -10,7 +10,7 @@ from diffpy.morph.morphapp import (
     multiple_targets,
     single_morph,
 )
-from diffpy.morph.morphpy import morphpy
+from diffpy.morph.morphpy import morph_arrays
 
 # Support Python 2
 try:
@@ -201,7 +201,7 @@ class TestApp:
         r = np.linspace(0, 10, 101)
         gr = np.linspace(0, 10, 101)
 
-        morphpy(
+        morph_arrays(
             np.array([r, gr]).T,
             np.array([r, quadratic(r, gr, 1, 2, 3)]).T,
             squeeze=[0, 0, 0],

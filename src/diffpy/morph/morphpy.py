@@ -67,6 +67,15 @@ def morph(
             pmorph_value = kwargs.pop(pmorph)
             pymorphs.update({pmorph: pmorph_value})
 
+    # Special handling of parameters with dashes
+    kwargs_copy = kwargs.copy()
+    kwargs = {}
+    for key in kwargs_copy.keys():
+        new_key = key
+        if "_" in key:
+            new_key = key.replace("_", "-")
+        kwargs.update({new_key: kwargs_copy[key]})
+
     # Wrap the CLI
     parser = create_option_parser()
     params = {
@@ -92,7 +101,7 @@ def morph(
 
 
 # Take in array-like objects as input.
-def morphpy(
+def morph_arrays(
     morph_table,
     target_table,
     scale=None,
