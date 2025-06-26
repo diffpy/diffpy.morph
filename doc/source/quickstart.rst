@@ -407,56 +407,74 @@ transformations.
 In this tutorial, we walk through how to use ``MorphFuncy`` with an example
 transformation. Unlike other morphs that can be run from the command line,
 ``MorphFuncy`` requires a Python function and is therefore intended to be used
-within the Python API.
+through Python scripting.
 
-    1. Import the necessary modules into your Python script ::
+    1. Import the necessary modules into your Python script:
+
+       .. code-block:: python
 
             from diffpy.morph.morph_api import morph, morph_default_config
             import numpy as np
 
     2. Define a custom Python function to apply a transformation to the data.
+       The function must take ``x`` and ``y`` (1D arrays of the same length)
+       along with named parameters, and return a transformed ``y`` array of the
+       same length.
        For this example, we will use a simple linear transformation that
-       scales the input and applies an offset ::
+       scales the input and applies an offset:
+
+       .. code-block:: python
 
             def linear_function(x, y, scale, offset):
                 return (scale * x) * y + offset
 
     3. In this example, we use a sine function for the morph data and generate
        the target data by applying the linear transformation with known scale
-       and offset to it ::
+       and offset to it:
+
+       .. code-block:: python
 
             x_morph = np.linspace(0, 10, 101)
             y_morph = np.sin(x_morph)
             x_target = x_morph.copy()
             y_target = np.sin(x_target) * 20 * x_target + 0.8
 
-    4. Set up the configuration dictionary. This includes both the
+    4. Set up the morph configuration dictionary. This includes both the
        transformation parameters (our initial guess) and the transformation
-       function itself ::
+       function itself:
 
-            cfg = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
-            cfg["function"] = linear_function
+       .. code-block:: python
 
-    5. Run the morph using the API function ``morph(...)``. This will apply the
-       user-defined function and refine the parameters to best align the morph data
-       with the target data ::
+            morph_config = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
+            morph_config["function"] = linear_function
 
-            morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
+            # morph_config now contains:
+            # {'funcy': {'scale': 1.2, 'offset': 0.1}, 'function': linear_function}
 
-    6. Extract the morphed output and the fitted parameters from the result ::
+    5. Run the morph using the ``morph(...)``. This will apply the user-defined
+       function and refine the parameters to best align the morph data
+       with the target data:
 
-            morphed_cfg = morph_rv["morphed_config"]
-            x_morph_out, y_morph_out, x_target_out, y_target_out = morph_rv["morph_chain"].xyallout
+       .. code-block:: python
 
-            fitted_parameters = morphed_cfg["funcy"]
-            print("Fitted scale:", fitted_parameters["scale"])
-            print("Fitted offset:", fitted_parameters["offset"])
+            morph_result = morph(x_morph, y_morph, x_target, y_target, **morph_config)
 
-    As you can see, the fitted scale and offset values match the ones used
-    to generate the target (scale=20 & offset=0.8). This example shows how
-    ``MorphFuncy`` can be used to fit and apply custom transformations. Now
-    it's your turn to experiment with other custom functions that may be useful
-    for analyzing your data.
+    6. Extract the morphed output and the fitted parameters from the result:
+
+       .. code-block:: python
+
+            fitted_config = morph_result["morphed_config"]
+            x_morph_out, y_morph_out, x_target_out, y_target_out = morph_result["morph_chain"].xyallout
+
+            fitted_params = fitted_config["funcy"]
+            print(f"Fitted scale: {fitted_params['scale']}")
+            print(f"Fitted offset: {fitted_params['offset']}")
+
+As you can see, the fitted scale and offset values match the ones used
+to generate the target (scale=20 & offset=0.8). This example shows how
+``MorphFuncy`` can be used to fit and apply custom transformations. Now
+it's your turn to experiment with other custom functions that may be useful
+for analyzing your data.
 
 Bug Reports
 ===========

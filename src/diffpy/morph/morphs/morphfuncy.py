@@ -4,7 +4,9 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphFuncy(Morph):
-    """General morph function that applies a user-supplied function to the
+    """Apply a custom function to the y-axis of the morph function.
+
+    General morph function that applies a user-supplied function to the
     y-coordinates of morph data to make it align with a target.
 
     Configuration Variables
@@ -15,7 +17,6 @@ class MorphFuncy(Morph):
 
     parameters: dict
         A dictionary of parameters to pass to the function.
-        These parameters are unpacked using **kwargs.
 
     Returns
     -------
