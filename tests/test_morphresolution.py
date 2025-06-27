@@ -35,11 +35,3 @@ class TestMorphScale:
         assert numpy.allclose(self.y_target, y_target)
         assert numpy.allclose(y_morph, y_target)
         return
-
-
-# End of class TestMorphScale
-
-if __name__ == "__main__":
-    TestMorphScale()
-
-# End of file

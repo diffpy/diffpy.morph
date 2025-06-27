@@ -44,11 +44,3 @@ class TestMorphShift:
         assert numpy.allclose(self.x_target, x_target)
         assert numpy.allclose(self.y_target, y_target)
         return
-
-
-# End of class TestMorphScale
-
-if __name__ == "__main__":
-    TestMorphShift()
-
-# End of file
