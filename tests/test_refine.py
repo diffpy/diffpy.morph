@@ -167,10 +167,3 @@ class TestRefineUC:
         rw = (numpy.dot(diff, diff) / numpy.dot(yrsel, yrsel)) ** 0.5
         assert rw < 0.01
         return
-
-
-if __name__ == "__main__":
-    TestRefine()
-    TestRefineUC()
-
-# End of file

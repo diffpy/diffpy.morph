@@ -46,11 +46,3 @@ class TestMorphSmear:
 
         assert numpy.allclose(ysmear, y_morph)
         return
-
-
-# End of class TestMorphSmear
-
-if __name__ == "__main__":
-    TestMorphSmear()
-
-# End of file

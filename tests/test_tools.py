@@ -153,11 +153,3 @@ class TestTools:
                 )
                 == target_list
             )
-
-
-# End of class TestTools
-
-if __name__ == "__main__":
-    TestTools()
-
-# End of file

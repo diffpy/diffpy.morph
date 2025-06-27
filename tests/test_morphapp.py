@@ -317,7 +317,3 @@ class TestApp:
         )
         assert pytest.approx(abs(pdf_smear_results["smear"])) == 4.0
         assert pytest.approx(pdf_smear_results["Rw"]) == 0.0
-
-
-if __name__ == "__main__":
-    TestApp()

@@ -43,11 +43,3 @@ class TestTransformXtalPDFtoRDF:
         assert numpy.allclose(rdf1, y_morph)
         assert numpy.allclose(rdf2, y_target)
         return
-
-
-# End of class TestTransformXtalPDFtoRDF
-
-if __name__ == "__main__":
-    TestTransformXtalPDFtoRDF()
-
-# End of file

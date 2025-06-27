@@ -125,12 +125,3 @@ class TestMorphSpheroid:
             else:  # Outside the particle morph should be zero
                 assert y_morph[idx] == 0
         return
-
-
-# End of class TestMorphSpheroid
-
-if __name__ == "__main__":
-    TestMorphSphere()
-    TestMorphSpheroid()
-
-# End of file

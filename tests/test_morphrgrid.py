@@ -104,11 +104,3 @@ class TestMorphRGrid:
         pytest.approx(0.01, morph.rstep)
         self._runTests(xyallout, morph)
         return
-
-
-# End of class TestMorphRGrid
-
-if __name__ == "__main__":
-    TestMorphRGrid()
-
-# End of file
