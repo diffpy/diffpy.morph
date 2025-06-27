@@ -164,7 +164,3 @@ class TestMorphpy:
         for i in range(5):
             assert pytest.approx(morph_info["squeeze"][f"a{i}"]) == i + 1
         assert pytest.approx(morph_info["funcy"]["s"]) == 2.5
-
-
-if __name__ == "__main__":
-    TestMorphpy()
