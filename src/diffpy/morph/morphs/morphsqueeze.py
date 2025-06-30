@@ -32,27 +32,27 @@ class MorphSqueeze(Morph):
     -------
     Import the squeeze morph function:
 
-    >>> from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
+        >>> from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
     Provide initial guess for squeezing coefficients:
 
-    >>> squeeze_coeff = {"a0":0.1, "a1":-0.01, "a2":0.005}
+        >>> squeeze_coeff = {"a0":0.1, "a1":-0.01, "a2":0.005}
 
     Run the squeeze morph given input morph array (x_morph, y_morph) and target
     array (x_target, y_target):
 
-    >>> morph = MorphSqueeze()
-    >>> morph.squeeze = squeeze_coeff
-    >>> x_morph_out, y_morph_out, x_target_out, y_target_out =
-    ... morph(x_morph, y_morph, x_target, y_target)
+        >>> morph = MorphSqueeze()
+        >>> morph.squeeze = squeeze_coeff
+        >>> x_morph_out, y_morph_out, x_target_out, y_target_out =
+        ... morph(x_morph, y_morph, x_target, y_target)
 
     To access parameters from the morph instance:
 
-    >>> x_morph_in = morph.x_morph_in
-    >>> y_morph_in = morph.y_morph_in
-    >>> x_target_in = morph.x_target_in
-    >>> y_target_in = morph.y_target_in
-    >>> squeeze_coeff_out = morph.squeeze
+        >>> x_morph_in = morph.x_morph_in
+        >>> y_morph_in = morph.y_morph_in
+        >>> x_target_in = morph.x_target_in
+        >>> y_target_in = morph.y_target_in
+        >>> squeeze_coeff_out = morph.squeeze
     """
 
     # Define input output types

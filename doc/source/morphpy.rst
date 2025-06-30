@@ -189,7 +189,7 @@ through Python scripting.
 
        .. code-block:: python
 
-            from diffpy.morph.morph_api import morph, morph_default_config
+            from diffpy.morph.morphpy import morph_arrays
             import numpy as np
 
     2. Define a custom Python function to apply a transformation to the data.
@@ -215,34 +215,23 @@ through Python scripting.
             x_target = x_morph.copy()
             y_target = np.sin(x_target) * 20 * x_target + 0.8
 
-    4. Set up the morph configuration dictionary. This includes both the
-       transformation parameters (our initial guess) and the transformation
-       function itself:
+    4. Setup and run the morph using the ``morph_arrays(...)``.
+       ``morph_arrays`` expects the morph and target data as **2D arrays** in
+       *two-column* format ``[[x0, y0], [x1, y1], ...]``. This will apply
+       the user-defined function and refine the parameters to best align the
+       morph data with the target data. This includes both the transformation
+       parameters (our initial guess) and the transformation function itself:
 
        .. code-block:: python
 
-            morph_config = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
-            morph_config["function"] = linear_function
+            morph_params, morph_table = morph_arrays(np.array([x_morph, y_morph]).T,np.array([x_target, y_target]).T,
+            funcy=(linear_function,{'scale': 1.2, 'offset': 0.1}))
 
-            # morph_config now contains:
-            # {'funcy': {'scale': 1.2, 'offset': 0.1}, 'function': linear_function}
-
-    5. Run the morph using the ``morph(...)``. This will apply the user-defined
-       function and refine the parameters to best align the morph data
-       with the target data:
+    5. Extract the fitted parameters from the result:
 
        .. code-block:: python
 
-            morph_result = morph(x_morph, y_morph, x_target, y_target, **morph_config)
-
-    6. Extract the morphed output and the fitted parameters from the result:
-
-       .. code-block:: python
-
-            fitted_config = morph_result["morphed_config"]
-            x_morph_out, y_morph_out, x_target_out, y_target_out = morph_result["morph_chain"].xyallout
-
-            fitted_params = fitted_config["funcy"]
+            fitted_params = morph_params["funcy"]
             print(f"Fitted scale: {fitted_params['scale']}")
             print(f"Fitted offset: {fitted_params['offset']}")
 
