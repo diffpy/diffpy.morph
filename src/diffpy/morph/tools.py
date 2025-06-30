@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""Tools used in morphs and morph chains.
-"""
+"""Tools used in morphs and morph chains."""
 
 
 import numpy
@@ -180,8 +177,8 @@ def case_insensitive_dictionary_search(key: str, dictionary: dict):
 def field_sort(
     filepaths: list, field, reverse=False, serfile=None, get_field_values=False
 ):
-    """Sort a list of files by a field stored in header information.
-    All files must contain this header information.
+    """Sort a list of files by a field stored in header information. All
+    files must contain this header information.
 
     Parameters
     ----------
@@ -243,9 +240,9 @@ def field_sort(
 def get_values_from_dictionary_collection(
     dictionary_collection: iter, target_key
 ):
-    """In an (iterable) collection of dictionaries, search for a target key
-        in each dictionary. Return a list of all found values corresponding
-        to that key.
+    """In an (iterable) collection of dictionaries, search for a target
+    key in each dictionary. Return a list of all found values
+    corresponding to that key.
 
     Parameters
     ----------

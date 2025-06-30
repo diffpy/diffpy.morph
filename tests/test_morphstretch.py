@@ -25,7 +25,7 @@ class TestMorphStretch:
         return
 
     def test_morph(self, setup):
-        """check MorphStretch.morph()"""
+        """Check MorphStretch.morph()"""
         morph = MorphStretch()
 
         # Stretch by 50%
@@ -64,18 +64,9 @@ class TestMorphStretch:
         return
 
 
-# End of class TestMorphSmear
-
-
 def heaviside(x, lb, ub):
     """The Heaviside function."""
     y = numpy.ones_like(x)
     y[x < lb] = 0.0
     y[x > ub] = 0.0
     return y
-
-
-if __name__ == "__main__":
-    TestMorphStretch()
-
-# End of file

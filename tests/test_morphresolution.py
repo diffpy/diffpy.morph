@@ -24,7 +24,7 @@ class TestMorphScale:
         return
 
     def test_morph(self, setup):
-        """check MorphScale.morph()"""
+        """Check MorphScale.morph()"""
         config = {"qdamp": 0.01}
         morph = MorphResolutionDamping(config)
 
@@ -35,11 +35,3 @@ class TestMorphScale:
         assert numpy.allclose(self.y_target, y_target)
         assert numpy.allclose(y_morph, y_target)
         return
-
-
-# End of class TestMorphScale
-
-if __name__ == "__main__":
-    TestMorphScale()
-
-# End of file

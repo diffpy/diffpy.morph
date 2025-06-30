@@ -18,6 +18,8 @@ from __future__ import print_function
 import sys
 from pathlib import Path
 
+import numpy
+
 import diffpy.morph.morph_helpers as helpers
 import diffpy.morph.morph_io as io
 import diffpy.morph.morphs as morphs
@@ -42,8 +44,8 @@ def create_option_parser():
         def custom_error(self, msg):
             """custom_error(msg : string)
 
-            Print a message incorporating 'msg' to stderr and exit.
-            Does not print usage.
+            Print a message incorporating 'msg' to stderr and exit. Does
+            not print usage.
             """
             self.exit(2, "%s: error: %s\n" % (self.get_prog_name(), msg))
 
@@ -105,6 +107,13 @@ def create_option_parser():
         help="Maximum r-value to use for PDF comparisons.",
     )
     parser.add_option(
+        "--tolerance",
+        "-t",
+        type="float",
+        metavar="TOL",
+        help="Specify refiner tolerance as TOL. Default: 10e-8.",
+    )
+    parser.add_option(
         "--pearson",
         action="store_true",
         dest="pearson",
@@ -148,33 +157,72 @@ def create_option_parser():
         action="append",
         dest="exclude",
         metavar="MANIP",
-        help="""Exclude a manipulation from refinement by name. This can
- appear multiple times.""",
+        help=(
+            "Exclude a manipulation from refinement by name. "
+            "This can appear multiple times."
+        ),
     )
     group.add_option(
         "--scale",
         type="float",
         metavar="SCALE",
-        help="Apply scale factor SCALE.",
+        help=(
+            "Apply scale factor SCALE. "
+            "This multiplies the function ordinate by SCALE."
+        ),
     )
     group.add_option(
         "--stretch",
         type="float",
         metavar="STRETCH",
-        help="Stretch PDF by a fraction STRETCH.",
+        help=(
+            "Stretch function grid by a fraction STRETCH. "
+            "This multiplies the function grid by 1+STRETCH."
+        ),
+    )
+    group.add_option(
+        "--squeeze",
+        metavar="a0,a1,...,an",
+        help=(
+            "Squeeze function grid given a polynomial "
+            "a0+a1*x+a2*x^2+...a_n*x^n."
+            "n is dependent on the number of values in the "
+            "user-inputted comma-separated list. "
+            "When this option is enabled, --hshift is disabled. "
+            "When n>1, --stretch is disabled. "
+            "See online documentation for more information."
+        ),
     )
     group.add_option(
         "--smear",
         type="float",
         metavar="SMEAR",
-        help="Smear peaks with a Gaussian of width SMEAR.",
+        help=(
+            "Smear the peaks with a Gaussian of width SMEAR. "
+            "This is done by convolving the function with a "
+            "Gaussian with standard deviation SMEAR. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
+        ),
+    )
+    group.add_option(
+        "--smear-pdf",
+        type="float",
+        metavar="SMEAR",
+        help=(
+            "Convert PDF to RDF. "
+            "Then, smear peaks with a Gaussian of width SMEAR. "
+            "Convert back to PDF. "
+            "If both --smear and --smear-pdf are enabled, "
+            "only --smear-pdf will be applied."
+        ),
     )
     group.add_option(
         "--slope",
         type="float",
         dest="baselineslope",
-        help="""Slope of the baseline. This is used when applying the smear
- factor. It will be estimated if not provided.""",
+        help="""Slope of the baseline. This is used with the option --smear-pdf
+ to convert from the PDF to RDF. It will be estimated if not provided.""",
     )
     group.add_option(
         "--hshift",
@@ -371,7 +419,8 @@ def create_option_parser():
             "as follows: each target PDF is an entry in NAMESFILE. For each "
             "entry, there should be a key {__save_morph_as__} whose value "
             "specifies the name to save the manipulated PDF as. An example "
-            ".json serial file is shown in the diffpy.morph manual."
+            ".json serial file is included in the tutorial directory "
+            "on the package GitHub repository."
         ),
     )
     group.add_option(
@@ -403,22 +452,38 @@ def create_option_parser():
     return parser
 
 
-def single_morph(parser, opts, pargs, stdout_flag=True):
+def single_morph(
+    parser, opts, pargs, stdout_flag=True, python_wrap=False, pymorphs=None
+):
     if len(pargs) < 2:
         parser.error("You must supply FILE1 and FILE2.")
-    elif len(pargs) > 2:
+    elif len(pargs) > 2 and not python_wrap:
         parser.error(
             "Too many arguments. Make sure you only supply FILE1 and FILE2."
         )
+    elif not (len(pargs) == 2 or len(pargs) == 6) and python_wrap:
+        parser.error("Python wrapper error.")
 
     # Get the PDFs
-    x_morph, y_morph = getPDFFromFile(pargs[0])
-    x_target, y_target = getPDFFromFile(pargs[1])
+    # If we get from python, we may wrap, which has input size 4
+    if len(pargs) == 6 and python_wrap:
+        x_morph = pargs[2]
+        y_morph = pargs[3]
+        x_target = pargs[4]
+        y_target = pargs[5]
+    else:
+        x_morph, y_morph = getPDFFromFile(pargs[0])
+        x_target, y_target = getPDFFromFile(pargs[1])
 
     if y_morph is None:
-        parser.error(f"No data table found in file: {pargs[0]}.")
+        parser.error(f"No data table found in: {pargs[0]}.")
     if y_target is None:
-        parser.error(f"No data table found in file: {pargs[1]}.")
+        parser.error(f"No data table found in: {pargs[1]}.")
+
+    # Get tolerance
+    tolerance = 1e-08
+    if opts.tolerance is not None:
+        tolerance = opts.tolerance
 
     # Get configuration values
     scale_in = "None"
@@ -444,6 +509,41 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     chain.append(morphs.MorphRGrid())
     refpars = []
 
+    # Python-Specific Morphs
+    if pymorphs is not None:
+        # funcy value is a tuple (function,{param_dict})
+        if "funcy" in pymorphs:
+            mfy_function = pymorphs["funcy"][0]
+            mfy_params = pymorphs["funcy"][1]
+            chain.append(morphs.MorphFuncy())
+            config["function"] = mfy_function
+            config["funcy"] = mfy_params
+            refpars.append("funcy")
+
+    # Squeeze
+    squeeze_poly_deg = -1
+    if opts.squeeze is not None:
+        # Handles both list and csv input
+        if (
+            len(opts.squeeze) > 1
+            and opts.squeeze[0] == "["
+            and opts.squeeze[-1] == "]"
+        ):
+            opts.squeeze = opts.squeeze[1:-1]
+        elif (
+            len(opts.squeeze) > 1
+            and opts.squeeze[0] == "("
+            and opts.squeeze[-1] == ")"
+        ):
+            opts.squeeze = opts.squeeze[1:-1]
+        squeeze_coeffs = opts.squeeze.strip().split(",")
+        squeeze_dict_in = {}
+        for idx, coeff in enumerate(squeeze_coeffs):
+            squeeze_dict_in.update({f"a{idx}": float(coeff)})
+        squeeze_poly_deg = len(squeeze_coeffs) - 1
+        chain.append(morphs.MorphSqueeze())
+        config["squeeze"] = squeeze_dict_in
+        refpars.append("squeeze")
     # Scale
     if opts.scale is not None:
         scale_in = opts.scale
@@ -451,25 +551,15 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         config["scale"] = scale_in
         refpars.append("scale")
     # Stretch
-    if opts.stretch is not None:
+    # Only enable stretch if squeeze is lower than degree 1
+    if opts.stretch is not None and squeeze_poly_deg < 1:
         stretch_in = opts.stretch
         chain.append(morphs.MorphStretch())
         config["stretch"] = stretch_in
         refpars.append("stretch")
-    # Shift
-    if opts.hshift is not None or opts.vshift is not None:
-        chain.append(morphs.MorphShift())
-    if opts.hshift is not None:
-        hshift_in = opts.hshift
-        config["hshift"] = hshift_in
-        refpars.append("hshift")
-    if opts.vshift is not None:
-        vshift_in = opts.vshift
-        config["vshift"] = vshift_in
-        refpars.append("vshift")
     # Smear
-    if opts.smear is not None:
-        smear_in = opts.smear
+    if opts.smear_pdf is not None:
+        smear_in = opts.smear_pdf
         chain.append(helpers.TransformXtalPDFtoRDF())
         chain.append(morphs.MorphSmear())
         chain.append(helpers.TransformXtalRDFtoPDF())
@@ -480,6 +570,25 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         if opts.baselineslope is None:
             config["baselineslope"] = -0.5
         refpars.append("baselineslope")
+    elif opts.smear is not None:
+        smear_in = opts.smear
+        chain.append(morphs.MorphSmear())
+        refpars.append("smear")
+        config["smear"] = smear_in
+    # Shift
+    # Only enable hshift is squeeze is not enabled
+    if (
+        opts.hshift is not None and squeeze_poly_deg < 0
+    ) or opts.vshift is not None:
+        chain.append(morphs.MorphShift())
+    if opts.hshift is not None and squeeze_poly_deg < 0:
+        hshift_in = opts.hshift
+        config["hshift"] = hshift_in
+        refpars.append("hshift")
+    if opts.vshift is not None:
+        vshift_in = opts.vshift
+        config["vshift"] = vshift_in
+        refpars.append("vshift")
     # Size
     radii = [opts.radius, opts.pradius]
     nrad = 2 - radii.count(None)
@@ -519,7 +628,9 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         refpars = list(set(refpars) - set(opts.exclude))
 
     # Refine or execute the morph
-    refiner = refine.Refiner(chain, x_morph, y_morph, x_target, y_target)
+    refiner = refine.Refiner(
+        chain, x_morph, y_morph, x_target, y_target, tolerance=tolerance
+    )
     if opts.pearson:
         refiner.residual = refiner._pearson
     if opts.addpearson:
@@ -557,6 +668,8 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
     chain[0] = morphs.Morph()
     chain(x_morph, y_morph, x_target, y_target)
 
+    # FOR FUTURE MAINTAINERS
+    # Any new morph should have their input morph parameters updated here
     # Input morph parameters
     morph_inputs = {
         "scale": scale_in,
@@ -564,6 +677,20 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
         "smear": smear_in,
     }
     morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
+    # More complex input morph parameters are only displayed conditionally
+    if opts.squeeze is not None:
+        squeeze_coeffs = opts.squeeze.strip().split(",")
+        squeeze_dict = {}
+        for idx, coeff in enumerate(squeeze_coeffs):
+            squeeze_dict.update({f"a{idx}": float(coeff)})
+        for idx, _ in enumerate(squeeze_dict):
+            morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
+    if pymorphs is not None:
+        if "funcy" in pymorphs:
+            for funcy_param in pymorphs["funcy"][1].keys():
+                morph_inputs.update(
+                    {f"funcy {funcy_param}": pymorphs["funcy"][1][funcy_param]}
+                )
 
     # Output morph parameters
     morph_results = dict(config.items())
@@ -614,10 +741,16 @@ def single_morph(parser, opts, pargs, stdout_flag=True):
             l_width=l_width,
         )
 
-    return morph_results
+    # Return different things depending on whether it is python interfaced
+    if python_wrap:
+        morph_info = morph_results
+        morph_table = numpy.array([chain.x_morph_out, chain.y_morph_out]).T
+        return morph_info, morph_table
+    else:
+        return morph_results
 
 
-def multiple_targets(parser, opts, pargs, stdout_flag=True):
+def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
@@ -742,7 +875,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     morph_inputs = {
         "scale": opts.scale,
         "stretch": opts.stretch,
-        "smear": opts.smear,
+        "smear": opts.smear_pdf,
     }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 
@@ -800,7 +933,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True):
     return morph_results
 
 
-def multiple_morphs(parser, opts, pargs, stdout_flag=True):
+def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
@@ -925,7 +1058,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True):
     morph_inputs = {
         "scale": opts.scale,
         "stretch": opts.stretch,
-        "smear": opts.smear,
+        "smear": opts.smear_pdf,
     }
     morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
 

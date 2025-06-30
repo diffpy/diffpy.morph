@@ -16,6 +16,7 @@
 
 from __future__ import print_function
 
+import inspect
 import sys
 from pathlib import Path
 
@@ -66,10 +67,44 @@ def single_morph_output(
         + "\n"
     )
 
+    mr_copy = morph_results.copy()
     morphs_out = "# Optimized morphing parameters:\n"
+    # Handle special inputs (numerical)
+    if "squeeze" in mr_copy:
+        sq_dict = mr_copy.pop("squeeze")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
+        for idx, _ in enumerate(sq_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
+            )
+        mr_copy = dict(morph_results_list)
+    funcy_function = None
+    if "function" in mr_copy:
+        funcy_function = mr_copy.pop("function")
+        print(funcy_function)
+    if "funcy" in mr_copy:
+        fy_dict = mr_copy.pop("funcy")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
+        for idx, key in enumerate(fy_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"funcy {key}", fy_dict[key])
+            )
+        mr_copy = dict(morph_results_list)
+    # Normal inputs
     morphs_out += "\n".join(
-        f"# {key} = {morph_results[key]:.6f}" for key in morph_results.keys()
+        f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
     )
+    # Special inputs (functional)
+    if funcy_function is not None:
+        morphs_in += '# funcy function =\n"""\n'
+        f_code, _ = inspect.getsourcelines(funcy_function)
+        n_leading = len(f_code[0]) - len(f_code[0].lstrip())
+        for idx, f_line in enumerate(f_code):
+            f_code[idx] = f_line[n_leading:]
+        morphs_in += "".join(f_code)
+        morphs_in += '"""\n'
 
     # Printing to terminal
     if stdout_flag:
@@ -77,7 +112,10 @@ def single_morph_output(
 
     # Saving to file
     if save_file is not None:
-        path_name = str(Path(morph_file).resolve())
+        if not Path(morph_file).exists():
+            path_name = "NO FILE PATH PROVIDED"
+        else:
+            path_name = str(Path(morph_file).resolve())
         header = "# PDF created by diffpy.morph\n"
         header += f"# from {path_name}"
 
@@ -135,9 +173,9 @@ def create_morphs_directory(save_directory):
 
 
 def get_multisave_names(target_list: list, save_names_file=None, mm=False):
-    """Create or import a dictionary that specifies names to save morphs as.
-    First attempt to import names from a specified file.
-    If names for certain morphs not found, use default naming scheme:
+    """Create or import a dictionary that specifies names to save morphs
+    as. First attempt to import names from a specified file. If names
+    for certain morphs not found, use default naming scheme:
     'Morph_with_Target_<target file name>.cgr'.
 
     Used when saving multiple morphs.
@@ -204,8 +242,8 @@ def multiple_morph_output(
     stdout_flag=False,
     mm=False,
 ):
-    """Helper function for printing details about a series of multiple morphs.
-    Handles both printing to terminal and printing to a file.
+    """Helper function for printing details about a series of multiple
+    morphs. Handles both printing to terminal and printing to a file.
 
     Parameters
     ----------
@@ -320,8 +358,8 @@ def multiple_morph_output(
 
 
 def tabulate_results(multiple_morph_results):
-    """Helper function to make a data table summarizing details about the
-    results of multiple morphs.
+    """Helper function to make a data table summarizing details about
+    the results of multiple morphs.
 
     Parameters
     ----------

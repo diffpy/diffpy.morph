@@ -28,7 +28,7 @@ class TestMorphSmear:
         return
 
     def test_morph(self, setup):
-        """check MorphSmear.morph()"""
+        """Check MorphSmear.morph()"""
         morph = MorphSmear()
         morph.smear = 0.15
 
@@ -46,11 +46,3 @@ class TestMorphSmear:
 
         assert numpy.allclose(ysmear, y_morph)
         return
-
-
-# End of class TestMorphSmear
-
-if __name__ == "__main__":
-    TestMorphSmear()
-
-# End of file

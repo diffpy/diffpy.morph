@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-
-"""class TransformXtalRDFtoPDF -- Transform crystal RDFs to PDFs.
-"""
+"""Class TransformXtalRDFtoPDF -- Transform crystal RDFs to PDFs."""
 
 
 import numpy
@@ -36,7 +33,6 @@ class TransformXtalRDFtoPDF(Morph):
 
     With s = baselineslope,
     G(r) = R(r) / r + r * s
-
     """
 
     # Define input output types

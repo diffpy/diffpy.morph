@@ -24,7 +24,7 @@ class TestTransformXtalRDFtoPDF:
         return
 
     def test_transform(self, setup):
-        """check TransformXtalRDFtoPDF.morph()"""
+        """Check TransformXtalRDFtoPDF.morph()"""
         config = {"baselineslope": -1.0}
         transform = TransformXtalRDFtoPDF(config)
 
@@ -37,11 +37,3 @@ class TestTransformXtalRDFtoPDF:
         assert numpy.allclose(rdf1, y_morph)
         assert numpy.allclose(rdf2, y_target)
         return
-
-
-# End of class TestTransformXtalRDFtoPDF
-
-if __name__ == "__main__":
-    TestTransformXtalRDFtoPDF()
-
-# End of file

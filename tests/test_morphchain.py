@@ -27,7 +27,7 @@ class TestMorphChain:
         return
 
     def test_morph(self, setup):
-        """check MorphChain.morph()"""
+        """Check MorphChain.morph()"""
         # Define the morphs
         config = {
             "rmin": 1,
@@ -53,11 +53,3 @@ class TestMorphChain:
         pytest.approx(x_morph[1] - x_morph[0], mgrid.rstep)
         assert numpy.allclose(y_morph, y_target)
         return
-
-
-# End of class TestMorphChain
-
-if __name__ == "__main__":
-    TestMorphChain()
-
-# End of file
