@@ -1,4 +1,5 @@
-"""class MorphSqueeze -- Apply a polynomial to squeeze the morph function."""
+"""Class MorphSqueeze -- Apply a polynomial to squeeze the morph
+function."""
 
 import numpy as np
 from numpy.polynomial import Polynomial
@@ -67,8 +68,11 @@ class MorphSqueeze(Morph):
     extrap_index_high = None
 
     def morph(self, x_morph, y_morph, x_target, y_target):
-        """Apply a polynomial to squeeze the morph function. The morphed
-        data is returned on the same grid as the unmorphed data."""
+        """Apply a polynomial to squeeze the morph function.
+
+        The morphed data is returned on the same grid as the unmorphed
+        data.
+        """
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
 
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
