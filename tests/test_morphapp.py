@@ -198,6 +198,18 @@ class TestApp:
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
 
+        # Pass a non-float list to squeeze
+        (opts, pargs) = self.parser.parse_args(
+            [
+                f"{nickel_PDF}",
+                f"{nickel_PDF}",
+                "--squeeze",
+                "1,a,0",
+            ]
+        )
+        with pytest.raises(SystemExit):
+            single_morph(self.parser, opts, pargs, stdout_flag=False)
+
     def test_morphsequence(self, setup_morphsequence):
         # Parse arguments sorting by field
         (opts, pargs) = self.parser.parse_args(
