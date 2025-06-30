@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* Added tutorial for MorphSqueeze and MorphFuncy
 
 **Changed:**
 
