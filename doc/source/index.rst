@@ -1,6 +1,6 @@
-#######
+##########################
 diffpy.morph documentation
-#######
+##########################
 
 ``diffpy.morph`` - Tools for manipulating and comparing PDF profiles
 
