@@ -3,9 +3,10 @@
 Using diffpy.morph in Python
 ############################
 
-On top of the command-line usage described in the `quickstart tutorial <quickstart.html>`__,
+On top of the command-line (CLI) usage described in the `quickstart tutorial <quickstart.html>`__,
 ``diffpy.morph`` also supports Python integration.
-This functionality is intended for those acquainted with the basic morphs
+All functionality supported on the CLI is also available for Python.
+This page is intended for those acquainted with the basic morphs
 described in the aforementioned quickstart tutorial who want to use ``diffpy.morph`` in their
 Python scripts.
 
@@ -151,15 +152,6 @@ ipradius: float
     If only ipradius is specified, instead apply inverse
     characteristic function of sphere with radius ipradius.
 funcy: tuple (function, dict)
-    See Python-Specific Morphs below.
-
-Python-Specific Morphs
-======================
-
-Some morphs in ``diffpy.morph`` are supported only in Python. Here, we detail
-how they are used and how to call them.
-
-funcy: tuple (function, dict)
     This morph applies the function funcy[0] with parameters given in funcy[1].
     The function funcy[0] must be a function of both the abscissa and ordinate
     (e.g. take in at least two inputs with as many additional parameters as needed).
@@ -172,3 +164,90 @@ funcy: tuple (function, dict)
     This function takes in both the abscissa and ordinate on top of three additional
     parameters a, b, and c. To use the funcy parameter with initial guesses
     a=1.0, b=2.0, c=3.0, we would pass ``funcy=(linear, {a: 1.0, b: 2.0, c: 3.0})``.
+    For an example use-case, see the Python-Specific Morphs section below.
+
+
+Python-Specific Morphs
+======================
+
+Some morphs in ``diffpy.morph`` are supported only in Python. Here, we detail
+how they are used and how to call them.
+
+MorphFuncy: Applying custom functions
+-------------------------------------
+
+The ``MorphFuncy`` morph allows users to apply a custom Python function
+to the y-axis values of a dataset, enabling flexible and user-defined
+transformations.
+
+In this tutorial, we walk through how to use ``MorphFuncy`` with an example
+transformation. Unlike other morphs that can be run from the command line,
+``MorphFuncy`` requires a Python function and is therefore intended to be used
+through Python scripting.
+
+    1. Import the necessary modules into your Python script:
+
+       .. code-block:: python
+
+            from diffpy.morph.morph_api import morph, morph_default_config
+            import numpy as np
+
+    2. Define a custom Python function to apply a transformation to the data.
+       The function must take ``x`` and ``y`` (1D arrays of the same length)
+       along with named parameters, and return a transformed ``y`` array of the
+       same length.
+       For this example, we will use a simple linear transformation that
+       scales the input and applies an offset:
+
+       .. code-block:: python
+
+            def linear_function(x, y, scale, offset):
+                return (scale * x) * y + offset
+
+    3. In this example, we use a sine function for the morph data and generate
+       the target data by applying the linear transformation with known scale
+       and offset to it:
+
+       .. code-block:: python
+
+            x_morph = np.linspace(0, 10, 101)
+            y_morph = np.sin(x_morph)
+            x_target = x_morph.copy()
+            y_target = np.sin(x_target) * 20 * x_target + 0.8
+
+    4. Set up the morph configuration dictionary. This includes both the
+       transformation parameters (our initial guess) and the transformation
+       function itself:
+
+       .. code-block:: python
+
+            morph_config = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
+            morph_config["function"] = linear_function
+
+            # morph_config now contains:
+            # {'funcy': {'scale': 1.2, 'offset': 0.1}, 'function': linear_function}
+
+    5. Run the morph using the ``morph(...)``. This will apply the user-defined
+       function and refine the parameters to best align the morph data
+       with the target data:
+
+       .. code-block:: python
+
+            morph_result = morph(x_morph, y_morph, x_target, y_target, **morph_config)
+
+    6. Extract the morphed output and the fitted parameters from the result:
+
+       .. code-block:: python
+
+            fitted_config = morph_result["morphed_config"]
+            x_morph_out, y_morph_out, x_target_out, y_target_out = morph_result["morph_chain"].xyallout
+
+            fitted_params = fitted_config["funcy"]
+            print(f"Fitted scale: {fitted_params['scale']}")
+            print(f"Fitted offset: {fitted_params['offset']}")
+
+As you can see, the fitted scale and offset values match the ones used
+to generate the target (scale=20 & offset=0.8). This example shows how
+``MorphFuncy`` can be used to fit and apply custom transformations. Now
+it's your turn to experiment with other custom functions that may be useful
+for analyzing your data.

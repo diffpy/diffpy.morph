@@ -1,6 +1,6 @@
-#######
+##########################
 diffpy.morph documentation
-#######
+##########################
 
 ``diffpy.morph`` - Tools for manipulating and comparing PDF profiles
 
@@ -39,7 +39,11 @@ the plotted PDFs.
 Finally, we note that though ``diffpy.morph`` should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.
 
-To get started, please visit the :ref:`quick_start`.
+To get started, please visit the `quickstart tutorial <quickstart.html>`__.
+For those looking to see more advanced features, you can read our
+`advanced tutorials <tutorials.html>`__.
+Finally, for those seeking to integrate ``diffpy.morph`` into their
+Python scripts, check out the `morphpy page <morphpy.html>`__.
 
 =======
 Authors
@@ -72,6 +76,8 @@ Table of contents
    :titlesonly:
 
    quickstart
+   tutorials
+   morphpy
    license
    release
    Package API <api/diffpy.morph>
