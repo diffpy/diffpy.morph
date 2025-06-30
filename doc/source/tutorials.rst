@@ -1,5 +1,7 @@
+.. _tutorials:
+
 Advanced Tutorials
-==================
+##################
 ``diffpy.morph`` has some more functionalities not showcased in the `quickstart tutorial <quickstart.html>`__.
 Tutorials for these are included below. The files required for these tutorials can be downloaded
 :download:`here <../../tutorial/additionalData.zip>`.
@@ -7,7 +9,7 @@ Tutorials for these are included below. The files required for these tutorials c
 For a full list of options offered by ``diffpy.morph``, please run `diffpy.morph --help` on the command line.
 
 Performing Multiple Morphs
---------------------------
+==========================
 
 It may be useful to morph a PDF against multiple targets:
 for example, you may want to morph a PDF against multiple PDFs measured
@@ -105,7 +107,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    the names for these saved morphs!
 
 Nanoparticle Shape Effects
---------------------------
+==========================
 
 A nanoparticle's finite size and shape can affect the shape of its PDF.
 We can use ``diffpy.morph`` to morph a bulk material PDF to simulate these shape effects.

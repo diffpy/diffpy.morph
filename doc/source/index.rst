@@ -40,6 +40,7 @@ Finally, we note that though ``diffpy.morph`` should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.
 
 To get started, please visit the :ref:`quick_start`.
+For those looking to see more advanced features, you can visit
 
 =======
 Authors
@@ -72,6 +73,8 @@ Table of contents
    :titlesonly:
 
    quickstart
+   tutorials
+   morphpy
    license
    release
    Package API <api/diffpy.morph>

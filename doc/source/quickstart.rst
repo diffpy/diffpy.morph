@@ -1,7 +1,7 @@
 .. _quick_start:
 
-diffpy.morph Quickstart Tutorial
-################################
+Quickstart
+##########
 
 Welcome! This will be a quick tutorial to accquaint users with ``diffpy.morph``
 and some of what it can do on the command-line.

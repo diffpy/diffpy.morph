@@ -3,9 +3,10 @@
 Using diffpy.morph in Python
 ############################
 
-On top of the command-line usage described in the `quickstart tutorial <quickstart.html>`__,
+On top of the command-line (CLI) usage described in the `quickstart tutorial <quickstart.html>`__,
 ``diffpy.morph`` also supports Python integration.
-This functionality is intended for those acquainted with the basic morphs
+All functionality supported on the CLI is also available for Python.
+This page is intended for those acquainted with the basic morphs
 described in the aforementioned quickstart tutorial who want to use ``diffpy.morph`` in their
 Python scripts.
 
