@@ -6,7 +6,7 @@ Advanced Tutorials
 Tutorials for these are included below. The files required for these tutorials can be downloaded
 :download:`here <../../tutorial/additionalData.zip>`.
 
-For a full list of options offered by ``diffpy.morph``, please run `diffpy.morph --help` on the command line.
+For a full list of options offered by ``diffpy.morph``, please run ``diffpy.morph --help`` on the command line.
 
 Performing Multiple Morphs
 ==========================

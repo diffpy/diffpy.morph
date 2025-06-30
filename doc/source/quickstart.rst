@@ -5,7 +5,7 @@ Quickstart
 
 Welcome! This will be a quick tutorial to accquaint users with ``diffpy.morph``
 and some of what it can do on the command-line.
-Tutorials for more advanced features can be found on the `tutorials page <tutorials.html>`__.
+Tutorials for more advanced features can be found on the `advanced tutorials page <tutorials.html>`__.
 For those wishing to integrate ``diffpy.morph`` into their Python scripts,
 see the `morphpy tutorial <morphpy.html>`__.
 

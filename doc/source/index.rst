@@ -39,11 +39,11 @@ the plotted PDFs.
 Finally, we note that though ``diffpy.morph`` should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.
 
-To get started, please visit the `quickstart tutorial <quickstart.rst>`__.
+To get started, please visit the `quickstart tutorial <quickstart.html>`__.
 For those looking to see more advanced features, you can read our
-`advanced tutorials <tutorials.rst>`__.
+`advanced tutorials <tutorials.html>`__.
 Finally, for those seeking to integrate ``diffpy.morph`` into their
-Python scripts, check out the `morphpy page <morphpy.rst>`__.
+Python scripts, check out the `morphpy page <morphpy.html>`__.
 
 =======
 Authors
