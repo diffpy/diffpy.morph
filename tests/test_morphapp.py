@@ -105,20 +105,34 @@ class TestApp:
             )  # Check correct value parsed
         assert len(n_args) == 1  # Check one leftover
 
-    def test_parser_systemexits(self, setup_parser):
+    def test_parser_systemexits(self, capsys, setup_parser):
         # ###Basic tests for any variety of morphing###
 
         # Ensure only two pargs given for morphing
         (opts, pargs) = self.parser.parse_args(["toofewfiles"])
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "You must supply FILE1 and FILE2." in err
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "You must supply FILE and DIRECTORY." in err
         (opts, pargs) = self.parser.parse_args(["too", "many", "files"])
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert (
+            "Too many arguments. Make sure you only supply FILE1 and FILE2."
+            in err
+        )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert (
+            "Too many arguments. You must only supply a FILE and a DIRECTORY."
+            in err
+        )
 
         # Make sure rmax greater than rmin
         (opts, pargs) = self.parser.parse_args(
@@ -126,6 +140,8 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "rmin must be less than rmax" in err
 
         # ###Tests exclusive to multiple morphs###
         # Make sure we save to a directory that exists
@@ -140,8 +156,12 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "Unable to save to designated location." in err
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "is not a directory." in err
 
         # Ensure first parg is a FILE and second parg is a DIRECTORY
         (opts, pargs) = self.parser.parse_args(
@@ -152,8 +172,12 @@ class TestApp:
         (opts, pargs) = self.parser.parse_args(
             [f"{testsequence_dir}", f"{testsequence_dir}"]
         )
+        _, err = capsys.readouterr()
+        assert "is not a directory." in err
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "is not a file." in err
 
         # Try sorting by non-existing field
         (opts, pargs) = self.parser.parse_args(
@@ -161,6 +185,8 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "The requested field is missing from a PDF file header." in err
         (opts, pargs) = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
@@ -173,6 +199,8 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "The requested field was not found in the metadata file." in err
 
         # Try plotting an unknown parameter
         (opts, pargs) = self.parser.parse_args(
@@ -185,6 +213,8 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "Cannot find specified plot parameter. No plot shown." in err
 
         # Try plotting an unrefined parameter
         (opts, pargs) = self.parser.parse_args(
@@ -197,6 +227,12 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert (
+            "The plot parameter is missing values for at "
+            "least one morph and target pair. "
+            "No plot shown." in err
+        )
 
         # Pass a non-float list to squeeze
         (opts, pargs) = self.parser.parse_args(
@@ -209,6 +245,8 @@ class TestApp:
         )
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert "a could not be converted to float." in err
 
     def test_morphsequence(self, setup_morphsequence):
         # Parse arguments sorting by field
