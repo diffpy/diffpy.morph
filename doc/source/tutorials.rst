@@ -106,6 +106,84 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    PDFs. See the ``--save-names-file`` option to see how you can set
    the names for these saved morphs!
 
+Polynomial Squeeze Morph
+=========================
+
+Another advanced feature in ``diffpy.morph`` is the ``MorphSqueeze`` morph,
+which applies a user-defined polynomial to squeeze the morph function along the
+x-axis. This provides a flexible way to correct for higher-order distortions
+that simple shift or stretch morphs cannot fully address.
+Such distortions can arise from geometric artifacts in X-ray detector modules,
+including tilts, curved detection planes, or angle-dependent offsets, as well
+as from intrinsic structural effects in the sample.
+
+A first-order squeeze polynomial recovers the behavior of simple shift or stretch,
+while higher-order terms enable non-linear corrections. The squeeze transformation
+is defined as:
+
+.. math::
+
+   \Delta r(r) = a_0 + a_1 r + a_2 r^2 + \dots + a_n r^n
+
+where :math:`a_0, a_1, ..., a_n` are the polynomial coefficients defined by the user.
+
+In this example, we show how to apply a squeeze morph in combination
+with a scale morph to match a morph function to its target. The required
+files can be found in ``additionalData/morphsqueeze/``.
+
+1. ``cd`` into the ``morphsqueeze`` directory::
+
+       cd additionalData/morphsqueeze
+
+   Here you will find:
+
+   - ``squeeze_morph.cgr`` — the morph function with a small built-in polynomial distortion.
+   - ``squeeze_target.cgr`` — the target function.
+
+2. Suppose we know that the morph needs a quadratic and cubic squeeze,
+   plus a scale factor to best match the target. As an initial guess,
+   we can use:
+
+   - ``squeeze = 0,-0.001,-0.0001,0.0001``
+     (for a polynomial: :math:`a_0 + a_1 x + a_2 x^2 + a_3 x^3`)
+   - ``scale = 1.1``
+
+   The squeeze polynomial is provided as a comma-separated list (no spaces)::
+
+       diffpy.morph --scale=1.1 --squeeze=0,-0.001,-0.0001,0.0001 -a squeeze_morph.cgr squeeze_target.cgr
+
+3. ``diffpy.morph`` will apply the polynomial squeeze and scale,
+   display the initial and refined coefficients, and show the final
+   difference ``Rw``.
+
+   To refine the squeeze polynomial and scale automatically, remove
+   the ``-a`` tag if you used it. For example::
+
+       diffpy.morph --scale=1.1 --squeeze=0,-0.001,-0.0001,0.0001 squeeze_morph.cgr squeeze_target.cgr
+
+4. Check the output for the final squeeze polynomial coefficients and scale.
+   They should match the true values used to generate the test data:
+
+   - ``squeeze = 0, 0.01, 0.0001, 0.001``
+   - ``scale = 0.5``
+
+   ``diffpy.morph`` refines the coefficients to minimize the residual
+   between the squeezed, scaled morph function and the target.
+
+.. warning::
+
+   **Extrapolation risk:**
+   A polynomial squeeze can shift morph data outside the target’s ``r``-range,
+   so parts of the output may be extrapolated.
+   This is generally fine if the polynomial coefficients are small and
+   the distortion is therefore small. If your coefficients are large, check the
+   plots carefully — strong extrapolation can produce unrealistic features at
+   the edges. If needed, adjust the coefficients to keep the morph physically
+   meaningful.
+
+Experiment with your own squeeze polynomials to fine-tune your morphs — even
+small higher-order corrections can make a big difference!
+
 Nanoparticle Shape Effects
 ==========================
 
