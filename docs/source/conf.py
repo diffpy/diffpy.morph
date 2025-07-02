@@ -24,7 +24,8 @@ try:
 except Exception:
     fullversion = "No version found. The correct version will appear in the released version."  # noqa: E501
 
-# Import modules referenced in documentation (resolves `WARNING: autodoc: failed to import module`)
+# Import modules referenced in documentation
+# (resolves `WARNING: autodoc: failed to import module`)
 autodoc_mock_imports = [
     "diffpy.utils",
 ]
