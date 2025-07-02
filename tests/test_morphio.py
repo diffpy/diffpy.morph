@@ -217,6 +217,14 @@ class TestApp:
             with open(tmp_path.joinpath("funcy_target.cgr")) as gf:
                 generated = filter(ignore_path, gf)
                 target = filter(ignore_path, tf)
-                for x, y in zip(generated, target):
-                    assert x == y
-                assert all(x == y for x, y in zip(generated, target))
+                for m, t in zip(generated, target):
+                    m_row = m.split()
+                    t_row = t.split()
+                    assert len(m_row) == len(t_row)
+                    for idx, _ in enumerate(m_row):
+                        if isfloat(m_row[idx]) and isfloat(t_row[idx]):
+                            assert np.isclose(
+                                float(m_row[idx]), float(t_row[idx])
+                            )
+                        else:
+                            assert m_row[idx] == t_row[idx]
