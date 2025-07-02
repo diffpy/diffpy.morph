@@ -27,7 +27,7 @@ Python Morphing Functions
 
     3. Finally, we run the ``morph`` function ::
 
-           morph_info, morph_table = morph("darkSub_rh20_C_01.gr", "darkSub_rh20_C_44.gr", scale=0.8, smear=-0.08, stretch=0.5, rmin=1.5, rmax=30)
+           morph_info, morph_table = morph("darkSub_rh20_C_01.gr", "darkSub_rh20_C_44.gr", scale=0.8, smear=-0.08, stretch=0.005, rmin=1.5, rmax=30)
 
        * The ``morph`` function takes in two file names (or paths). You can also provide various parameters
          for morphing (see the Full Parameter List below).
@@ -38,7 +38,8 @@ Python Morphing Functions
 
        * ``morph_info`` contains all morphs as keys (e.g. ``"scale"``, ``"stretch"``, ``"smear"``) with
          the optimized morphing parameters found by ``diffpy.morph`` as values. ``morph_info`` also contains
-         the Rw and Pearson correlation coefficients found post-morphing.
+         the Rw and Pearson correlation coefficients found post-morphing. Try printing ``print(morph_info)``
+         and compare the values stored in this dictionary to those given by the CLI output!
        * ``morph_table`` is a two-column array of the morphed function interpolated onto the grid of the
          target function (e.g. in our example, it returns the contents of `darkSub_rh20_C_01.gr` after
          the morphs are applied interpolated onto the grid of `darkSub_rh20_C_44.gr`).
@@ -61,7 +62,7 @@ Python Morphing Functions
     9. Notice that the two-column format of the input to ``morph_arrays`` is the same as the
        output of ``morph`` and ``morph_arrays``. It is VERY IMPORTANT that the data is in two-column format
        rather than the traditional two-row format. This is to reflect the file formats conventionally
-       used to store PDFs.
+       used to store PDFs. Again, try printing ``print(morph_info)`` and compare!
     10. For a full list of parameters used by (both) ``morph`` and ``morph_arrays``, see the Full Parameter List
         section below.
 
