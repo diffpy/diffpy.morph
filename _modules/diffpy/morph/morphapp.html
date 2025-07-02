@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphapp &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+  <title>diffpy.morph.morphapp &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=27619e95"></script>
+      <script src="../../../_static/documentation_options.js?v=4ee4825d"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -40,9 +43,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.morph.html">Package API</a></li>
 </ul>
 
@@ -91,10 +96,12 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.morph_helpers</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">helpers</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.morph_io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">io</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.morphs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">morphs</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.pdfplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdfplot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.plot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.refine</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">refine</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tools</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph</span><span class="w"> </span><span class="kn">import</span> <span class="n">__save_morph_as__</span>
@@ -117,8 +124,8 @@
         <span class="k">def</span><span class="w"> </span><span class="nf">custom_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;custom_error(msg : string)</span>
 
-<span class="sd">            Print a message incorporating &#39;msg&#39; to stderr and exit.</span>
-<span class="sd">            Does not print usage.</span>
+<span class="sd">            Print a message incorporating &#39;msg&#39; to stderr and exit. Does</span>
+<span class="sd">            not print usage.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: error: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prog_name</span><span class="p">(),</span> <span class="n">msg</span><span class="p">))</span>
 
@@ -180,6 +187,13 @@
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Maximum r-value to use for PDF comparisons.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
+        <span class="s2">&quot;--tolerance&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-t&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;TOL&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify refiner tolerance as TOL. Default: 10e-8.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--pearson&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;pearson&quot;</span><span class="p">,</span>
@@ -223,33 +237,73 @@
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;exclude&quot;</span><span class="p">,</span>
         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;MANIP&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Exclude a manipulation from refinement by name. This can</span>
-<span class="s2"> appear multiple times.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Exclude a manipulation from refinement by name. &quot;</span>
+            <span class="s2">&quot;This can appear multiple times.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--scale&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;SCALE&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Apply scale factor SCALE.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Apply scale factor SCALE. &quot;</span>
+            <span class="s2">&quot;This multiplies the function ordinate by SCALE.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--stretch&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STRETCH&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Stretch PDF by a fraction STRETCH.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Stretch function grid by a fraction STRETCH. &quot;</span>
+            <span class="s2">&quot;This multiplies the function grid by 1+STRETCH.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
+        <span class="s2">&quot;--squeeze&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;a0,a1,...,an&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Squeeze function grid given a polynomial &quot;</span>
+            <span class="s2">&quot;a0+a1*x+a2*x^2+...a_n*x^n.&quot;</span>
+            <span class="s2">&quot;n is dependent on the number of values in the &quot;</span>
+            <span class="s2">&quot;user-inputted comma-separated list. &quot;</span>
+            <span class="s2">&quot;Repeated and trailing commas are removed before parsing.&quot;</span>
+            <span class="s2">&quot;When this option is enabled, --hshift is disabled. &quot;</span>
+            <span class="s2">&quot;When n&gt;1, --stretch is disabled. &quot;</span>
+            <span class="s2">&quot;See online documentation for more information.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--smear&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;SMEAR&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Smear peaks with a Gaussian of width SMEAR.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Smear the peaks with a Gaussian of width SMEAR. &quot;</span>
+            <span class="s2">&quot;This is done by convolving the function with a &quot;</span>
+            <span class="s2">&quot;Gaussian with standard deviation SMEAR. &quot;</span>
+            <span class="s2">&quot;If both --smear and --smear-pdf are enabled, &quot;</span>
+            <span class="s2">&quot;only --smear-pdf will be applied.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
+        <span class="s2">&quot;--smear-pdf&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;SMEAR&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Convert PDF to RDF. &quot;</span>
+            <span class="s2">&quot;Then, smear peaks with a Gaussian of width SMEAR. &quot;</span>
+            <span class="s2">&quot;Convert back to PDF. &quot;</span>
+            <span class="s2">&quot;If both --smear and --smear-pdf are enabled, &quot;</span>
+            <span class="s2">&quot;only --smear-pdf will be applied.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--slope&quot;</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Slope of the baseline. This is used when applying the smear</span>
-<span class="s2"> factor. It will be estimated if not provided.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Slope of the baseline. This is used with the option --smear-pdf</span>
+<span class="s2"> to convert from the PDF to RDF. It will be estimated if not provided.&quot;&quot;&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--hshift&quot;</span><span class="p">,</span>
@@ -446,7 +500,8 @@
             <span class="s2">&quot;as follows: each target PDF is an entry in NAMESFILE. For each &quot;</span>
             <span class="s2">&quot;entry, there should be a key </span><span class="si">{__save_morph_as__}</span><span class="s2"> whose value &quot;</span>
             <span class="s2">&quot;specifies the name to save the manipulated PDF as. An example &quot;</span>
-            <span class="s2">&quot;.json serial file is shown in the diffpy.morph manual.&quot;</span>
+            <span class="s2">&quot;.json serial file is included in the tutorial directory &quot;</span>
+            <span class="s2">&quot;on the package GitHub repository.&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
@@ -481,22 +536,38 @@
 
 <div class="viewcode-block" id="single_morph">
 <a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.single_morph">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">single_morph</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">single_morph</span><span class="p">(</span>
+    <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">python_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pymorphs</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;You must supply FILE1 and FILE2.&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">python_wrap</span><span class="p">:</span>
         <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
             <span class="s2">&quot;Too many arguments. Make sure you only supply FILE1 and FILE2.&quot;</span>
         <span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span> <span class="ow">and</span> <span class="n">python_wrap</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Python wrapper error.&quot;</span><span class="p">)</span>
 
     <span class="c1"># Get the PDFs</span>
-    <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># If we get from python, we may wrap, which has input size 4</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span> <span class="ow">and</span> <span class="n">python_wrap</span><span class="p">:</span>
+        <span class="n">x_morph</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">y_morph</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">x_target</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="n">y_target</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">y_morph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in file: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">y_target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in file: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Get tolerance</span>
+    <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1e-08</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">tolerance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tolerance</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">tolerance</span>
 
     <span class="c1"># Get configuration values</span>
     <span class="n">scale_in</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
@@ -522,6 +593,49 @@
     <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphRGrid</span><span class="p">())</span>
     <span class="n">refpars</span> <span class="o">=</span> <span class="p">[]</span>
 
+    <span class="c1"># Python-Specific Morphs</span>
+    <span class="k">if</span> <span class="n">pymorphs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># funcy value is a tuple (function,{param_dict})</span>
+        <span class="k">if</span> <span class="s2">&quot;funcy&quot;</span> <span class="ow">in</span> <span class="n">pymorphs</span><span class="p">:</span>
+            <span class="n">mfy_function</span> <span class="o">=</span> <span class="n">pymorphs</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">mfy_params</span> <span class="o">=</span> <span class="n">pymorphs</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphFuncy</span><span class="p">())</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;function&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mfy_function</span>
+            <span class="n">config</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mfy_params</span>
+            <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;funcy&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Squeeze</span>
+    <span class="n">squeeze_poly_deg</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">squeeze_dict_in</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Handles both list and csv input</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+            <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;[&quot;</span>
+            <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;]&quot;</span>
+        <span class="p">):</span>
+            <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+            <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;(&quot;</span>
+            <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;)&quot;</span>
+        <span class="p">):</span>
+            <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">squeeze_coeffs</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_coeffs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">coeff</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">squeeze_dict_in</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)})</span>
+                    <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> could not be converted to float.&quot;</span><span class="p">)</span>
+        <span class="n">squeeze_poly_deg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze_dict_in</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphSqueeze</span><span class="p">())</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;squeeze&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">squeeze_dict_in</span>
+        <span class="c1"># config[&quot;extrap_index_low&quot;] = None</span>
+        <span class="c1"># config[&quot;extrap_index_high&quot;] = None</span>
+        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;squeeze&quot;</span><span class="p">)</span>
     <span class="c1"># Scale</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">scale</span>
@@ -529,25 +643,15 @@
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">scale_in</span>
         <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">)</span>
     <span class="c1"># Stretch</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">stretch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Only enable stretch if squeeze is lower than degree 1</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">stretch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">squeeze_poly_deg</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">stretch_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">stretch</span>
         <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphStretch</span><span class="p">())</span>
         <span class="n">config</span><span class="p">[</span><span class="s2">&quot;stretch&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stretch_in</span>
         <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;stretch&quot;</span><span class="p">)</span>
-    <span class="c1"># Shift</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphShift</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">hshift_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span>
-        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;hshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hshift_in</span>
-        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hshift&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">vshift_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span>
-        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;vshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vshift_in</span>
-        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vshift&quot;</span><span class="p">)</span>
     <span class="c1"># Smear</span>
-    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">smear_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear_pdf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smear_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear_pdf</span>
         <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helpers</span><span class="o">.</span><span class="n">TransformXtalPDFtoRDF</span><span class="p">())</span>
         <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphSmear</span><span class="p">())</span>
         <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">helpers</span><span class="o">.</span><span class="n">TransformXtalRDFtoPDF</span><span class="p">())</span>
@@ -558,6 +662,25 @@
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">baselineslope</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">config</span><span class="p">[</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
         <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smear_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span>
+        <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphSmear</span><span class="p">())</span>
+        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;smear&quot;</span><span class="p">)</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;smear&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">smear_in</span>
+    <span class="c1"># Shift</span>
+    <span class="c1"># Only enable hshift is squeeze is not enabled</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">squeeze_poly_deg</span> <span class="o">&lt;</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morphs</span><span class="o">.</span><span class="n">MorphShift</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">squeeze_poly_deg</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hshift_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;hshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hshift_in</span>
+        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hshift&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">vshift_in</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span>
+        <span class="n">config</span><span class="p">[</span><span class="s2">&quot;vshift&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vshift_in</span>
+        <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vshift&quot;</span><span class="p">)</span>
     <span class="c1"># Size</span>
     <span class="n">radii</span> <span class="o">=</span> <span class="p">[</span><span class="n">opts</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">opts</span><span class="o">.</span><span class="n">pradius</span><span class="p">]</span>
     <span class="n">nrad</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">radii</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
@@ -597,7 +720,9 @@
         <span class="n">refpars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">refpars</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">opts</span><span class="o">.</span><span class="n">exclude</span><span class="p">))</span>
 
     <span class="c1"># Refine or execute the morph</span>
-    <span class="n">refiner</span> <span class="o">=</span> <span class="n">refine</span><span class="o">.</span><span class="n">Refiner</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
+    <span class="n">refiner</span> <span class="o">=</span> <span class="n">refine</span><span class="o">.</span><span class="n">Refiner</span><span class="p">(</span>
+        <span class="n">chain</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="n">tolerance</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">pearson</span><span class="p">:</span>
         <span class="n">refiner</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="n">refiner</span><span class="o">.</span><span class="n">_pearson</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">addpearson</span><span class="p">:</span>
@@ -635,6 +760,8 @@
     <span class="n">chain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">morphs</span><span class="o">.</span><span class="n">Morph</span><span class="p">()</span>
     <span class="n">chain</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
 
+    <span class="c1"># FOR FUTURE MAINTAINERS</span>
+    <span class="c1"># Any new morph should have their input morph parameters updated here</span>
     <span class="c1"># Input morph parameters</span>
     <span class="n">morph_inputs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">scale_in</span><span class="p">,</span>
@@ -642,6 +769,17 @@
         <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">smear_in</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hshift&quot;</span><span class="p">:</span> <span class="n">hshift_in</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">:</span> <span class="n">vshift_in</span><span class="p">})</span>
+    <span class="c1"># More complex input morph parameters are only displayed conditionally</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">squeeze</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">squeeze_dict</span> <span class="o">=</span> <span class="n">squeeze_dict_in</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_dict</span><span class="p">):</span>
+            <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;squeeze a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">squeeze_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]})</span>
+    <span class="k">if</span> <span class="n">pymorphs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;funcy&quot;</span> <span class="ow">in</span> <span class="n">pymorphs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">funcy_param</span> <span class="ow">in</span> <span class="n">pymorphs</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;funcy </span><span class="si">{</span><span class="n">funcy_param</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">pymorphs</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">funcy_param</span><span class="p">]}</span>
+                <span class="p">)</span>
 
     <span class="c1"># Output morph parameters</span>
     <span class="n">morph_results</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
@@ -666,14 +804,14 @@
         <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
-        <span class="n">pairlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">chain</span><span class="o">.</span><span class="n">xy_morph_out</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">xy_target_out</span><span class="p">]</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>  <span class="c1"># Default is to use file names</span>
+        <span class="n">pairlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">chain</span><span class="o">.</span><span class="n">xy_target_out</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">xy_morph_out</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># Default is to use file names</span>
 
         <span class="c1"># If user chooses labels</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">mlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">mlabel</span>
+            <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">mlabel</span>
         <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">tlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">tlabel</span>
+            <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">tlabel</span>
 
         <span class="c1"># Plot extent defaults to calculation extent</span>
         <span class="n">pmin</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">pmin</span> <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">pmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">opts</span><span class="o">.</span><span class="n">rmin</span>
@@ -681,7 +819,7 @@
         <span class="n">maglim</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">maglim</span>
         <span class="n">mag</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">mag</span>
         <span class="n">l_width</span> <span class="o">=</span> <span class="n">opts</span><span class="o">.</span><span class="n">lwidth</span>
-        <span class="n">pdfplot</span><span class="o">.</span><span class="n">comparePDFs</span><span class="p">(</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">compare_funcs</span><span class="p">(</span>
             <span class="n">pairlist</span><span class="p">,</span>
             <span class="n">labels</span><span class="p">,</span>
             <span class="n">rmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span>
@@ -692,13 +830,19 @@
             <span class="n">l_width</span><span class="o">=</span><span class="n">l_width</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">morph_results</span></div>
+    <span class="c1"># Return different things depending on whether it is python interfaced</span>
+    <span class="k">if</span> <span class="n">python_wrap</span><span class="p">:</span>
+        <span class="n">morph_info</span> <span class="o">=</span> <span class="n">morph_results</span>
+        <span class="n">morph_table</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">chain</span><span class="o">.</span><span class="n">x_morph_out</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">y_morph_out</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">return</span> <span class="n">morph_info</span><span class="p">,</span> <span class="n">morph_table</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">morph_results</span></div>
 
 
 
 <div class="viewcode-block" id="multiple_targets">
 <a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.multiple_targets">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">multiple_targets</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiple_targets</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">python_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># Custom error messages since usage is distinct when --multiple tag is</span>
     <span class="c1"># applied</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -725,9 +869,12 @@
 
     <span class="c1"># Get list of files from target directory</span>
     <span class="n">target_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_directory</span><span class="o">.</span><span class="n">iterdir</span><span class="p">())</span>
+    <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">target_list</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-            <span class="n">target_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">:</span>
+        <span class="n">target_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
 
     <span class="c1"># Do not morph morph_file against itself if it is in the same directory</span>
     <span class="k">if</span> <span class="n">morph_file</span> <span class="ow">in</span> <span class="n">target_list</span><span class="p">:</span>
@@ -820,7 +967,7 @@
     <span class="n">morph_inputs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
         <span class="s2">&quot;stretch&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">stretch</span><span class="p">,</span>
-        <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span><span class="p">,</span>
+        <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear_pdf</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hshift&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span><span class="p">})</span>
 
@@ -863,13 +1010,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">field_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">pdfplot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span>
-                        <span class="n">field_list</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">field</span>
-                    <span class="p">)</span>
+                    <span class="n">plot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span><span class="n">field_list</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">pdfplot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span>
-                        <span class="n">target_file_names</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span>
-                    <span class="p">)</span>
+                    <span class="n">plot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span><span class="n">target_file_names</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
             <span class="c1"># Can occur for non-refined plotting parameters</span>
             <span class="c1"># i.e. --smear is not selected as an option, but smear is the</span>
             <span class="c1"># plotting parameter</span>
@@ -885,7 +1028,7 @@
 
 <div class="viewcode-block" id="multiple_morphs">
 <a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.multiple_morphs">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">multiple_morphs</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">multiple_morphs</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">python_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="c1"># Custom error messages since usage is distinct when --multiple tag is</span>
     <span class="c1"># applied</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
@@ -912,9 +1055,12 @@
 
     <span class="c1"># Get list of files from morph directory</span>
     <span class="n">morph_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">morph_directory</span><span class="o">.</span><span class="n">iterdir</span><span class="p">())</span>
+    <span class="n">to_remove</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">morph</span> <span class="ow">in</span> <span class="n">morph_list</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">morph</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-            <span class="n">morph_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">morph</span><span class="p">)</span>
+            <span class="n">to_remove</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">morph</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">morph</span> <span class="ow">in</span> <span class="n">to_remove</span><span class="p">:</span>
+        <span class="n">morph_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">morph</span><span class="p">)</span>
 
     <span class="c1"># Do not morph target_file against itself if it is in the same directory</span>
     <span class="k">if</span> <span class="n">target_file</span> <span class="ow">in</span> <span class="n">morph_list</span><span class="p">:</span>
@@ -1007,7 +1153,7 @@
     <span class="n">morph_inputs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
         <span class="s2">&quot;stretch&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">stretch</span><span class="p">,</span>
-        <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear</span><span class="p">,</span>
+        <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">smear_pdf</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hshift&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">hshift</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">:</span> <span class="n">opts</span><span class="o">.</span><span class="n">vshift</span><span class="p">})</span>
 
@@ -1051,13 +1197,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">field_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">pdfplot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span>
-                        <span class="n">field_list</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">field</span>
-                    <span class="p">)</span>
+                    <span class="n">plot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span><span class="n">field_list</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">pdfplot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span>
-                        <span class="n">morph_file_names</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span>
-                    <span class="p">)</span>
+                    <span class="n">plot</span><span class="o">.</span><span class="n">plot_param</span><span class="p">(</span><span class="n">morph_file_names</span><span class="p">,</span> <span class="n">param_list</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
             <span class="c1"># Can occur for non-refined plotting parameters</span>
             <span class="c1"># i.e. --smear is not selected as an option, but smear is the</span>
             <span class="c1"># plotting parameter</span>

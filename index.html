@@ -6,20 +6,23 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph documentation &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+  <title>diffpy.morph documentation &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=27619e95"></script>
+      <script src="_static/documentation_options.js?v=4ee4825d"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="diffpy.morph Tutorial" href="quickstart.html" /> 
+    <link rel="next" title="Quickstart" href="quickstart.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,9 +45,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
 </ul>
 
@@ -64,7 +69,7 @@
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">diffpy.morph documentation</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/index.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -74,10 +79,10 @@
              
   <section id="diffpy-morph-documentation">
 <h1>diffpy.morph documentation<a class="headerlink" href="#diffpy-morph-documentation" title="Link to this heading"></a></h1>
-<p>diffpy.morph - Tools for manipulating and comparing diffraction data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> - Tools for manipulating and comparing PDF profiles</p>
 <div class="line-block">
-<div class="line">Software version 0.1.4rc1.</div>
-<div class="line">Last updated March 22, 2025.</div>
+<div class="line">Software version 0.2.0rc0</div>
+<div class="line">Last updated July 02, 2025.</div>
 </div>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
@@ -106,14 +111,18 @@ If no morphing transformation is specified, <code class="docutils literal notran
 the plotted PDFs.</p>
 <p>Finally, we note that though <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> should work on other spectra
 that are not PDFs, it has not been extensively tested beyond the PDF.</p>
-<p>To get started, please visit the <a class="reference internal" href="quickstart.html#quick-start"><span class="std std-ref">diffpy.morph Tutorial</span></a>.</p>
+<p>To get started, please visit the <a class="reference external" href="quickstart.html">quickstart tutorial</a>.
+For those looking to see more advanced features, you can read our
+<a class="reference external" href="tutorials.html">advanced tutorials</a>.
+Finally, for those seeking to integrate <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> into their
+Python scripts, check out the <a class="reference external" href="morphpy.html">morphpy page</a>.</p>
 <section id="authors">
 <h3>Authors<a class="headerlink" href="#authors" title="Link to this heading"></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> is developed by members of the Billinge Group at
 Columbia University and Brookhaven National Laboratory including
 Christopher L. Farrow, Christopher J. Wright, Pavol Juhás, Chia-Hao
-(Timothy) Liu, Andrew Yang, and Simon J. L. Billinge.</p>
-<p>For a detailed list of contributors see
+(Timothy) Liu, Andrew Yang, and Simon J. L. Billinge.
+For a detailed list of contributors see
 <a class="reference external" href="https://github.com/diffpy/diffpy.morph/graphs/contributors">https://github.com/diffpy/diffpy.morph/graphs/contributors</a>.</p>
 </section>
 <section id="installation">
@@ -121,16 +130,22 @@ Christopher L. Farrow, Christopher J. Wright, Pavol Juhás, Chia-Hao
 <p>See the <a class="reference external" href="https://github.com/diffpy/diffpy.morph#installation">README</a>
 file included with the distribution.</p>
 </section>
+<section id="acknowledgements">
+<h3>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> is built and maintained with <a class="reference external" href="https://scikit-package.github.io/scikit-package/">scikit-package</a>.</p>
+</section>
 <section id="table-of-contents">
 <h3>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h3>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api/diffpy.morph.morphs.html">diffpy.morph.morphs package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/diffpy.morph.morph_helpers.html">diffpy.morph.morph_helpers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/diffpy.morph.morphs.html">diffpy.morph.morphs package</a></li>
 </ul>
 </li>
 </ul>
@@ -150,7 +165,7 @@ file included with the distribution.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="diffpy.morph Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="quickstart.html" class="btn btn-neutral float-right" title="Quickstart" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

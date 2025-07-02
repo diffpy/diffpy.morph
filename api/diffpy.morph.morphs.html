@@ -6,21 +6,23 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs package &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+  <title>diffpy.morph.morphs package &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=27619e95"></script>
+      <script src="../_static/documentation_options.js?v=4ee4825d"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=cca77546"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="diffpy.morph.morph_helpers package" href="diffpy.morph.morph_helpers.html" />
-    <link rel="prev" title="diffpy.morph package" href="diffpy.morph.html" /> 
+    <link rel="prev" title="diffpy.morph.morph_helpers package" href="diffpy.morph.morph_helpers.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,12 +45,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../release.html">Release notes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="diffpy.morph.html">Package API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">diffpy.morph.morphs package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.morph.morph_helpers.html">diffpy.morph.morph_helpers package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">diffpy.morph.morphs package</a></li>
 </ul>
 </li>
 </ul>
@@ -70,7 +74,7 @@
           <li class="breadcrumb-item"><a href="diffpy.morph.html">diffpy.morph package</a></li>
       <li class="breadcrumb-item active">diffpy.morph.morphs package</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/diffpy.morph.morphs.rst.txt" rel="nofollow"> View page source</a>
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/api/diffpy.morph.morphs.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -83,107 +87,327 @@
 <p>Definition of morphs.</p>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
-<section id="module-diffpy.morph.morphs.morphishape">
-<span id="diffpy-morph-morphs-morphishape-module"></span><h3>diffpy.morph.morphs.morphishape module<a class="headerlink" href="#module-diffpy.morph.morphs.morphishape" title="Link to this heading"></a></h3>
-<p>class MorphISphere – apply inverse spherical shape function
-class MorphISpheroid – apply inverse spheroidal shape function</p>
+<section id="module-diffpy.morph.morphs.morphscale">
+<span id="diffpy-morph-morphs-morphscale-module"></span><h3>diffpy.morph.morphs.morphscale module<a class="headerlink" href="#module-diffpy.morph.morphs.morphscale" title="Link to this heading"></a></h3>
+<p>Class MorphScale – scale the morph data.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphishape.</span></span><span class="sig-name descname"><span class="pre">MorphISphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphscale.</span></span><span class="sig-name descname"><span class="pre">MorphScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphscale.html#MorphScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Apply inverse spherical characteristic function to the morph</p>
+<p>Scale the morph.</p>
+<p>This scales the morph.</p>
 <section id="configuration-variables">
 <h4>Configuration Variables<a class="headerlink" href="#configuration-variables" title="Link to this heading"></a></h4>
 <dl class="simple">
-<dt>iradius</dt><dd><p>The radius of the sphere.</p>
+<dt>scale</dt><dd><p>The scale to apply to y_target_in.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">rtype<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No return.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISphere.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.morph" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphscale.html#MorphScale.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.morph" title="Link to this definition"></a></dt>
 <dd><p>Apply a scale factor.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['iradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.parnames" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['scale']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.parnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">inverse</span> <span class="pre">spherical</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.summary" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Scale</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">specified</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.summary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.xinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.xinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.xoutlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.xoutlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.yinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.yinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.youtlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morphs.morphshape">
+<span id="diffpy-morph-morphs-morphshape-module"></span><h3>diffpy.morph.morphs.morphshape module<a class="headerlink" href="#module-diffpy.morph.morphs.morphshape" title="Link to this heading"></a></h3>
+<p>Class MorphSphere – apply a spherical shape function to the morph class
+MorphSpheroid – apply a spheroidal shape function to the morph.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshape.</span></span><span class="sig-name descname"><span class="pre">MorphSphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Apply a spherical characteristic function to the morph.</p>
+<section id="id1">
+<h4>Configuration Variables<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>radius</dt><dd><p>The radius of the sphere.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSphere.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply a scale factor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['radius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">spherical</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.youtlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphishape.</span></span><span class="sig-name descname"><span class="pre">MorphISpheroid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISpheroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshape.</span></span><span class="sig-name descname"><span class="pre">MorphSpheroid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSpheroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Apply inverse spherical characteristic function to the morph</p>
-<section id="id1">
-<h4>Configuration Variables<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<p>Apply a spherical characteristic function to the morph.</p>
+<section id="id2">
+<h4>Configuration Variables<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
 <dl class="simple">
-<dt>iradius</dt><dd><p>The equatorial radius of the spheroid.</p>
+<dt>radius</dt><dd><p>The equatorial radius of the spheroid.</p>
 </dd>
-<dt>ipradius</dt><dd><p>The polar radius of the spheroid.</p>
+<dt>pradius</dt><dd><p>The polar radius of the spheroid.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISpheroid.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.morph" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSpheroid.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.morph" title="Link to this definition"></a></dt>
 <dd><p>Apply a scale factor.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['iradius',</span> <span class="pre">'ipradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.parnames" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['radius',</span> <span class="pre">'pradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.parnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">inverse</span> <span class="pre">spheroidal</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.summary" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">spheroidal</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.summary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.xinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.xinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.xoutlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.xoutlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.yinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.yinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.youtlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morphs.morphshift">
+<span id="diffpy-morph-morphs-morphshift-module"></span><h3>diffpy.morph.morphs.morphshift module<a class="headerlink" href="#module-diffpy.morph.morphs.morphshift" title="Link to this heading"></a></h3>
+<p>Class MorphShift – shift the morph.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshift.</span></span><span class="sig-name descname"><span class="pre">MorphShift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshift.html#MorphShift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Shift the morph.</p>
+<section id="id3">
+<h4>Configuration Variables<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>vshift</dt><dd><p>The vertical shift to apply to the morph.</p>
+</dd>
+<dt>hshift</dt><dd><p>The horizontal shift to apply to the morph.</p>
+</dd>
+</dl>
+<p>Note that a horizontal shift may cause edge effects, since the morph does
+not know what lies beyond the edge of the signals.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshift.html#MorphShift.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply the shifts.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['hshift',</span> <span class="pre">'vshift']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Shift</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">specified</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+<section id="module-diffpy.morph.morphs.morphfuncy">
+<span id="diffpy-morph-morphs-morphfuncy-module"></span><h3>diffpy.morph.morphs.morphfuncy module<a class="headerlink" href="#module-diffpy.morph.morphs.morphfuncy" title="Link to this heading"></a></h3>
+<p>Class MorphFuncy – apply a user-supplied python function to the
+y-axis.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphfuncy.</span></span><span class="sig-name descname"><span class="pre">MorphFuncy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphfuncy.html#MorphFuncy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Apply a custom function to the y-axis of the morph function.</p>
+<p>General morph function that applies a user-supplied function to the
+y-coordinates of morph data to make it align with a target.</p>
+<section id="id4">
+<h4>Configuration Variables<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>function: callable</dt><dd><p>The user-supplied function that applies a transformation to the
+y-coordinates of the data.</p>
+</dd>
+<dt>parameters: dict</dt><dd><p>A dictionary of parameters to pass to the function.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><em>A tuple (x_morph_out, y_morph_out, x_target_out, y_target_out)</em></p></li>
+<li><p><em>where the target values remain the same and the morph data is</em></p></li>
+<li><p><em>transformed according to the user-specified function and parameters</em></p></li>
+<li><p><em>The morphed data is returned on the same grid as the unmorphed data</em></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Import the funcy morph function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphs.morphfuncy</span><span class="w"> </span><span class="kn">import</span> <span class="n">MorphFuncy</span>
+</pre></div>
+</div>
+<p>Define or import the user-supplied transformation function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">sine_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">frequency</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">frequency</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span>
+</pre></div>
+</div>
+<p>Provide initial guess for parameters:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Run the funcy morph given input morph array (x_morph, y_morph)and target
+array (x_target, y_target):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span> <span class="o">=</span> <span class="n">MorphFuncy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">sine_function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">funcy</span> <span class="o">=</span> <span class="n">parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_morph_out</span><span class="p">,</span> <span class="n">y_morph_out</span><span class="p">,</span> <span class="n">x_target_out</span><span class="p">,</span> <span class="n">y_target_out</span> <span class="o">=</span>
+<span class="gp">... </span><span class="n">morph</span><span class="o">.</span><span class="n">morph</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To access parameters from the morph instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x_morph_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">x_morph_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_morph_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">y_morph_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_target_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">x_target_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_target_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">y_target_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parameters_out</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">funcy</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphfuncy.html#MorphFuncy.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply the user-supplied Python function to the y-coordinates
+of the morph data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['function',</span> <span class="pre">'funcy']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">a</span> <span class="pre">Python</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">y-axis</span> <span class="pre">data'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.youtlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -345,14 +569,15 @@ from last morph.</p>
 </section>
 <section id="module-diffpy.morph.morphs.morphresolution">
 <span id="diffpy-morph-morphs-morphresolution-module"></span><h3>diffpy.morph.morphs.morphresolution module<a class="headerlink" href="#module-diffpy.morph.morphs.morphresolution" title="Link to this heading"></a></h3>
-<p>class MorphResolutionDamping – apply resolution broadening to the morph</p>
+<p>Class MorphResolutionDamping – apply resolution broadening to the
+morph.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphresolution.MorphResolutionDamping">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphresolution.</span></span><span class="sig-name descname"><span class="pre">MorphResolutionDamping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphresolution.html#MorphResolutionDamping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphresolution.MorphResolutionDamping" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
 <p>Apply resolution damping and broadening to the morph.</p>
-<section id="id2">
-<h4>Configuration Variables<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
+<section id="id5">
+<h4>Configuration Variables<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
 <dl class="simple">
 <dt>qdamp</dt><dd><p>Peak dampening term.</p>
 </dd>
@@ -399,165 +624,56 @@ from last morph.</p>
 </dd></dl>
 
 </section>
-<section id="module-diffpy.morph.morphs.morphshape">
-<span id="diffpy-morph-morphs-morphshape-module"></span><h3>diffpy.morph.morphs.morphshape module<a class="headerlink" href="#module-diffpy.morph.morphs.morphshape" title="Link to this heading"></a></h3>
-<p>class MorphSphere – apply a spherical shape function to the morph
-class MorphSpheroid – apply a spheroidal shape function to the morph</p>
+<section id="module-diffpy.morph.morphs.morphstretch">
+<span id="diffpy-morph-morphs-morphstretch-module"></span><h3>diffpy.morph.morphs.morphstretch module<a class="headerlink" href="#module-diffpy.morph.morphs.morphstretch" title="Link to this heading"></a></h3>
+<p>Class MorphStretch – stretch the morph.</p>
 <dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshape.</span></span><span class="sig-name descname"><span class="pre">MorphSphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphstretch.</span></span><span class="sig-name descname"><span class="pre">MorphStretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphstretch.html#MorphStretch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Apply a spherical characteristic function to the morph</p>
-<section id="id3">
-<h4>Configuration Variables<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
+<p>Smear the morph function.</p>
+<p>This stretches (broadens) the morph.</p>
+<section id="id6">
+<h4>Configuration Variables<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
 <dl class="simple">
-<dt>radius</dt><dd><p>The radius of the sphere.</p>
+<dt>stretch</dt><dd><p>The stretch factor to apply to y_morph_in.
+This is applied such that a feature at r is moved to r * (1 + stretch).</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSphere.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.morph" title="Link to this definition"></a></dt>
-<dd><p>Apply a scale factor.</p>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphstretch.html#MorphStretch.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.morph" title="Link to this definition"></a></dt>
+<dd><p>Resample arrays onto specified grid.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['radius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.parnames" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['stretch']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.parnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">spherical</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.summary" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Stretch</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">desired</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.summary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.xinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.xinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.xoutlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.xoutlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.yinlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.yinlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSphere.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSphere.youtlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshape.</span></span><span class="sig-name descname"><span class="pre">MorphSpheroid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSpheroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Apply a spherical characteristic function to the morph</p>
-<section id="id4">
-<h4>Configuration Variables<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
-<dl class="simple">
-<dt>radius</dt><dd><p>The equatorial radius of the spheroid.</p>
-</dd>
-<dt>pradius</dt><dd><p>The polar radius of the spheroid.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshape.html#MorphSpheroid.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.morph" title="Link to this definition"></a></dt>
-<dd><p>Apply a scale factor.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['radius',</span> <span class="pre">'pradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.parnames" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">spheroidal</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.summary" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.xinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.xoutlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.yinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshape.MorphSpheroid.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshape.MorphSpheroid.youtlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-</dd></dl>
-
-</section>
-<section id="module-diffpy.morph.morphs.morphshift">
-<span id="diffpy-morph-morphs-morphshift-module"></span><h3>diffpy.morph.morphs.morphshift module<a class="headerlink" href="#module-diffpy.morph.morphs.morphshift" title="Link to this heading"></a></h3>
-<p>class MorphShift – shift the morph</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphshift.</span></span><span class="sig-name descname"><span class="pre">MorphShift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshift.html#MorphShift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Shift the morph.</p>
-<section id="id5">
-<h4>Configuration Variables<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
-<dl class="simple">
-<dt>vshift</dt><dd><p>The vertical shift to apply to the morph.</p>
-</dd>
-<dt>hshift</dt><dd><p>The horizontal shift to apply to the morph.</p>
-</dd>
-</dl>
-<p>Note that a horizontal shift may cause edge effects, since the morph does
-not know what lies beyond the edge of the signals.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphshift.html#MorphShift.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.morph" title="Link to this definition"></a></dt>
-<dd><p>Apply the shifts.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['hshift',</span> <span class="pre">'vshift']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.parnames" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Shift</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">specified</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.summary" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.xinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.xoutlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.yinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphshift.MorphShift.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphshift.MorphShift.youtlabel" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.youtlabel" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </section>
@@ -594,8 +710,8 @@ automatically modified attributes.</p>
 </dd>
 </dl>
 </section>
-<section id="id6">
-<h4>Instance Attributes<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
+<section id="id7">
+<h4>Instance Attributes<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
 <dl class="simple">
 <dt>config: dict</dt><dd><p>All configuration variables.</p>
 </dd>
@@ -617,8 +733,8 @@ automatically modified attributes.</p>
 </dd>
 </dl>
 </section>
-<section id="id7">
-<h4>Properties<a class="headerlink" href="#id7" title="Link to this heading"></a></h4>
+<section id="id8">
+<h4>Properties<a class="headerlink" href="#id8" title="Link to this heading"></a></h4>
 <dl class="simple">
 <dt>xy_morph_in</dt><dd><p>Tuple of (x_morph_in, y_morph_in).</p>
 </dd>
@@ -685,7 +801,7 @@ This method should be overloaded in a derived class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morph.Morph.plotInputs">
 <span class="sig-name descname"><span class="pre">plotInputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xylabels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morph.html#Morph.plotInputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morph.Morph.plotInputs" title="Link to this definition"></a></dt>
-<dd><p>Plot input arrays using matplotlib.pyplot</p>
+<dd><p>Plot input arrays using matplotlib.pyplot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>xylabels</strong> – Flag for updating x and y axes labels.</p>
@@ -702,7 +818,7 @@ This method should be overloaded in a derived class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morph.Morph.plotOutputs">
 <span class="sig-name descname"><span class="pre">plotOutputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xylabels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">plotargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morph.html#Morph.plotOutputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morph.Morph.plotOutputs" title="Link to this definition"></a></dt>
-<dd><p>Plot output arrays using matplotlib.pyplot</p>
+<dd><p>Plot output arrays using matplotlib.pyplot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -779,9 +895,115 @@ Note that “label” will be ignored.</p></li>
 </dd></dl>
 
 </section>
+<section id="module-diffpy.morph.morphs.morphsqueeze">
+<span id="diffpy-morph-morphs-morphsqueeze-module"></span><h3>diffpy.morph.morphs.morphsqueeze module<a class="headerlink" href="#module-diffpy.morph.morphs.morphsqueeze" title="Link to this heading"></a></h3>
+<p>Class MorphSqueeze – Apply a polynomial to squeeze the morph
+function.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphsqueeze.</span></span><span class="sig-name descname"><span class="pre">MorphSqueeze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphsqueeze.html#MorphSqueeze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Squeeze the morph function.</p>
+<p>This applies a polynomial to squeeze the morph non-linearly.</p>
+<section id="id9">
+<h4>Configuration Variables<a class="headerlink" href="#id9" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>squeeze<span class="classifier">Dictionary</span></dt><dd><p>The polynomial coefficients {a0, a1, …, an} for the squeeze
+function where the polynomial would be of the form
+a0 + a1*x + a2*x^2 and so on.  The order of the polynomial is
+determined by the length of the dictionary.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><em>A tuple (x_morph_out, y_morph_out, x_target_out, y_target_out)</em></p></li>
+<li><p><em>where the target values remain the same and the morph data is</em></p></li>
+<li><p><em>shifted according to the squeeze. The morphed data is returned on</em></p></li>
+<li><p><em>the same grid as the unmorphed data.</em></p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Import the squeeze morph function:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphs.morphsqueeze</span><span class="w"> </span><span class="kn">import</span> <span class="n">MorphSqueeze</span>
+</pre></div>
+</div>
+<p>Provide initial guess for squeezing coefficients:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">squeeze_coeff</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a0&quot;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;a1&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="s2">&quot;a2&quot;</span><span class="p">:</span><span class="mf">0.005</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Run the squeeze morph given input morph array (x_morph, y_morph) and target
+array (x_target, y_target):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span> <span class="o">=</span> <span class="n">MorphSqueeze</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">squeeze</span> <span class="o">=</span> <span class="n">squeeze_coeff</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_morph_out</span><span class="p">,</span> <span class="n">y_morph_out</span><span class="p">,</span> <span class="n">x_target_out</span><span class="p">,</span> <span class="n">y_target_out</span> <span class="o">=</span>
+<span class="gp">... </span><span class="n">morph</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To access parameters from the morph instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x_morph_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">x_morph_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_morph_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">y_morph_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_target_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">x_target_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_target_in</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">y_target_in</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">squeeze_coeff_out</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">squeeze</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_high">
+<span class="sig-name descname"><span class="pre">extrap_index_high</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_high" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_low">
+<span class="sig-name descname"><span class="pre">extrap_index_low</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_low" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphsqueeze.html#MorphSqueeze.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply a polynomial to squeeze the morph function.</p>
+<p>The morphed data is returned on the same grid as the unmorphed
+data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['squeeze']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Squeeze</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">polynomial</span> <span class="pre">shift'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
 <section id="module-diffpy.morph.morphs.morphrgrid">
 <span id="diffpy-morph-morphs-morphrgrid-module"></span><h3>diffpy.morph.morphs.morphrgrid module<a class="headerlink" href="#module-diffpy.morph.morphs.morphrgrid" title="Link to this heading"></a></h3>
-<p>class MorphRGrid – put morph and target on desired grid.</p>
+<p>Class MorphRGrid – put morph and target on desired grid.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphrgrid.</span></span><span class="sig-name descname"><span class="pre">MorphRGrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphrgrid.html#MorphRGrid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid" title="Link to this definition"></a></dt>
@@ -789,8 +1011,8 @@ Note that “label” will be ignored.</p></li>
 <p>Resample to specified r-grid.</p>
 <p>This resamples both the morph and target arrays to be on the
 specified grid.</p>
-<section id="id8">
-<h4>Configuration Variables<a class="headerlink" href="#id8" title="Link to this heading"></a></h4>
+<section id="id10">
+<h4>Configuration Variables<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
 <dl class="simple">
 <dt>rmin</dt><dd><p>The lower-bound on the r-range.</p>
 </dd>
@@ -844,9 +1066,116 @@ attributes.</p>
 </dd></dl>
 
 </section>
+<section id="module-diffpy.morph.morphs.morphishape">
+<span id="diffpy-morph-morphs-morphishape-module"></span><h3>diffpy.morph.morphs.morphishape module<a class="headerlink" href="#module-diffpy.morph.morphs.morphishape" title="Link to this heading"></a></h3>
+<p>Class MorphISphere – apply inverse spherical shape function class
+MorphISpheroid – apply inverse spheroidal shape function.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphishape.</span></span><span class="sig-name descname"><span class="pre">MorphISphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISphere"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Apply inverse spherical characteristic function to the morph.</p>
+<section id="id11">
+<h4>Configuration Variables<a class="headerlink" href="#id11" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>iradius</dt><dd><p>The radius of the sphere.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISphere.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply a scale factor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['iradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">inverse</span> <span class="pre">spherical</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISphere.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISphere.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphishape.</span></span><span class="sig-name descname"><span class="pre">MorphISpheroid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISpheroid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
+<p>Apply inverse spherical characteristic function to the morph.</p>
+<section id="id12">
+<h4>Configuration Variables<a class="headerlink" href="#id12" title="Link to this heading"></a></h4>
+<dl class="simple">
+<dt>iradius</dt><dd><p>The equatorial radius of the spheroid.</p>
+</dd>
+<dt>ipradius</dt><dd><p>The polar radius of the spheroid.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.morph">
+<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphishape.html#MorphISpheroid.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.morph" title="Link to this definition"></a></dt>
+<dd><p>Apply a scale factor.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.parnames">
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['iradius',</span> <span class="pre">'ipradius']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.parnames" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Apply</span> <span class="pre">inverse</span> <span class="pre">spheroidal</span> <span class="pre">characteristic</span> <span class="pre">function</span> <span class="pre">to</span> <span class="pre">morph'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.summary" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.xinlabel">
+<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.xinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.xoutlabel">
+<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.yinlabel">
+<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.yinlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphishape.MorphISpheroid.youtlabel">
+<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphishape.MorphISpheroid.youtlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
 <section id="module-diffpy.morph.morphs.morphsmear">
 <span id="diffpy-morph-morphs-morphsmear-module"></span><h3>diffpy.morph.morphs.morphsmear module<a class="headerlink" href="#module-diffpy.morph.morphs.morphsmear" title="Link to this heading"></a></h3>
-<p>class MorphSmear – smear the morph.</p>
+<p>Class MorphSmear – smear the morph.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphsmear.MorphSmear">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphsmear.</span></span><span class="sig-name descname"><span class="pre">MorphSmear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphsmear.html#MorphSmear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphsmear.MorphSmear" title="Link to this definition"></a></dt>
@@ -854,8 +1183,8 @@ attributes.</p>
 <p>Smear the morph function.</p>
 <p>This smears (broadens) the peaks of the morph.  Note that this operates
 on the RDF. Inputs are not automatically converted to the RDF.</p>
-<section id="id9">
-<h4>Configuration Variables<a class="headerlink" href="#id9" title="Link to this heading"></a></h4>
+<section id="id13">
+<h4>Configuration Variables<a class="headerlink" href="#id13" title="Link to this heading"></a></h4>
 <dl class="simple">
 <dt>smear</dt><dd><p>The smear factor to apply to y_morph_in.</p>
 </dd>
@@ -900,122 +1229,6 @@ on the RDF. Inputs are not automatically converted to the RDF.</p>
 </dd></dl>
 
 </section>
-<section id="module-diffpy.morph.morphs.morphstretch">
-<span id="diffpy-morph-morphs-morphstretch-module"></span><h3>diffpy.morph.morphs.morphstretch module<a class="headerlink" href="#module-diffpy.morph.morphs.morphstretch" title="Link to this heading"></a></h3>
-<p>class MorphStretch – stretch the morph.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphstretch.</span></span><span class="sig-name descname"><span class="pre">MorphStretch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphstretch.html#MorphStretch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Smear the morph function.</p>
-<p>This stretches (broadens) the morph.</p>
-<section id="id10">
-<h4>Configuration Variables<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
-<dl class="simple">
-<dt>stretch</dt><dd><p>The stretch factor to apply to y_morph_in.
-This is applied such that a feature at r is moved to r * (1 + stretch).</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphstretch.html#MorphStretch.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.morph" title="Link to this definition"></a></dt>
-<dd><p>Resample arrays onto specified grid.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['stretch']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.parnames" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Stretch</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">desired</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.summary" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.xinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.xoutlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.yinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphstretch.MorphStretch.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphstretch.MorphStretch.youtlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-</dd></dl>
-
-</section>
-<section id="module-diffpy.morph.morphs.morphscale">
-<span id="diffpy-morph-morphs-morphscale-module"></span><h3>diffpy.morph.morphs.morphscale module<a class="headerlink" href="#module-diffpy.morph.morphs.morphscale" title="Link to this heading"></a></h3>
-<p>class MorphScale – scale the morph data</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphs.morphscale.</span></span><span class="sig-name descname"><span class="pre">MorphScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphscale.html#MorphScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#diffpy.morph.morphs.morph.Morph" title="diffpy.morph.morphs.morph.Morph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Morph</span></code></a></p>
-<p>Scale the morph.</p>
-<p>This scales the morph.</p>
-<section id="id11">
-<h4>Configuration Variables<a class="headerlink" href="#id11" title="Link to this heading"></a></h4>
-<dl class="simple">
-<dt>scale</dt><dd><p>The scale to apply to y_target_in.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">rtype<span class="colon">:</span></dt>
-<dd class="field-odd"><p>No return.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.morph">
-<span class="sig-name descname"><span class="pre">morph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morphscale.html#MorphScale.morph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.morph" title="Link to this definition"></a></dt>
-<dd><p>Apply a scale factor.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['scale']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.parnames" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.summary">
-<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Scale</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">specified</span> <span class="pre">amount'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.summary" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.xinlabel">
-<span class="sig-name descname"><span class="pre">xinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.xinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.xoutlabel">
-<span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.xoutlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.yinlabel">
-<span class="sig-name descname"><span class="pre">yinlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.yinlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="diffpy.morph.morphs.morphscale.MorphScale.youtlabel">
-<span class="sig-name descname"><span class="pre">youtlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'G</span> <span class="pre">(1/A^2)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphscale.MorphScale.youtlabel" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-</dd></dl>
-
-</section>
 </section>
 </section>
 
@@ -1023,8 +1236,7 @@ This is applied such that a feature at r is moved to r * (1 + stretch).</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="diffpy.morph.html" class="btn btn-neutral float-left" title="diffpy.morph package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="diffpy.morph.morph_helpers.html" class="btn btn-neutral float-right" title="diffpy.morph.morph_helpers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="diffpy.morph.morph_helpers.html" class="btn btn-neutral float-left" title="diffpy.morph.morph_helpers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>

@@ -11,26 +11,10 @@ diffpy.morph.morphs package
 Submodules
 ----------
 
-diffpy.morph.morphs.morphishape module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morphs.morphishape
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.morphs.morphchain module
+diffpy.morph.morphs.morphscale module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.morphs.morphchain
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-diffpy.morph.morphs.morphresolution module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morphs.morphresolution
+.. automodule:: diffpy.morph.morphs.morphscale
     :members:
     :undoc-members:
     :show-inheritance:
@@ -51,26 +35,26 @@ diffpy.morph.morphs.morphshift module
     :undoc-members:
     :show-inheritance:
 
-diffpy.morph.morphs.morph module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diffpy.morph.morphs.morphfuncy module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.morphs.morph
+.. automodule:: diffpy.morph.morphs.morphfuncy
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.morph.morphs.morphrgrid module
+diffpy.morph.morphs.morphchain module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.morphs.morphrgrid
+.. automodule:: diffpy.morph.morphs.morphchain
     :members:
     :undoc-members:
     :show-inheritance:
 
-diffpy.morph.morphs.morphsmear module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diffpy.morph.morphs.morphresolution module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.morphs.morphsmear
+.. automodule:: diffpy.morph.morphs.morphresolution
     :members:
     :undoc-members:
     :show-inheritance:
@@ -83,10 +67,42 @@ diffpy.morph.morphs.morphstretch module
     :undoc-members:
     :show-inheritance:
 
-diffpy.morph.morphs.morphscale module
+diffpy.morph.morphs.morph module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.morph.morphs.morph
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.morph.morphs.morphsqueeze module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.morph.morphs.morphsqueeze
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.morph.morphs.morphrgrid module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.morph.morphs.morphscale
+.. automodule:: diffpy.morph.morphs.morphrgrid
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.morph.morphs.morphishape module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.morph.morphs.morphishape
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.morph.morphs.morphsmear module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.morph.morphs.morphsmear
     :members:
     :undoc-members:
     :show-inheritance:

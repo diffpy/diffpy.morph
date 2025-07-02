@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.2.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4ee4825d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Advanced Tutorials" href="tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.morph
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using diffpy.morph in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.morph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using diffpy.morph in Python</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/morphpy.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-diffpy-morph-in-python">
+<span id="morphpy"></span><h1>Using diffpy.morph in Python<a class="headerlink" href="#using-diffpy-morph-in-python" title="Link to this heading"></a></h1>
+<p>On top of the command-line (CLI) usage described in the <a class="reference external" href="quickstart.html">quickstart tutorial</a>,
+<code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> also supports Python integration.
+All functionality supported on the CLI is also available for Python.
+This page is intended for those acquainted with the basic morphs
+described in the aforementioned quickstart tutorial who want to use <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> in their
+Python scripts.</p>
+<section id="python-morphing-functions">
+<h2>Python Morphing Functions<a class="headerlink" href="#python-morphing-functions" title="Link to this heading"></a></h2>
+<blockquote>
+<div><ol class="arabic">
+<li><p>In the quickstart tutorial, you were asked to try a combined scale, stretch, and smear
+morph on the files <cite>darkSub_rh20_C_01.gr</cite> and <cite>darkSub_rh20_C_44.gr</cite> using the command-line
+command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+</pre></div>
+</div>
+</li>
+<li><p>To do the same on Python, we must first create a new Python script in the same directory as the
+data files <cite>darkSub_rh20_C_01.gr</cite> and <cite>darkSub_rh20_C_44.gr</cite>.</p></li>
+<li><p>Then, in that script, import</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<ol class="arabic" start="3">
+<li><p>Finally, we run the <code class="docutils literal notranslate"><span class="pre">morph</span></code> function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">morph_info</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph</span><span class="p">(</span><span class="s2">&quot;darkSub_rh20_C_01.gr&quot;</span><span class="p">,</span> <span class="s2">&quot;darkSub_rh20_C_44.gr&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">smear</span><span class="o">=-</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">morph</span></code> function takes in two file names (or paths). You can also provide various parameters
+for morphing (see the Full Parameter List below).</p></li>
+<li><p>If, let’s say, the file <cite>darkSub_rh20_C_01.gr</cite> is in a subdirectory <cite>subdir/darkSub_rh20_C_01.gr</cite>,
+you should replace <code class="docutils literal notranslate"><span class="pre">&quot;darkSub_rh20_C_01.gr&quot;</span></code> in the above example with <code class="docutils literal notranslate"><span class="pre">&quot;subdir/darkSub_rh20_C_01.gr&quot;</span></code>.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">morph</span></code> function returns a dictionary <code class="docutils literal notranslate"><span class="pre">morph_info</span></code> and a numpy array <code class="docutils literal notranslate"><span class="pre">morph_table</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">morph_info</span></code> contains all morphs as keys (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;scale&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;stretch&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;smear&quot;</span></code>) with
+the optimized morphing parameters found by <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> as values. <code class="docutils literal notranslate"><span class="pre">morph_info</span></code> also contains
+the Rw and Pearson correlation coefficients found post-morphing. Try printing <code class="docutils literal notranslate"><span class="pre">print(morph_info)</span></code>
+and compare the values stored in this dictionary to those given by the CLI output!</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">morph_table</span></code> is a two-column array of the morphed function interpolated onto the grid of the
+target function (e.g. in our example, it returns the contents of <cite>darkSub_rh20_C_01.gr</cite> after
+the morphs are applied interpolated onto the grid of <cite>darkSub_rh20_C_44.gr</cite>).</p></li>
+</ul>
+</li>
+<li><p>Notice that most parameters you are able to use are the same as the options provided in the command-line
+interface version of <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code>. For example, the <code class="docutils literal notranslate"><span class="pre">--apply</span></code> option becomes the <code class="docutils literal notranslate"><span class="pre">apply=True</span></code> parameter.</p></li>
+<li><p>With that, you have already mastered the basics of using <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> on Python!</p></li>
+<li><p>Note that instead of passing two files to <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code>, you might instead want to directly
+pass arrays. For example, rather than passing <cite>darkSub_rh20_C_01.gr</cite>, I may want to pass
+a two-column array named <code class="docutils literal notranslate"><span class="pre">ds_rh20_c_01_array</span></code> containing the data table contents of the file
+<cite>darkSub_rh20_C_01.gr</cite>. In this case, we have a separate function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+</pre></div>
+</div>
+</li>
+<li><p>Assuming we have loaded the data in <cite>darkSub_rh20_C_01.gr</cite> into <code class="docutils literal notranslate"><span class="pre">ds_rh20_c_01_array</span></code> and
+<cite>darkSub_rh20_C_44.gr</cite> into <code class="docutils literal notranslate"><span class="pre">ds_rh20_c_44_array</span></code>, we can apply the same morph as step 3
+by running</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">morph_info</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">ds_rh20_c_01_array</span><span class="p">,</span> <span class="n">ds_rh20_c_44_array</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">smear</span><span class="o">=-</span><span class="mf">0.08</span><span class="p">,</span> <span class="n">stretch</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Notice that the two-column format of the input to <code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code> is the same as the
+output of <code class="docutils literal notranslate"><span class="pre">morph</span></code> and <code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code>. It is VERY IMPORTANT that the data is in two-column format
+rather than the traditional two-row format. This is to reflect the file formats conventionally
+used to store PDFs. Again, try printing <code class="docutils literal notranslate"><span class="pre">print(morph_info)</span></code> and compare!</p></li>
+<li><p>For a full list of parameters used by (both) <code class="docutils literal notranslate"><span class="pre">morph</span></code> and <code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code>, see the Full Parameter List
+section below.</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="full-parameter-list">
+<h2>Full Parameter List<a class="headerlink" href="#full-parameter-list" title="Link to this heading"></a></h2>
+<section id="general-parameters">
+<h3>General Parameters<a class="headerlink" href="#general-parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>save: str or path</dt><dd><p>Save the morphed function to a the file passed to save. Use ‘-’ for stdout.</p>
+</dd>
+<dt>verbose: bool</dt><dd><p>Print additional header details to saved files. These include details about the morph
+inputs and outputs.</p>
+</dd>
+<dt>rmin: float</dt><dd><p>Minimum r-value (abscissa) to use for function comparisons.</p>
+</dd>
+<dt>rmax: float</dt><dd><p>Maximum r-value (abscissa) to use for function comparisons.</p>
+</dd>
+<dt>tolerance: float</dt><dd><p>Specify least squares refiner tolerance when optimizing for morph parameters. Default: 10e-8.</p>
+</dd>
+<dt>pearson: bool</dt><dd><p>The refiner instead maximizes agreement in the Pearson function
+(default behavior is to minimize the residual).
+Note that this is insensitive to scale.</p>
+</dd>
+<dt>addpearson: bool</dt><dd><p>Maximize agreement in the Pearson function as well as minimizing the residual.</p>
+</dd>
+</dl>
+</section>
+<section id="manipulations">
+<h3>Manipulations<a class="headerlink" href="#manipulations" title="Link to this heading"></a></h3>
+<p>These parameters select the manipulations that are to be applied to the
+function. The passed values will be refined unless specifically
+excluded with the apply or exclude parameters.</p>
+<dl>
+<dt>apply: bool</dt><dd><p>Apply morphs but do not refine.</p>
+</dd>
+<dt>exclude: str</dt><dd><p>Exclude a manipulation from refinement by name.</p>
+</dd>
+<dt>scale: float</dt><dd><p>Apply scale factor. This multiplies the function ordinate by scale.</p>
+</dd>
+<dt>stretch: float</dt><dd><p>Stretch function grid by a fraction stretch. Specifically, this multiplies the function grid by 1+stretch.</p>
+</dd>
+<dt>squeeze: list of float</dt><dd><p>Squeeze function grid given a polynomial
+p(x) = squeeze[0]+squeeze[1]*x+…+squeeze[n]*x^n. n is dependent on the number
+of values in the user-inputted comma-separated list.
+The morph transforms the function grid from x to x+p(x).
+When this parameter is given, hshift is disabled.
+When n&gt;1, stretch is disabled.</p>
+</dd>
+<dt>smear: float</dt><dd><p>Smear the peaks with a Gaussian of width smear. This
+is done by convolving the function with a Gaussian
+with standard deviation smear. If both smear and
+smear_pdf are used, only smear_pdf will be
+applied.</p>
+</dd>
+<dt>smear_pdf: float</dt><dd><p>Convert PDF to RDF. Then, smear peaks with a Gaussian
+of width smear_pdf. Convert back to PDF. If both smear and
+smear_pdf are used, only smear_pdf will be
+applied.</p>
+</dd>
+<dt>slope: float</dt><dd><p>Slope of the baseline used in converting from PDF to RDF.
+This is used with the option smear_pdf. The slope will
+be estimated if not provided.</p>
+</dd>
+<dt>hshift: float</dt><dd><p>Shift the function horizontally by hshift to the right.</p>
+</dd>
+<dt>vshift: float</dt><dd><p>Shift the function vertically by vshift upward.</p>
+</dd>
+<dt>qdamp: float</dt><dd><p>Dampen PDF by a factor qdamp.</p>
+</dd>
+<dt>radius: float</dt><dd><p>Apply characteristic function of sphere with radius
+given by parameter radius. If pradius is also specified, instead apply
+characteristic function of spheroid with equatorial
+radius radius and polar radius pradius.</p>
+</dd>
+<dt>pradius: float</dt><dd><p>Apply characteristic function of spheroid with
+equatorial radius given by above parameter radius and polar radius pradius.
+If only pradius is specified, instead apply
+characteristic function of sphere with radius pradius.</p>
+</dd>
+<dt>iradius: float</dt><dd><p>Apply inverse characteristic function of sphere with
+radius iradius. If ipradius is also specified, instead
+apply inverse characteristic function of spheroid with
+equatorial radius iradius and polar radius ipradius.</p>
+</dd>
+<dt>ipradius: float</dt><dd><p>Apply inverse characteristic function of spheroid with
+equatorial radius iradius and polar radius ipradius.
+If only ipradius is specified, instead apply inverse
+characteristic function of sphere with radius ipradius.</p>
+</dd>
+<dt>funcy: tuple (function, dict)</dt><dd><p>This morph applies the function funcy[0] with parameters given in funcy[1].
+The function funcy[0] must be a function of both the abscissa and ordinate
+(e.g. take in at least two inputs with as many additional parameters as needed).
+For example, let’s start with a two-column table with abscissa x and ordinate y.
+let us say we want to apply the function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">linear</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>This function takes in both the abscissa and ordinate on top of three additional
+parameters a, b, and c. To use the funcy parameter with initial guesses
+a=1.0, b=2.0, c=3.0, we would pass <code class="docutils literal notranslate"><span class="pre">funcy=(linear,</span> <span class="pre">{a:</span> <span class="pre">1.0,</span> <span class="pre">b:</span> <span class="pre">2.0,</span> <span class="pre">c:</span> <span class="pre">3.0})</span></code>.
+For an example use-case, see the Python-Specific Morphs section below.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="python-specific-morphs">
+<h2>Python-Specific Morphs<a class="headerlink" href="#python-specific-morphs" title="Link to this heading"></a></h2>
+<p>Some morphs in <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> are supported only in Python. Here, we detail
+how they are used and how to call them.</p>
+<section id="morphfuncy-applying-custom-functions">
+<h3>MorphFuncy: Applying custom functions<a class="headerlink" href="#morphfuncy-applying-custom-functions" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> morph allows users to apply a custom Python function
+to the y-axis values of a dataset, enabling flexible and user-defined
+transformations.</p>
+<p>In this tutorial, we walk through how to use <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> with an example
+transformation. Unlike other morphs that can be run from the command line,
+<code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> requires a Python function and is therefore intended to be used
+through Python scripting.</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Import the necessary modules into your Python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</li>
+<li><p>Define a custom Python function to apply a transformation to the data.
+The function must take <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> (1D arrays of the same length)
+along with named parameters, and return a transformed <code class="docutils literal notranslate"><span class="pre">y</span></code> array of the
+same length.
+For this example, we will use a simple linear transformation that
+scales the input and applies an offset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">linear_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">offset</span>
+</pre></div>
+</div>
+</li>
+<li><p>In this example, we use a sine function for the morph data and generate
+the target data by applying the linear transformation with known scale
+and offset to it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_morph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">y_morph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_morph</span><span class="p">)</span>
+<span class="n">x_target</span> <span class="o">=</span> <span class="n">x_morph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">y_target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_target</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">x_target</span> <span class="o">+</span> <span class="mf">0.8</span>
+</pre></div>
+</div>
+</li>
+<li><p>Setup and run the morph using the <code class="docutils literal notranslate"><span class="pre">morph_arrays(...)</span></code>.
+<code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code> expects the morph and target data as <strong>2D arrays</strong> in
+<em>two-column</em> format <code class="docutils literal notranslate"><span class="pre">[[x0,</span> <span class="pre">y0],</span> <span class="pre">[x1,</span> <span class="pre">y1],</span> <span class="pre">...]</span></code>. This will apply
+the user-defined function and refine the parameters to best align the
+morph data with the target data. This includes both the transformation
+parameters (our initial guess) and the transformation function itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">morph_params</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+<span class="n">funcy</span><span class="o">=</span><span class="p">(</span><span class="n">linear_function</span><span class="p">,{</span><span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}))</span>
+</pre></div>
+</div>
+</li>
+<li><p>Extract the fitted parameters from the result:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fitted_params</span> <span class="o">=</span> <span class="n">morph_params</span><span class="p">[</span><span class="s2">&quot;funcy&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitted scale: </span><span class="si">{</span><span class="n">fitted_params</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitted offset: </span><span class="si">{</span><span class="n">fitted_params</span><span class="p">[</span><span class="s1">&#39;offset&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div></blockquote>
+<p>As you can see, the fitted scale and offset values match the ones used
+to generate the target (scale=20 &amp; offset=0.8). This example shows how
+<code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> can be used to fit and apply custom transformations. Now
+it’s your turn to experiment with other custom functions that may be useful
+for analyzing your data.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials.html" class="btn btn-neutral float-left" title="Advanced Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

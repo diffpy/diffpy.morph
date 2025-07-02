@@ -1,0 +1,387 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Tutorials &mdash; diffpy.morph 0.2.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4ee4825d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using diffpy.morph in Python" href="morphpy.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.morph
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morphpy.html">Using diffpy.morph in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.morph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Advanced Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/tutorials.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="advanced-tutorials">
+<span id="tutorials"></span><h1>Advanced Tutorials<a class="headerlink" href="#advanced-tutorials" title="Link to this heading"></a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> has some more functionalities not showcased in the <a class="reference external" href="quickstart.html">quickstart tutorial</a>.
+Tutorials for these are included below. The files required for these tutorials can be downloaded
+<a class="reference download internal" download="" href="_downloads/8dd70104405f43d31c22866f684b6a94/additionalData.zip"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<p>For a full list of options offered by <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code>, please run <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span> <span class="pre">--help</span></code> on the command line.</p>
+<section id="performing-multiple-morphs">
+<h2>Performing Multiple Morphs<a class="headerlink" href="#performing-multiple-morphs" title="Link to this heading"></a></h2>
+<p>It may be useful to morph a PDF against multiple targets:
+for example, you may want to morph a PDF against multiple PDFs measured
+at various temperatures to determine whether a phase change has occurred.
+<code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> currently allows users to morph a PDF against all files in a
+selected directory and plot resulting <span class="math notranslate nohighlight">\(R_w\)</span> values from each morph.</p>
+<ol class="arabic">
+<li><p>Within the <code class="docutils literal notranslate"><span class="pre">additionalData</span></code> directory, <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the
+<code class="docutils literal notranslate"><span class="pre">morphsequence</span></code> directory. Inside, you will find multiple PDFs of
+<span class="math notranslate nohighlight">\(SrFe_2As_2\)</span> measured at various temperatures. These PDFs are
+from <a class="reference external" href="https://global.oup.com/academic/product/atomic-pair-distribution-function-analysis-9780198885801">“Atomic Pair Distribution Function Analysis: A primer”</a>.</p></li>
+<li><p>Let us start by getting the <span class="math notranslate nohighlight">\(R_w\)</span> of <code class="docutils literal notranslate"><span class="pre">SrFe2As2_150K.gr</span></code> compared to
+all other files in the directory. Run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">SrFe2As2_150K</span><span class="o">.</span><span class="n">gr</span> <span class="o">.</span> <span class="o">--</span><span class="n">multiple</span><span class="o">-</span><span class="n">targets</span>
+</pre></div>
+</div>
+<p>The multiple tag indicates we are comparing PDF file (first input)
+against all PDFs in a directory (second input). Our choice of file
+was <code class="docutils literal notranslate"><span class="pre">SeFe2As2_150K.gr</span></code> and directory was the cwd, which should be
+<code class="docutils literal notranslate"><span class="pre">morphsequence</span></code>.</p>
+</li>
+</ol>
+<figure class="align-center" id="id3" style="width: 100%">
+<img alt="_images/ex_tutorial_bar.png" src="_images/ex_tutorial_bar.png" />
+<figcaption>
+<p><span class="caption-text">Bar chart of <span class="math notranslate nohighlight">\(R_W\)</span> values for each target file. Target files are
+listed in ASCII sort order.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ol class="arabic" start="3">
+<li><p>After running this, we get chart of <span class="math notranslate nohighlight">\(R_w\)</span> values for each target file.
+However, this chart can be a bit confusing to interpret. To get a
+more understandable plot, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">SrFe2As2_150K</span><span class="o">.</span><span class="n">gr</span> <span class="o">.</span> <span class="o">--</span><span class="n">multiple</span><span class="o">-</span><span class="n">targets</span> <span class="o">--</span><span class="n">sort</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">temperature</span>
+</pre></div>
+</div>
+<p>This plots the <span class="math notranslate nohighlight">\(R_w\)</span> against the temperature parameter value provided
+at the top of each file. Parameters are entries of the form
+<code class="docutils literal notranslate"><span class="pre">&lt;parameter_name&gt;</span> <span class="pre">=</span> <span class="pre">&lt;parameter_value&gt;</span></code> and are located above
+the <code class="docutils literal notranslate"><span class="pre">r</span></code> versus <code class="docutils literal notranslate"><span class="pre">gr</span></code> table in each PDF file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># SrFe2As2_150K.gr</span>
+<span class="p">[</span><span class="n">PDF</span> <span class="n">Parameters</span><span class="p">]</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">wavelength</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<figure class="align-center" id="id4" style="width: 100%">
+<img alt="_images/ex_tutorial_temp.png" src="_images/ex_tutorial_temp.png" />
+<figcaption>
+<p><span class="caption-text">The <span class="math notranslate nohighlight">\(R_W\)</span> plotted against the temperature the target PDF was
+measured at.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+</figcaption>
+</figure>
+<ol class="arabic" start="4">
+<li><p>Between 192K and 198K, the Rw has a sharp increase, indicating that
+we may have a phase change. To confirm, let us now apply morphs
+onto `` SrFe2As2_150K.gr`` with all other files in
+<code class="docutils literal notranslate"><span class="pre">morphsequence</span></code> as targets</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mi">0</span> <span class="n">SrFe2As2_150K</span><span class="o">.</span><span class="n">gr</span> <span class="o">.</span> <span class="o">--</span><span class="n">multiple</span><span class="o">-</span><span class="n">targets</span> <span class="o">--</span><span class="n">sort</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">temperature</span>
+</pre></div>
+</div>
+<p>Note that we are not applying a smear since it takes a long time to
+apply and does not significantly change the Rw values in this example.</p>
+</li>
+<li><p>We should now see a sharper increase in <span class="math notranslate nohighlight">\(R_w\)</span> between 192K and 198K.</p></li>
+<li><p>Go back to the terminal to see optimized morphing parameters from each morph.</p></li>
+<li><p>On the morph with <code class="docutils literal notranslate"><span class="pre">SrFe2As2_192K.gr</span></code> as target, <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">=</span>
+<span class="pre">0.972085</span></code> and <code class="docutils literal notranslate"><span class="pre">stretch</span> <span class="pre">=</span> <span class="pre">0.000508</span></code> and with <code class="docutils literal notranslate"><span class="pre">SrFe2As2_198K.gr</span></code>
+as target, <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">=</span> <span class="pre">0.970276</span></code> and <code class="docutils literal notranslate"><span class="pre">stretch</span> <span class="pre">=</span> <span class="pre">0.000510</span></code>. These
+are very similar, meaning that thermal lattice expansion (accounted
+for by <code class="docutils literal notranslate"><span class="pre">stretch</span></code>) is not occurring. This, coupled with the fact
+that the Rw significantly increases suggests a phase change in this
+temperature regime. (In fact, <span class="math notranslate nohighlight">\(SrFe_2As_2\)</span> does transition
+from orthorhombic at lower temperature to tetragonal at higher
+temperature!). More sophisticated analysis can be done with
+<a class="reference external" href="https://www.diffpy.org/products/pdfgui.html">PDFgui</a>.</p></li>
+<li><p>Finally, let us save all the morphed PDFs into a directory
+named <code class="docutils literal notranslate"><span class="pre">saved-morphs</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">SrFe2As2_150K</span><span class="o">.</span><span class="n">gr</span> <span class="o">.</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mi">0</span> <span class="o">--</span><span class="n">multiple</span><span class="o">-</span><span class="n">targets</span> \
+<span class="o">--</span><span class="n">sort</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">temperature</span> <span class="o">--</span><span class="n">plot</span><span class="o">-</span><span class="n">parameter</span><span class="o">=</span><span class="n">stretch</span> \
+<span class="o">--</span><span class="n">save</span><span class="o">=</span><span class="n">saved</span><span class="o">-</span><span class="n">morphs</span>
+</pre></div>
+</div>
+<p>Entering the directory with <code class="docutils literal notranslate"><span class="pre">cd</span></code> and viewing its contents with
+<code class="docutils literal notranslate"><span class="pre">ls</span></code>, we see a file named <code class="docutils literal notranslate"><span class="pre">morph-reference-table.txt</span></code> with data
+about the input morph parameters and re- fined output parameters
+and a directory named <code class="docutils literal notranslate"><span class="pre">morphs</span></code> containing all the morphed
+PDFs. See the <code class="docutils literal notranslate"><span class="pre">--save-names-file</span></code> option to see how you can set
+the names for these saved morphs!</p>
+</li>
+</ol>
+</section>
+<section id="polynomial-squeeze-morph">
+<h2>Polynomial Squeeze Morph<a class="headerlink" href="#polynomial-squeeze-morph" title="Link to this heading"></a></h2>
+<p>Another advanced feature in <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> is the <code class="docutils literal notranslate"><span class="pre">MorphSqueeze</span></code> morph,
+which applies a user-defined polynomial to squeeze the morph function along the
+x-axis. This provides a flexible way to correct for higher-order distortions
+that simple shift or stretch morphs cannot fully address.
+Such distortions can arise from geometric artifacts in X-ray detector modules,
+including tilts, curved detection planes, or angle-dependent offsets, as well
+as from intrinsic structural effects in the sample.</p>
+<p>A first-order squeeze polynomial recovers the behavior of simple shift or stretch,
+while higher-order terms enable non-linear corrections. The squeeze transformation
+is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\Delta r(r) = a_0 + a_1 r + a_2 r^2 + \dots + a_n r^n\]</div>
+<p>where <span class="math notranslate nohighlight">\(a_0, a_1, ..., a_n\)</span> are the polynomial coefficients defined by the user.</p>
+<p>In this example, we show how to apply a squeeze morph in combination
+with a scale morph to match a morph function to its target. The required
+files can be found in <code class="docutils literal notranslate"><span class="pre">additionalData/morphsqueeze/</span></code>.</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code> into the <code class="docutils literal notranslate"><span class="pre">morphsqueeze</span></code> directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">additionalData</span><span class="o">/</span><span class="n">morphsqueeze</span>
+</pre></div>
+</div>
+<p>Here you will find:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">squeeze_morph.cgr</span></code> — the morph function with a small built-in polynomial distortion.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">squeeze_target.cgr</span></code> — the target function.</p></li>
+</ul>
+</li>
+<li><p>Suppose we know that the morph needs a quadratic and cubic squeeze,
+plus a scale factor to best match the target. As an initial guess,
+we can use:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">squeeze</span> <span class="pre">=</span> <span class="pre">0,-0.001,-0.0001,0.0001</span></code>
+(for a polynomial: <span class="math notranslate nohighlight">\(a_0 + a_1 x + a_2 x^2 + a_3 x^3\)</span>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">=</span> <span class="pre">1.1</span></code></p></li>
+</ul>
+<p>The squeeze polynomial is provided as a comma-separated list (no spaces):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.1</span> <span class="o">--</span><span class="n">squeeze</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.001</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.0001</span> <span class="o">-</span><span class="n">a</span> <span class="n">squeeze_morph</span><span class="o">.</span><span class="n">cgr</span> <span class="n">squeeze_target</span><span class="o">.</span><span class="n">cgr</span>
+</pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> will apply the polynomial squeeze and scale,
+display the initial and refined coefficients, and show the final
+difference <code class="docutils literal notranslate"><span class="pre">Rw</span></code>.</p>
+<p>To refine the squeeze polynomial and scale automatically, remove
+the <code class="docutils literal notranslate"><span class="pre">-a</span></code> tag if you used it. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">1.1</span> <span class="o">--</span><span class="n">squeeze</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mf">0.001</span><span class="p">,</span><span class="o">-</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.0001</span> <span class="n">squeeze_morph</span><span class="o">.</span><span class="n">cgr</span> <span class="n">squeeze_target</span><span class="o">.</span><span class="n">cgr</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check the output for the final squeeze polynomial coefficients and scale.
+They should match the true values used to generate the test data:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">squeeze</span> <span class="pre">=</span> <span class="pre">0,</span> <span class="pre">0.01,</span> <span class="pre">0.0001,</span> <span class="pre">0.001</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">=</span> <span class="pre">0.5</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> refines the coefficients to minimize the residual
+between the squeezed, scaled morph function and the target.</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Extrapolation risk:</strong>
+A polynomial squeeze can shift morph data outside the target’s <code class="docutils literal notranslate"><span class="pre">r</span></code>-range,
+so parts of the output may be extrapolated.
+This is generally fine if the polynomial coefficients are small and
+the distortion is therefore small. If your coefficients are large, check the
+plots carefully — strong extrapolation can produce unrealistic features at
+the edges. If needed, adjust the coefficients to keep the morph physically
+meaningful.</p>
+</div>
+<p>Experiment with your own squeeze polynomials to fine-tune your morphs — even
+small higher-order corrections can make a big difference!</p>
+</section>
+<section id="nanoparticle-shape-effects">
+<h2>Nanoparticle Shape Effects<a class="headerlink" href="#nanoparticle-shape-effects" title="Link to this heading"></a></h2>
+<p>A nanoparticle’s finite size and shape can affect the shape of its PDF.
+We can use <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> to morph a bulk material PDF to simulate these shape effects.
+Currently, the supported nanoparticle shapes include: spheres and spheroids.</p>
+<ul>
+<li><p>Within the <code class="docutils literal notranslate"><span class="pre">additionalData</span></code> directory, <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the
+<code class="docutils literal notranslate"><span class="pre">morphShape</span></code> subdirectory. Inside, you will find a sample Ni bulk
+material PDF <code class="docutils literal notranslate"><span class="pre">Ni_bulk.gr</span></code>. This PDF is from <a href="#id1"><span class="problematic" id="id2">`</span></a>”Atomic Pair
+Distribution Function Analysis:
+A primer” &lt;<a class="reference external" href="https://global.oup.com/academic/product/">https://global.oup.com/academic/product/</a></p>
+<blockquote>
+<div><p>atomic-pair-distribution-function-analysis-9780198885801&gt;`_.</p>
+</div></blockquote>
+<p>There are also multiple <code class="docutils literal notranslate"><span class="pre">.cgr</span></code> files with calculated Ni nanoparticle PDFs.</p>
+</li>
+<li><p>Let us apply various shape effect morphs on the bulk material to
+reproduce these calculated PDFs.</p>
+<blockquote>
+<div><ul>
+<li><dl>
+<dt>Spherical Shape</dt><dd><ol class="arabic">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Ni_nano_sphere.cgr</span></code> file contains a generated
+spherical nanoparticle with unknown radius. First, let us
+plot <code class="docutils literal notranslate"><span class="pre">Ni_blk.gr</span></code> against <code class="docutils literal notranslate"><span class="pre">Ni_nano_sphere.cgr</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span>
+</pre></div>
+</div>
+<p>Despite the two being the same material, the Rw is quite large.
+To reduce the Rw, we will apply spherical shape effects onto the PDF.
+However, in order to do so, we first need the radius of the
+spherical nanoparticle.</p>
+</li>
+<li><p>To get the radius, we can first observe a plot of
+<code class="docutils literal notranslate"><span class="pre">Ni_nano_sphere.cgr</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span>
+</pre></div>
+</div>
+<p>Nanoparticles tend to have broader peaks at r-values larger
+than the particle size, corresponding to the much weaker
+correlations between molecules. On our plot, beyond r=22.5,
+peaks are too broad to be visible, indicating our particle
+size to be about 22.4. The approximate radius of a sphere
+would be half of that, or 11.2.</p>
+</li>
+<li><p>Now, we are ready to perform a morph applying spherical
+effects. To do so, we use the <code class="docutils literal notranslate"><span class="pre">--radius</span></code> parameter</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+</pre></div>
+</div>
+</li>
+<li><p>We can see that the <span class="math notranslate nohighlight">\(Rw\)</span> value has significantly decreased
+from before. Run without the <code class="docutils literal notranslate"><span class="pre">-a</span></code> tag to refine</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+</pre></div>
+</div>
+</li>
+<li><p>After refining, we see the actual radius of the
+nanoparticle was closer to 12.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>Spheroidal Shape</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Ni_nano_spheroid.cgr</span></code> file contains a calculated
+spheroidal Ni nanoparticle. Again, we can begin by plotting
+the bulk material against our nanoparticle</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_spheroid</span><span class="o">.</span><span class="n">cgr</span>
+</pre></div>
+</div>
+</li>
+<li><p>Inside the <code class="docutils literal notranslate"><span class="pre">Ni_nano_spheroid.cgr</span></code> file, we are given that
+the equatorial radius is 12 and polar radius is 6. This is
+enough information to define our spheroid. To apply
+spheroid shape effects onto our bulk, run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_spheroid</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mi">12</span> <span class="o">--</span><span class="n">pradius</span><span class="o">=</span><span class="mi">6</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+</pre></div>
+</div>
+<p>Note that the equatorial radius corresponds to the
+<code class="docutils literal notranslate"><span class="pre">--radius</span></code> parameter and polar radius to <code class="docutils literal notranslate"><span class="pre">--pradius</span></code>.</p>
+</li>
+<li><p>Remove the <code class="docutils literal notranslate"><span class="pre">-a</span></code> tag to refine.</p></li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>There is also support for morphing from a nanoparticle to a bulk. When
+applying the inverse morphs, it is recommended to set <code class="docutils literal notranslate"><span class="pre">--rmax=psize</span></code>
+where <code class="docutils literal notranslate"><span class="pre">psize</span></code> is the longest diameter of the nanoparticle.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="morphpy.html" class="btn btn-neutral float-right" title="Using diffpy.morph in Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

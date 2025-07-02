@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.tools &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+  <title>diffpy.morph.tools &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=27619e95"></script>
+      <script src="../../../_static/documentation_options.js?v=4ee4825d"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -40,9 +43,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.morph.html">Package API</a></li>
 </ul>
 
@@ -85,10 +90,7 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
-
-<span class="sd">&quot;&quot;&quot;Tools used in morphs and morph chains.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Tools used in morphs and morph chains.&quot;&quot;&quot;</span>
 
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
@@ -279,8 +281,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">field_sort</span><span class="p">(</span>
     <span class="n">filepaths</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">get_field_values</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort a list of files by a field stored in header information.</span>
-<span class="sd">    All files must contain this header information.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort a list of files by a field stored in header information. All</span>
+<span class="sd">    files must contain this header information.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -345,9 +347,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">get_values_from_dictionary_collection</span><span class="p">(</span>
     <span class="n">dictionary_collection</span><span class="p">:</span> <span class="nb">iter</span><span class="p">,</span> <span class="n">target_key</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;In an (iterable) collection of dictionaries, search for a target key</span>
-<span class="sd">        in each dictionary. Return a list of all found values corresponding</span>
-<span class="sd">        to that key.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;In an (iterable) collection of dictionaries, search for a target</span>
+<span class="sd">    key in each dictionary. Return a list of all found values</span>
+<span class="sd">    corresponding to that key.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

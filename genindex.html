@@ -5,16 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; diffpy.morph 0.1.4rc1 documentation</title>
+  <title>Index &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=27619e95"></script>
+      <script src="_static/documentation_options.js?v=4ee4825d"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -40,9 +43,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">diffpy.morph Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morphpy.html">Using diffpy.morph in Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
 </ul>
 
@@ -62,6 +67,7 @@
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/genindex" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -109,7 +115,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/diffpy.morph.html#diffpy.morph.pdfplot.comparePDFs">comparePDFs() (in module diffpy.morph.pdfplot)</a>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.plot.compare_funcs">compare_funcs() (in module diffpy.morph.plot)</a>
 </li>
       <li><a href="api/diffpy.morph.html#diffpy.morph.morph_io.create_morphs_directory">create_morphs_directory() (in module diffpy.morph.morph_io)</a>
 </li>
@@ -180,6 +186,13 @@
 </li>
       </ul></li>
       <li>
+    diffpy.morph.morphpy
+
+      <ul>
+        <li><a href="api/diffpy.morph.html#module-diffpy.morph.morphpy">module</a>
+</li>
+      </ul></li>
+      <li>
     diffpy.morph.morphs
 
       <ul>
@@ -202,6 +215,13 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    diffpy.morph.morphs.morphfuncy
+
+      <ul>
+        <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphfuncy">module</a>
+</li>
+      </ul></li>
       <li>
     diffpy.morph.morphs.morphishape
 
@@ -252,6 +272,13 @@
 </li>
       </ul></li>
       <li>
+    diffpy.morph.morphs.morphsqueeze
+
+      <ul>
+        <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphsqueeze">module</a>
+</li>
+      </ul></li>
+      <li>
     diffpy.morph.morphs.morphstretch
 
       <ul>
@@ -259,10 +286,10 @@
 </li>
       </ul></li>
       <li>
-    diffpy.morph.pdfplot
+    diffpy.morph.plot
 
       <ul>
-        <li><a href="api/diffpy.morph.html#module-diffpy.morph.pdfplot">module</a>
+        <li><a href="api/diffpy.morph.html#module-diffpy.morph.plot">module</a>
 </li>
       </ul></li>
       <li>
@@ -287,9 +314,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/diffpy.morph.html#diffpy.morph.tools.estimateBaselineSlope">estimateBaselineSlope() (in module diffpy.morph.tools)</a>
 </li>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.tools.estimateScale">estimateScale() (in module diffpy.morph.tools)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/diffpy.morph.html#diffpy.morph.tools.estimateScale">estimateScale() (in module diffpy.morph.tools)</a>
+      <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_high">extrap_index_high (diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
+</li>
+      <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.extrap_index_low">extrap_index_low (diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -305,6 +336,8 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.morphpy.get_args">get_args() (in module diffpy.morph.morphpy)</a>
+</li>
       <li><a href="api/diffpy.morph.html#diffpy.morph.morph_io.get_multisave_names">get_multisave_names() (in module diffpy.morph.morph_io)</a>
 </li>
       <li><a href="api/diffpy.morph.html#diffpy.morph.tools.get_pearson">get_pearson() (in module diffpy.morph.tools)</a>
@@ -353,11 +386,15 @@
 </li>
         <li><a href="api/diffpy.morph.html#module-diffpy.morph.morphapp">diffpy.morph.morphapp</a>
 </li>
+        <li><a href="api/diffpy.morph.html#module-diffpy.morph.morphpy">diffpy.morph.morphpy</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs">diffpy.morph.morphs</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morph">diffpy.morph.morphs.morph</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphchain">diffpy.morph.morphs.morphchain</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphfuncy">diffpy.morph.morphs.morphfuncy</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphishape">diffpy.morph.morphs.morphishape</a>
 </li>
@@ -373,9 +410,11 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphsmear">diffpy.morph.morphs.morphsmear</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphsqueeze">diffpy.morph.morphs.morphsqueeze</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#module-diffpy.morph.morphs.morphstretch">diffpy.morph.morphs.morphstretch</a>
 </li>
-        <li><a href="api/diffpy.morph.html#module-diffpy.morph.pdfplot">diffpy.morph.pdfplot</a>
+        <li><a href="api/diffpy.morph.html#module-diffpy.morph.plot">diffpy.morph.plot</a>
 </li>
         <li><a href="api/diffpy.morph.html#module-diffpy.morph.refine">diffpy.morph.refine</a>
 </li>
@@ -392,6 +431,8 @@
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.morph">(diffpy.morph.morphs.morph.Morph method)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphchain.MorphChain.morph">(diffpy.morph.morphs.morphchain.MorphChain method)</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.morph">(diffpy.morph.morphs.morphfuncy.MorphFuncy method)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.morph">(diffpy.morph.morphs.morphishape.MorphISphere method)</a>
 </li>
@@ -411,16 +452,24 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.morph">(diffpy.morph.morphs.morphsmear.MorphSmear method)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.morph">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze method)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.morph">(diffpy.morph.morphs.morphstretch.MorphStretch method)</a>
 </li>
         <li><a href="api/diffpy.morph.html#diffpy.morph.morph_api.morph">(in module diffpy.morph.morph_api)</a>
 </li>
+        <li><a href="api/diffpy.morph.html#diffpy.morph.morphpy.morph">(in module diffpy.morph.morphpy)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.morphpy.morph_arrays">morph_arrays() (in module diffpy.morph.morphpy)</a>
+</li>
       <li><a href="api/diffpy.morph.html#diffpy.morph.morph_api.morph_default_config">morph_default_config() (in module diffpy.morph.morph_api)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphchain.MorphChain">MorphChain (class in diffpy.morph.morphs.morphchain)</a>
+</li>
+      <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy">MorphFuncy (class in diffpy.morph.morphs.morphfuncy)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere">MorphISphere (class in diffpy.morph.morphs.morphishape)</a>
 </li>
@@ -439,6 +488,8 @@
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshape.MorphSphere">MorphSphere (class in diffpy.morph.morphs.morphshape)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshape.MorphSpheroid">MorphSpheroid (class in diffpy.morph.morphs.morphshape)</a>
+</li>
+      <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze">MorphSqueeze (class in diffpy.morph.morphs.morphsqueeze)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch">MorphStretch (class in diffpy.morph.morphs.morphstretch)</a>
 </li>
@@ -471,6 +522,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphchain.MorphChain.parnames">(diffpy.morph.morphs.morphchain.MorphChain property)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.parnames">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISpheroid.parnames">(diffpy.morph.morphs.morphishape.MorphISpheroid attribute)</a>
@@ -489,6 +542,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.parnames">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.parnames">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.parnames">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>
       </ul></li>
@@ -496,15 +551,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/diffpy.morph.html#diffpy.morph.refine.Refiner.pars">pars (diffpy.morph.refine.Refiner attribute)</a>
 </li>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.plot.plot_funcs">plot_funcs() (in module diffpy.morph.plot)</a>
+</li>
       <li><a href="api/diffpy.morph.html#diffpy.morph.morph_api.plot_morph">plot_morph() (in module diffpy.morph.morph_api)</a>
 </li>
-      <li><a href="api/diffpy.morph.html#diffpy.morph.pdfplot.plot_param">plot_param() (in module diffpy.morph.pdfplot)</a>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.plot.plot_param">plot_param() (in module diffpy.morph.plot)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.plotInputs">plotInputs() (diffpy.morph.morphs.morph.Morph method)</a>
 </li>
       <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.plotOutputs">plotOutputs() (diffpy.morph.morphs.morph.Morph method)</a>
-</li>
-      <li><a href="api/diffpy.morph.html#diffpy.morph.pdfplot.plotPDFs">plotPDFs() (in module diffpy.morph.pdfplot)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -543,6 +598,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.summary">(diffpy.morph.morphs.morph.Morph attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.summary">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.summary">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISpheroid.summary">(diffpy.morph.morphs.morphishape.MorphISpheroid attribute)</a>
@@ -561,6 +618,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.summary">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.summary">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.summary">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>
       </ul></li>
@@ -578,7 +637,7 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/diffpy.morph.morph_helpers.html#diffpy.morph.morph_helpers.transformrdftopdf.TransformXtalRDFtoPDF">TransformXtalRDFtoPDF (class in diffpy.morph.morph_helpers.transformrdftopdf)</a>
 </li>
-      <li><a href="api/diffpy.morph.html#diffpy.morph.pdfplot.truncatePDFs">truncatePDFs() (in module diffpy.morph.pdfplot)</a>
+      <li><a href="api/diffpy.morph.html#diffpy.morph.plot.truncate_func">truncate_func() (in module diffpy.morph.plot)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -601,6 +660,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.xinlabel">(diffpy.morph.morphs.morph.Morph attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.xinlabel">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.xinlabel">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISpheroid.xinlabel">(diffpy.morph.morphs.morphishape.MorphISpheroid attribute)</a>
@@ -619,6 +680,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.xinlabel">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xinlabel">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.xinlabel">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>
       </ul></li>
@@ -628,6 +691,8 @@
         <li><a href="api/diffpy.morph.morph_helpers.html#diffpy.morph.morph_helpers.transformrdftopdf.TransformXtalRDFtoPDF.xoutlabel">(diffpy.morph.morph_helpers.transformrdftopdf.TransformXtalRDFtoPDF attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.xoutlabel">(diffpy.morph.morphs.morph.Morph attribute)</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.xoutlabel">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.xoutlabel">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
@@ -646,6 +711,8 @@
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshift.MorphShift.xoutlabel">(diffpy.morph.morphs.morphshift.MorphShift attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.xoutlabel">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.xoutlabel">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.xoutlabel">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>
@@ -703,6 +770,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.yinlabel">(diffpy.morph.morphs.morph.Morph attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.yinlabel">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.yinlabel">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISpheroid.yinlabel">(diffpy.morph.morphs.morphishape.MorphISpheroid attribute)</a>
@@ -721,6 +790,8 @@
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.yinlabel">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
 </li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.yinlabel">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
+</li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.yinlabel">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>
       </ul></li>
@@ -732,6 +803,8 @@
         <li><a href="api/diffpy.morph.morph_helpers.html#diffpy.morph.morph_helpers.transformrdftopdf.TransformXtalRDFtoPDF.youtlabel">(diffpy.morph.morph_helpers.transformrdftopdf.TransformXtalRDFtoPDF attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.youtlabel">(diffpy.morph.morphs.morph.Morph attribute)</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.youtlabel">(diffpy.morph.morphs.morphfuncy.MorphFuncy attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphishape.MorphISphere.youtlabel">(diffpy.morph.morphs.morphishape.MorphISphere attribute)</a>
 </li>
@@ -750,6 +823,8 @@
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshift.MorphShift.youtlabel">(diffpy.morph.morphs.morphshift.MorphShift attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsmear.MorphSmear.youtlabel">(diffpy.morph.morphs.morphsmear.MorphSmear attribute)</a>
+</li>
+        <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.youtlabel">(diffpy.morph.morphs.morphsqueeze.MorphSqueeze attribute)</a>
 </li>
         <li><a href="api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphstretch.MorphStretch.youtlabel">(diffpy.morph.morphs.morphstretch.MorphStretch attribute)</a>
 </li>

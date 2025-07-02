@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs.morphshift &mdash; diffpy.morph 0.2.0rc0 documentation</title>
+  <title>diffpy.morph.morphs.morphfuncy &mdash; diffpy.morph 0.2.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -66,7 +66,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">diffpy.morph.morphs.morphshift</li>
+      <li class="breadcrumb-item active">diffpy.morph.morphs.morphfuncy</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,76 +75,90 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for diffpy.morph.morphs.morphshift</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/usr/bin/env python</span>
-<span class="c1">##############################################################################</span>
-<span class="c1">#</span>
-<span class="c1"># diffpy.morph      by DANSE Diffraction group</span>
-<span class="c1">#                   Simon J. L. Billinge</span>
-<span class="c1">#                   (c) 2010 Trustees of the Columbia University</span>
-<span class="c1">#                   in the City of New York.  All rights reserved.</span>
-<span class="c1">#</span>
-<span class="c1"># File coded by:    Chris Farrow</span>
-<span class="c1">#</span>
-<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
-<span class="c1"># See LICENSE.txt for license information.</span>
-<span class="c1">#</span>
-<span class="c1">##############################################################################</span>
-<span class="sd">&quot;&quot;&quot;Class MorphShift -- shift the morph.&quot;&quot;&quot;</span>
-
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+  <h1>Source code for diffpy.morph.morphs.morphfuncy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Class MorphFuncy -- apply a user-supplied python function to the</span>
+<span class="sd">y-axis.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphs.morph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LABEL_GR</span><span class="p">,</span> <span class="n">LABEL_RA</span><span class="p">,</span> <span class="n">Morph</span>
 
 
-<div class="viewcode-block" id="MorphShift">
-<a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshift.MorphShift">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">MorphShift</span><span class="p">(</span><span class="n">Morph</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shift the morph.</span>
+<div class="viewcode-block" id="MorphFuncy">
+<a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MorphFuncy</span><span class="p">(</span><span class="n">Morph</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom function to the y-axis of the morph function.</span>
+
+<span class="sd">    General morph function that applies a user-supplied function to the</span>
+<span class="sd">    y-coordinates of morph data to make it align with a target.</span>
 
 <span class="sd">    Configuration Variables</span>
 <span class="sd">    -----------------------</span>
-<span class="sd">    vshift</span>
-<span class="sd">        The vertical shift to apply to the morph.</span>
-<span class="sd">    hshift</span>
-<span class="sd">        The horizontal shift to apply to the morph.</span>
+<span class="sd">    function: callable</span>
+<span class="sd">        The user-supplied function that applies a transformation to the</span>
+<span class="sd">        y-coordinates of the data.</span>
 
-<span class="sd">    Note that a horizontal shift may cause edge effects, since the morph does</span>
-<span class="sd">    not know what lies beyond the edge of the signals.</span>
+<span class="sd">    parameters: dict</span>
+<span class="sd">        A dictionary of parameters to pass to the function.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        A tuple (x_morph_out, y_morph_out, x_target_out, y_target_out)</span>
+<span class="sd">        where the target values remain the same and the morph data is</span>
+<span class="sd">        transformed according to the user-specified function and parameters</span>
+<span class="sd">        The morphed data is returned on the same grid as the unmorphed data</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    Import the funcy morph function:</span>
+
+<span class="sd">        &gt;&gt;&gt; from diffpy.morph.morphs.morphfuncy import MorphFuncy</span>
+
+<span class="sd">    Define or import the user-supplied transformation function:</span>
+
+<span class="sd">        &gt;&gt;&gt; def sine_function(x, y, amplitude, frequency):</span>
+<span class="sd">        &gt;&gt;&gt;     return amplitude * np.sin(frequency * x) * y</span>
+
+<span class="sd">    Provide initial guess for parameters:</span>
+
+<span class="sd">        &gt;&gt;&gt; parameters = {&#39;amplitude&#39;: 2, &#39;frequency&#39;: 2}</span>
+
+<span class="sd">    Run the funcy morph given input morph array (x_morph, y_morph)and target</span>
+<span class="sd">    array (x_target, y_target):</span>
+
+<span class="sd">        &gt;&gt;&gt; morph = MorphFuncy()</span>
+<span class="sd">        &gt;&gt;&gt; morph.function = sine_function</span>
+<span class="sd">        &gt;&gt;&gt; morph.funcy = parameters</span>
+<span class="sd">        &gt;&gt;&gt; x_morph_out, y_morph_out, x_target_out, y_target_out =</span>
+<span class="sd">        ... morph.morph(x_morph, y_morph, x_target, y_target)</span>
+
+<span class="sd">    To access parameters from the morph instance:</span>
+
+<span class="sd">        &gt;&gt;&gt; x_morph_in = morph.x_morph_in</span>
+<span class="sd">        &gt;&gt;&gt; y_morph_in = morph.y_morph_in</span>
+<span class="sd">        &gt;&gt;&gt; x_target_in = morph.x_target_in</span>
+<span class="sd">        &gt;&gt;&gt; y_target_in = morph.y_target_in</span>
+<span class="sd">        &gt;&gt;&gt; parameters_out = morph.funcy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Define input output types</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;Shift morph by specified amount&quot;</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;Apply a Python function to the y-axis data&quot;</span>
     <span class="n">xinlabel</span> <span class="o">=</span> <span class="n">LABEL_RA</span>
     <span class="n">yinlabel</span> <span class="o">=</span> <span class="n">LABEL_GR</span>
     <span class="n">xoutlabel</span> <span class="o">=</span> <span class="n">LABEL_RA</span>
     <span class="n">youtlabel</span> <span class="o">=</span> <span class="n">LABEL_GR</span>
-    <span class="n">parnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hshift&quot;</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">]</span>
+    <span class="n">parnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;function&quot;</span><span class="p">,</span> <span class="s2">&quot;funcy&quot;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="MorphShift.morph">
-<a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphshift.MorphShift.morph">[docs]</a>
+<div class="viewcode-block" id="MorphFuncy.morph">
+<a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphfuncy.MorphFuncy.morph">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the shifts.&quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">hshift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hshift</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">hshift</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">vshift</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vshift</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="n">vshift</span> <span class="o">=</span> <span class="mi">0</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the user-supplied Python function to the y-coordinates</span>
+<span class="sd">        of the morph data.&quot;&quot;&quot;</span>
         <span class="n">Morph</span><span class="o">.</span><span class="n">morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span> <span class="o">-</span> <span class="n">hshift</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_in</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">+=</span> <span class="n">vshift</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_in</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">funcy</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyallout</span></div>
 </div>
 
-
-
-<span class="c1"># End of class MorphShift</span>
 </pre></div>
 
            </div>
