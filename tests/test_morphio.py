@@ -163,7 +163,9 @@ class TestApp:
                 "--scale",
                 "2",
                 "--squeeze",
-                "0,-0.001,-0.0001,0.0001",
+                # Ignore duplicate commas and trailing commas
+                # Handle spaces and non-spaces
+                "0,, ,-0.001, -0.0001,0.0001,",
                 "--stretch",
                 "1",
                 "--hshift",

@@ -188,6 +188,7 @@ def create_option_parser():
             "a0+a1*x+a2*x^2+...a_n*x^n."
             "n is dependent on the number of values in the "
             "user-inputted comma-separated list. "
+            "Repeated and trailing commas are removed before parsing."
             "When this option is enabled, --hshift is disabled. "
             "When n>1, --stretch is disabled. "
             "See online documentation for more information."
@@ -522,6 +523,7 @@ def single_morph(
 
     # Squeeze
     squeeze_poly_deg = -1
+    squeeze_dict_in = {}
     if opts.squeeze is not None:
         # Handles both list and csv input
         if (
@@ -537,12 +539,19 @@ def single_morph(
         ):
             opts.squeeze = opts.squeeze[1:-1]
         squeeze_coeffs = opts.squeeze.strip().split(",")
-        squeeze_dict_in = {}
-        for idx, coeff in enumerate(squeeze_coeffs):
-            squeeze_dict_in.update({f"a{idx}": float(coeff)})
-        squeeze_poly_deg = len(squeeze_coeffs) - 1
+        idx = 0
+        for _, coeff in enumerate(squeeze_coeffs):
+            if coeff.strip() != "":
+                try:
+                    squeeze_dict_in.update({f"a{idx}": float(coeff)})
+                    idx += 1
+                except ValueError:
+                    parser.error(f"{coeff} could not be converted to float.")
+        squeeze_poly_deg = len(squeeze_dict_in.keys())
         chain.append(morphs.MorphSqueeze())
         config["squeeze"] = squeeze_dict_in
+        # config["extrap_index_low"] = None
+        # config["extrap_index_high"] = None
         refpars.append("squeeze")
     # Scale
     if opts.scale is not None:
@@ -679,10 +688,7 @@ def single_morph(
     morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
     # More complex input morph parameters are only displayed conditionally
     if opts.squeeze is not None:
-        squeeze_coeffs = opts.squeeze.strip().split(",")
-        squeeze_dict = {}
-        for idx, coeff in enumerate(squeeze_coeffs):
-            squeeze_dict.update({f"a{idx}": float(coeff)})
+        squeeze_dict = squeeze_dict_in.copy()
         for idx, _ in enumerate(squeeze_dict):
             morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
     if pymorphs is not None:
