@@ -17,7 +17,7 @@ Python Morphing Functions
        morph on the files `darkSub_rh20_C_01.gr` and `darkSub_rh20_C_44.gr` using the command-line
        command ::
 
-          diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.5 --rmin=1.5 --rmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+          diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --rmin=1.5 --rmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
     2. To do the same on Python, we must first create a new Python script in the same directory as the
        data files `darkSub_rh20_C_01.gr` and `darkSub_rh20_C_44.gr`.
@@ -29,10 +29,10 @@ Python Morphing Functions
 
            morph_info, morph_table = morph("darkSub_rh20_C_01.gr", "darkSub_rh20_C_44.gr", scale=0.8, smear=-0.08, stretch=0.5, rmin=1.5, rmax=30)
 
-           * The ``morph`` function takes in two file names (or paths). You can also provide various parameters
-             for morphing (see the Full Parameter List below).
-           * If, let's say, the file `darkSub_rh20_C_01.gr` is in a subdirectory `subdir/darkSub_rh20_C_01.gr`,
-             you should replace ``"darkSub_rh20_C_01.gr"`` in the above example with ``"subdir/darkSub_rh20_C_01.gr"``.
+       * The ``morph`` function takes in two file names (or paths). You can also provide various parameters
+         for morphing (see the Full Parameter List below).
+       * If, let's say, the file `darkSub_rh20_C_01.gr` is in a subdirectory `subdir/darkSub_rh20_C_01.gr`,
+         you should replace ``"darkSub_rh20_C_01.gr"`` in the above example with ``"subdir/darkSub_rh20_C_01.gr"``.
 
     4. The ``morph`` function returns a dictionary ``morph_info`` and a numpy array ``morph_table``.
 

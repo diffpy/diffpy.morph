@@ -181,7 +181,7 @@ Basic diffpy.morph Workflow
     8. Finally, we will examine the stretch factor. Provide an initial
        guess by typing ::
 
-           diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.5 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+           diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
        And noting that the difference has increased. Before continuing,
        see if you can see which direction (higher or lower) our initial
