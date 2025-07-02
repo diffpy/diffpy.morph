@@ -24,7 +24,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    <https://global.oup.com/academic/product/
    atomic-pair-distribution-function-analysis-9780198885801>`_.
 
-2. Let us start by getting the Rw of ``SrFe2As2_150K.gr`` compared to
+2. Let us start by getting the :math:`R_w` of ``SrFe2As2_150K.gr`` compared to
    all other files in the directory. Run ::
 
        diffpy.morph SrFe2As2_150K.gr . --multiple-targets
@@ -32,9 +32,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    The multiple tag indicates we are comparing PDF file (first input)
    against all PDFs in a directory (second input). Our choice of file
    was ``SeFe2As2_150K.gr`` and directory was the cwd, which should be
-   ``morphsequence``.::
-
-       diffpy.morph SrFe2As2_150K.gr . --multiple-targets --sort-by=temperature
+   ``morphsequence``.
 
 .. figure:: images/ex_tutorial_bar.png
    :align: center
@@ -43,16 +41,16 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    Bar chart of :math:`R_W` values for each target file. Target files are
    listed in ASCII sort order.
 
-3. After running this, we get chart of Rw values for each target file.
+3. After running this, we get chart of :math:`R_w` values for each target file.
    However, this chart can be a bit confusing to interpret. To get a
    more understandable plot, run ::
 
        diffpy.morph SrFe2As2_150K.gr . --multiple-targets --sort-by=temperature
 
-   This plots the Rw against the temperature parameter value provided
+   This plots the :math:`R_w` against the temperature parameter value provided
    at the top of each file. Parameters are entries of the form
    ``<parameter_name> = <parameter_value>`` and are located above
-   the ``r`` versus ``gr`` table in each PDF file.::
+   the ``r`` versus ``gr`` table in each PDF file. ::
 
      # SrFe2As2_150K.gr
      [PDF Parameters]
@@ -77,7 +75,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
    Note that we are not applying a smear since it takes a long time to
    apply and does not significantly change the Rw values in this example.
 
-5. We should now see a sharper increase in Rw between 192K and 198K.
+5. We should now see a sharper increase in :math:`R_w` between 192K and 198K.
 
 6. Go back to the terminal to see optimized morphing parameters from each morph.
 
@@ -219,27 +217,25 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
 
                diffpy.morph Ni_nano_sphere.cgr Ni_nano_sphere.cgr
 
-        3. Nanoparticles tend to have broader peaks at r-values larger
+           Nanoparticles tend to have broader peaks at r-values larger
 	   than the particle size, corresponding to the much weaker
 	   correlations between molecules. On our plot, beyond r=22.5,
 	   peaks are too broad to be visible, indicating our particle
 	   size to be about 22.4. The approximate radius of a sphere
-	   would be half of that, or 11.2.::
-
-               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 -a
+	   would be half of that, or 11.2.
 
 
-        4. Now, we are ready to perform a morph applying spherical
+        3. Now, we are ready to perform a morph applying spherical
 	   effects. To do so, we use the ``--radius`` parameter ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 -a
+               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 -a --rmax=30
 
-        5. We can see that the Rw value has significantly decreased
+        4. We can see that the :math:`Rw` value has significantly decreased
 	   from before. Run without the ``-a`` tag to refine ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2
+               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 --rmax=30
 
-        6. After refining, we see the actual radius of the
+        5. After refining, we see the actual radius of the
 	   nanoparticle was closer to 12.
 
     * Spheroidal Shape
@@ -255,7 +251,7 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
 	   enough information to define our spheroid. To apply
 	   spheroid shape effects onto our bulk, run ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a
+               diffpy.morph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a --rmax=30
 
            Note that the equatorial radius corresponds to the
 	   ``--radius`` parameter and polar radius to ``--pradius``.
