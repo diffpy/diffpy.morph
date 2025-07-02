@@ -1,6 +1,6 @@
 :tocdepth: -1
 
-diffpy.morph.morph_helpers package
+diffpy.morph.morp_helpers package
 ==================================
 
 .. automodule:: diffpy.morph.morph_helpers
@@ -11,18 +11,18 @@ diffpy.morph.morph_helpers package
 Submodules
 ----------
 
-diffpy.morph.morph_helpers.transformpdftordf module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.morph.morph_helpers.transformpdftordf
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.morph.morph_helpers.transformrdftopdf module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: diffpy.morph.morph_helpers.transformrdftopdf
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.morph.morph_helpers.transformpdftordf module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.morph.morph_helpers.transformpdftordf
     :members:
     :undoc-members:
     :show-inheritance:
