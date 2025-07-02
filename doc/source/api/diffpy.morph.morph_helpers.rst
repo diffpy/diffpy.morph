@@ -1,6 +1,6 @@
 :tocdepth: -1
 
-diffpy.morph.morph-helpers package
+diffpy.morph.morp_helpers package
 ==================================
 
 .. automodule:: diffpy.morph.morph_helpers
