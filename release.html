@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release notes &mdash; diffpy.morph 0.2.0rc1 documentation</title>
+  <title>Release notes &mdash; diffpy.morph 0.2.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e7a4f63b"></script>
+      <script src="_static/documentation_options.js?v=95e61db4"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -81,7 +81,59 @@
   <section id="release-notes">
 <span id="index-0"></span><h1>Release notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>0.1.3<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.2.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added:</strong></p>
+<ul class="simple">
+<li><p>Added a tutorial for MorphFuncy</p></li>
+<li><p>Functionality for refining lists and dictionaries</p></li>
+<li><p>Add docformatter config to pyproject.toml</p></li>
+<li><p>Python interfacing to call PDFmorph</p></li>
+<li><p>Returns dictionary of morph metrics (dict) and the r, gr pair for plotting or further manipulation</p></li>
+<li><p>General morph function that applies a user-supplied Python function to the y-coordinates of morph data</p></li>
+<li><p>Spelling check via Codespell in pre-commit</p></li>
+<li><p>Coverage report in each PR</p></li>
+<li><p>Added tutorial for MorphSqueeze and MorphFuncy</p></li>
+<li><p>Polynomial squeeze of x-axis of morphed data</p></li>
+<li><p>–multiple-morphs: morph multiple files against a single target</p></li>
+<li><p>New –smear option applies the smear morph directly to the function (without transforming to RDF).</p></li>
+<li><p>Support for python 3.13</p></li>
+<li><p>manual information is added into online docs.</p></li>
+<li><p>Option to set tolerance for the morph refinement (default 1e-08).</p></li>
+<li><p>Squeeze morph now added to CLI.</p></li>
+<li><p>Error thrown when squeeze morph given improper inputs.</p></li>
+<li><p>Shifting morph for vertical and horizontal shifts.</p></li>
+</ul>
+<p><strong>Changed:</strong></p>
+<ul class="simple">
+<li><p>Paths to diffpy.utils.parsers functions made explicitly to the file level.</p></li>
+<li><p>Changed docstrings location for MorphFuncy and MorphSqueeze</p></li>
+<li><p>Typo fixes in documentation.</p></li>
+<li><p>Tutorial documentation files split into three sections.</p></li>
+<li><p>–multiple changed to –multiple-targets for clarity</p></li>
+<li><p>Former –smear option renamed to –smear-pdf (converts PDF to RDF before applying the smear morph).</p></li>
+<li><p>Renamed PDFmorph to diffpy.morph</p></li>
+<li><p>Stretch disabled when squeeze is above polynomial order 0.</p></li>
+<li><p>Horizontal shift morph disabled when squeeze is enabled.</p></li>
+<li><p>Squeeze morph now removes duplicate/repeated and trailing commas before parsing.</p></li>
+<li><p>Swap colors for morph and target. Morph is now blue and target red.</p></li>
+</ul>
+<p><strong>Fixed:</strong></p>
+<ul class="simple">
+<li><p>add temperature field to tutorial/additionalData.</p></li>
+<li><p>Multiple morphs/targets used to break given multiple subdirectories.</p></li>
+<li><p>reduce the line width limit to 79</p></li>
+<li><p>Support <code class="docutils literal notranslate"><span class="pre">scikit-package</span></code> Level 5 standard (<a class="reference external" href="https://scikit-package.github.io/scikit-package/">https://scikit-package.github.io/scikit-package/</a>).</p></li>
+<li><p>import <cite>loadData</cite> and <cite>deserialize_data</cite> directly to integrate with <cite>diffpy.utils(3.6.0)</cite></p></li>
+</ul>
+<p><strong>Removed:</strong></p>
+<ul class="simple">
+<li><p>diffpy.morph manual removed.</p></li>
+<li><p>Support for python 3.10</p></li>
+<li><p>manual.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>0.1.3<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Add GitHub action to build wheel, release, upload.</p></li>
@@ -96,26 +148,26 @@
 <li><p>Mathematical error in manual</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>0.1.2<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.1.2<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Changed:</strong></p>
 <ul class="simple">
 <li><p>downgraded matplotlib requirement to matplotlib-base</p></li>
 <li><p>updated imports of bg-mpl-stylesheets for latest release of that code</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>0.1.1<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
-</section>
 <section id="id4">
 <h2>0.1.1<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+</section>
+<section id="id5">
+<h2>0.1.1<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Fixed:</strong></p>
 <ul class="simple">
 <li><p>README title so that it is valid syntax for uploading to PyPi</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>0.1.0<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.1.0<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Add ability to perform multiple morphs in one call using –multiple.
