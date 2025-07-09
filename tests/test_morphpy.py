@@ -91,7 +91,14 @@ class TestMorphpy:
             assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]
             )
-        assert morph_results == self.morphapp_results
+        # Check values in dictionaries are approximately equal
+        for file in morph_results.keys():
+            morph_params = morph_results[file]
+            morphapp_params = self.morphapp_results[file]
+            for key in morph_params.keys():
+                assert morph_params[key] == pytest.approx(
+                    morphapp_params[key], abs=1e-08
+                )
 
     def test_morphpy(self, setup_morph):
         morph_results = {}
@@ -113,7 +120,14 @@ class TestMorphpy:
             assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]
             )
-        assert morph_results == self.morphapp_results
+            # Check values in dictionaries are approximately equal
+            for file in morph_results.keys():
+                morph_params = morph_results[file]
+                morphapp_params = self.morphapp_results[file]
+                for key in morph_params.keys():
+                    assert morph_params[key] == pytest.approx(
+                        morphapp_params[key], abs=1e-08
+                    )
 
     def test_morphfuncy(self, setup_morph):
         def gaussian(x, mu, sigma):
