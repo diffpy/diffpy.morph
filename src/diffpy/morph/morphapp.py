@@ -107,6 +107,12 @@ def create_option_parser():
         help="Maximum r-value to use for PDF comparisons.",
     )
     parser.add_option(
+        "--rgrid",
+        dest="rgrid",
+        metavar="GRID",
+        help="Choose the to refine on. ",
+    )
+    parser.add_option(
         "--tolerance",
         "-t",
         type="float",
@@ -506,8 +512,6 @@ def single_morph(
 
     # Set up the morphs
     chain = morphs.MorphChain(config)
-    # Add the r-range morph, we will remove it when saving and plotting
-    chain.append(morphs.MorphRGrid())
     refpars = []
 
     # Python-Specific Morphs
@@ -632,6 +636,10 @@ def single_morph(
         refpars.append("qdamp")
         config["qdamp"] = opts.qdamp
 
+    # Add the r-range morph, we will remove it when saving and plotting
+    mrg = morphs.MorphRGrid()
+    chain.append(mrg)
+
     # Now remove non-refinable parameters
     if opts.exclude is not None:
         refpars = list(set(refpars) - set(opts.exclude))
@@ -674,7 +682,8 @@ def single_morph(
     rw = tools.getRw(chain)
     pcc = tools.get_pearson(chain)
     # Replace the MorphRGrid with Morph identity
-    chain[0] = morphs.Morph()
+    # This removes the r-range morph as mentioned above
+    mrg = morphs.Morph()
     chain(x_morph, y_morph, x_target, y_target)
 
     # FOR FUTURE MAINTAINERS
