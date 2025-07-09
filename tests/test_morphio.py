@@ -50,7 +50,7 @@ def isfloat(s):
     return False
 
 
-def compare_numeric(file1, file2):
+def are_files_same(file1, file2):
     """Assert that two files have (approximately) the same numerical
     values."""
     for f1_row, f2_row in zip(file1, file2):
@@ -120,9 +120,9 @@ class TestApp:
         for file in common:
             with open(tmp_succinct.joinpath(file)) as gf:
                 with open(test_saving_succinct.joinpath(file)) as tf:
-                    generated = filter(ignore_path, gf)
-                    target = filter(ignore_path, tf)
-                    compare_numeric(generated, target)
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
 
         # Save multiple verbose morphs
         tmp_verbose = tmp_path.joinpath("verbose")
@@ -161,9 +161,9 @@ class TestApp:
         for file in common:
             with open(tmp_verbose.joinpath(file)) as gf:
                 with open(test_saving_verbose.joinpath(file)) as tf:
-                    generated = filter(ignore_path, gf)
-                    target = filter(ignore_path, tf)
-                    compare_numeric(generated, target)
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
 
     def test_morphsqueeze_outputs(self, setup, tmp_path):
         # The file squeeze_morph has a squeeze and stretch applied
@@ -196,9 +196,9 @@ class TestApp:
         # Check squeeze morph generates the correct output
         with open(sqr) as mf:
             with open(target_file) as tf:
-                morphed = filter(ignore_path, mf)
-                target = filter(ignore_path, tf)
-                compare_numeric(morphed, target)
+                actual = filter(ignore_path, mf)
+                expected = filter(ignore_path, tf)
+                are_files_same(actual, expected)
 
     def test_morphfuncy_outputs(self, tmp_path):
         def quadratic(x, y, a0, a1, a2):
@@ -219,6 +219,6 @@ class TestApp:
 
         with open(testdata_dir.joinpath("funcy_target.cgr")) as tf:
             with open(tmp_path.joinpath("funcy_target.cgr")) as gf:
-                generated = filter(ignore_path, gf)
-                target = filter(ignore_path, tf)
-                compare_numeric(generated, target)
+                actual = filter(ignore_path, gf)
+                expected = filter(ignore_path, tf)
+                are_files_same(actual, expected)
