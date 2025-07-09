@@ -1,5 +1,5 @@
-"""Class MorphFuncxy -- apply a user-supplied python function to the x
-and y axes."""
+"""Class MorphFuncxy -- apply a user-supplied python function to both
+the x and y axes."""
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
@@ -26,11 +26,11 @@ class MorphFuncxy(Morph):
         transformed according to the user-specified function and parameters
         The morphed data is returned on the same grid as the unmorphed data
 
-    Example
+    Example (EDIT)
     -------
     Import the funcy morph function:
 
-        >>> from diffpy.morph.morphs.morphfuncy import MorphFuncy
+        >>> from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
 
     Define or import the user-supplied transformation function:
 
