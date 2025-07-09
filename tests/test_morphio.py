@@ -50,6 +50,20 @@ def isfloat(s):
     return False
 
 
+def compare_numeric(file1, file2):
+    """Assert that two files have (approximately) the same numerical
+    values."""
+    for f1_row, f2_row in zip(file1, file2):
+        f1_arr = f1_row.split()
+        f2_arr = f2_row.split()
+        assert len(f1_arr) == len(f2_arr)
+        for idx, _ in enumerate(f1_arr):
+            if isfloat(f1_arr[idx]) and isfloat(f2_arr[idx]):
+                assert np.isclose(float(f1_arr[idx]), float(f2_arr[idx]))
+            else:
+                assert f1_arr[idx] == f2_arr[idx]
+
+
 class TestApp:
     @pytest.fixture
     def setup(self):
@@ -108,7 +122,7 @@ class TestApp:
                 with open(test_saving_succinct.joinpath(file)) as tf:
                     generated = filter(ignore_path, gf)
                     target = filter(ignore_path, tf)
-                    assert all(x == y for x, y in zip(generated, target))
+                    compare_numeric(generated, target)
 
         # Save multiple verbose morphs
         tmp_verbose = tmp_path.joinpath("verbose")
@@ -149,7 +163,7 @@ class TestApp:
                 with open(test_saving_verbose.joinpath(file)) as tf:
                     generated = filter(ignore_path, gf)
                     target = filter(ignore_path, tf)
-                    assert all(x == y for x, y in zip(generated, target))
+                    compare_numeric(generated, target)
 
     def test_morphsqueeze_outputs(self, setup, tmp_path):
         # The file squeeze_morph has a squeeze and stretch applied
@@ -184,17 +198,7 @@ class TestApp:
             with open(target_file) as tf:
                 morphed = filter(ignore_path, mf)
                 target = filter(ignore_path, tf)
-                for m, t in zip(morphed, target):
-                    m_row = m.split()
-                    t_row = t.split()
-                    assert len(m_row) == len(t_row)
-                    for idx, _ in enumerate(m_row):
-                        if isfloat(m_row[idx]) and isfloat(t_row[idx]):
-                            assert np.isclose(
-                                float(m_row[idx]), float(t_row[idx])
-                            )
-                        else:
-                            assert m_row[idx] == t_row[idx]
+                compare_numeric(morphed, target)
 
     def test_morphfuncy_outputs(self, tmp_path):
         def quadratic(x, y, a0, a1, a2):
@@ -217,14 +221,4 @@ class TestApp:
             with open(tmp_path.joinpath("funcy_target.cgr")) as gf:
                 generated = filter(ignore_path, gf)
                 target = filter(ignore_path, tf)
-                for m, t in zip(generated, target):
-                    m_row = m.split()
-                    t_row = t.split()
-                    assert len(m_row) == len(t_row)
-                    for idx, _ in enumerate(m_row):
-                        if isfloat(m_row[idx]) and isfloat(t_row[idx]):
-                            assert np.isclose(
-                                float(m_row[idx]), float(t_row[idx])
-                            )
-                        else:
-                            assert m_row[idx] == t_row[idx]
+                compare_numeric(generated, target)
