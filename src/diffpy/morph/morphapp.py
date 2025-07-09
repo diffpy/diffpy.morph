@@ -520,8 +520,16 @@ def single_morph(
 
     # Python-Specific Morphs
     if pymorphs is not None:
+        # funcxy value is a tuple (function,{param_dict})
+        if "funcxy" in pymorphs:
+            mfxy_function = pymorphs["funcxy"][0]
+            mfxy_params = pymorphs["funcxy"][1]
+            chain.append(morphs.MorphFuncxy())
+            config["function"] = mfxy_function
+            config["funcxy"] = mfxy_params
+            refpars.append("funcxy")
         # funcy value is a tuple (function,{param_dict})
-        if "funcy" in pymorphs:
+        elif "funcy" in pymorphs:
             mfy_function = pymorphs["funcy"][0]
             mfy_params = pymorphs["funcy"][1]
             chain.append(morphs.MorphFuncy())
@@ -705,7 +713,16 @@ def single_morph(
         for idx, _ in enumerate(squeeze_dict):
             morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
     if pymorphs is not None:
-        if "funcy" in pymorphs:
+        if "funcxy" in pymorphs:
+            for funcxy_param in pymorphs["funcxy"][1].keys():
+                morph_inputs.update(
+                    {
+                        f"funcxy {funcxy_param}": pymorphs["funcxy"][1][
+                            funcxy_param
+                        ]
+                    }
+                )
+        elif "funcy" in pymorphs:
             for funcy_param in pymorphs["funcy"][1].keys():
                 morph_inputs.update(
                     {f"funcy {funcy_param}": pymorphs["funcy"][1][funcy_param]}

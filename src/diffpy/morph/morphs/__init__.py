@@ -17,6 +17,7 @@
 
 from diffpy.morph.morphs.morph import Morph  # noqa: F401
 from diffpy.morph.morphs.morphchain import MorphChain  # noqa: F401
+from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
 from diffpy.morph.morphs.morphfuncy import MorphFuncy
 from diffpy.morph.morphs.morphishape import MorphISphere, MorphISpheroid
 from diffpy.morph.morphs.morphresolution import MorphResolutionDamping
@@ -42,6 +43,7 @@ morphs = [
     MorphShift,
     MorphSqueeze,
     MorphFuncy,
+    MorphFuncxy,
 ]
 
 # End of file
