@@ -13,7 +13,7 @@
 # funcy a0 = 1.0
 # funcy a1 = 2.0
 # funcy a2 = 3.0
-# funcy function =
+# function =
 """
 def quadratic(x, y, a0, a1, a2):
     return a0 + a1 * x + a2 * y**2

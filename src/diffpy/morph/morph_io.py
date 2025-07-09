@@ -79,11 +79,19 @@ def single_morph_output(
                 rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
             )
         mr_copy = dict(morph_results_list)
-    funcy_function = None
+    func_function = None
     if "function" in mr_copy:
-        funcy_function = mr_copy.pop("function")
-        print(funcy_function)
-    if "funcy" in mr_copy:
+        func_function = mr_copy.pop("function")
+    if "funcxy" in mr_copy:
+        fxy_dict = mr_copy.pop("funcxy")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
+        for idx, key in enumerate(fxy_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"funcxy {key}", fxy_dict[key])
+            )
+        mr_copy = dict(morph_results_list)
+    elif "funcy" in mr_copy:
         fy_dict = mr_copy.pop("funcy")
         rw_pos = list(mr_copy.keys()).index("Rw")
         morph_results_list = list(mr_copy.items())
@@ -97,9 +105,9 @@ def single_morph_output(
         f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
     )
     # Special inputs (functional)
-    if funcy_function is not None:
-        morphs_in += '# funcy function =\n"""\n'
-        f_code, _ = inspect.getsourcelines(funcy_function)
+    if func_function is not None:
+        morphs_in += '# function =\n"""\n'
+        f_code, _ = inspect.getsourcelines(func_function)
         n_leading = len(f_code[0]) - len(f_code[0].lstrip())
         for idx, f_line in enumerate(f_code):
             f_code[idx] = f_line[n_leading:]
