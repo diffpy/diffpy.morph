@@ -107,12 +107,6 @@ def create_option_parser():
         help="Maximum r-value to use for PDF comparisons.",
     )
     parser.add_option(
-        "--rgrid",
-        dest="rgrid",
-        metavar="GRID",
-        help="Choose the to refine on. ",
-    )
-    parser.add_option(
         "--tolerance",
         "-t",
         type="float",
