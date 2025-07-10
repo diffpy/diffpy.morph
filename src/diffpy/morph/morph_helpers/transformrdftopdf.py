@@ -57,7 +57,7 @@ class TransformXtalRDFtoPDF(Morph):
             self.y_morph_out = (
                 self.y_morph_in / self.x_morph_in + morph_baseline
             )
-        self.y_morph_out[self.x_target_in == 0] = 0
+        self.y_morph_out[self.x_morph_in == 0] = 0
         return self.xyallout
 
 
