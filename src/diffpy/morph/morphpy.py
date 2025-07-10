@@ -19,6 +19,57 @@ def get_args(parser, params, kwargs):
     return opts, pargs
 
 
+def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
+    # Check for Python-specific options
+    python_morphs = ["funcy"]
+    pymorphs = {}
+    for pmorph in python_morphs:
+        if pmorph in kwargs:
+            pmorph_value = kwargs.pop(pmorph)
+            pymorphs.update({pmorph: pmorph_value})
+
+    # Special handling of parameters with dashes
+    kwargs_copy = kwargs.copy()
+    kwargs = {}
+    for key in kwargs_copy.keys():
+        new_key = key
+        if "_" in key:
+            new_key = key.replace("_", "-")
+        kwargs.update({new_key: kwargs_copy[key]})
+
+    # Special handling of store_true and store_false parameters
+    opts_storing_values = [
+        "verbose",
+        "pearson",
+        "addpearson",
+        "apply",
+        "reverse",
+    ]
+    opts_to_ignore = ["multiple-morphs", "multiple-targets"]
+    for opt in opts_storing_values:
+        if opt in kwargs:
+            # Remove if user sets false in params
+            if not kwargs[opt]:
+                kwargs.pop(opt)
+    for opt in opts_to_ignore:
+        if opt in kwargs:
+            kwargs.pop(opt)
+
+    # Wrap the CLI
+    params = {
+        "scale": scale,
+        "stretch": stretch,
+        "smear": smear,
+        "noplot": True if not plot else None,
+    }
+    opts, _ = get_args(parser, params, kwargs)
+
+    if not len(pymorphs) > 0:
+        pymorphs = None
+
+    return opts, pymorphs
+
+
 # Take in file names as input.
 def morph(
     morph_file,
@@ -58,38 +109,12 @@ def morph(
         Function after morph where morph_table[:,0] is the abscissa and
         morph_table[:,1] is the ordinate.
     """
-
-    # Check for Python-specific morphs
-    python_morphs = ["funcy"]
-    pymorphs = {}
-    for pmorph in python_morphs:
-        if pmorph in kwargs:
-            pmorph_value = kwargs.pop(pmorph)
-            pymorphs.update({pmorph: pmorph_value})
-
-    # Special handling of parameters with dashes
-    kwargs_copy = kwargs.copy()
-    kwargs = {}
-    for key in kwargs_copy.keys():
-        new_key = key
-        if "_" in key:
-            new_key = key.replace("_", "-")
-        kwargs.update({new_key: kwargs_copy[key]})
-
-    # Wrap the CLI
-    parser = create_option_parser()
-    params = {
-        "scale": scale,
-        "stretch": stretch,
-        "smear": smear,
-        "noplot": True if not plot else None,
-    }
-    opts, _ = get_args(parser, params, kwargs)
-
     pargs = [morph_file, target_file]
+    parser = create_option_parser()
+    opts, pymorphs = __get_morph_opts__(
+        parser, scale, stretch, smear, plot, **kwargs
+    )
 
-    if not len(pymorphs) > 0:
-        pymorphs = None
     return single_morph(
         parser,
         opts,
@@ -139,36 +164,18 @@ def morph_arrays(
         Function after morph where morph_table[:,0] is the abscissa and
         morph_table[:,1] is the ordinate.
     """
-    # Check for Python-specific morphs
-    python_morphs = ["funcy"]
-    pymorphs = {}
-    for pmorph in python_morphs:
-        if pmorph in kwargs:
-            pmorph_value = kwargs.pop(pmorph)
-            pymorphs.update({pmorph: pmorph_value})
-
-    # Wrap the CLI
-    parser = create_option_parser()
-    params = {
-        "scale": scale,
-        "stretch": stretch,
-        "smear": smear,
-        "noplot": True if not plot else None,
-    }
-    opts, _ = get_args(parser, params, kwargs)
-
     morph_table = np.array(morph_table)
     target_table = np.array(target_table)
-
     x_morph = morph_table[:, 0]
     y_morph = morph_table[:, 1]
     x_target = target_table[:, 0]
     y_target = target_table[:, 1]
-
     pargs = ["Morph", "Target", x_morph, y_morph, x_target, y_target]
+    parser = create_option_parser()
+    opts, pymorphs = __get_morph_opts__(
+        parser, scale, stretch, smear, plot, **kwargs
+    )
 
-    if not len(pymorphs) > 0:
-        pymorphs = None
     return single_morph(
         parser,
         opts,

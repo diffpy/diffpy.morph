@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from diffpy.morph.morphapp import create_option_parser, single_morph
-from diffpy.morph.morphpy import morph, morph_arrays
+from diffpy.morph.morphpy import __get_morph_opts__, morph, morph_arrays
 from diffpy.morph.tools import getRw
 
 thisfile = locals().get("__file__", "file.py")
@@ -67,6 +67,52 @@ class TestMorphpy:
                     }
                 )
         return
+
+    def test_morph_opts(self, setup_morph):
+        kwargs = {
+            "verbose": False,
+            "pearson": False,
+            "addpearson": False,
+            "apply": False,
+            "reverse": False,
+            "multiple_morphs": False,
+            "multiple_targets": False,
+        }
+        kwargs_copy = kwargs.copy()
+        opts, _ = __get_morph_opts__(
+            self.parser, scale=1, stretch=0, smear=0, plot=False, **kwargs_copy
+        )
+        # Special set true/false operations should be removed
+        # when their input value is False
+        for opt in kwargs:
+            if opt == "apply":
+                assert getattr(opts, "refine")
+            else:
+                assert getattr(opts, opt) is None or not getattr(opts, opt)
+
+        kwargs = {
+            "verbose": True,
+            "pearson": True,
+            "addpearson": True,
+            "apply": True,
+            "reverse": True,
+            "multiple_morphs": True,
+            "multiple_targets": True,
+        }
+        kwargs_copy = kwargs.copy()
+        opts, _ = __get_morph_opts__(
+            self.parser, scale=1, stretch=0, smear=0, plot=False, **kwargs_copy
+        )
+        for opt in kwargs:
+            if opt == "apply":
+                assert not getattr(opts, "refine")
+            # These options are not enabled in morphpy
+            elif opt == "multiple_morphs" or opt == "multiple_targets":
+                assert getattr(opts, opt) is None or not getattr(opts, opt)
+            # Special set true/false operations should NOT be removed
+            # when their input value is True
+            else:
+                assert getattr(opts, opt)
 
     def test_morph(self, setup_morph):
         morph_results = {}
