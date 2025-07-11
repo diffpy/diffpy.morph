@@ -75,7 +75,7 @@ class TestMorphpy:
             "addpearson": False,
             "apply": False,
             "reverse": False,
-            "diff": False,
+            "get_diff": False,
             "multiple_morphs": False,
             "multiple_targets": False,
         }
