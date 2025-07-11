@@ -44,6 +44,7 @@ def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
         "addpearson",
         "apply",
         "reverse",
+        "diff",
     ]
     opts_to_ignore = ["multiple-morphs", "multiple-targets"]
     for opt in opts_storing_values:

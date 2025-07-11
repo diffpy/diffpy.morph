@@ -81,12 +81,25 @@ def create_option_parser():
         metavar="NAME",
         dest="slocation",
         help=(
-            "Save the manipulated PDF to a file named NAME. "
+            "Save the manipulated function to a file named NAME. "
             "Use '-' for stdout.\n"
             "When --multiple-<targets/morphs> is enabled, "
-            "save each manipulated PDF as a file in a directory named NAME;\n"
-            "you can specify names for each saved PDF file using "
+            "save each manipulated function as a file in a directory "
+            "named NAME;\n"
+            "you can specify names for each saved function file using "
             "--save-names-file."
+        ),
+    )
+    parser.add_option(
+        "--diff",
+        "--get-diff",
+        dest="diff",
+        action="store_true",
+        help=(
+            "Save the difference curve rather than the manipulated function.\n"
+            "This is computed as manipulated function minus target function.\n"
+            "The difference curve is computed on the interval shared by the "
+            "grid of the objective and target function."
         ),
     )
     parser.add_option(
@@ -99,12 +112,12 @@ def create_option_parser():
     parser.add_option(
         "--rmin",
         type="float",
-        help="Minimum r-value to use for PDF comparisons.",
+        help="Minimum r-value (abscissa) to use for function comparisons.",
     )
     parser.add_option(
         "--rmax",
         type="float",
-        help="Maximum r-value to use for PDF comparisons.",
+        help="Maximum r-value (abscissa) to use for function comparisons.",
     )
     parser.add_option(
         "--tolerance",
@@ -419,9 +432,9 @@ def create_option_parser():
             "using a serial file NAMESFILE. The format of NAMESFILE should be "
             "as follows: each target PDF is an entry in NAMESFILE. For each "
             "entry, there should be a key {__save_morph_as__} whose value "
-            "specifies the name to save the manipulated PDF as. An example "
-            ".json serial file is included in the tutorial directory "
-            "on the package GitHub repository."
+            "specifies the name to save the manipulated function as."
+            "An example .json serial file is included in the tutorial "
+            "directory on the package GitHub repository."
         ),
     )
     group.add_option(
@@ -492,10 +505,7 @@ def single_morph(
     smear_in = "None"
     hshift_in = "None"
     vshift_in = "None"
-    config = {}
-    config["rmin"] = opts.rmin
-    config["rmax"] = opts.rmax
-    config["rstep"] = None
+    config = {"rmin": opts.rmin, "rmax": opts.rmax, "rstep": None}
     if (
         opts.rmin is not None
         and opts.rmax is not None
@@ -708,13 +718,29 @@ def single_morph(
     morph_results.update({"Pearson": pcc})
 
     # Print summary to terminal and save morph to file if requested
+    xy_save = [chain.x_morph_out, chain.y_morph_out]
+    if opts.diff is not None:
+        diff_chain = morphs.MorphChain(
+            {"rmin": None, "rmax": None, "rstep": None}
+        )
+        diff_chain.append(morphs.MorphRGrid())
+        diff_chain(
+            chain.x_morph_out,
+            chain.y_morph_out,
+            chain.x_target_in,
+            chain.y_target_in,
+        )
+        xy_save = [
+            diff_chain.x_morph_out,
+            diff_chain.y_morph_out - diff_chain.y_target_out,
+        ]
     try:
         io.single_morph_output(
             morph_inputs,
             morph_results,
             save_file=opts.slocation,
             morph_file=pargs[0],
-            xy_out=[chain.x_morph_out, chain.y_morph_out],
+            xy_out=xy_save,
             verbose=opts.verbose,
             stdout_flag=stdout_flag,
         )
@@ -753,7 +779,7 @@ def single_morph(
     # Return different things depending on whether it is python interfaced
     if python_wrap:
         morph_info = morph_results
-        morph_table = numpy.array([chain.x_morph_out, chain.y_morph_out]).T
+        morph_table = numpy.array(xy_save).T
         return morph_info, morph_table
     else:
         return morph_results
