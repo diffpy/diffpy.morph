@@ -93,7 +93,7 @@ def create_option_parser():
     parser.add_option(
         "--diff",
         "--get-diff",
-        dest="diff",
+        dest="get_diff",
         action="store_true",
         help=(
             "Save the difference curve rather than the manipulated function.\n"
@@ -719,7 +719,7 @@ def single_morph(
 
     # Print summary to terminal and save morph to file if requested
     xy_save = [chain.x_morph_out, chain.y_morph_out]
-    if opts.diff is not None:
+    if opts.get_diff is not None:
         diff_chain = morphs.MorphChain(
             {"rmin": None, "rmax": None, "rstep": None}
         )

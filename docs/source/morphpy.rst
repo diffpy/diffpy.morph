@@ -74,6 +74,10 @@ General Parameters
 
 save: str or path
     Save the morphed function to a the file passed to save. Use '-' for stdout.
+get_diff: bool
+    Return the difference function (morphed function minus target function) instead of
+    the morphed function (default). When save is enabled, the difference function
+    is saved instead of the morphed function.
 verbose: bool
     Print additional header details to saved files. These include details about the morph
     inputs and outputs.
