@@ -209,7 +209,7 @@ def morph(
             refpars.append("baselineslope")
         elif k == "funcy":
             morph_inst = morph_cls()
-            morph_inst.function = rv_cfg.get("function", None)
+            morph_inst.function = rv_cfg.get("funcy_function", None)
             if morph_inst.function is None:
                 raise ValueError(
                     "Must provide a 'function' when using 'parameters'"

@@ -5,10 +5,13 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphFuncx(Morph):
-    """Apply a custom function to the x-axis of the morph function.
+    """Apply a custom function to the x-axis (grid) of the morph
+    function.
 
     General morph function that applies a user-supplied function to the
-    y-coordinates of morph data to make it align with a target.
+    x-coordinates of morph data to make it align with a target.
+
+    Notice: the morph should maintain the monotonicity of the grid.
 
     Configuration Variables
     -----------------------
@@ -56,7 +59,7 @@ class MorphFuncx(Morph):
         >>> y_morph_in = morph.y_morph_in
         >>> x_target_in = morph.x_target_in
         >>> y_target_in = morph.y_target_in
-        >>> parameters_out = morph.funcy
+        >>> parameters_out = morph.funcx
     """
 
     # Define input output types
@@ -65,13 +68,13 @@ class MorphFuncx(Morph):
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
-    parnames = ["function", "funcy"]
+    parnames = ["funcx_function", "funcx"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
-        """Apply the user-supplied Python function to the y-coordinates
+        """Apply the user-supplied Python function to the x-coordinates
         of the morph data."""
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-        self.x_morph_out = self.function(
-            self.x_morph_in, self.y_morph_in, **self.funcy
+        self.x_morph_out = self.funcx_function(
+            self.x_morph_in, self.y_morph_in, **self.funcx
         )
         return self.xyallout

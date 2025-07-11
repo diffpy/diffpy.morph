@@ -56,7 +56,7 @@ class MorphFuncxy(Morph):
         >>> y_morph_in = morph.y_morph_in
         >>> x_target_in = morph.x_target_in
         >>> y_target_in = morph.y_target_in
-        >>> parameters_out = morph.funcy
+        >>> parameters_out = morph.funcxy
     """
 
     # Define input output types
@@ -65,13 +65,13 @@ class MorphFuncxy(Morph):
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
-    parnames = ["function", "funcxy"]
+    parnames = ["funcxy_function", "funcxy"]
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply the user-supplied Python function to the y-coordinates
         of the morph data."""
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-        self.x_morph_out, self.y_morph_out = self.function(
+        self.x_morph_out, self.y_morph_out = self.funcxy_function(
             self.x_morph_in, self.y_morph_in, **self.funcxy
         )
         return self.xyallout
