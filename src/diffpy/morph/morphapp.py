@@ -520,12 +520,26 @@ def single_morph(
 
     # Python-Specific Morphs
     if pymorphs is not None:
-        # funcy value is a tuple (function,{param_dict})
+        # funcxy/funcx/funcy value is a tuple (function,{param_dict})
+        if "funcxy" in pymorphs:
+            mfxy_function = pymorphs["funcxy"][0]
+            mfxy_params = pymorphs["funcxy"][1]
+            chain.append(morphs.MorphFuncxy())
+            config["funcxy_function"] = mfxy_function
+            config["funcxy"] = mfxy_params
+            refpars.append("funcxy")
+        if "funcx" in pymorphs:
+            mfx_function = pymorphs["funcx"][0]
+            mfx_params = pymorphs["funcx"][1]
+            chain.append(morphs.MorphFuncx())
+            config["funcx_function"] = mfx_function
+            config["funcx"] = mfx_params
+            refpars.append("funcx")
         if "funcy" in pymorphs:
             mfy_function = pymorphs["funcy"][0]
             mfy_params = pymorphs["funcy"][1]
             chain.append(morphs.MorphFuncy())
-            config["function"] = mfy_function
+            config["funcy_function"] = mfy_function
             config["funcy"] = mfy_params
             refpars.append("funcy")
 
@@ -692,6 +706,9 @@ def single_morph(
 
     # FOR FUTURE MAINTAINERS
     # Any new morph should have their input morph parameters updated here
+    # You should also update the IO in morph_io
+    # if you think there requires special handling
+
     # Input morph parameters
     morph_inputs = {
         "scale": scale_in,
@@ -705,10 +722,24 @@ def single_morph(
         for idx, _ in enumerate(squeeze_dict):
             morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
     if pymorphs is not None:
+        if "funcxy" in pymorphs:
+            for funcxy_param in pymorphs["funcxy"][1].keys():
+                morph_inputs.update(
+                    {
+                        f"funcxy {funcxy_param}": pymorphs["funcxy"][1][
+                            funcxy_param
+                        ]
+                    }
+                )
         if "funcy" in pymorphs:
             for funcy_param in pymorphs["funcy"][1].keys():
                 morph_inputs.update(
                     {f"funcy {funcy_param}": pymorphs["funcy"][1][funcy_param]}
+                )
+        if "funcx" in pymorphs:
+            for funcy_param in pymorphs["funcx"][1].keys():
+                morph_inputs.update(
+                    {f"funcx {funcy_param}": pymorphs["funcx"][1][funcy_param]}
                 )
 
     # Output morph parameters
