@@ -11,13 +11,16 @@ class MorphFuncx(Morph):
     General morph function that applies a user-supplied function to the
     x-coordinates of morph data to make it align with a target.
 
-    Notice: the morph should maintain the monotonicity of the grid.
+    Notice: the function provided must preserve the monotonic
+    increase of the grid.
+    I.e. the function f applied on the grid x must ensure for all
+    indices i<j, f(x[i]) < f(x[j]).
 
     Configuration Variables
     -----------------------
     function: callable
         The user-supplied function that applies a transformation to the
-        y-coordinates of the data.
+        x-coordinates of the data.
 
     parameters: dict
         A dictionary of parameters to pass to the function.
@@ -29,27 +32,31 @@ class MorphFuncx(Morph):
         transformed according to the user-specified function and parameters
         The morphed data is returned on the same grid as the unmorphed data
 
-    Example (FIX)
-    -------------
-    Import the funcy morph function:
+    Example
+    -------
+    Import the funcx morph function:
 
-        >>> from diffpy.morph.morphs.morphfuncy import MorphFuncy
+        >>> from diffpy.morph.morphs.morphfuncx import MorphFuncx
 
     Define or import the user-supplied transformation function:
 
-        >>> def sine_function(x, y, amplitude, frequency):
-        >>>     return amplitude * np.sin(frequency * x) * y
+        >>> import numpy as np
+        >>> def exp_function(x, y, amplitude, decay):
+        >>>     return abs(amplitude) * (1 - np.exp(-abs(decay) * x))
+
+    Note that this transformation is monotonic increasing, so will preserve
+    the monotonic increasing nature of the provided grid.
 
     Provide initial guess for parameters:
 
-        >>> parameters = {'amplitude': 2, 'frequency': 2}
+        >>> parameters = {'amplitude': 1, 'frequency': 1}
 
     Run the funcy morph given input morph array (x_morph, y_morph)and target
     array (x_target, y_target):
 
-        >>> morph = MorphFuncy()
-        >>> morph.function = sine_function
-        >>> morph.funcy = parameters
+        >>> morph = MorphFuncx()
+        >>> morph.funcx_function = exp_function
+        >>> morph.funcx = parameters
         >>> x_morph_out, y_morph_out, x_target_out, y_target_out =
         ... morph.morph(x_morph, y_morph, x_target, y_target)
 
@@ -63,7 +70,7 @@ class MorphFuncx(Morph):
     """
 
     # Define input output types
-    summary = "Apply a Python function to the y-axis data"
+    summary = "Apply a Python function to the x-axis data"
     xinlabel = LABEL_RA
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
