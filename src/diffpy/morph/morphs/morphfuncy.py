@@ -34,6 +34,7 @@ class MorphFuncy(Morph):
 
     Define or import the user-supplied transformation function:
 
+        >>> import numpy as np
         >>> def sine_function(x, y, amplitude, frequency):
         >>>     return amplitude * np.sin(frequency * x) * y
 
@@ -45,7 +46,7 @@ class MorphFuncy(Morph):
     array (x_target, y_target):
 
         >>> morph = MorphFuncy()
-        >>> morph.function = sine_function
+        >>> morph.funcy_function = sine_function
         >>> morph.funcy = parameters
         >>> x_morph_out, y_morph_out, x_target_out, y_target_out =
         ... morph.morph(x_morph, y_morph, x_target, y_target)
