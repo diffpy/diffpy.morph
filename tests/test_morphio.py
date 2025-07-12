@@ -11,6 +11,7 @@ from diffpy.morph.morphapp import (
     single_morph,
 )
 from diffpy.morph.morphpy import morph_arrays
+from diffpy.utils.parsers.loaddata import loadData
 
 # Support Python 2
 try:
@@ -62,6 +63,29 @@ def are_files_same(file1, file2):
                 assert np.isclose(float(f1_arr[idx]), float(f2_arr[idx]))
             else:
                 assert f1_arr[idx] == f2_arr[idx]
+
+
+def are_diffs_right(file1, file2, diff_file):
+    """Assert that diff_file ordinate data is approximately file1
+    ordinate data minus file2 ordinate data."""
+    f1_data = loadData(file1)
+    f2_data = loadData(file2)
+    diff_data = loadData(diff_file)
+
+    rmin = max(min(f1_data[:, 0]), min(f1_data[:, 1]))
+    rmax = min(max(f2_data[:, 0]), max(f2_data[:, 1]))
+    rnumsteps = max(
+        len(f1_data[:, 0][(rmin <= f1_data[:, 0]) & (f1_data[:, 0] <= rmax)]),
+        len(f2_data[:, 0][(rmin <= f2_data[:, 0]) & (f2_data[:, 0] <= rmax)]),
+    )
+
+    share_grid = np.linspace(rmin, rmax, rnumsteps)
+    f1_interp = np.interp(share_grid, f1_data[:, 0], f1_data[:, 1])
+    f2_interp = np.interp(share_grid, f2_data[:, 0], f2_data[:, 1])
+    diff_interp = np.interp(share_grid, diff_data[:, 0], diff_data[:, 1])
+
+    for idx, diff in enumerate(diff_interp):
+        assert np.isclose(f1_interp[idx] - f2_interp[idx], diff)
 
 
 class TestApp:
@@ -164,6 +188,59 @@ class TestApp:
                     actual = filter(ignore_path, gf)
                     expected = filter(ignore_path, tf)
                     are_files_same(actual, expected)
+
+    # Similar format as test_morph_outputs
+    def test_morph_diff_outputs(self, setup, tmp_path):
+        morph_file = self.testfiles[0]
+        target_file = self.testfiles[-1]
+
+        # Save multiple diff morphs
+        tmp_diff = tmp_path.joinpath("diff")
+        tmp_diff_name = tmp_diff.resolve().as_posix()
+
+        (opts, pargs) = self.parser.parse_args(
+            [
+                "--multiple-targets",
+                "--sort-by",
+                "temperature",
+                "-s",
+                tmp_diff_name,
+                "-n",
+                "--save-names-file",
+                tssf,
+                "--diff",
+            ]
+        )
+        pargs = [morph_file, testsequence_dir]
+        multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+
+        # Save a single diff morph
+        diff_name = "single_diff_morph.cgr"
+        diff_file = tmp_diff.joinpath(diff_name)
+        df_name = diff_file.resolve().as_posix()
+        (opts, pargs) = self.parser.parse_args(["-s", df_name, "-n", "--diff"])
+        pargs = [morph_file, target_file]
+        single_morph(self.parser, opts, pargs, stdout_flag=False)
+
+        # Check that the saved diff matches the morph minus target
+        # Morphs are saved in testdata/testsequence/testsaving/succinct
+        # Targets are stored in testdata/testsequence
+
+        # Single morph diff
+        morphed_file = test_saving_succinct / diff_name.replace(
+            "diff", "succinct"
+        )
+        are_diffs_right(morphed_file, target_file, diff_file)
+
+        # Multiple morphs diff
+        diff_files = list((tmp_diff / "Morphs").iterdir())
+        morphed_files = list((test_saving_succinct / "Morphs").iterdir())
+        target_files = self.testfiles[1:]
+        diff_files.sort()
+        morphed_files.sort()
+        target_files.sort()
+        for idx, diff_file in enumerate(diff_files):
+            are_diffs_right(morphed_files[idx], target_files[idx], diff_file)
 
     def test_morphsqueeze_outputs(self, setup, tmp_path):
         # The file squeeze_morph has a squeeze and stretch applied
