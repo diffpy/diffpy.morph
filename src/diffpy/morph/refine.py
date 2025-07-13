@@ -91,12 +91,17 @@ class Refiner(object):
         else:
             # Padding
             if len(rvec) < self.res_length:
+                diff_length = self.res_length - len(rvec)
                 rvec = list(rvec)
-                rvec.extend([0] * (self.res_length - len(rvec)))
+                rvec.extend([0] * diff_length)
                 rvec = array(rvec)
             # Removal
             elif len(rvec) > self.res_length:
-                pass
+                diff_length = len(rvec) - self.res_length
+                rvec = list(rvec)
+                for _ in range(diff_length):
+                    rvec.pop(max(rvec))
+                rvec = array(rvec)
 
         return rvec
 
