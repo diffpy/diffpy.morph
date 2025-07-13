@@ -58,8 +58,12 @@ class MorphRGrid(Morph):
         """Resample arrays onto specified grid."""
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
         rmininc = max(self.x_target_in[0], self.x_morph_in[0])
-        r_step_target = self.x_target_in[1] - self.x_target_in[0]
-        r_step_morph = self.x_morph_in[1] - self.x_morph_in[0]
+        r_step_target = (self.x_target_in[-1] - self.x_target_in[0]) / (
+            len(self.x_target_in) - 1
+        )
+        r_step_morph = (self.x_morph_in[-1] - self.x_morph_in[0]) / (
+            len(self.x_morph_in) - 1
+        )
         rstepinc = max(r_step_target, r_step_morph)
         rmaxinc = min(
             self.x_target_in[-1] + r_step_target,
