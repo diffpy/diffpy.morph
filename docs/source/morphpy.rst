@@ -193,6 +193,12 @@ funcy: tuple (function, dict)
 funcx: tuple (function, dict)
     Apply a function to the x-axis of the (two-column) data.
 
+    This morph works fundamentally differently from the other grid morphs
+    (e.g. stretch and squeeze) as it directly modifies the grid of the
+    morph function.
+    The other morphs maintain the original grid and apply the morphs by interpolating
+    the function ***.
+
     This morph applies the function funcx[0] with parameters given in funcx[1].
     The function funcx[0] take in as parameters both the abscissa and ordinate
     (i.e. take in at least two inputs with as many additional parameters as needed).
