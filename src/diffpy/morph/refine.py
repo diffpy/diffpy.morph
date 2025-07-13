@@ -100,6 +100,8 @@ class Refiner(object):
                 diff_length = len(rvec) - self.res_length
                 rvec = list(rvec)
                 for _ in range(diff_length):
+                    # Remove the largest residuals since the larger overlapping
+                    # grid means we are likely closer to the target
                     rvec.pop(max(rvec))
                 rvec = array(rvec)
 
