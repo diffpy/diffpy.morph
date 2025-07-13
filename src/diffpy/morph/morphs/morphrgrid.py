@@ -19,9 +19,6 @@ import numpy
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
-# roundoff tolerance for selecting bounds on arrays.
-epsilon = 1e-8
-
 
 class MorphRGrid(Morph):
     """Resample to specified r-grid.
@@ -71,6 +68,8 @@ class MorphRGrid(Morph):
             self.rmax = rmaxinc
         if self.rstep is None or self.rstep < rstepinc:
             self.rstep = rstepinc
+        # roundoff tolerance for selecting bounds on arrays.
+        epsilon = self.rstep / 2
         # Make sure that rmax is exclusive
         self.x_morph_out = numpy.arange(
             self.rmin, self.rmax - epsilon, self.rstep
