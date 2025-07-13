@@ -55,7 +55,6 @@ class MorphRGrid(Morph):
         """Resample arrays onto specified grid."""
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
         rmininc = max(self.x_target_in[0], self.x_morph_in[0])
-        print(self.x_morph_out)
         r_step_target = (self.x_target_in[-1] - self.x_target_in[0]) / (
             len(self.x_target_in) - 1
         )
@@ -67,7 +66,6 @@ class MorphRGrid(Morph):
             self.x_target_in[-1] + r_step_target,
             self.x_morph_in[-1] + r_step_morph,
         )
-        print(rmininc, rmaxinc, rstepinc)
         if self.rmin is None or self.rmin < rmininc:
             self.rmin = rmininc
         if self.rmax is None or self.rmax > rmaxinc:
@@ -80,7 +78,6 @@ class MorphRGrid(Morph):
         self.x_morph_out = numpy.arange(
             self.rmin, self.rmax - epsilon, self.rstep
         )
-        print((self.rmax - self.rmin) / self.rstep, len(self.x_morph_out))
         self.y_morph_out = numpy.interp(
             self.x_morph_out, self.x_morph_in, self.y_morph_in
         )
