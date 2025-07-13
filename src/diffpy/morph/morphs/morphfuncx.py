@@ -41,15 +41,15 @@ class MorphFuncx(Morph):
     Define or import the user-supplied transformation function:
 
         >>> import numpy as np
-        >>> def exp_function(x, y, amplitude, decay):
-        >>>     return abs(amplitude) * (1 - np.exp(-abs(decay) * x))
+        >>> def exp_function(x, y, scale, rate):
+        >>>     return abs(scale) * np.exp(rate * x)
 
     Note that this transformation is monotonic increasing, so will preserve
     the monotonic increasing nature of the provided grid.
 
     Provide initial guess for parameters:
 
-        >>> parameters = {'amplitude': 1, 'frequency': 1}
+        >>> parameters = {'scale': 1, 'rate': 1}
 
     Run the funcy morph given input morph array (x_morph, y_morph)and target
     array (x_target, y_target):

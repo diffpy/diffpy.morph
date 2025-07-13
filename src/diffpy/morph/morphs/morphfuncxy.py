@@ -5,16 +5,21 @@ from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
 class MorphFuncxy(Morph):
-    """Apply a custom function to the y-axis of the morph function.
+    """Apply a custom function to the morph function.
 
     General morph function that applies a user-supplied function to the
-    y-coordinates of morph data to make it align with a target.
+    morph data to make it align with a target.
+
+    This function may modify both the grid (x-axis) and function (y-axis)
+    of the morph data.
+
+    The user-provided function must return a two-column 1D function.
 
     Configuration Variables
     -----------------------
     function: callable
         The user-supplied function that applies a transformation to the
-        y-coordinates of the data.
+        grid (x-axis) and morph function (y-axis).
 
     parameters: dict
         A dictionary of parameters to pass to the function.
@@ -28,24 +33,25 @@ class MorphFuncxy(Morph):
 
     Example (EDIT)
     -------
-    Import the funcy morph function:
+    Import the funcxy morph function:
 
         >>> from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
 
     Define or import the user-supplied transformation function:
 
-        >>> def sine_function(x, y, amplitude, frequency):
-        >>>     return amplitude * np.sin(frequency * x) * y
+        >>> import numpy as np
+        >>> def shift_function(x, y, hshift, vshift):
+        >>>     return x + hshift, y + vshift
 
     Provide initial guess for parameters:
 
-        >>> parameters = {'amplitude': 2, 'frequency': 2}
+        >>> parameters = {'hshift': 1, 'vshift': 1}
 
     Run the funcy morph given input morph array (x_morph, y_morph)and target
     array (x_target, y_target):
 
-        >>> morph = MorphFuncy()
-        >>> morph.function = sine_function
+        >>> morph = MorphFuncxy()
+        >>> morph.function = shift_function
         >>> morph.funcy = parameters
         >>> x_morph_out, y_morph_out, x_target_out, y_target_out =
         ... morph.morph(x_morph, y_morph, x_target, y_target)
@@ -60,7 +66,9 @@ class MorphFuncxy(Morph):
     """
 
     # Define input output types
-    summary = "Apply a Python function to the y-axis data"
+    summary = (
+        "Apply a Python function to the data (y-axis) and data grid (x-axis)"
+    )
     xinlabel = LABEL_RA
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
