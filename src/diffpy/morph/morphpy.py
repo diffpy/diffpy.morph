@@ -100,7 +100,7 @@ def morph(
     plot: bool
         Show a plot of the morphed and target functions as well as the
         difference curve (default: False).
-    kwargs: Any
+    kwargs: str, float, list, tuple, bool
         See the diffpy.morph website for full list of options.
     Returns
     -------
@@ -155,7 +155,7 @@ def morph_arrays(
     plot: bool
         Show a plot of the morphed and target functions as well as the
         difference curve (default: False).
-    kwargs: Any
+    kwargs: str, float, list, tuple, bool
         See the diffpy.morph website for full list of options.
     Returns
     -------
