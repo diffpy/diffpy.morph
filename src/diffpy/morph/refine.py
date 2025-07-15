@@ -97,13 +97,8 @@ class Refiner(object):
                 rvec = array(rvec)
             # Removal
             elif len(rvec) > self.res_length:
-                diff_length = len(rvec) - self.res_length
-                rvec = list(rvec)
-                for _ in range(diff_length):
-                    # Remove the largest residuals since the larger overlapping
-                    # grid means we are likely closer to the target
-                    rvec.pop(max(rvec))
-                rvec = array(rvec)
+                avg_rms = sum(rvec**2) / self.res_length
+                rvec = array([avg_rms for _ in range(self.res_length)])
 
         return rvec
 
