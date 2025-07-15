@@ -249,6 +249,68 @@ class TestMorphpy:
         assert pytest.approx(abs(morph_info["smear"])) == 4.0
         assert pytest.approx(morph_info["funcy"]["mu"]) == 50.0
 
+    # FIXME:
+    def test_morphfuncx(self, setup_morph):
+        def gaussian(x, mu, sigma):
+            return np.exp(-((x - mu) ** 2) / (2 * sigma**2)) / (
+                sigma * np.sqrt(2 * np.pi)
+            )
+
+        def gaussian_like_function(x, y, mu):
+            return gaussian((x + y) / 2, mu, 3)
+
+        morph_r = np.linspace(0, 100, 1001)
+        morph_gr = np.linspace(0, 100, 1001)
+
+        target_r = np.linspace(0, 100, 1001)
+        target_gr = 0.5 * gaussian(target_r, 50, 5) + 0.05
+
+        morph_info, _ = morph_arrays(
+            np.array([morph_r, morph_gr]).T,
+            np.array([target_r, target_gr]).T,
+            scale=1,
+            smear=3.75,
+            vshift=0.01,
+            funcy=(gaussian_like_function, {"mu": 47.5}),
+            tolerance=1e-12,
+        )
+
+        assert pytest.approx(morph_info["scale"]) == 0.5
+        assert pytest.approx(morph_info["vshift"]) == 0.05
+        assert pytest.approx(abs(morph_info["smear"])) == 4.0
+        assert pytest.approx(morph_info["funcy"]["mu"]) == 50.0
+
+    # FIXME:
+    def test_morphfuncxy(self, setup_morph):
+        def gaussian(x, mu, sigma):
+            return np.exp(-((x - mu) ** 2) / (2 * sigma**2)) / (
+                sigma * np.sqrt(2 * np.pi)
+            )
+
+        def gaussian_like_function(x, y, mu):
+            return gaussian((x + y) / 2, mu, 3)
+
+        morph_r = np.linspace(0, 100, 1001)
+        morph_gr = np.linspace(0, 100, 1001)
+
+        target_r = np.linspace(0, 100, 1001)
+        target_gr = 0.5 * gaussian(target_r, 50, 5) + 0.05
+
+        morph_info, _ = morph_arrays(
+            np.array([morph_r, morph_gr]).T,
+            np.array([target_r, target_gr]).T,
+            scale=1,
+            smear=3.75,
+            vshift=0.01,
+            funcy=(gaussian_like_function, {"mu": 47.5}),
+            tolerance=1e-12,
+        )
+
+        assert pytest.approx(morph_info["scale"]) == 0.5
+        assert pytest.approx(morph_info["vshift"]) == 0.05
+        assert pytest.approx(abs(morph_info["smear"])) == 4.0
+        assert pytest.approx(morph_info["funcy"]["mu"]) == 50.0
+
     def test_morphpy_outputs(self, tmp_path):
         r = np.linspace(0, 1, 11)
         gr = np.linspace(0, 1, 11)
