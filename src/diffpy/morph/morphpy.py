@@ -13,8 +13,13 @@ def get_args(parser, params, kwargs):
             inputs.append(f"{value}")
     for key, value in kwargs.items():
         key = key.replace("_", "-")
-        inputs.append(f"--{key}")
-        inputs.append(f"{value}")
+        if key == "exclude":
+            for param in value:
+                inputs.append(f"--{key}")
+                inputs.append(f"{param}")
+        else:
+            inputs.append(f"--{key}")
+            inputs.append(f"{value}")
     (opts, pargs) = parser.parse_args(inputs)
     return opts, pargs
 

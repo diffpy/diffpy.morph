@@ -102,8 +102,9 @@ excluded with the apply or exclude parameters.
 
 apply: bool
     Apply morphs but do not refine.
-exclude: str
-    Exclude a manipulation from refinement by name.
+exclude: list of str
+    Exclude a manipulations from refinement by name
+    (e.g. exclude=["scale", "stretch"] excludes the scale and stretch morphs).
 scale: float
     Apply scale factor. This multiplies the function ordinate by scale.
 stretch: float

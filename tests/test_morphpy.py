@@ -148,6 +148,48 @@ class TestMorphpy:
                     morphapp_params[key], abs=1e-08
                 )
 
+    def test_exclude(self, setup_morph):
+        morph_file = self.testfiles[0]
+        target_file = self.testfiles[-1]
+        morph_info, _ = morph(
+            morph_file,
+            target_file,
+            scale=1,
+            stretch=0,
+            exclude=["scale", "stretch"],
+            sort_by="temperature",
+        )
+
+        # Nothing should be refined
+        assert pytest.approx(morph_info["scale"]) == 1
+        assert pytest.approx(morph_info["stretch"]) == 0
+
+        morph_info, _ = morph(
+            morph_file,
+            target_file,
+            scale=1,
+            stretch=0,
+            exclude=["scale"],
+            sort_by="temperature",
+        )
+
+        # Stretch only should be refined
+        assert pytest.approx(morph_info["scale"]) == 1
+        assert pytest.approx(morph_info["stretch"]) != 0
+
+        morph_info, _ = morph(
+            morph_file,
+            target_file,
+            scale=1,
+            stretch=0,
+            exclude=["stretch"],
+            sort_by="temperature",
+        )
+
+        # Scale only should be refined
+        assert pytest.approx(morph_info["scale"]) != 1
+        assert pytest.approx(morph_info["stretch"]) == 0
+
     def test_morphpy(self, setup_morph):
         morph_results = {}
         morph_file = self.testfiles[0]
