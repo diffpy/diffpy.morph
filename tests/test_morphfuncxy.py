@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+# from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
 from diffpy.morph.morphs.morphfuncy import MorphFuncy
 
 
@@ -24,6 +25,7 @@ def logarithmic_function(x, y, scale):
     return scale * np.log(1 + x) * y
 
 
+# FIXME:
 @pytest.mark.parametrize(
     "function, parameters, expected_function",
     [
