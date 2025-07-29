@@ -4,55 +4,58 @@ import pytest
 from diffpy.morph.morphs.morphfuncy import MorphFuncy
 
 
-def sine_function(x, y, amplitude, frequency):
-    return amplitude * np.sin(frequency * x) * y
+def y_sine_function(x, y, y_amplitude, y_frequency):
+    return y_amplitude * np.sin(y_frequency * x) * y
 
 
-def exponential_decay_function(x, y, amplitude, decay_rate):
-    return amplitude * np.exp(-decay_rate * x) * y
+def y_exponential_decay_function(x, y, y_amplitude, y_decay_rate):
+    return y_amplitude * np.exp(-y_decay_rate * x) * y
 
 
-def gaussian_function(x, y, amplitude, mean, sigma):
-    return amplitude * np.exp(-((x - mean) ** 2) / (2 * sigma**2)) * y
+def y_gaussian_function(x, y, y_amplitude, y_mean, y_sigma):
+    return y_amplitude * np.exp(-((x - y_mean) ** 2) / (2 * y_sigma**2)) * y
 
 
-def polynomial_function(x, y, a, b, c):
-    return (a * x**2 + b * x + c) * y
+def y_polynomial_function(x, y, y_a, y_b, y_c):
+    return (y_a * x**2 + y_b * x + y_c) * y
 
 
-def logarithmic_function(x, y, scale):
-    return scale * np.log(1 + x) * y
+def y_logarithmic_function(x, y, y_scale):
+    return y_scale * np.log(1 + x) * y
+
+
+funcy_test_suite = [
+    (
+        y_sine_function,
+        {"y_amplitude": 2, "y_frequency": 5},
+        lambda x, y: 2 * np.sin(5 * x) * y,
+    ),
+    (
+        y_exponential_decay_function,
+        {"y_amplitude": 5, "y_decay_rate": 0.1},
+        lambda x, y: 5 * np.exp(-0.1 * x) * y,
+    ),
+    (
+        y_gaussian_function,
+        {"y_amplitude": 1, "y_mean": 5, "y_sigma": 1},
+        lambda x, y: np.exp(-((x - 5) ** 2) / (2 * 1**2)) * y,
+    ),
+    (
+        y_polynomial_function,
+        {"y_a": 1, "y_b": 2, "y_c": 0},
+        lambda x, y: (x**2 + 2 * x) * y,
+    ),
+    (
+        y_logarithmic_function,
+        {"y_scale": 0.5},
+        lambda x, y: 0.5 * np.log(1 + x) * y,
+    ),
+]
 
 
 @pytest.mark.parametrize(
     "function, parameters, expected_function",
-    [
-        (
-            sine_function,
-            {"amplitude": 2, "frequency": 5},
-            lambda x, y: 2 * np.sin(5 * x) * y,
-        ),
-        (
-            exponential_decay_function,
-            {"amplitude": 5, "decay_rate": 0.1},
-            lambda x, y: 5 * np.exp(-0.1 * x) * y,
-        ),
-        (
-            gaussian_function,
-            {"amplitude": 1, "mean": 5, "sigma": 1},
-            lambda x, y: np.exp(-((x - 5) ** 2) / (2 * 1**2)) * y,
-        ),
-        (
-            polynomial_function,
-            {"a": 1, "b": 2, "c": 0},
-            lambda x, y: (x**2 + 2 * x) * y,
-        ),
-        (
-            logarithmic_function,
-            {"scale": 0.5},
-            lambda x, y: 0.5 * np.log(1 + x) * y,
-        ),
-    ],
+    funcy_test_suite,
 )
 def test_funcy(function, parameters, expected_function):
     x_morph = np.linspace(0, 10, 101)

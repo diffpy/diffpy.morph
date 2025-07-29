@@ -1,71 +1,66 @@
 import numpy as np
 import pytest
 
-# from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
-from diffpy.morph.morphs.morphfuncy import MorphFuncy
+from diffpy.morph.morphs.morphfuncxy import MorphFuncxy
 
+from .test_morphfuncx import funcx_test_suite
+from .test_morphfuncy import funcy_test_suite
 
-def sine_function(x, y, amplitude, frequency):
-    return amplitude * np.sin(frequency * x) * y
-
-
-def exponential_decay_function(x, y, amplitude, decay_rate):
-    return amplitude * np.exp(-decay_rate * x) * y
-
-
-def gaussian_function(x, y, amplitude, mean, sigma):
-    return amplitude * np.exp(-((x - mean) ** 2) / (2 * sigma**2)) * y
-
-
-def polynomial_function(x, y, a, b, c):
-    return (a * x**2 + b * x + c) * y
-
-
-def logarithmic_function(x, y, scale):
-    return scale * np.log(1 + x) * y
+funcxy_test_suite = []
+for entry_y in funcy_test_suite:
+    for entry_x in funcx_test_suite:
+        funcxy_test_suite.append(
+            (
+                entry_x[0],
+                entry_y[0],
+                entry_x[1],
+                entry_y[1],
+                entry_x[2],
+                entry_y[2],
+            )
+        )
 
 
 # FIXME:
 @pytest.mark.parametrize(
-    "function, parameters, expected_function",
-    [
-        (
-            sine_function,
-            {"amplitude": 2, "frequency": 5},
-            lambda x, y: 2 * np.sin(5 * x) * y,
-        ),
-        (
-            exponential_decay_function,
-            {"amplitude": 5, "decay_rate": 0.1},
-            lambda x, y: 5 * np.exp(-0.1 * x) * y,
-        ),
-        (
-            gaussian_function,
-            {"amplitude": 1, "mean": 5, "sigma": 1},
-            lambda x, y: np.exp(-((x - 5) ** 2) / (2 * 1**2)) * y,
-        ),
-        (
-            polynomial_function,
-            {"a": 1, "b": 2, "c": 0},
-            lambda x, y: (x**2 + 2 * x) * y,
-        ),
-        (
-            logarithmic_function,
-            {"scale": 0.5},
-            lambda x, y: 0.5 * np.log(1 + x) * y,
-        ),
-    ],
+    "funcx_func, funcy_func, funcx_params, funcy_params, "
+    "funcx_lambda, funcy_lambda",
+    funcxy_test_suite,
 )
-def test_funcy(function, parameters, expected_function):
+def test_funcy(
+    funcx_func,
+    funcy_func,
+    funcx_params,
+    funcy_params,
+    funcx_lambda,
+    funcy_lambda,
+):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph.copy()
     y_target = y_morph.copy()
-    x_morph_expected = x_morph
-    y_morph_expected = expected_function(x_morph, y_morph)
-    morph = MorphFuncy()
-    morph.funcy_function = function
-    morph.funcy = parameters
+    x_morph_expected = funcx_lambda(x_morph, y_morph)
+    y_morph_expected = funcy_lambda(x_morph, y_morph)
+
+    funcxy_params = {}
+    funcxy_params.update(funcx_params)
+    funcxy_params.update(funcy_params)
+
+    def funcxy_func(x, y, **funcxy_params):
+        funcx_params = {}
+        funcy_params = {}
+        for param in funcxy_params.keys():
+            if param[:2] == "x_":
+                funcx_params.update({param: funcxy_params[param]})
+            elif param[:2] == "y_":
+                funcy_params.update({param: funcxy_params[param]})
+        return funcx_func(x, y, **funcx_params), funcy_func(
+            x, y, **funcy_params
+        )
+
+    morph = MorphFuncxy()
+    morph.funcxy_function = funcxy_func
+    morph.funcxy = funcxy_params
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = (
         morph.morph(x_morph, y_morph, x_target, y_target)
     )

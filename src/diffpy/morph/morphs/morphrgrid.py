@@ -51,8 +51,21 @@ class MorphRGrid(Morph):
     youtlabel = LABEL_GR
     parnames = ["rmin", "rmax", "rstep"]
 
+    # Define rmin rmax holders for adaptive x-grid refinement
+    # Without these, the program r-grid can only decrease in interval size
+    rmin_origin = None
+    rmax_origin = None
+    rstep_origin = None
+
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Resample arrays onto specified grid."""
+        if self.rmin is not None:
+            self.rmin_origin = self.rmin
+        if self.rmax is not None:
+            self.rmax_origin = self.rmax
+        if self.rstep is not None:
+            self.rstep_origin = self.rstep
+
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
         rmininc = max(min(self.x_target_in), min(self.x_morph_in))
         r_step_target = (max(self.x_target_in) - min(self.x_target_in)) / (
@@ -66,11 +79,11 @@ class MorphRGrid(Morph):
             max(self.x_target_in) + r_step_target,
             max(self.x_morph_in) + r_step_morph,
         )
-        if self.rmin is None or self.rmin < rmininc:
+        if self.rmin_origin is None or self.rmin_origin < rmininc:
             self.rmin = rmininc
-        if self.rmax is None or self.rmax > rmaxinc:
+        if self.rmax_origin is None or self.rmax_origin > rmaxinc:
             self.rmax = rmaxinc
-        if self.rstep is None or self.rstep < rstepinc:
+        if self.rstep_origin is None or self.rstep_origin < rstepinc:
             self.rstep = rstepinc
         # roundoff tolerance for selecting bounds on arrays.
         epsilon = self.rstep / 2

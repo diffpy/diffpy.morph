@@ -1,71 +1,63 @@
 import numpy as np
 import pytest
 
-# from diffpy.morph.morphs.morphfuncx import MorphFuncx
-from diffpy.morph.morphs.morphfuncy import MorphFuncy
+from diffpy.morph.morphs.morphfuncx import MorphFuncx
 
 
-def sine_function(x, y, amplitude, frequency):
-    return amplitude * np.sin(frequency * x) * y
+def x_exponential_function(x, y, x_amplitude, x_rate):
+    return x_amplitude * np.exp(x_rate * x)
 
 
-def exponential_decay_function(x, y, amplitude, decay_rate):
-    return amplitude * np.exp(-decay_rate * x) * y
+def x_linear_function(x, y, x_slope, x_intercept):
+    return x_slope * x + x_intercept
 
 
-def gaussian_function(x, y, amplitude, mean, sigma):
-    return amplitude * np.exp(-((x - mean) ** 2) / (2 * sigma**2)) * y
+def x_cubic_function(x, y, x_amplitude, x_shift):
+    return x_amplitude * (x - x_shift) ** 3
 
 
-def polynomial_function(x, y, a, b, c):
-    return (a * x**2 + b * x + c) * y
+def x_arctan_function(x, y, x_amplitude, x_frequency):
+    return x_amplitude * np.arctan(x_frequency * x)
 
 
-def logarithmic_function(x, y, scale):
-    return scale * np.log(1 + x) * y
+funcx_test_suite = [
+    (
+        x_exponential_function,
+        {"x_amplitude": 2, "x_rate": 5},
+        lambda x, y: 2 * np.exp(5 * x),
+    ),
+    (
+        x_linear_function,
+        {"x_slope": 5, "x_intercept": 0.1},
+        lambda x, y: 5 * x + 0.1,
+    ),
+    (
+        x_cubic_function,
+        {"x_amplitude": 2, "x_shift": 5},
+        lambda x, y: 2 * (x - 5) ** 3,
+    ),
+    (
+        x_arctan_function,
+        {"x_amplitude": 4, "x_frequency": 2},
+        lambda x, y: 4 * np.arctan(2 * x),
+    ),
+]
 
 
-# FIXME:
 @pytest.mark.parametrize(
     "function, parameters, expected_function",
-    [
-        (
-            sine_function,
-            {"amplitude": 2, "frequency": 5},
-            lambda x, y: 2 * np.sin(5 * x) * y,
-        ),
-        (
-            exponential_decay_function,
-            {"amplitude": 5, "decay_rate": 0.1},
-            lambda x, y: 5 * np.exp(-0.1 * x) * y,
-        ),
-        (
-            gaussian_function,
-            {"amplitude": 1, "mean": 5, "sigma": 1},
-            lambda x, y: np.exp(-((x - 5) ** 2) / (2 * 1**2)) * y,
-        ),
-        (
-            polynomial_function,
-            {"a": 1, "b": 2, "c": 0},
-            lambda x, y: (x**2 + 2 * x) * y,
-        ),
-        (
-            logarithmic_function,
-            {"scale": 0.5},
-            lambda x, y: 0.5 * np.log(1 + x) * y,
-        ),
-    ],
+    funcx_test_suite,
 )
 def test_funcy(function, parameters, expected_function):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph.copy()
     y_target = y_morph.copy()
-    x_morph_expected = x_morph
-    y_morph_expected = expected_function(x_morph, y_morph)
-    morph = MorphFuncy()
-    morph.funcy_function = function
-    morph.funcy = parameters
+    x_morph_expected = expected_function(x_morph, y_morph)
+    y_morph_expected = y_morph
+    morph = MorphFuncx()
+    morph.funcx_function = function
+    morph.funcx = parameters
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = (
         morph.morph(x_morph, y_morph, x_target, y_target)
     )

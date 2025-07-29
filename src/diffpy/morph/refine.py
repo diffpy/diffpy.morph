@@ -96,8 +96,11 @@ class Refiner(object):
                 rvec.extend([0] * diff_length)
                 rvec = array(rvec)
             # Removal
+            # For removal, pass the average RMS
+            # This is fast and easy to compute
+            # For sufficiently functions, this approximation becomes exact
             elif len(rvec) > self.res_length:
-                avg_rms = sum(rvec**2) / self.res_length
+                avg_rms = sum(rvec**2) / len(rvec)
                 rvec = array([avg_rms for _ in range(self.res_length)])
 
         return rvec

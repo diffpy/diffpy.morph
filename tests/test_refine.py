@@ -9,6 +9,8 @@ import pytest
 from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
 from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
 from diffpy.morph.morphs.morphchain import MorphChain
+from diffpy.morph.morphs.morphfuncx import MorphFuncx
+from diffpy.morph.morphs.morphrgrid import MorphRGrid
 from diffpy.morph.morphs.morphscale import MorphScale
 from diffpy.morph.morphs.morphsmear import MorphSmear
 from diffpy.morph.morphs.morphstretch import MorphStretch
@@ -113,6 +115,71 @@ class TestRefine:
         refiner.refine()
         assert not pytest.approx(config["scale"], stol, stol) == 3.0
         return
+
+    def test_refine_grid_change(self):
+        err = 1e-08
+
+        # First test what occurs when the grid overlap increases
+        # As we shift, the overlap number increases
+        # In this case, overlap goes from 41 -> 51
+        exp_hshift = 1
+        grid1 = numpy.linspace(0, 5, 51)
+        grid2 = numpy.linspace(0 + exp_hshift, 5 + exp_hshift, 51)
+        func1 = numpy.zeros(grid1.shape)
+        func1[(1 < grid1) & (grid1 < 4)] = 1
+        func2 = numpy.zeros(grid2.shape)
+        func2[(1 + exp_hshift < grid2) & (grid2 < 4 + exp_hshift)] = 1
+
+        def shift(x, y, hshift):
+            return x + hshift
+
+        config = {
+            "funcx_function": shift,
+            "funcx": {"hshift": 0},
+            "rmin": 0,
+            "rmax": 7,
+            "rstep": 0.01,
+        }
+
+        mfuncx = MorphFuncx(config)
+        mrgrid = MorphRGrid(config)
+        chain = MorphChain(config, mfuncx, mrgrid)
+        refiner = Refiner(chain, grid1, func1, grid2, func2)
+        refpars = ["funcx"]
+        res = refiner.refine(*refpars)
+
+        assert res < err
+
+        # Second test when the grid overlap decreases
+        # As we stretch, the grid spacing increases
+        # Thus, the overlap number decreases
+        # For this test, overlap goes from 12 -> 10
+        grid1 = numpy.linspace(0, 4, 41)
+        grid2 = numpy.linspace(2, 4, 21)
+        func1 = numpy.zeros(grid1.shape)
+        func1[grid1 <= 2] = 1
+        func1[2 < grid1] = 2
+        func2 = numpy.zeros(grid2.shape) + 1
+
+        def stretch(x, y, stretch):
+            return x * (1 + stretch)
+
+        config = {
+            "funcx_function": stretch,
+            "funcx": {"stretch": 0.7},
+            "rmin": 0,
+            "rmax": 4,
+            "rstep": 0.01,
+        }
+
+        mfuncx = MorphFuncx(config)
+        mrgrid = MorphRGrid(config)
+        chain = MorphChain(config, mfuncx, mrgrid)
+        refiner = Refiner(chain, grid1, func1, grid2, func2)
+        refpars = ["funcx"]
+        res = refiner.refine(*refpars)
+
+        assert res < err
 
 
 # End of class TestRefine
