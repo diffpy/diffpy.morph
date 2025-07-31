@@ -403,4 +403,127 @@ how much the
 MorphFuncxy:
 ^^^^^^^^^^^^
 The ``MorphFuncxy`` morph allows users to apply a custom Python function
-to a dataset, ***.
+to a dataset that modifies both the ``x`` and ``y`` column values.
+This is equivalent to applying a ``MorphFuncx`` and ``MorphFuncy``
+simultaneously.
+
+This morph is useful when you want to apply operations that modify both
+the grid and function value. A PDF-specific example includes computing
+PDFs from 1D diffraction data (see paragraph at the end of this section).
+
+For this tutorial, we will go through two examples. One simple one
+involving shifting a function in the ``x`` and ``y`` directions, and
+another involving a Fourier transform.
+
+    1. Let's start by taking a simple ``sine`` function:
+       .. code-block:: python
+
+            import numpy as np
+            morph_x = np.linspace(0, 10, 101)
+            morph_y = np.sin(morph_x)
+            morph_table = np.array([morph_x, morph_y]).T
+
+    2. Then, let our target function be that same ``sine`` function shifted
+       to the right by ``0.3`` and up by ``0.7``:
+       .. code-block:: python
+
+            target_x = morph_x + 0.3
+            target_y = morph_y + 0.7
+            target_table = np.array([target_x, target_y]).T
+
+    3. While we could use the ``hshift`` and ``vshift`` morphs,
+       this would require us to refine over two separate morph
+       operations. We can instead perform these morphs simultaneously
+       by defining a function:
+       .. code-block:: python
+
+            def shift(x, y, hshift, vshift):
+                return x + hshift, y + vshift
+
+    4. Now, let's try finding the optimal shift parameters using the ``MorphFuncxy`` morph.
+       We can try an initial guess of ``hshift=0.0`` and ``vshift=0.0``:
+       .. code-block:: python
+
+            from diffpy.morph.morphpy import morph_arrays
+            initial_guesses = {"hshift": 0.0, "vshift": 0.0}
+            info, table = morph_arrays(morph_table, target_table, funcxy=(shift, initial_guesses))
+
+    5. Finally, to see the refined ``hshift`` and ``vshift`` parameters, we extract them from ``info``:
+       .. code-block:: python
+
+            print(f"Refined hshift: {info["funcxy"]["hshift"]}")
+            print(f"Refined vshift: {info["funcxy"]["vshift"]}")
+
+Now for an example involving a Fourier transform.
+
+    1. Let's say you measured a signal of the form :math:`f(x)=\exp\{\cos(\pi x)\}`.
+       Unfortunately, your measurement was taken against a noisy sinusoidal
+       background of the form :math:`n(x)=A\sin(Bx)`, where ``A,B`` are unknown.
+       For our example, let's say (unknown to us) that ``A=2`` and ``B=1.7``.
+       .. code-block:: python
+
+            import numpy as np
+            n = 201
+            dx = 0.01
+            measured_x = np.linspace(0, 2, n)
+
+            def signal(x):
+                return np.exp(np.cos(np.pi * x))
+
+            def noise(x, A, B):
+                return A * np.sin(B * x)
+
+            measured_f = signal(measured_x) + noise(measured_x, 2, 1.7)
+            morph_table = np.array([measured_x, measured_f]).T
+
+    2. Your colleague remembers they previously computed the Fourier transform
+       of the function and has sent that to you.
+       .. code-block:: python
+
+            # We only consider the region where the grid is positive for simplicity
+            target_x = np.fft.fftfreq(n, dx)[:n//2]
+            target_f = np.real(np.fft.fft(signal(measured_x))[:n//2])
+            target_table = np.array([target_x, target_f]).T
+
+    3. We can now write a noise subtraction function that takes in our measured
+       signal and guesses for parameters ``A,B``, and computes the Fourier
+       transform post-noise-subtraction.
+       .. code-block:: python
+
+            def noise_subtracted_ft(x, y, A, B):
+                n = 201
+                dx = 0.01
+                background_subtracted_y = y - noise(x, A, B)
+
+                ft_x = np.fft.fftfreq(n, dx)[:n//2]
+                ft_f = np.real(np.fft.fft(background_subtracted_y)[:n//2])
+
+                return ft_x, ft_f
+
+    4. Finally, we can provide initial guesses of ``A=0`` and ``B=1`` to the
+       ``MorphFuncxy`` morph and see what refined values we get.
+       .. code-block:: python
+
+            from diffpy.morph.morphpy import morph_arrays
+            initial_guesses = {"A": 0, "B": 1}
+            info, table = morph_arrays(morph_table, target_table, funcxy=(background_subtracted_ft, initial_guesses))
+
+    5. Print these values to see if they match with the true values of
+       of ``A=2.0`` and ``B=1.7``!
+       .. code-block:: python
+
+            print(f"Refined A: {info["funcxy"]["A"]}")
+            print(f"Refined B: {info["funcxy"]["B"]}")
+
+You can also use this morph to help find optimal parameters
+(e.g. ``rpoly``, ``qmin``, ``qmax``, ``bgscale``) for computing
+PDFs of materials with known structures.
+One does this by setting the ``MorphFuncxy`` function to a PDF
+computing function such as
+```PDFgetx3`` <https://www.diffpy.org/products/pdfgetx.html>`_.
+The input (morphed) 1D function should be the 1D diffraction data
+one wishes to compute the PDF of and the target 1D function
+can be the PDF of a target material with similar geometry.
+More information about this will be released in the ``diffpy.morph``
+manuscript, and we plan to integrate this feature automatically into
+``PDFgetx3`` soon.
