@@ -415,7 +415,8 @@ For this tutorial, we will go through two examples. One simple one
 involving shifting a function in the ``x`` and ``y`` directions, and
 another involving a Fourier transform.
 
-    1. Let's start by taking a simple ``sine`` function:
+    1. Let's start by taking a simple ``sine`` function.
+
        .. code-block:: python
 
             import numpy as np
@@ -424,7 +425,8 @@ another involving a Fourier transform.
             morph_table = np.array([morph_x, morph_y]).T
 
     2. Then, let our target function be that same ``sine`` function shifted
-       to the right by ``0.3`` and up by ``0.7``:
+       to the right by ``0.3`` and up by ``0.7``.
+
        .. code-block:: python
 
             target_x = morph_x + 0.3
@@ -435,20 +437,23 @@ another involving a Fourier transform.
        this would require us to refine over two separate morph
        operations. We can instead perform these morphs simultaneously
        by defining a function:
+
        .. code-block:: python
 
             def shift(x, y, hshift, vshift):
                 return x + hshift, y + vshift
 
     4. Now, let's try finding the optimal shift parameters using the ``MorphFuncxy`` morph.
-       We can try an initial guess of ``hshift=0.0`` and ``vshift=0.0``:
+       We can try an initial guess of ``hshift=0.0`` and ``vshift=0.0``.
+
        .. code-block:: python
 
             from diffpy.morph.morphpy import morph_arrays
             initial_guesses = {"hshift": 0.0, "vshift": 0.0}
             info, table = morph_arrays(morph_table, target_table, funcxy=(shift, initial_guesses))
 
-    5. Finally, to see the refined ``hshift`` and ``vshift`` parameters, we extract them from ``info``:
+    5. Finally, to see the refined ``hshift`` and ``vshift`` parameters, we extract them from ``info``.
+
        .. code-block:: python
 
             print(f"Refined hshift: {info["funcxy"]["hshift"]}")
@@ -458,8 +463,9 @@ Now for an example involving a Fourier transform.
 
     1. Let's say you measured a signal of the form :math:`f(x)=\exp\{\cos(\pi x)\}`.
        Unfortunately, your measurement was taken against a noisy sinusoidal
-       background of the form :math:`n(x)=A\sin(Bx)`, where ``A,B`` are unknown.
+       background of the form :math:`n(x)=A\sin(Bx)`, where ``A``, ``B`` are unknown.
        For our example, let's say (unknown to us) that ``A=2`` and ``B=1.7``.
+
        .. code-block:: python
 
             import numpy as np
@@ -478,6 +484,7 @@ Now for an example involving a Fourier transform.
 
     2. Your colleague remembers they previously computed the Fourier transform
        of the function and has sent that to you.
+
        .. code-block:: python
 
             # We only consider the region where the grid is positive for simplicity
@@ -486,8 +493,9 @@ Now for an example involving a Fourier transform.
             target_table = np.array([target_x, target_f]).T
 
     3. We can now write a noise subtraction function that takes in our measured
-       signal and guesses for parameters ``A,B``, and computes the Fourier
+       signal and guesses for parameters ``A``, ``B``, and computes the Fourier
        transform post-noise-subtraction.
+
        .. code-block:: python
 
             def noise_subtracted_ft(x, y, A, B):
@@ -502,6 +510,7 @@ Now for an example involving a Fourier transform.
 
     4. Finally, we can provide initial guesses of ``A=0`` and ``B=1`` to the
        ``MorphFuncxy`` morph and see what refined values we get.
+
        .. code-block:: python
 
             from diffpy.morph.morphpy import morph_arrays
@@ -510,6 +519,7 @@ Now for an example involving a Fourier transform.
 
     5. Print these values to see if they match with the true values of
        of ``A=2.0`` and ``B=1.7``!
+
        .. code-block:: python
 
             print(f"Refined A: {info["funcxy"]["A"]}")
@@ -520,7 +530,7 @@ You can also use this morph to help find optimal parameters
 PDFs of materials with known structures.
 One does this by setting the ``MorphFuncxy`` function to a PDF
 computing function such as
-```PDFgetx3`` <https://www.diffpy.org/products/pdfgetx.html>`_.
+`PDFgetx3 <https://www.diffpy.org/products/pdfgetx.html>`_.
 The input (morphed) 1D function should be the 1D diffraction data
 one wishes to compute the PDF of and the target 1D function
 can be the PDF of a target material with similar geometry.
