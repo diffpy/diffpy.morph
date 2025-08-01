@@ -15,7 +15,7 @@
 """refine -- Refine a morph or morph chain
 """
 
-from numpy import concatenate, dot, exp, ones_like
+from numpy import array, concatenate, dot, exp, ones_like
 from scipy.optimize import leastsq
 from scipy.stats import pearsonr
 
@@ -54,6 +54,10 @@ class Refiner(object):
         self.pars = []
         self.residual = self._residual
         self.flat_to_grouped = {}
+
+        # Padding required for the residual vector to ensure constant length
+        # across the entire morph process
+        self.res_length = None
         return
 
     def _update_chain(self, pvals):
@@ -79,6 +83,26 @@ class Refiner(object):
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
         rvec = _y_target - _y_morph
+
+        # If first time computing residual
+        if self.res_length is None:
+            self.res_length = len(rvec)
+        # Ensure residual length is constant
+        else:
+            # Padding
+            if len(rvec) < self.res_length:
+                diff_length = self.res_length - len(rvec)
+                rvec = list(rvec)
+                rvec.extend([0] * diff_length)
+                rvec = array(rvec)
+            # Removal
+            # For removal, pass the average RMS
+            # This is fast and easy to compute
+            # For sufficiently functions, this approximation becomes exact
+            elif len(rvec) > self.res_length:
+                avg_rms = sum(rvec**2) / len(rvec)
+                rvec = array([avg_rms for _ in range(self.res_length)])
+
         return rvec
 
     def _pearson(self, pvals):
@@ -147,8 +171,8 @@ class Refiner(object):
 
         sol, cov_sol, infodict, emesg, ier = leastsq(
             self.residual,
-            initial,
-            full_output=1,
+            array(initial),
+            full_output=True,
             ftol=self.tolerance,
             xtol=self.tolerance,
         )

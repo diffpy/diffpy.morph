@@ -26,7 +26,7 @@ def get_args(parser, params, kwargs):
 
 def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
     # Check for Python-specific options
-    python_morphs = ["funcy"]
+    python_morphs = ["funcy", "funcx", "funcxy"]
     pymorphs = {}
     for pmorph in python_morphs:
         if pmorph in kwargs:

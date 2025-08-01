@@ -145,7 +145,7 @@ def test_funcy_with_morph_func():
     x_target = x_morph.copy()
     y_target = np.sin(x_target) * 2 * x_target + 0.4
     cfg = morph_default_config(funcy={"scale": 1.2, "offset": 0.1})
-    cfg["function"] = linear_function
+    cfg["funcy_function"] = linear_function
     morph_rv = morph(x_morph, y_morph, x_target, y_target, **cfg)
     morphed_cfg = morph_rv["morphed_config"]
     x_morph_out, y_morph_out, x_target_out, y_target_out = morph_rv[
