@@ -78,6 +78,13 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
+        strictly_increasing_x = (np.diff(x_squeezed) > 0).all()
+        if not strictly_increasing_x:
+            raise ValueError(
+                "Computed squeezed x is not strictly increasing. "
+                "Please change the input x_morph or the squeeze "
+                "coefficients."
+            )
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
