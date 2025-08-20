@@ -87,8 +87,8 @@ class Refiner(object):
             raise ValueError(
                 f"\nNumber of shared grid points: {len(rvec)}\n"
                 f"Number of parameters: {len(pvals)}\n"
-                "Not enough shared grid points between morphed function "
-                "between morphed function and target function to fit "
+                "Not enough shared grid points "
+                "between the morphed function and the target function to fit "
                 "the chosen parameters.\n"
                 "Please make sure the overlapping domain between the morphed "
                 "function and the target function is sufficiently large, or "
