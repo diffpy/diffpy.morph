@@ -181,6 +181,64 @@ class TestRefine:
 
         assert res < err
 
+    def test_refine_grid_bad(self, user_filesystem):
+        grid = numpy.arange(2)
+        func = numpy.sin(grid)
+        grid1, func1, grid2, func2 = grid, func, grid, func
+        config = {
+            "stretch": 0.005,
+            "scale": 1.0,
+            "smear": 0,
+        }
+        chain = MorphChain(config)
+        refiner = Refiner(chain, grid1, func1, grid2, func2)
+        refpars = ["stretch", "scale", "smear"]
+        expected_error_message = (
+            "\nNumber of shared grid points: 2\n"
+            "Number of parameters: 3\n"
+            "Not enough shared grid points between morphed function "
+            "between morphed function and target function to fit "
+            "the chosen parameters.\n"
+            "Please make sure the overlapping domain between the morphed "
+            "function and the target function is sufficiently large, or "
+            "reduce the number of parameters."
+        )
+        with pytest.raises(
+            ValueError,
+        ) as error:
+            refiner.refine(*refpars)
+            actual_error_message = str(error.value)
+            assert actual_error_message == expected_error_message
+
+        # call from command line
+        import subprocess
+
+        data_dir_path = user_filesystem / "cwd_dir"
+        morph_file = data_dir_path / "morph_data"
+        morph_data_text = [
+            str(grid1[i]) + " " + str(func1[i]) for i in range(len(grid1))
+        ]
+        morph_data_text = "\n".join(morph_data_text)
+        morph_file.write_text(morph_data_text)
+        target_file = data_dir_path / "target_data"
+        target_data_text = [
+            str(grid2[i]) + " " + str(func2[i]) for i in range(len(grid2))
+        ]
+        target_data_text = "\n".join(target_data_text)
+        target_file.write_text(target_data_text)
+        run_cmd = ["diffpy.morph"]
+        for key, value in config.items():
+            run_cmd.append(f"--{key}")
+            run_cmd.append(f"{value}")
+        run_cmd.extend([str(morph_file), str(target_file)])
+        run_cmd.append("-n")
+        result = subprocess.run(run_cmd, capture_output=True, text=True)
+        expected_error_message = (
+            "diffpy.morph: error: " + expected_error_message
+        )
+        actual_error_message = result.stderr.strip()
+        assert actual_error_message == expected_error_message
+
 
 # End of class TestRefine
 

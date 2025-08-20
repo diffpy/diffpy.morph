@@ -85,9 +85,13 @@ class Refiner(object):
         rvec = _y_target - _y_morph
         if len(rvec) < len(pvals):
             raise ValueError(
+                f"\nNumber of shared grid points: {len(rvec)}\n"
+                f"Number of parameters: {len(pvals)}\n"
                 "Not enough shared grid points between morphed function "
-                "and target function to fit the chosen parameters. "
-                "Please adjust the functions or "
+                "between morphed function and target function to fit "
+                "the chosen parameters.\n"
+                "Please make sure the overlapping domain between the morphed "
+                "function and the target function is sufficiently large, or "
                 "reduce the number of parameters."
             )
         # If first time computing residual
