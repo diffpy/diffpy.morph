@@ -194,14 +194,12 @@ class TestRefine:
         refiner = Refiner(chain, grid1, func1, grid2, func2)
         refpars = ["stretch", "scale", "smear"]
         expected_error_message = (
-            "\nNumber of shared grid points: 2\n"
-            "Number of parameters: 3\n"
-            "Not enough shared grid points "
-            "between the morphed function and the target function to fit "
-            "the chosen parameters.\n"
-            "Please make sure the overlapping domain between the morphed "
-            "function and the target function is sufficiently large, or "
-            "reduce the number of parameters."
+            f"\nNumber of parameters (currently 3) cannot "
+            "exceed the number of shared grid points "
+            f"(currently 2). "
+            "Please reduce the number of morphing parameters or "
+            "provide new morphing and target functions with more "
+            "shared grid points."
         )
         with pytest.raises(
             ValueError,
