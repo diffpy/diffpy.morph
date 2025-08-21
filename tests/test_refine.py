@@ -194,9 +194,9 @@ class TestRefine:
         refiner = Refiner(chain, grid1, func1, grid2, func2)
         refpars = ["stretch", "scale", "smear"]
         expected_error_message = (
-            f"\nNumber of parameters (currently 3) cannot "
+            "\nNumber of parameters (currently 3) cannot "
             "exceed the number of shared grid points "
-            f"(currently 2). "
+            "(currently 2). "
             "Please reduce the number of morphing parameters or "
             "provide new morphing and target functions with more "
             "shared grid points."
