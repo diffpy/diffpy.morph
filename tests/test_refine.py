@@ -6,6 +6,7 @@ import os
 import numpy
 import pytest
 
+from diffpy.morph.log import MorphOptimizationError
 from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
 from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
 from diffpy.morph.morphs.morphchain import MorphChain
@@ -202,11 +203,11 @@ class TestRefine:
             "shared grid points."
         )
         with pytest.raises(
-            ValueError,
+            MorphOptimizationError,
         ) as error:
             refiner.refine(*refpars)
-            actual_error_message = str(error.value)
-            assert actual_error_message == expected_error_message
+        actual_error_message = str(error.value)
+        assert actual_error_message == expected_error_message
 
         # call from command line
         import subprocess

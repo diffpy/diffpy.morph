@@ -12,12 +12,13 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""refine -- Refine a morph or morph chain
-"""
+"""refine -- Refine a morph or morph chain"""
 
 from numpy import array, concatenate, dot, exp, ones_like
 from scipy.optimize import leastsq
 from scipy.stats import pearsonr
+
+from diffpy.morph.log import MorphOptimizationError
 
 # Map of scipy minimizer names to the method that uses them
 
@@ -84,7 +85,7 @@ class Refiner(object):
         )
         rvec = _y_target - _y_morph
         if len(rvec) < len(pvals):
-            raise ValueError(
+            raise MorphOptimizationError(
                 f"\nNumber of parameters (currently {len(pvals)}) cannot "
                 "exceed the number of shared grid points "
                 f"(currently {len(rvec)}). "

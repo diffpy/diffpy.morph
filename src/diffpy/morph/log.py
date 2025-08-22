@@ -50,4 +50,13 @@ def set_verbosity(vb):
     return
 
 
+class MorphOptimizationError(Exception):
+    "Custom error for morph optimization process."
+
+    def __init__(self, value):
+        super().__init__(value)
+
+    pass
+
+
 # End of file
