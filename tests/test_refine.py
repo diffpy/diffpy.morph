@@ -205,8 +205,8 @@ class TestRefine:
             ValueError,
         ) as error:
             refiner.refine(*refpars)
-            actual_error_message = str(error.value)
-            assert actual_error_message == expected_error_message
+        actual_error_message = str(error.value)
+        assert actual_error_message == expected_error_message
 
         # call from command line
         import subprocess
