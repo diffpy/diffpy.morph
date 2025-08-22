@@ -27,7 +27,6 @@ import diffpy.morph.plot as plot
 import diffpy.morph.refine as refine
 import diffpy.morph.tools as tools
 from diffpy.morph import __save_morph_as__
-from diffpy.morph.log import MorphOptimizationError
 from diffpy.morph.version import __version__
 
 
@@ -681,7 +680,7 @@ def single_morph(
                 refiner.refine(*rptemp)
             # Adjust all parameters
             refiner.refine(*refpars)
-        except (ValueError, MorphOptimizationError) as e:
+        except ValueError as e:
             parser.custom_error(str(e))
     # Smear is not being refined, but baselineslope needs to refined to apply
     # smear
