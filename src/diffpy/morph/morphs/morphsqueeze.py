@@ -1,10 +1,11 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
+import warnings
+
 import numpy as np
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
-import warnings
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
