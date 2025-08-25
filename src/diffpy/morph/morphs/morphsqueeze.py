@@ -4,6 +4,7 @@ function."""
 import numpy as np
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
+import warnings
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
@@ -85,4 +86,17 @@ class MorphSqueeze(Morph):
         high_extrap = np.where(self.x_morph_in > x_squeezed[-1])[0]
         self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
         self.extrap_index_high = high_extrap[0] if high_extrap.size else None
+
+        low_extrap_x = x_squeezed[0] - self.x_morph_in[0]
+        high_extrap_x = self.x_morph_in[-1] - x_squeezed[-1]
+        if low_extrap_x > 0 or high_extrap_x > 0:
+            wmsg = "Extrapolating the morphed function: "
+            if low_extrap_x > 0:
+                wmsg += f"extrapolating length in the lowe r {low_extrap_x} "
+            if high_extrap_x > 0:
+                wmsg += f"extrapolating length in the high r {high_extrap_x} "
+            warnings.warn(
+                wmsg,
+                UserWarning,
+            )
         return self.xyallout
