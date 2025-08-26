@@ -87,15 +87,44 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     assert np.allclose(y_target_actual, y_target)
 
 
-def test_morphsqueeze_extrapolate():
+@pytest.mark.parametrize(
+    "squeeze_coeffs, wmsg_gen",
+    [
+        # extrapolate below
+        (
+            {"a0": 0.01},
+            lambda x: (
+                "Warning: points with grid value below "
+                f"{x[0]} will be extrapolated."
+            ),
+        ),
+        # extrapolate above
+        (
+            {"a0": -0.01},
+            lambda x: (
+                "Warning: points with grid value above "
+                f"{x[1]} will be extrapolated."
+            ),
+        ),
+        # extrapolate below and above
+        (
+            {"a0": 0.01, "a1": -0.002},
+            lambda x: (
+                "Warning: points with grid value below "
+                f"{x[0]} and above {x[1]} will be "
+                "extrapolated."
+            ),
+        ),
+    ],
+)
+def test_morphsqueeze_extrapolate(squeeze_coeffs, wmsg_gen):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph
     y_target = y_morph
-    squeeze_coeff = {"a0": 0.01, "a1": -0.0005, "a2": -0.0005, "a3": -1e-6}
     morph = MorphSqueeze()
-    morph.squeeze = squeeze_coeff
-    coeffs = [squeeze_coeff[f"a{i}"] for i in range(len(squeeze_coeff))]
+    morph.squeeze = squeeze_coeffs
+    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     with pytest.warns() as w:
@@ -105,10 +134,5 @@ def test_morphsqueeze_extrapolate():
         assert len(w) == 1
         assert w[0].category is UserWarning
         actual_wmsg = str(w[0].message)
-    expected_wmsg = (
-        "\nExtrapolating the morphed function via CubicSpline:\n"
-        f"Obtaining grid points between {x_morph[0]} and {x_morph[-1]}.\n"
-        f"Points below {x_squeezed[0]} and "
-        f"above {x_squeezed[-1]} will be extrapolated."
-    )
+    expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
     assert actual_wmsg == expected_wmsg
