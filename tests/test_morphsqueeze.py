@@ -1,3 +1,5 @@
+import subprocess
+
 import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
@@ -117,7 +119,7 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
         ),
     ],
 )
-def test_morphsqueeze_extrapolate(squeeze_coeffs, wmsg_gen):
+def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph
@@ -136,3 +138,32 @@ def test_morphsqueeze_extrapolate(squeeze_coeffs, wmsg_gen):
         actual_wmsg = str(w[0].message)
     expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
     assert actual_wmsg == expected_wmsg
+
+    # CLI test
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+    run_cmd = ["diffpy.morph"]
+    run_cmd.extend(["--squeeze=" + ",".join(map(str, coeffs))])
+    run_cmd.extend([str(morph_file), str(target_file)])
+    run_cmd.append("-n")
+    result = subprocess.run(run_cmd, capture_output=True, text=True)
+    assert expected_wmsg in result.stderr
+
+
+def create_morph_data_file(
+    data_dir_path, x_morph, y_morph, x_target, y_target
+):
+    morph_file = data_dir_path / "morph_data"
+    morph_data_text = [
+        str(x_morph[i]) + " " + str(y_morph[i]) for i in range(len(x_morph))
+    ]
+    morph_data_text = "\n".join(morph_data_text)
+    morph_file.write_text(morph_data_text)
+    target_file = data_dir_path / "target_data"
+    target_data_text = [
+        str(x_target[i]) + " " + str(y_target[i]) for i in range(len(x_target))
+    ]
+    target_data_text = "\n".join(target_data_text)
+    target_file.write_text(target_data_text)
+    return morph_file, target_file
