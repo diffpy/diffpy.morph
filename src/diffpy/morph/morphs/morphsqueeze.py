@@ -10,6 +10,13 @@ from scipy.interpolate import CubicSpline
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
 
 
+def custom_formatwarning(msg, *args, **kwargs):
+    return f"{msg}\n"
+
+
+warnings.formatwarning = custom_formatwarning
+
+
 class MorphSqueeze(Morph):
     """Squeeze the morph function.
 
@@ -88,14 +95,19 @@ class MorphSqueeze(Morph):
         self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
         self.extrap_index_high = high_extrap[0] if high_extrap.size else None
 
-        low_extrap_x = x_squeezed[0] - self.x_morph_in[0]
-        high_extrap_x = self.x_morph_in[-1] - x_squeezed[-1]
-        if low_extrap_x > 0 or high_extrap_x > 0:
-            wmsg = "Extrapolating the morphed function: "
-            if low_extrap_x > 0:
-                wmsg += f"extrapolating length in the lowe r {low_extrap_x} "
-            if high_extrap_x > 0:
-                wmsg += f"extrapolating length in the high r {high_extrap_x} "
+        begin_end_sqeeze = min(x_squeezed), max(x_squeezed)
+        begin_end_in = min(self.x_morph_in), max(self.x_morph_in)
+        if not (
+            begin_end_sqeeze[0] <= begin_end_in[0]
+            and begin_end_in[-1] >= begin_end_in[-1]
+        ):
+            wmsg = (
+                "\nExtrapolating the morphed function via CubicSpline:\n"
+                f"Obtaining grid points between {begin_end_in[0]} and "
+                f"{begin_end_in[1]}.\n"
+                f"Points below {begin_end_sqeeze[0]} and "
+                f"above {begin_end_sqeeze[1]} will be extrapolated."
+            )
             warnings.warn(
                 wmsg,
                 UserWarning,
