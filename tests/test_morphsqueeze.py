@@ -1,9 +1,8 @@
-import subprocess
-
 import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
 
+from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
 squeeze_coeffs_dic = [
@@ -119,7 +118,9 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
         ),
     ],
 )
-def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
+def test_morphsqueeze_extrapolate(
+    user_filesystem, capsys, squeeze_coeffs, wmsg_gen
+):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph
@@ -143,12 +144,19 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
     morph_file, target_file = create_morph_data_file(
         user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
     )
-    run_cmd = ["diffpy.morph"]
-    run_cmd.extend(["--squeeze=" + ",".join(map(str, coeffs))])
-    run_cmd.extend([str(morph_file), str(target_file)])
-    run_cmd.append("-n")
-    result = subprocess.run(run_cmd, capture_output=True, text=True)
-    assert expected_wmsg in result.stderr
+
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--squeeze",
+            ",".join(map(str, coeffs)),
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "-n",
+        ]
+    )
+    with pytest.warns(UserWarning, match=expected_wmsg):
+        single_morph(parser, opts, pargs, stdout_flag=False)
 
 
 def create_morph_data_file(

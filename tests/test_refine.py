@@ -8,6 +8,7 @@ import pytest
 
 from diffpy.morph.morph_helpers.transformpdftordf import TransformXtalPDFtoRDF
 from diffpy.morph.morph_helpers.transformrdftopdf import TransformXtalRDFtoPDF
+from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphs.morphchain import MorphChain
 from diffpy.morph.morphs.morphfuncx import MorphFuncx
 from diffpy.morph.morphs.morphrgrid import MorphRGrid
@@ -181,7 +182,7 @@ class TestRefine:
 
         assert res < err
 
-    def test_refine_grid_bad(self, user_filesystem):
+    def test_refine_grid_bad(self, user_filesystem, capsys):
         grid = numpy.arange(2)
         func = numpy.sin(grid)
         grid1, func1, grid2, func2 = grid, func, grid, func
@@ -208,9 +209,7 @@ class TestRefine:
         actual_error_message = str(error.value)
         assert actual_error_message == expected_error_message
 
-        # call from command line
-        import subprocess
-
+        # Test from command line
         data_dir_path = user_filesystem / "cwd_dir"
         morph_file = data_dir_path / "morph_data"
         morph_data_text = [
@@ -224,18 +223,18 @@ class TestRefine:
         ]
         target_data_text = "\n".join(target_data_text)
         target_file.write_text(target_data_text)
-        run_cmd = ["diffpy.morph"]
+        run_cmd = []
         for key, value in config.items():
             run_cmd.append(f"--{key}")
             run_cmd.append(f"{value}")
         run_cmd.extend([str(morph_file), str(target_file)])
         run_cmd.append("-n")
-        result = subprocess.run(run_cmd, capture_output=True, text=True)
-        expected_error_message = (
-            "diffpy.morph: error: " + expected_error_message
-        )
-        actual_error_message = result.stderr.strip()
-        assert actual_error_message == expected_error_message
+        parser = create_option_parser()
+        (opts, pargs) = parser.parse_args(run_cmd)
+        with pytest.raises(SystemExit):
+            single_morph(parser, opts, pargs, stdout_flag=False)
+        _, err = capsys.readouterr()
+        assert expected_error_message in actual_error_message
 
 
 # End of class TestRefine
