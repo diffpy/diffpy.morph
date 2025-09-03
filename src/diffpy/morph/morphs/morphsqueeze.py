@@ -1,20 +1,11 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
-import warnings
-
 import numpy as np
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph
-
-
-def custom_formatwarning(msg, *args, **kwargs):
-    return f"{msg}\n"
-
-
-warnings.formatwarning = custom_formatwarning
 
 
 class MorphSqueeze(Morph):
@@ -75,6 +66,11 @@ class MorphSqueeze(Morph):
     # extrap_index_high: first index after interpolation region
     extrap_index_low = None
     extrap_index_high = None
+    squeeze_cutoff_low = None
+    squeeze_cutoff_high = None
+
+    def __init__(self, config=None):
+        super().__init__(config)
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -87,34 +83,14 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
+        self.squeeze_cutoff_low = min(x_squeezed)
+        self.squeeze_cutoff_high = max(x_squeezed)
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
-        low_extrap = np.where(self.x_morph_in < x_squeezed[0])[0]
-        high_extrap = np.where(self.x_morph_in > x_squeezed[-1])[0]
+        low_extrap = np.where(self.x_morph_in < self.squeeze_cutoff_low)[0]
+        high_extrap = np.where(self.x_morph_in > self.squeeze_cutoff_high)[0]
         self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
         self.extrap_index_high = high_extrap[0] if high_extrap.size else None
-        below_extrap = min(x_morph) < min(x_squeezed)
-        above_extrap = max(x_morph) > max(x_squeezed)
-        if below_extrap or above_extrap:
-            if not above_extrap:
-                wmsg = (
-                    "Warning: points with grid value below "
-                    f"{min(x_squeezed)} will be extrapolated."
-                )
-            elif not below_extrap:
-                wmsg = (
-                    "Warning: points with grid value above "
-                    f"{max(x_squeezed)} will be extrapolated."
-                )
-            else:
-                wmsg = (
-                    "Warning: points with grid value below "
-                    f"{min(x_squeezed)} and above {max(x_squeezed)} will be "
-                    "extrapolated."
-                )
-            warnings.warn(
-                wmsg,
-                UserWarning,
-            )
+
         return self.xyallout

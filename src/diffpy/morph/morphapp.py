@@ -546,6 +546,7 @@ def single_morph(
     # Squeeze
     squeeze_poly_deg = -1
     squeeze_dict_in = {}
+    squeeze_morph = None
     if opts.squeeze is not None:
         # Handles both list and csv input
         if (
@@ -570,7 +571,8 @@ def single_morph(
                 except ValueError:
                     parser.error(f"{coeff} could not be converted to float.")
         squeeze_poly_deg = len(squeeze_dict_in.keys())
-        chain.append(morphs.MorphSqueeze())
+        squeeze_morph = morphs.MorphSqueeze()
+        chain.append(squeeze_morph)
         config["squeeze"] = squeeze_dict_in
         # config["extrap_index_low"] = None
         # config["extrap_index_high"] = None
@@ -695,6 +697,9 @@ def single_morph(
             parser.custom_error(str(e))
     else:
         chain(x_morph, y_morph, x_target, y_target)
+
+    # THROW ANY WARNINGS HERE
+    io.handle_warnings(squeeze_morph)
 
     # Get Rw for the morph range
     rw = tools.getRw(chain)
