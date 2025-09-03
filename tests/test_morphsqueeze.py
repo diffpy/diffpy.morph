@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
 
+import diffpy.morph.morphpy as morphpy
 from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
@@ -123,16 +124,19 @@ def test_morphsqueeze_extrapolate(
 ):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
-    x_target = x_morph
-    y_target = y_morph
+    x_target = x_morph.copy()
+    y_target = y_morph.copy()
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     with pytest.warns() as w:
-        x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = (
-            morph(x_morph, y_morph, x_target, y_target)
+        morphpy.morph_arrays(
+            np.array([x_morph, y_morph]).T,
+            np.array([x_target, y_target]).T,
+            squeeze=coeffs,
+            apply=True,
         )
         assert len(w) == 1
         assert w[0].category is UserWarning
@@ -152,6 +156,7 @@ def test_morphsqueeze_extrapolate(
             ",".join(map(str, coeffs)),
             f"{morph_file.as_posix()}",
             f"{target_file.as_posix()}",
+            "--apply",
             "-n",
         ]
     )
