@@ -87,7 +87,8 @@ class MorphSqueeze(Morph):
         if not strictly_increasing_x:
             raise ValueError(
                 "Computed squeezed x is not strictly increasing. "
-                "Please change the input x_morph or the squeeze "
+                "The squeezed morph is only intended for small polynomial "
+                "stretches. Please decrease the magnitude of the polynomial "
                 "coefficients."
             )
 
