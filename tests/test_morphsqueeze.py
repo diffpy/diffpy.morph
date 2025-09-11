@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 from numpy.polynomial import Polynomial
 
+import diffpy.morph.morphpy as morphpy
+from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
 
 squeeze_coeffs_dic = [
@@ -85,3 +87,96 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     assert np.allclose(x_morph_actual, x_morph_expected)
     assert np.allclose(x_target_actual, x_target)
     assert np.allclose(y_target_actual, y_target)
+
+
+@pytest.mark.parametrize(
+    "squeeze_coeffs, wmsg_gen",
+    [
+        # extrapolate below
+        (
+            {"a0": 0.01},
+            lambda x: (
+                "Warning: points with grid value below "
+                f"{x[0]} will be extrapolated."
+            ),
+        ),
+        # extrapolate above
+        (
+            {"a0": -0.01},
+            lambda x: (
+                "Warning: points with grid value above "
+                f"{x[1]} will be extrapolated."
+            ),
+        ),
+        # extrapolate below and above
+        (
+            {"a0": 0.01, "a1": -0.002},
+            lambda x: (
+                "Warning: points with grid value below "
+                f"{x[0]} and above {x[1]} will be "
+                "extrapolated."
+            ),
+        ),
+    ],
+)
+def test_morphsqueeze_extrapolate(
+    user_filesystem, capsys, squeeze_coeffs, wmsg_gen
+):
+    x_morph = np.linspace(0, 10, 101)
+    y_morph = np.sin(x_morph)
+    x_target = x_morph.copy()
+    y_target = y_morph.copy()
+    morph = MorphSqueeze()
+    morph.squeeze = squeeze_coeffs
+    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
+    squeeze_polynomial = Polynomial(coeffs)
+    x_squeezed = x_morph + squeeze_polynomial(x_morph)
+    with pytest.warns() as w:
+        morphpy.morph_arrays(
+            np.array([x_morph, y_morph]).T,
+            np.array([x_target, y_target]).T,
+            squeeze=coeffs,
+            apply=True,
+        )
+        assert len(w) == 1
+        assert w[0].category is UserWarning
+        actual_wmsg = str(w[0].message)
+    expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
+    assert actual_wmsg == expected_wmsg
+
+    # CLI test
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--squeeze",
+            ",".join(map(str, coeffs)),
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+        ]
+    )
+    with pytest.warns(UserWarning, match=expected_wmsg):
+        single_morph(parser, opts, pargs, stdout_flag=False)
+
+
+def create_morph_data_file(
+    data_dir_path, x_morph, y_morph, x_target, y_target
+):
+    morph_file = data_dir_path / "morph_data"
+    morph_data_text = [
+        str(x_morph[i]) + " " + str(y_morph[i]) for i in range(len(x_morph))
+    ]
+    morph_data_text = "\n".join(morph_data_text)
+    morph_file.write_text(morph_data_text)
+    target_file = data_dir_path / "target_data"
+    target_data_text = [
+        str(x_target[i]) + " " + str(y_target[i]) for i in range(len(x_target))
+    ]
+    target_data_text = "\n".join(target_data_text)
+    target_file.write_text(target_data_text)
+    return morph_file, target_file

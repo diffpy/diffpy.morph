@@ -18,12 +18,20 @@ from __future__ import print_function
 
 import inspect
 import sys
+import warnings
 from pathlib import Path
 
 import numpy
 
 import diffpy.morph.tools as tools
 from diffpy.morph import __save_morph_as__
+
+
+def custom_formatwarning(msg, *args, **kwargs):
+    return f"{msg}\n"
+
+
+warnings.formatwarning = custom_formatwarning
 
 
 def single_morph_output(
@@ -398,3 +406,34 @@ def tabulate_results(multiple_morph_results):
             }
         )
     return tabulated_results
+
+
+def handle_warnings(squeeze_morph):
+    if squeeze_morph is not None:
+        eil = squeeze_morph.extrap_index_low
+        eih = squeeze_morph.extrap_index_high
+
+        if eil is not None or eih is not None:
+            if eih is None:
+                wmsg = (
+                    "Warning: points with grid value below "
+                    f"{squeeze_morph.squeeze_cutoff_low} "
+                    f"will be extrapolated."
+                )
+            elif eil is None:
+                wmsg = (
+                    "Warning: points with grid value above "
+                    f"{squeeze_morph.squeeze_cutoff_high} "
+                    f"will be extrapolated."
+                )
+            else:
+                wmsg = (
+                    "Warning: points with grid value below "
+                    f"{squeeze_morph.squeeze_cutoff_low} and above "
+                    f"{squeeze_morph.squeeze_cutoff_high} "
+                    f"will be extrapolated."
+                )
+            warnings.warn(
+                wmsg,
+                UserWarning,
+            )

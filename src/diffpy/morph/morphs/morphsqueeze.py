@@ -66,6 +66,11 @@ class MorphSqueeze(Morph):
     # extrap_index_high: first index after interpolation region
     extrap_index_low = None
     extrap_index_high = None
+    squeeze_cutoff_low = None
+    squeeze_cutoff_high = None
+
+    def __init__(self, config=None):
+        super().__init__(config)
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -85,11 +90,15 @@ class MorphSqueeze(Morph):
                 "Please change the input x_morph or the squeeze "
                 "coefficients."
             )
+
+        self.squeeze_cutoff_low = min(x_squeezed)
+        self.squeeze_cutoff_high = max(x_squeezed)
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
-        low_extrap = np.where(self.x_morph_in < x_squeezed[0])[0]
-        high_extrap = np.where(self.x_morph_in > x_squeezed[-1])[0]
+        low_extrap = np.where(self.x_morph_in < self.squeeze_cutoff_low)[0]
+        high_extrap = np.where(self.x_morph_in > self.squeeze_cutoff_high)[0]
         self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
         self.extrap_index_high = high_extrap[0] if high_extrap.size else None
+
         return self.xyallout

@@ -67,7 +67,7 @@ selected directory and plot resulting :math:`R_w` values from each morph.
 
 4. Between 192K and 198K, the Rw has a sharp increase, indicating that
    we may have a phase change. To confirm, let us now apply morphs
-   onto `` SrFe2As2_150K.gr`` with all other files in
+   onto ``SrFe2As2_150K.gr`` with all other files in
    ``morphsequence`` as targets ::
 
        diffpy.morph --scale=1 --stretch=0 SrFe2As2_150K.gr . --multiple-targets --sort-by=temperature
@@ -191,10 +191,10 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
 
 * Within the ``additionalData`` directory, ``cd`` into the
   ``morphShape`` subdirectory. Inside, you will find a sample Ni bulk
-  material PDF ``Ni_bulk.gr``. This PDF is from `"Atomic Pair
-  Distribution Function Analysis:
-  A primer" <https://global.oup.com/academic/product/
-   atomic-pair-distribution-function-analysis-9780198885801>`_.
+  material PDF ``Ni_bulk.gr``. This PDF is from
+  `"Atomic Pair Distribution Function Analysis: A primer"
+  <https://global.oup.com/academic/product/
+  atomic-pair-distribution-function-analysis-9780198885801>`_.
   There are also multiple ``.cgr`` files with calculated Ni nanoparticle PDFs.
 
 * Let us apply various shape effect morphs on the bulk material to

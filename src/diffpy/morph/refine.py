@@ -83,7 +83,15 @@ class Refiner(object):
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
         rvec = _y_target - _y_morph
-
+        if len(rvec) < len(pvals):
+            raise ValueError(
+                f"\nNumber of parameters (currently {len(pvals)}) cannot "
+                "exceed the number of shared grid points "
+                f"(currently {len(rvec)}). "
+                "Please reduce the number of morphing parameters or "
+                "provide new morphing and target functions with more "
+                "shared grid points."
+            )
         # If first time computing residual
         if self.res_length is None:
             self.res_length = len(rvec)
@@ -145,6 +153,9 @@ class Refiner(object):
         ------
         ValueError
             Exception raised if a minimum cannot be found.
+        ValueError
+            If the number of shared grid points between morphed function and
+            target function is smaller than the number of parameters.
         """
 
         self.pars = args or self.chain.config.keys()
