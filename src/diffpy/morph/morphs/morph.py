@@ -12,8 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Morph -- base class for defining a morph.
-"""
+"""Morph -- base class for defining a morph."""
 
 
 LABEL_RA = "r (A)"  # r-grid
@@ -245,6 +244,23 @@ class Morph(object):
             xlabel(self.xoutlabel)
             ylabel(self.youtlabel)
         return rv
+
+    def checkExtrapolation(self, x_true, x_extrapolate):
+        import numpy
+
+        cutoff_low = min(x_true)
+        cutoff_high = max(x_true)
+        low_extrap = numpy.where(x_extrapolate < cutoff_low)[0]
+        high_extrap = numpy.where(x_extrapolate > cutoff_high)[0]
+        is_extrap_low = False if len(low_extrap) == 0 else True
+        is_extrap_high = False if len(high_extrap) == 0 else True
+        extrapolation_info = {
+            "is_extrap_low": is_extrap_low,
+            "cutoff_low": cutoff_low,
+            "is_extrap_high": is_extrap_high,
+            "cutoff_high": cutoff_high,
+        }
+        return extrapolation_info
 
     def __getattr__(self, name):
         """Obtain the value from self.config, when normal lookup fails.

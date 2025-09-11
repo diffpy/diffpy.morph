@@ -46,23 +46,27 @@ morph_target_grids = [
 @pytest.mark.parametrize("squeeze_coeffs", squeeze_coeffs_dic)
 def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     y_target = np.sin(x_target)
+    y_morph = np.sin(x_morph)
+    # expected output
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
-    y_morph = np.sin(x_squeezed)
-    low_extrap = np.where(x_morph < x_squeezed[0])[0]
-    high_extrap = np.where(x_morph > x_squeezed[-1])[0]
-    extrap_index_low_expected = low_extrap[-1] if low_extrap.size else None
-    extrap_index_high_expected = high_extrap[0] if high_extrap.size else None
+    y_morph_expected = y_morph
     x_morph_expected = x_morph
-    y_morph_expected = np.sin(x_morph)
+    x_target_expected = x_target
+    y_target_expected = y_target
+    # actual output
     morph = MorphSqueeze()
+    y_morph = np.sin(x_squeezed)
     morph.squeeze = squeeze_coeffs
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = morph(
         x_morph, y_morph, x_target, y_target
     )
-    extrap_index_low = morph.extrap_index_low
-    extrap_index_high = morph.extrap_index_high
+
+    extrap_low = np.where(x_morph < min(x_squeezed))[0]
+    extrap_high = np.where(x_morph > max(x_squeezed))[0]
+    extrap_index_low = extrap_low[-1] if extrap_low.size else None
+    extrap_index_high = extrap_high[0] if extrap_high.size else None
     if extrap_index_low is None:
         extrap_index_low = 0
     elif extrap_index_high is None:
@@ -82,11 +86,9 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
         y_morph_expected[extrap_index_high:],
         atol=1e-3,
     )
-    assert morph.extrap_index_low == extrap_index_low_expected
-    assert morph.extrap_index_high == extrap_index_high_expected
     assert np.allclose(x_morph_actual, x_morph_expected)
-    assert np.allclose(x_target_actual, x_target)
-    assert np.allclose(y_target_actual, y_target)
+    assert np.allclose(x_target_actual, x_target_expected)
+    assert np.allclose(y_target_actual, y_target_expected)
 
 
 @pytest.mark.parametrize(

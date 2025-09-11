@@ -610,10 +610,12 @@ def single_morph(
         config["smear"] = smear_in
     # Shift
     # Only enable hshift is squeeze is not enabled
+    shift_morph = None
     if (
         opts.hshift is not None and squeeze_poly_deg < 0
     ) or opts.vshift is not None:
-        chain.append(morphs.MorphShift())
+        shift_morph = morphs.MorphShift()
+        chain.append(shift_morph)
     if opts.hshift is not None and squeeze_poly_deg < 0:
         hshift_in = opts.hshift
         config["hshift"] = hshift_in
@@ -700,6 +702,7 @@ def single_morph(
 
     # THROW ANY WARNINGS HERE
     io.handle_warnings(squeeze_morph)
+    io.handle_warnings(shift_morph)
 
     # Get Rw for the morph range
     rw = tools.getRw(chain)
