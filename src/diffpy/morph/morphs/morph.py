@@ -13,7 +13,7 @@
 #
 ##############################################################################
 """Morph -- base class for defining a morph."""
-
+import numpy
 
 LABEL_RA = "r (A)"  # r-grid
 LABEL_GR = "G (1/A^2)"  # PDF G(r)
@@ -245,22 +245,35 @@ class Morph(object):
             ylabel(self.youtlabel)
         return rv
 
-    def checkExtrapolation(self, x_true, x_extrapolate):
-        import numpy
+    def set_extrapolation_info(self, x_true, x_extrapolate):
+        """Set extrapolation information of the concerned morphing
+        process.
+
+        Parameters
+        ----------
+        x_true : array
+            original x values
+        x_extrapolate : array
+            x values after a morphing process
+        """
 
         cutoff_low = min(x_true)
+        extrap_low_x = numpy.where(x_extrapolate < cutoff_low)[0]
+        is_extrap_low = False if len(extrap_low_x) == 0 else True
         cutoff_high = max(x_true)
-        low_extrap = numpy.where(x_extrapolate < cutoff_low)[0]
-        high_extrap = numpy.where(x_extrapolate > cutoff_high)[0]
-        is_extrap_low = False if len(low_extrap) == 0 else True
-        is_extrap_high = False if len(high_extrap) == 0 else True
+        extrap_high_x = numpy.where(x_extrapolate > cutoff_high)[0]
+        is_extrap_high = False if len(extrap_high_x) == 0 else True
+        extrap_index_low = extrap_low_x[-1] if is_extrap_low else 0
+        extrap_index_high = extrap_high_x[0] if is_extrap_high else -1
         extrapolation_info = {
             "is_extrap_low": is_extrap_low,
             "cutoff_low": cutoff_low,
+            "extrap_index_low": extrap_index_low,
             "is_extrap_high": is_extrap_high,
             "cutoff_high": cutoff_high,
+            "extrap_index_high": extrap_index_high,
         }
-        return extrapolation_info
+        self.extrapolation_info = extrapolation_info
 
     def __getattr__(self, name):
         """Obtain the value from self.config, when normal lookup fails.

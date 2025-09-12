@@ -85,8 +85,6 @@ class MorphSqueeze(Morph):
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
-        self.extrapolation_info = self.checkExtrapolation(
-            x_squeezed, self.x_morph_in
-        )
+        self.set_extrapolation_info(x_squeezed, self.x_morph_in)
 
         return self.xyallout
