@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* no news needed: file name change chore
 
 **Changed:**
 
