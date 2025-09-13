@@ -1,7 +1,6 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
-import numpy as np
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
 
@@ -83,14 +82,9 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
-        self.squeeze_cutoff_low = min(x_squeezed)
-        self.squeeze_cutoff_high = max(x_squeezed)
         self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
             self.x_morph_in
         )
-        low_extrap = np.where(self.x_morph_in < self.squeeze_cutoff_low)[0]
-        high_extrap = np.where(self.x_morph_in > self.squeeze_cutoff_high)[0]
-        self.extrap_index_low = low_extrap[-1] if low_extrap.size else None
-        self.extrap_index_high = high_extrap[0] if high_extrap.size else None
+        self.set_extrapolation_info(x_squeezed, self.x_morph_in)
 
         return self.xyallout

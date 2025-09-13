@@ -410,29 +410,35 @@ def tabulate_results(multiple_morph_results):
 
 def handle_warnings(squeeze_morph):
     if squeeze_morph is not None:
-        eil = squeeze_morph.extrap_index_low
-        eih = squeeze_morph.extrap_index_high
+        extrapolation_info = squeeze_morph.extrapolation_info
+        is_extrap_low = extrapolation_info["is_extrap_low"]
+        is_extrap_high = extrapolation_info["is_extrap_high"]
+        cutoff_low = extrapolation_info["cutoff_low"]
+        cutoff_high = extrapolation_info["cutoff_high"]
 
-        if eil is not None or eih is not None:
-            if eih is None:
-                wmsg = (
-                    "Warning: points with grid value below "
-                    f"{squeeze_morph.squeeze_cutoff_low} "
-                    f"will be extrapolated."
-                )
-            elif eil is None:
-                wmsg = (
-                    "Warning: points with grid value above "
-                    f"{squeeze_morph.squeeze_cutoff_high} "
-                    f"will be extrapolated."
-                )
-            else:
-                wmsg = (
-                    "Warning: points with grid value below "
-                    f"{squeeze_morph.squeeze_cutoff_low} and above "
-                    f"{squeeze_morph.squeeze_cutoff_high} "
-                    f"will be extrapolated."
-                )
+        if is_extrap_low and is_extrap_high:
+            wmsg = (
+                "Warning: points with grid value below "
+                f"{cutoff_low} and above "
+                f"{cutoff_high} "
+                f"are extrapolated."
+            )
+        elif is_extrap_low:
+            wmsg = (
+                "Warning: points with grid value below "
+                f"{cutoff_low} "
+                f"are extrapolated."
+            )
+        elif is_extrap_high:
+            wmsg = (
+                "Warning: points with grid value above "
+                f"{cutoff_high} "
+                f"are extrapolated."
+            )
+        else:
+            wmsg = None
+
+        if wmsg:
             warnings.warn(
                 wmsg,
                 UserWarning,

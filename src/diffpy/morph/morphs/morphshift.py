@@ -57,6 +57,7 @@ class MorphShift(Morph):
         r = self.x_morph_in - hshift
         self.y_morph_out = numpy.interp(r, self.x_morph_in, self.y_morph_in)
         self.y_morph_out += vshift
+        self.set_extrapolation_info(self.x_morph_in, r)
         return self.xyallout
 
 

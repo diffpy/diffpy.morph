@@ -46,47 +46,56 @@ morph_target_grids = [
 @pytest.mark.parametrize("squeeze_coeffs", squeeze_coeffs_dic)
 def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     y_target = np.sin(x_target)
+    y_morph = np.sin(x_morph)
+    # expected output
+    y_morph_expected = y_morph
+    x_morph_expected = x_morph
+    x_target_expected = x_target
+    y_target_expected = y_target
+    # actual output
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     y_morph = np.sin(x_squeezed)
-    low_extrap = np.where(x_morph < x_squeezed[0])[0]
-    high_extrap = np.where(x_morph > x_squeezed[-1])[0]
-    extrap_index_low_expected = low_extrap[-1] if low_extrap.size else None
-    extrap_index_high_expected = high_extrap[0] if high_extrap.size else None
-    x_morph_expected = x_morph
-    y_morph_expected = np.sin(x_morph)
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
     x_morph_actual, y_morph_actual, x_target_actual, y_target_actual = morph(
         x_morph, y_morph, x_target, y_target
     )
-    extrap_index_low = morph.extrap_index_low
-    extrap_index_high = morph.extrap_index_high
-    if extrap_index_low is None:
-        extrap_index_low = 0
-    elif extrap_index_high is None:
-        extrap_index_high = -1
+
+    extrap_low = np.where(x_morph < min(x_squeezed))[0]
+    extrap_high = np.where(x_morph > max(x_squeezed))[0]
+    extrap_index_low_expected = extrap_low[-1] if extrap_low.size else 0
+    extrap_index_high_expected = extrap_high[0] if extrap_high.size else -1
+
+    extrapolation_info = morph.extrapolation_info
+    extrap_index_low_actual = extrapolation_info["extrap_index_low"]
+    extrap_index_high_actual = extrapolation_info["extrap_index_high"]
+
     assert np.allclose(
-        y_morph_actual[extrap_index_low + 1 : extrap_index_high],
-        y_morph_expected[extrap_index_low + 1 : extrap_index_high],
+        y_morph_actual[
+            extrap_index_low_expected + 1 : extrap_index_high_expected
+        ],
+        y_morph_expected[
+            extrap_index_low_expected + 1 : extrap_index_high_expected
+        ],
         atol=1e-6,
     )
     assert np.allclose(
-        y_morph_actual[:extrap_index_low],
-        y_morph_expected[:extrap_index_low],
+        y_morph_actual[:extrap_index_low_expected],
+        y_morph_expected[:extrap_index_low_expected],
         atol=1e-3,
     )
     assert np.allclose(
-        y_morph_actual[extrap_index_high:],
-        y_morph_expected[extrap_index_high:],
+        y_morph_actual[extrap_index_high_expected:],
+        y_morph_expected[extrap_index_high_expected:],
         atol=1e-3,
     )
-    assert morph.extrap_index_low == extrap_index_low_expected
-    assert morph.extrap_index_high == extrap_index_high_expected
     assert np.allclose(x_morph_actual, x_morph_expected)
-    assert np.allclose(x_target_actual, x_target)
-    assert np.allclose(y_target_actual, y_target)
+    assert np.allclose(x_target_actual, x_target_expected)
+    assert np.allclose(y_target_actual, y_target_expected)
+    assert extrap_index_low_actual == extrap_index_low_expected
+    assert extrap_index_high_actual == extrap_index_high_expected
 
 
 @pytest.mark.parametrize(
@@ -97,7 +106,7 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
             {"a0": 0.01},
             lambda x: (
                 "Warning: points with grid value below "
-                f"{x[0]} will be extrapolated."
+                f"{x[0]} are extrapolated."
             ),
         ),
         # extrapolate above
@@ -105,7 +114,7 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
             {"a0": -0.01},
             lambda x: (
                 "Warning: points with grid value above "
-                f"{x[1]} will be extrapolated."
+                f"{x[1]} are extrapolated."
             ),
         ),
         # extrapolate below and above
@@ -113,7 +122,7 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
             {"a0": 0.01, "a1": -0.002},
             lambda x: (
                 "Warning: points with grid value below "
-                f"{x[0]} and above {x[1]} will be "
+                f"{x[0]} and above {x[1]} are "
                 "extrapolated."
             ),
         ),
