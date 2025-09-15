@@ -667,6 +667,8 @@ def single_morph(
     # Now remove non-refinable parameters
     if opts.exclude is not None:
         refpars = list(set(refpars) - set(opts.exclude))
+        if "stretch" in opts.exclude:
+            stretch_morph = None
 
     # Refine or execute the morph
     refiner = refine.Refiner(
