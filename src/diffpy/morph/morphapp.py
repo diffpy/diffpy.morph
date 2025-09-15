@@ -585,9 +585,11 @@ def single_morph(
         refpars.append("scale")
     # Stretch
     # Only enable stretch if squeeze is lower than degree 1
+    stretch_morph = None
     if opts.stretch is not None and squeeze_poly_deg < 1:
+        stretch_morph = morphs.MorphStretch()
+        chain.append(stretch_morph)
         stretch_in = opts.stretch
-        chain.append(morphs.MorphStretch())
         config["stretch"] = stretch_in
         refpars.append("stretch")
     # Smear
@@ -703,6 +705,7 @@ def single_morph(
     # THROW ANY WARNINGS HERE
     io.handle_warnings(squeeze_morph)
     io.handle_warnings(shift_morph)
+    io.handle_warnings(stretch_morph)
 
     # Get Rw for the morph range
     rw = tools.getRw(chain)

@@ -48,6 +48,7 @@ class MorphStretch(Morph):
 
         r = self.x_morph_in / (1.0 + self.stretch)
         self.y_morph_out = numpy.interp(r, self.x_morph_in, self.y_morph_in)
+        self.set_extrapolation_info(self.x_morph_in, r)
         return self.xyallout
 
 
