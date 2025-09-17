@@ -121,7 +121,7 @@ class MorphSqueeze(Morph):
                 current_region.append(x[i + 1])
             else:
                 monotomic_regions.append(current_region)
-                monotomic_signs.append(diffx[i])
+                monotomic_signs.append(numpy.sign(diffx[i]))
                 current_region = [x[i + 1]]
         monotomic_regions.append(current_region)
         overlapping_regions_sign = -1 if x[0] < x[-1] else 1
