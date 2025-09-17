@@ -1,6 +1,7 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
+import numpy
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
 
@@ -68,8 +69,68 @@ class MorphSqueeze(Morph):
     squeeze_cutoff_low = None
     squeeze_cutoff_high = None
 
-    def __init__(self, config=None):
+    def __init__(self, config=None, check_increase=False):
         super().__init__(config)
+        self.check_increase = check_increase
+
+    def _set_squeeze_info(self, x, x_sorted):
+        self.squeeze_info = {"monotonic": True, "overlapping_regions": None}
+        if list(x) != list(x_sorted):
+            if self.check_increase:
+                raise ValueError(
+                    "Squeezed grid is not strictly increasing."
+                    "Please (1) decrease the order of your polynomial and "
+                    "(2) ensure that the initial polynomial morph result in "
+                    "good agreement between your reference and "
+                    "objective functions."
+                )
+            else:
+                overlapping_regions = self._get_overlapping_regions(x)
+                self.squeeze_info["monotonic"] = False
+                self.squeeze_info["overlapping_regions"] = overlapping_regions
+
+    def _sort_squeeze(self, x, y):
+        """Sort x,y according to the value of x."""
+        xy = list(zip(x, y))
+        xy_sorted = sorted(xy, key=lambda pair: pair[0])
+        x_sorted, y_sorted = list(zip(*xy_sorted))
+        return x_sorted, y_sorted
+
+    def _get_overlapping_regions(self, x):
+        diffx = numpy.diff(x)
+        monotomic_regions = []
+        monotomic_signs = [numpy.sign(diffx[0])]
+        current_region = [x[0], x[1]]
+        for i in range(1, len(diffx)):
+            if numpy.sign(diffx[i]) == monotomic_signs[-1]:
+                current_region.append(x[i + 1])
+            else:
+                monotomic_regions.append(current_region)
+                monotomic_signs.append(diffx[i])
+                current_region = [x[i + 1]]
+        monotomic_regions.append(current_region)
+        overlapping_regions_sign = -1 if x[0] < x[-1] else 1
+        overlapping_regions_x = [
+            monotomic_regions[i]
+            for i in range(len(monotomic_regions))
+            if monotomic_signs[i] == overlapping_regions_sign
+        ]
+        overlapping_regions = [
+            (min(region), max(region)) for region in overlapping_regions_x
+        ]
+        return overlapping_regions
+
+    def _handle_duplicates(self, x, y):
+        """Remove duplicated x and use the mean value of y corresponded
+        to the duplicated x."""
+        unq_x, unq_inv = numpy.unique(x, return_inverse=True)
+        if len(unq_x) == len(x):
+            return x, y
+        else:
+            y_avg = numpy.zeros_like(unq_x)
+            for i in range(len(unq_x)):
+                y_avg[i] = numpy.array(y)[unq_inv == i].mean()
+            return unq_x, y_avg
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -82,9 +143,16 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
-        self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
+        x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
+            x_squeezed, self.y_morph_in
+        )
+        self._set_squeeze_info(x_squeezed_sorted, x_squeezed)
+        x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
+            x_squeezed_sorted, y_morph_sorted
+        )
+        self.y_morph_out = CubicSpline(x_squeezed_sorted, y_morph_sorted)(
             self.x_morph_in
         )
-        self.set_extrapolation_info(x_squeezed, self.x_morph_in)
+        self.set_extrapolation_info(x_squeezed_sorted, self.x_morph_in)
 
         return self.xyallout

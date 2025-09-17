@@ -173,6 +173,91 @@ def test_morphsqueeze_extrapolate(
         single_morph(parser, opts, pargs, stdout_flag=False)
 
 
+@pytest.mark.parametrize(
+    "squeeze_coeffs, x_morph",
+    [
+        ({"a0": -1, "a1": -1, "a2": 2}, np.linspace(-1, 1, 101)),
+    ],
+)
+def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
+    # call in .py without --check-increase
+    x_target = x_morph
+    y_target = np.sin(x_target)
+    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
+    squeeze_polynomial = Polynomial(coeffs)
+    x_squeezed = x_morph + squeeze_polynomial(x_morph)
+    y_morph = np.sin(x_squeezed)
+    morph = MorphSqueeze()
+    morph.squeeze = squeeze_coeffs
+    with pytest.warns() as w:
+        morphpy.morph_arrays(
+            np.array([x_morph, y_morph]).T,
+            np.array([x_target, y_target]).T,
+            squeeze=coeffs,
+            apply=True,
+        )
+    assert len(w) == 1
+    assert w[0].category is UserWarning
+    actual_wmsg = str(w[0].message)
+    expected_wmsg = (
+        "Warning: The squeeze morph has interpolated your morphed "
+        "function from a non-monotonically increasing grid. "
+    )
+    assert expected_wmsg in actual_wmsg
+
+    # call in .py with --check-increase
+    with pytest.raises(ValueError) as excinfo:
+        morphpy.morph_arrays(
+            np.array([x_morph, y_morph]).T,
+            np.array([x_target, y_target]).T,
+            squeeze=coeffs,
+            check_increase=True,
+            apply=True,
+        )
+    actual_emsg = str(excinfo.value)
+    expected_emsg = "Squeezed grid is not strictly increasing."
+    assert expected_emsg in actual_emsg
+
+    # call in CLI without --check-increase
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--squeeze",
+            ",".join(map(str, coeffs)),
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+        ]
+    )
+    with pytest.warns(UserWarning) as w:
+        single_morph(parser, opts, pargs, stdout_flag=False)
+    assert len(w) == 1
+    actual_wmsg = str(w[0].message)
+    assert expected_wmsg in actual_wmsg
+
+    # call in CLI with --check-increase
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--squeeze",
+            ",".join(map(str, coeffs)),
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+            "--check-increase",
+        ]
+    )
+    with pytest.raises(ValueError) as excinfo:
+        single_morph(parser, opts, pargs, stdout_flag=False)
+    actual_emsg = str(excinfo.value)
+    assert expected_emsg in actual_emsg
+
+
 def create_morph_data_file(
     data_dir_path, x_morph, y_morph, x_target, y_target
 ):
