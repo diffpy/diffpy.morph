@@ -215,7 +215,10 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
             apply=True,
         )
     actual_emsg = str(excinfo.value)
-    expected_emsg = "Squeezed grid is not strictly increasing."
+    expected_emsg = (
+        "Error: The polynomial applied by the squeeze morph has "
+        "resulted in a grid that is no longer strictly increasing"
+    )
     assert expected_emsg in actual_emsg
 
     # call in CLI without --check-increase

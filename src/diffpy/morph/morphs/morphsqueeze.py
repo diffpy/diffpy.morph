@@ -78,11 +78,26 @@ class MorphSqueeze(Morph):
         if list(x) != list(x_sorted):
             if self.check_increase:
                 raise ValueError(
-                    "Squeezed grid is not strictly increasing."
-                    "Please (1) decrease the order of your polynomial and "
-                    "(2) ensure that the initial polynomial morph result in "
-                    "good agreement between your reference and "
-                    "objective functions."
+                    "Error: The polynomial applied by the squeeze morph has "
+                    "resulted in a grid that is no longer strictly increasing"
+                    ", likely due to a convergence issue. A strictly "
+                    "increasing grid is required for diffpy.morph to compute "
+                    "the morphed function through cubic spline interpolation. "
+                    "Here are some suggested methods to resolve this:\n"
+                    "(1) Please decrease the order of your polynomial and "
+                    "try again.\n"
+                    "(2) If you are using initial guesses of all 0, please "
+                    "ensure your objective function only requires a small "
+                    "polynomial squeeze to match your reference. (In other "
+                    "words, there is good agreement between the two functions"
+                    ".)\n"
+                    "(3) If you expect a large polynomial squeeze to be needed"
+                    ", please ensure your initial parameters for the "
+                    "polynomial morph result in good agreement between your "
+                    "reference and objective functions. One way to obtain "
+                    "such parameters is to first apply a --hshift and "
+                    "--stretch morph. Then, use the hshift parameter for a0 "
+                    "and stretch parameter for a1."
                 )
             else:
                 overlapping_regions = self._get_overlapping_regions(x)
