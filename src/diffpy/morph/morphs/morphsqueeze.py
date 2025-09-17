@@ -161,7 +161,7 @@ class MorphSqueeze(Morph):
         x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
             x_squeezed, self.y_morph_in
         )
-        self._set_squeeze_info(x_squeezed_sorted, x_squeezed)
+        self._set_squeeze_info(x_squeezed, x_squeezed_sorted)
         x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
             x_squeezed_sorted, y_morph_sorted
         )
