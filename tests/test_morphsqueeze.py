@@ -267,7 +267,7 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
         # x[-1] > x[0], monotonically decreasing regions are overlapping
         ([0, 10, 7, 12], [[7, 10]]),
         # x[-1] < x[0], monotonically increasing regions are overlapping
-        ([0, 5, 2, 4, -10], [[0, 5], [2, 4]])
+        ([0, 5, 2, 4, -10], [[0, 5], [2, 4]]),
     ],
 )
 def test_get_overlapping_regions(turning_points, expected_overlapping_regions):
