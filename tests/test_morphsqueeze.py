@@ -261,6 +261,26 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
     assert expected_emsg in actual_emsg
 
 
+@pytest.mark.parametrize(
+    "turning_points, expected_overlapping_regions",
+    [
+        # x[-1] > x[0], monotonically decreasing regions are overlapping
+        ([0, 10, 7, 12], [[7, 10]]),
+        # x[-1] < x[0], monotonically increasing regions are overlapping
+        ([0, 5, 2, 4, -10], [[0, 5], [2, 4]])
+    ],
+)
+def test_get_overlapping_regions(turning_points, expected_overlapping_regions):
+    morph = MorphSqueeze()
+    regions = (
+        np.linspace(turning_points[i], turning_points[i + 1], 20)
+        for i in range(len(turning_points) - 1)
+    )
+    x_value = np.concatenate(list(regions))
+    actual_overlaping_regions = morph.get_overlapping_regions(x_value)
+    assert expected_overlapping_regions == actual_overlaping_regions
+
+
 def create_morph_data_file(
     data_dir_path, x_morph, y_morph, x_target, y_target
 ):

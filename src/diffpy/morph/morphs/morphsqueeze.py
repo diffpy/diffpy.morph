@@ -100,7 +100,7 @@ class MorphSqueeze(Morph):
                     "and stretch parameter for a1."
                 )
             else:
-                overlapping_regions = self._get_overlapping_regions(x)
+                overlapping_regions = self.get_overlapping_regions(x)
                 self.squeeze_info["monotonic"] = False
                 self.squeeze_info["overlapping_regions"] = overlapping_regions
 
@@ -111,27 +111,29 @@ class MorphSqueeze(Morph):
         x_sorted, y_sorted = list(zip(*xy_sorted))
         return x_sorted, y_sorted
 
-    def _get_overlapping_regions(self, x):
+    def get_overlapping_regions(self, x):
         diffx = numpy.diff(x)
-        monotomic_regions = []
-        monotomic_signs = [numpy.sign(diffx[0])]
-        current_region = [x[0], x[1]]
-        for i in range(1, len(diffx)):
-            if numpy.sign(diffx[i]) == monotomic_signs[-1]:
-                current_region.append(x[i + 1])
-            else:
-                monotomic_regions.append(current_region)
-                monotomic_signs.append(numpy.sign(diffx[i]))
-                current_region = [x[i + 1]]
-        monotomic_regions.append(current_region)
+        diffx_sign = numpy.sign(diffx)
+        local_min_or_max_index = (
+            numpy.where(numpy.diff(diffx_sign) != 0)[0] + 1
+        )
+        monotonic_regions_x = numpy.concatenate(
+            (
+                [x[0]],
+                numpy.repeat(
+                    numpy.array(x)[local_min_or_max_index], 2
+                ).tolist()[:-1],
+            )
+        ).reshape(-1, 2)
+        monotinic_regions_sign = diffx_sign[local_min_or_max_index - 1]
+
         overlapping_regions_sign = -1 if x[0] < x[-1] else 1
-        overlapping_regions_x = [
-            monotomic_regions[i]
-            for i in range(len(monotomic_regions))
-            if monotomic_signs[i] == overlapping_regions_sign
-        ]
+        overlapping_regions_index = numpy.where(
+            monotinic_regions_sign == overlapping_regions_sign
+        )[0]
+        overlapping_regions = monotonic_regions_x[overlapping_regions_index]
         overlapping_regions = [
-            (min(region), max(region)) for region in overlapping_regions_x
+            sorted(region) for region in overlapping_regions
         ]
         return overlapping_regions
 
