@@ -100,9 +100,12 @@ class MorphSqueeze(Morph):
                     "and stretch parameter for a1."
                 )
             else:
-                overlapping_regions = self.get_overlapping_regions(x)
-                self.squeeze_info["monotonic"] = False
-                self.squeeze_info["overlapping_regions"] = overlapping_regions
+                if list(x) != list(x_sorted[::-1]):
+                    overlapping_regions = self.get_overlapping_regions(x)
+                    self.squeeze_info["monotonic"] = False
+                    self.squeeze_info["overlapping_regions"] = (
+                        overlapping_regions
+                    )
 
     def _sort_squeeze(self, x, y):
         """Sort x,y according to the value of x."""
