@@ -208,6 +208,16 @@ def create_option_parser():
         ),
     )
     group.add_option(
+        "--check-increase",
+        action="store_true",
+        dest="check_increase",
+        help=(
+            "Disable squeeze morph to interpolat morphed function "
+            "from a non-monotonically increasing grid."
+        ),
+    )
+
+    group.add_option(
         "--smear",
         type="float",
         metavar="SMEAR",
@@ -571,7 +581,7 @@ def single_morph(
                 except ValueError:
                     parser.error(f"{coeff} could not be converted to float.")
         squeeze_poly_deg = len(squeeze_dict_in.keys())
-        squeeze_morph = morphs.MorphSqueeze()
+        squeeze_morph = morphs.MorphSqueeze(check_increase=opts.check_increase)
         chain.append(squeeze_morph)
         config["squeeze"] = squeeze_dict_in
         # config["extrap_index_low"] = None
@@ -701,8 +711,9 @@ def single_morph(
         chain(x_morph, y_morph, x_target, y_target)
 
     # THROW ANY WARNINGS HERE
-    io.handle_warnings(squeeze_morph)
-    io.handle_warnings(shift_morph)
+    io.handle_extrapolation_warnings(squeeze_morph)
+    io.handle_check_increase_warning(squeeze_morph)
+    io.handle_extrapolation_warnings(shift_morph)
 
     # Get Rw for the morph range
     rw = tools.getRw(chain)

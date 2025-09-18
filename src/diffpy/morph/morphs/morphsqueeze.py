@@ -1,6 +1,7 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
+import numpy
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
 
@@ -68,8 +69,88 @@ class MorphSqueeze(Morph):
     squeeze_cutoff_low = None
     squeeze_cutoff_high = None
 
-    def __init__(self, config=None):
+    def __init__(self, config=None, check_increase=False):
         super().__init__(config)
+        self.check_increase = check_increase
+
+    def _set_squeeze_info(self, x, x_sorted):
+        self.squeeze_info = {"monotonic": True, "overlapping_regions": None}
+        if list(x) != list(x_sorted):
+            if self.check_increase:
+                raise ValueError(
+                    "Error: The polynomial applied by the squeeze morph has "
+                    "resulted in a grid that is no longer strictly increasing"
+                    ", likely due to a convergence issue. A strictly "
+                    "increasing grid is required for diffpy.morph to compute "
+                    "the morphed function through cubic spline interpolation. "
+                    "Here are some suggested methods to resolve this:\n"
+                    "(1) Please decrease the order of your polynomial and "
+                    "try again.\n"
+                    "(2) If you are using initial guesses of all 0, please "
+                    "ensure your objective function only requires a small "
+                    "polynomial squeeze to match your reference. (In other "
+                    "words, there is good agreement between the two functions"
+                    ".)\n"
+                    "(3) If you expect a large polynomial squeeze to be needed"
+                    ", please ensure your initial parameters for the "
+                    "polynomial morph result in good agreement between your "
+                    "reference and objective functions. One way to obtain "
+                    "such parameters is to first apply a --hshift and "
+                    "--stretch morph. Then, use the hshift parameter for a0 "
+                    "and stretch parameter for a1."
+                )
+            else:
+                if list(x) != list(x_sorted[::-1]):
+                    overlapping_regions = self.get_overlapping_regions(x)
+                    self.squeeze_info["monotonic"] = False
+                    self.squeeze_info["overlapping_regions"] = (
+                        overlapping_regions
+                    )
+
+    def _sort_squeeze(self, x, y):
+        """Sort x,y according to the value of x."""
+        xy = list(zip(x, y))
+        xy_sorted = sorted(xy, key=lambda pair: pair[0])
+        x_sorted, y_sorted = list(zip(*xy_sorted))
+        return x_sorted, y_sorted
+
+    def get_overlapping_regions(self, x):
+        diffx = numpy.diff(x)
+        diffx_sign = numpy.sign(diffx)
+        local_min_or_max_index = (
+            numpy.where(numpy.diff(diffx_sign) != 0)[0] + 1
+        )
+        monotonic_regions_x = numpy.concatenate(
+            (
+                [x[0]],
+                numpy.repeat(
+                    numpy.array(x)[local_min_or_max_index], 2
+                ).tolist()[:-1],
+            )
+        ).reshape(-1, 2)
+        monotinic_regions_sign = diffx_sign[local_min_or_max_index - 1]
+
+        overlapping_regions_sign = -1 if x[0] < x[-1] else 1
+        overlapping_regions_index = numpy.where(
+            monotinic_regions_sign == overlapping_regions_sign
+        )[0]
+        overlapping_regions = monotonic_regions_x[overlapping_regions_index]
+        overlapping_regions = [
+            sorted(region) for region in overlapping_regions
+        ]
+        return overlapping_regions
+
+    def _handle_duplicates(self, x, y):
+        """Remove duplicated x and use the mean value of y corresponded
+        to the duplicated x."""
+        unq_x, unq_inv = numpy.unique(x, return_inverse=True)
+        if len(unq_x) == len(x):
+            return x, y
+        else:
+            y_avg = numpy.zeros_like(unq_x)
+            for i in range(len(unq_x)):
+                y_avg[i] = numpy.array(y)[unq_inv == i].mean()
+            return unq_x, y_avg
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -82,9 +163,16 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
-        self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
+        x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
+            x_squeezed, self.y_morph_in
+        )
+        self._set_squeeze_info(x_squeezed, x_squeezed_sorted)
+        x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
+            x_squeezed_sorted, y_morph_sorted
+        )
+        self.y_morph_out = CubicSpline(x_squeezed_sorted, y_morph_sorted)(
             self.x_morph_in
         )
-        self.set_extrapolation_info(x_squeezed, self.x_morph_in)
+        self.set_extrapolation_info(x_squeezed_sorted, self.x_morph_in)
 
         return self.xyallout
