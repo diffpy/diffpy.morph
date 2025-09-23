@@ -30,9 +30,9 @@ class TestMorphChain:
         """Check MorphChain.morph()"""
         # Define the morphs
         config = {
-            "rmin": 1,
-            "rmax": 6,
-            "rstep": 0.1,
+            "xmin": 1,
+            "xmax": 6,
+            "xstep": 0.1,
             "scale": 3.0,
         }
 
@@ -48,8 +48,8 @@ class TestMorphChain:
         pytest.approx(x_morph[0], 1.0)
         pytest.approx(x_morph[-1], 4.9)
         pytest.approx(x_morph[1] - x_morph[0], 0.1)
-        pytest.approx(x_morph[0], mgrid.rmin)
-        pytest.approx(x_morph[-1], mgrid.rmax - mgrid.rstep)
-        pytest.approx(x_morph[1] - x_morph[0], mgrid.rstep)
+        pytest.approx(x_morph[0], mgrid.xmin)
+        pytest.approx(x_morph[-1], mgrid.xmax - mgrid.xstep)
+        pytest.approx(x_morph[1] - x_morph[0], mgrid.xstep)
         assert numpy.allclose(y_morph, y_target)
         return

@@ -212,8 +212,8 @@ def compare_funcs(
     plt.ylim(ymin, ymax)
 
     # Make labels and legends
-    plt.xlabel(r"r ($\mathrm{\AA})$")
-    plt.ylabel(r"G $(\mathrm{\AA}^{-1})$")
+    # plt.xlabel(r"r ($\mathrm{\AA})$")
+    # plt.ylabel(r"G $(\mathrm{\AA}^{-1})$")
     if legend:
         plt.legend(
             bbox_to_anchor=(0.005, 1.02, 0.99, 0.10),

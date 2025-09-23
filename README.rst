@@ -35,34 +35,35 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.morph/issues
 
-Python package for manipulating and comparing PDF profiles
+Python package for manipulating and comparing diffraction data
 
 ``diffpy.morph`` is a Python software package designed to increase the insight
-researchers can obtain from measured atomic pair distribution functions
+researchers can obtain from measured diffraction data
+and atomic pair distribution functions
 (PDFs) in a model-independent way. The program was designed to help a
 researcher answer the question: "Has my material undergone a phase
 transition between these two measurements?"
 
-One approach is to compare the two PDFs in a plot and view the difference
-curve underneath. However, significant signal can be seen in the
-difference curve from benign effects such as thermal expansion (peak
-shifts) and increased thermal motion (peak broadening) or a change in
+One approach is to compare the two diffraction patterns in a plot
+and view the difference curve underneath. However, significant signal can
+be seen in the difference curve from benign effects such as thermal expansion
+(peak shifts) and increased thermal motion (peak broadening) or a change in
 scale due to differences in incident flux, for example. ``diffpy.morph`` will
 do its best to correct for these benign effects before computing and
-plotting the difference curve. One measured PDF (typically that collected
-at higher temperature) is identified as the target PDF and the second
-PDF is then morphed by "stretching" (changing the r-axis to simulate a
+plotting the difference curve. One measured function (typically that collected
+at higher temperature) is identified as the target function and the second
+function is then morphed by "stretching" (changing the r-axis to simulate a
 uniform lattice expansion), "smearing" (broadening peaks through a
 uniform convolution to simulate increased thermal motion), and "scaling"
 (self-explanatory). ``diffpy.morph`` will vary the amplitude of the morphing
 transformations to obtain the best fit between the morphed and the target
-PDFs, then plot them on top of each other with the difference plotted
+functions, then plot them on top of each other with the difference plotted
 below.
 
 There are also a few other morphing transformations in the program.
 
-Finally, we note that ``diffpy.morph`` should work on other spectra that are not
-PDFs, though it has not been extensively tested beyond the PDF.
+Finally, we note that ``diffpy.morph`` should work on other spectra,
+though it has not been extensively tested beyond spectral data and the PDF.
 
 
 For more information about the diffpy.morph library, please consult our `online documentation <https://diffpy.github.io/diffpy.morph>`_.
@@ -153,9 +154,9 @@ If installed correctly, this last command should return the version
 of ``diffpy.morph`` that you have installed on your system. To begin using
 ``diffpy.morph``, run a command like ::
 
-	diffpy.morph <target PDF file> <morphed PDF file>
+	diffpy.morph <morph file> <target file>
 
-where both PDFs file are text files which contain PDF data, such as ``.gr``
+where both files are text files which contain two-column data, such as ``.gr``
 or ``.cgr`` files that are produced by ``PDFgetX2``, ``PDFgetX3``,
 or ``PDFgui``. File extensions other than ``.gr`` or ``.cgr``,
 but with the same content structure, also work with ``diffpy.morph``.

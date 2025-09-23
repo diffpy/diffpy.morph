@@ -110,14 +110,16 @@ def create_option_parser():
         help="Print additional header details to saved files.",
     )
     parser.add_option(
-        "--rmin",
+        "--xmin",
         type="float",
-        help="Minimum r-value (abscissa) to use for function comparisons.",
+        metavar="XMIN",
+        help="Minimum x-value (abscissa) to use for function comparisons.",
     )
     parser.add_option(
-        "--rmax",
+        "--xmax",
         type="float",
-        help="Maximum r-value (abscissa) to use for function comparisons.",
+        metavar="XMAX",
+        help="Maximum x-value (abscissa) to use for function comparisons.",
     )
     parser.add_option(
         "--tolerance",
@@ -343,12 +345,12 @@ def create_option_parser():
     group.add_option(
         "--pmin",
         type="float",
-        help="Minimum r-value to plot. Defaults to RMIN.",
+        help="Minimum x-value to plot. Defaults to XMIN.",
     )
     group.add_option(
         "--pmax",
         type="float",
-        help="Maximum r-value to plot. Defaults to RMAX.",
+        help="Maximum x-value to plot. Defaults to XMAX.",
     )
     group.add_option(
         "--maglim",
@@ -505,13 +507,13 @@ def single_morph(
     smear_in = "None"
     hshift_in = "None"
     vshift_in = "None"
-    config = {"rmin": opts.rmin, "rmax": opts.rmax, "rstep": None}
+    config = {"xmin": opts.xmin, "xmax": opts.xmax, "xstep": None}
     if (
-        opts.rmin is not None
-        and opts.rmax is not None
-        and opts.rmax <= opts.rmin
+        opts.xmin is not None
+        and opts.xmax is not None
+        and opts.xmax <= opts.xmin
     ):
-        e = "rmin must be less than rmax"
+        e = "xmin must be less than xmax"
         parser.custom_error(e)
 
     # Set up the morphs
@@ -765,7 +767,7 @@ def single_morph(
     xy_save = [chain.x_morph_out, chain.y_morph_out]
     if opts.get_diff is not None:
         diff_chain = morphs.MorphChain(
-            {"rmin": None, "rmax": None, "rstep": None}
+            {"xmin": None, "xmax": None, "xstep": None}
         )
         diff_chain.append(morphs.MorphRGrid())
         diff_chain(
@@ -804,16 +806,16 @@ def single_morph(
             labels[0] = opts.tlabel
 
         # Plot extent defaults to calculation extent
-        pmin = opts.pmin if opts.pmin is not None else opts.rmin
-        pmax = opts.pmax if opts.pmax is not None else opts.rmax
+        pmin = opts.pmin if opts.pmin is not None else opts.xmin
+        pmax = opts.pmax if opts.pmax is not None else opts.xmax
         maglim = opts.maglim
         mag = opts.mag
         l_width = opts.lwidth
         plot.compare_funcs(
             pairlist,
             labels,
-            rmin=pmin,
-            rmax=pmax,
+            xmin=pmin,
+            xmax=pmax,
             maglim=maglim,
             mag=mag,
             rw=rw,

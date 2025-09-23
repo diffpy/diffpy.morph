@@ -52,8 +52,8 @@ class TestApp:
 
         # Check values parsed correctly
         n_names = [
-            "--rmin",
-            "--rmax",
+            "--xmin",
+            "--xmax",
             "--scale",
             "--smear",
             "--stretch",
@@ -134,14 +134,14 @@ class TestApp:
             in err
         )
 
-        # Make sure rmax greater than rmin
+        # Make sure xmax greater than xmin
         (opts, pargs) = self.parser.parse_args(
-            [f"{nickel_PDF}", f"{nickel_PDF}", "--rmin", "10", "--rmax", "1"]
+            [f"{nickel_PDF}", f"{nickel_PDF}", "--xmin", "10", "--xmax", "1"]
         )
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
         _, err = capsys.readouterr()
-        assert "rmin must be less than rmax" in err
+        assert "xmin must be less than xmax" in err
 
         # ###Tests exclusive to multiple morphs###
         # Make sure we save to a directory that exists
