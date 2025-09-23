@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* no news: style changes
 
 **Changed:**
 
