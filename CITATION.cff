@@ -47,9 +47,9 @@ abstract: >-
   comparison. Other morphs are also possible such as
   corrections for nanoparticle shape effects on the PDF.
   diffpy.morph is model-independent and also could be used
-  on other non-diffraction spectra, though
-  it has not been extensively tested beyond powder
-  diffraction patterns and the PDF.
+  on other non-diffraction spectra, though it has not been
+  extensively tested beyond powder diffraction patterns
+  and the PDF.
 keywords:
   - diffpy
   - pdf
