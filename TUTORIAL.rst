@@ -132,10 +132,10 @@ Basic diffpy.morph Workflow
               superficial and in most cases can be ignored.
 
        We see that this has had hardly any effect on our PDF. To see
-       an effect, we restrict the ``rmin`` and ``rmax`` values to
+       an effect, we restrict the ``xmin`` and ``xmax`` values to
        reflect relevant data range by typing ::
 
-            diffpy.morph --scale=0.8 --smear=0.5 --rmin=1.5 --rmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+            diffpy.morph --scale=0.8 --smear=0.5 --xmin=1.5 --xmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
        Now, we see that the difference Rw = 0.204 and that the optimized
        ``smear=-0.084138``.
@@ -151,7 +151,7 @@ Basic diffpy.morph Workflow
     8. Finally, we will examine the stretch factor. Provide an initial
        guess by typing ::
 
-            diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.5 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+            diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.5 --xmin=1.5 --xmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
        And noting that the difference has increased. Before continuing,
        see if you can see which direction (higher or lower) our initial
@@ -160,7 +160,7 @@ Basic diffpy.morph Workflow
 
        If you cannot, type ::
 
-            diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --rmin=1.5 --rmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+            diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --xmin=1.5 --xmax=30 -a darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
        to observe decreased difference and then remove ``-a`` to see
        the optimized ``--stretch=0.001762``. We have now reached

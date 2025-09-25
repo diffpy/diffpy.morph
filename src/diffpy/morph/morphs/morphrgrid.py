@@ -28,12 +28,12 @@ class MorphRGrid(Morph):
 
     Configuration Variables
     -----------------------
-    rmin
-        The lower-bound on the r-range.
-    rmax
-        The upper-bound on the r-range (exclusive within tolerance of 1e-8).
-    rstep
-        The r-spacing.
+    xmin
+        The lower-bound on the x-range.
+    xmax
+        The upper-bound on the x-range (exclusive within tolerance of 1e-8).
+    xstep
+        The x-spacing.
 
     Notes
     -----
@@ -49,47 +49,47 @@ class MorphRGrid(Morph):
     yinlabel = LABEL_GR
     xoutlabel = LABEL_RA
     youtlabel = LABEL_GR
-    parnames = ["rmin", "rmax", "rstep"]
+    parnames = ["xmin", "xmax", "xstep"]
 
-    # Define rmin rmax holders for adaptive x-grid refinement
+    # Define xmin xmax holders for adaptive x-grid refinement
     # Without these, the program r-grid can only decrease in interval size
-    rmin_origin = None
-    rmax_origin = None
-    rstep_origin = None
+    xmin_origin = None
+    xmax_origin = None
+    xstep_origin = None
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Resample arrays onto specified grid."""
-        if self.rmin is not None:
-            self.rmin_origin = self.rmin
-        if self.rmax is not None:
-            self.rmax_origin = self.rmax
-        if self.rstep is not None:
-            self.rstep_origin = self.rstep
+        if self.xmin is not None:
+            self.xmin_origin = self.xmin
+        if self.xmax is not None:
+            self.xmax_origin = self.xmax
+        if self.xstep is not None:
+            self.xstep_origin = self.xstep
 
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-        rmininc = max(min(self.x_target_in), min(self.x_morph_in))
-        r_step_target = (max(self.x_target_in) - min(self.x_target_in)) / (
+        xmininc = max(min(self.x_target_in), min(self.x_morph_in))
+        x_step_target = (max(self.x_target_in) - min(self.x_target_in)) / (
             len(self.x_target_in) - 1
         )
-        r_step_morph = (max(self.x_morph_in) - min(self.x_morph_in)) / (
+        x_step_morph = (max(self.x_morph_in) - min(self.x_morph_in)) / (
             len(self.x_morph_in) - 1
         )
-        rstepinc = max(r_step_target, r_step_morph)
-        rmaxinc = min(
-            max(self.x_target_in) + r_step_target,
-            max(self.x_morph_in) + r_step_morph,
+        xstepinc = max(x_step_target, x_step_morph)
+        xmaxinc = min(
+            max(self.x_target_in) + x_step_target,
+            max(self.x_morph_in) + x_step_morph,
         )
-        if self.rmin_origin is None or self.rmin_origin < rmininc:
-            self.rmin = rmininc
-        if self.rmax_origin is None or self.rmax_origin > rmaxinc:
-            self.rmax = rmaxinc
-        if self.rstep_origin is None or self.rstep_origin < rstepinc:
-            self.rstep = rstepinc
+        if self.xmin_origin is None or self.xmin_origin < xmininc:
+            self.xmin = xmininc
+        if self.xmax_origin is None or self.xmax_origin > xmaxinc:
+            self.xmax = xmaxinc
+        if self.xstep_origin is None or self.xstep_origin < xstepinc:
+            self.xstep = xstepinc
         # roundoff tolerance for selecting bounds on arrays.
-        epsilon = self.rstep / 2
-        # Make sure that rmax is exclusive
+        epsilon = self.xstep / 2
+        # Make sure that xmax is exclusive
         self.x_morph_out = numpy.arange(
-            self.rmin, self.rmax - epsilon, self.rstep
+            self.xmin, self.xmax - epsilon, self.xstep
         )
         self.y_morph_out = numpy.interp(
             self.x_morph_out, self.x_morph_in, self.y_morph_in

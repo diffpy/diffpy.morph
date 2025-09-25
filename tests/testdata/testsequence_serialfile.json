@@ -13,9 +13,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "b_204K.gr": {
@@ -32,9 +32,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "c_198K.gr": {
@@ -51,9 +51,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "d_192K.gr": {
@@ -70,9 +70,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "e_186K.gr": {
@@ -89,9 +89,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "f_180K.gr": {
@@ -108,9 +108,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   },
   "g_174K.gr": {
@@ -127,9 +127,9 @@
     "qmaxinst": 25.0,
     "qmin": 0.4,
     "qmax": 25.0,
-    "rmax": 100.0,
-    "rmin": 0.0,
-    "rstep": 0.01,
+    "xmax": 100.0,
+    "xmin": 0.0,
+    "xstep": 0.01,
     "rpoly": 0.7
   }
 }

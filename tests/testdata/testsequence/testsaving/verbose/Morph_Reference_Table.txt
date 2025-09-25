@@ -11,49 +11,49 @@
 
 # Target: f_180K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.020141
 # Pearson = 0.999810
 
 # Target: e_186K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.034859
 # Pearson = 0.999424
 
 # Target: d_192K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.062392
 # Pearson = 0.998077
 
 # Target: c_198K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.105918
 # Pearson = 0.994409
 
 # Target: b_204K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.117595
 # Pearson = 0.993160
 
 # Target: a_210K.gr
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.127100
 # Pearson = 0.992111
 
