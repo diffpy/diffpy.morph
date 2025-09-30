@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Tutorials &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>Advanced Tutorials &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=95e61db4"></script>
+      <script src="_static/documentation_options.js?v=b394bd1b"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -108,11 +108,11 @@ was <code class="docutils literal notranslate"><span class="pre">SeFe2As2_150K.g
 <code class="docutils literal notranslate"><span class="pre">morphsequence</span></code>.</p>
 </li>
 </ol>
-<figure class="align-center" id="id3" style="width: 100%">
+<figure class="align-center" id="id2" style="width: 100%">
 <img alt="_images/ex_tutorial_bar.png" src="_images/ex_tutorial_bar.png" />
 <figcaption>
 <p><span class="caption-text">Bar chart of <span class="math notranslate nohighlight">\(R_W\)</span> values for each target file. Target files are
-listed in ASCII sort order.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
+listed in ASCII sort order.</span><a class="headerlink" href="#id2" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <ol class="arabic" start="3">
@@ -135,17 +135,17 @@ the <code class="docutils literal notranslate"><span class="pre">r</span></code>
 </div>
 </li>
 </ol>
-<figure class="align-center" id="id4" style="width: 100%">
+<figure class="align-center" id="id3" style="width: 100%">
 <img alt="_images/ex_tutorial_temp.png" src="_images/ex_tutorial_temp.png" />
 <figcaption>
 <p><span class="caption-text">The <span class="math notranslate nohighlight">\(R_W\)</span> plotted against the temperature the target PDF was
-measured at.</span><a class="headerlink" href="#id4" title="Link to this image"></a></p>
+measured at.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
 <ol class="arabic" start="4">
 <li><p>Between 192K and 198K, the Rw has a sharp increase, indicating that
 we may have a phase change. To confirm, let us now apply morphs
-onto `` SrFe2As2_150K.gr`` with all other files in
+onto <code class="docutils literal notranslate"><span class="pre">SrFe2As2_150K.gr</span></code> with all other files in
 <code class="docutils literal notranslate"><span class="pre">morphsequence</span></code> as targets</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mi">0</span> <span class="n">SrFe2As2_150K</span><span class="o">.</span><span class="n">gr</span> <span class="o">.</span> <span class="o">--</span><span class="n">multiple</span><span class="o">-</span><span class="n">targets</span> <span class="o">--</span><span class="n">sort</span><span class="o">-</span><span class="n">by</span><span class="o">=</span><span class="n">temperature</span>
 </pre></div>
@@ -264,14 +264,9 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.</p>
 <ul>
 <li><p>Within the <code class="docutils literal notranslate"><span class="pre">additionalData</span></code> directory, <code class="docutils literal notranslate"><span class="pre">cd</span></code> into the
 <code class="docutils literal notranslate"><span class="pre">morphShape</span></code> subdirectory. Inside, you will find a sample Ni bulk
-material PDF <code class="docutils literal notranslate"><span class="pre">Ni_bulk.gr</span></code>. This PDF is from <a href="#id1"><span class="problematic" id="id2">`</span></a>”Atomic Pair
-Distribution Function Analysis:
-A primer” &lt;<a class="reference external" href="https://global.oup.com/academic/product/">https://global.oup.com/academic/product/</a></p>
-<blockquote>
-<div><p>atomic-pair-distribution-function-analysis-9780198885801&gt;`_.</p>
-</div></blockquote>
-<p>There are also multiple <code class="docutils literal notranslate"><span class="pre">.cgr</span></code> files with calculated Ni nanoparticle PDFs.</p>
-</li>
+material PDF <code class="docutils literal notranslate"><span class="pre">Ni_bulk.gr</span></code>. This PDF is from
+<a class="reference external" href="https://global.oup.com/academic/product/atomic-pair-distribution-function-analysis-9780198885801">“Atomic Pair Distribution Function Analysis: A primer”</a>.
+There are also multiple <code class="docutils literal notranslate"><span class="pre">.cgr</span></code> files with calculated Ni nanoparticle PDFs.</p></li>
 <li><p>Let us apply various shape effect morphs on the bulk material to
 reproduce these calculated PDFs.</p>
 <blockquote>

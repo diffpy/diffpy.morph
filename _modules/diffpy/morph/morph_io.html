@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morph_io &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>diffpy.morph.morph_io &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=95e61db4"></script>
+      <script src="../../../_static/documentation_options.js?v=b394bd1b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -96,12 +96,23 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">diffpy.morph.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tools</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph</span><span class="w"> </span><span class="kn">import</span> <span class="n">__save_morph_as__</span>
+
+
+<div class="viewcode-block" id="custom_formatwarning">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.custom_formatwarning">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">custom_formatwarning</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span></div>
+
+
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="n">custom_formatwarning</span>
 
 
 <div class="viewcode-block" id="single_morph_output">
@@ -127,7 +138,7 @@
 <span class="sd">    save_file</span>
 <span class="sd">        Name of file to print to. If None (default) print to terminal.</span>
 <span class="sd">    morph_file</span>
-<span class="sd">        Name of the morphed PDF file. Required when printing to a</span>
+<span class="sd">        Name of the morphed function file. Required when printing to a</span>
 <span class="sd">        non-terminal file.</span>
 <span class="sd">    param xy_out: list</span>
 <span class="sd">        List of the form [x_morph_out, y_morph_out]. x_morph_out is a List of</span>
@@ -159,32 +170,41 @@
                 <span class="n">rw_pos</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;squeeze a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sq_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span>
             <span class="p">)</span>
         <span class="n">mr_copy</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">morph_results_list</span><span class="p">)</span>
-    <span class="n">funcy_function</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;function&quot;</span> <span class="ow">in</span> <span class="n">mr_copy</span><span class="p">:</span>
-        <span class="n">funcy_function</span> <span class="o">=</span> <span class="n">mr_copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">funcy_function</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;funcy&quot;</span> <span class="ow">in</span> <span class="n">mr_copy</span><span class="p">:</span>
-        <span class="n">fy_dict</span> <span class="o">=</span> <span class="n">mr_copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;funcy&quot;</span><span class="p">)</span>
-        <span class="n">rw_pos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mr_copy</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rw&quot;</span><span class="p">)</span>
-        <span class="n">morph_results_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mr_copy</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fy_dict</span><span class="p">):</span>
-            <span class="n">morph_results_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
-                <span class="n">rw_pos</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;funcy </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-            <span class="p">)</span>
-        <span class="n">mr_copy</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">morph_results_list</span><span class="p">)</span>
+
+    <span class="c1"># Handle special inputs (functional remove)</span>
+    <span class="n">func_dicts</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;funcxy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="s2">&quot;funcx&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+        <span class="s2">&quot;funcy&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">func_dicts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">_function&quot;</span> <span class="ow">in</span> <span class="n">mr_copy</span><span class="p">:</span>
+            <span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">mr_copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2">_function&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">mr_copy</span><span class="p">:</span>
+            <span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">mr_copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+            <span class="n">rw_pos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mr_copy</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;Rw&quot;</span><span class="p">)</span>
+            <span class="n">morph_results_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mr_copy</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">morph_results_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                    <span class="n">rw_pos</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="n">mr_copy</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">morph_results_list</span><span class="p">)</span>
+
     <span class="c1"># Normal inputs</span>
     <span class="n">morphs_out</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">mr_copy</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">mr_copy</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
     <span class="p">)</span>
-    <span class="c1"># Special inputs (functional)</span>
-    <span class="k">if</span> <span class="n">funcy_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">morphs_in</span> <span class="o">+=</span> <span class="s1">&#39;# funcy function =</span><span class="se">\n</span><span class="s1">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">f_code</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">funcy_function</span><span class="p">)</span>
-        <span class="n">n_leading</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">f_code</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">f_code</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">f_line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f_code</span><span class="p">):</span>
-            <span class="n">f_code</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_line</span><span class="p">[</span><span class="n">n_leading</span><span class="p">:]</span>
-        <span class="n">morphs_in</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f_code</span><span class="p">)</span>
-        <span class="n">morphs_in</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="c1"># Handle special inputs (functional add)</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">func_dicts</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">morphs_in</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;# </span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s1"> function =</span><span class="se">\n</span><span class="s1">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">f_code</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">func_dicts</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">n_leading</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">f_code</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">f_code</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">f_line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f_code</span><span class="p">):</span>
+                <span class="n">f_code</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">f_line</span><span class="p">[</span><span class="n">n_leading</span><span class="p">:]</span>
+            <span class="n">morphs_in</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f_code</span><span class="p">)</span>
+            <span class="n">morphs_in</span> <span class="o">+=</span> <span class="s1">&#39;&quot;&quot;&quot;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
     <span class="c1"># Printing to terminal</span>
     <span class="k">if</span> <span class="n">stdout_flag</span><span class="p">:</span>
@@ -227,7 +247,7 @@
 <div class="viewcode-block" id="create_morphs_directory">
 <a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.create_morphs_directory">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">create_morphs_directory</span><span class="p">(</span><span class="n">save_directory</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a directory for saving multiple morphed PDFs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a directory for saving multiple morphed functions.</span>
 
 <span class="sd">    Takes in a user-given path to a directory save_directory and create a</span>
 <span class="sd">    subdirectory named Morphs. diffpy.morph will save all morphs into the</span>
@@ -269,7 +289,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    target_list: list</span>
-<span class="sd">        Target (or Morph if mm enabled) PDFs used for each morph.</span>
+<span class="sd">        Target (or Morph if mm enabled) functions used for each morph.</span>
 <span class="sd">    save_names_file</span>
 <span class="sd">        Name of file to import save names dictionary from (default None).</span>
 <span class="sd">    mm: bool</span>
@@ -278,8 +298,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        The names to save each morph as. Keys are the target PDF file names</span>
-<span class="sd">        used to produce that morph.</span>
+<span class="sd">        The names to save each morph as. Keys are the target function file</span>
+<span class="sd">        names used to produce that morph.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Dictionary storing save file names</span>
@@ -341,20 +361,20 @@
 <span class="sd">    morph_results: dict</span>
 <span class="sd">        Resulting data after morphing.</span>
 <span class="sd">    target_files: list</span>
-<span class="sd">        PDF files that acted as targets to morphs.</span>
+<span class="sd">        Files that acted as targets to morphs.</span>
 <span class="sd">    save_directory</span>
 <span class="sd">        Name of directory to save morphs in.</span>
 <span class="sd">    field</span>
 <span class="sd">        Name of field if data was sorted by a particular field.</span>
 <span class="sd">        Otherwise, leave blank.</span>
 <span class="sd">    field_list: list</span>
-<span class="sd">        List of field values for each target PDF.</span>
+<span class="sd">        List of field values for each target function.</span>
 <span class="sd">        Generated by diffpy.morph.tools.field_sort().</span>
 <span class="sd">    morph_file</span>
-<span class="sd">        Name of the morphed PDF file.</span>
+<span class="sd">        Name of the morphed function file.</span>
 <span class="sd">        Required to give summary data after saving to a directory.</span>
 <span class="sd">    target_directory</span>
-<span class="sd">        Name of the directory containing the target PDF files.</span>
+<span class="sd">        Name of the directory containing the target function files.</span>
 <span class="sd">        Required to give summary data after saving to a directory.</span>
 <span class="sd">    verbose: bool</span>
 <span class="sd">        Print additional summary details when True (default False).</span>
@@ -481,6 +501,46 @@
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">tabulated_results</span></div>
+
+
+
+<div class="viewcode-block" id="handle_warnings">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.handle_warnings">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_warnings</span><span class="p">(</span><span class="n">squeeze_morph</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">squeeze_morph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">extrapolation_info</span> <span class="o">=</span> <span class="n">squeeze_morph</span><span class="o">.</span><span class="n">extrapolation_info</span>
+        <span class="n">is_extrap_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_low&quot;</span><span class="p">]</span>
+        <span class="n">is_extrap_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_high&quot;</span><span class="p">]</span>
+        <span class="n">cutoff_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_low&quot;</span><span class="p">]</span>
+        <span class="n">cutoff_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_high&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">is_extrap_low</span> <span class="ow">and</span> <span class="n">is_extrap_high</span><span class="p">:</span>
+            <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Warning: points with grid value below &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> and above &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_extrap_low</span><span class="p">:</span>
+            <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Warning: points with grid value below &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">is_extrap_high</span><span class="p">:</span>
+            <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Warning: points with grid value above &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">wmsg</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">wmsg</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="n">wmsg</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 </pre></div>
 

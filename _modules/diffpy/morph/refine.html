@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.refine &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>diffpy.morph.refine &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=95e61db4"></script>
+      <script src="../../../_static/documentation_options.js?v=b394bd1b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -93,7 +93,7 @@
 <span class="sd">&quot;&quot;&quot;refine -- Refine a morph or morph chain</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ones_like</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">concatenate</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">exp</span><span class="p">,</span> <span class="n">ones_like</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">leastsq</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">pearsonr</span>
 
@@ -134,6 +134,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_residual</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">flat_to_grouped</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Padding required for the residual vector to ensure constant length</span>
+        <span class="c1"># across the entire morph process</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_chain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pvals</span><span class="p">):</span>
@@ -159,6 +163,34 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">x_morph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_target</span>
         <span class="p">)</span>
         <span class="n">rvec</span> <span class="o">=</span> <span class="n">_y_target</span> <span class="o">-</span> <span class="n">_y_morph</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">pvals</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Number of parameters (currently </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pvals</span><span class="p">)</span><span class="si">}</span><span class="s2">) cannot &quot;</span>
+                <span class="s2">&quot;exceed the number of shared grid points &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(currently </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span><span class="si">}</span><span class="s2">). &quot;</span>
+                <span class="s2">&quot;Please reduce the number of morphing parameters or &quot;</span>
+                <span class="s2">&quot;provide new morphing and target functions with more &quot;</span>
+                <span class="s2">&quot;shared grid points.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># If first time computing residual</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+        <span class="c1"># Ensure residual length is constant</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Padding</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span><span class="p">:</span>
+                <span class="n">diff_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+                <span class="n">rvec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+                <span class="n">rvec</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">diff_length</span><span class="p">)</span>
+                <span class="n">rvec</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+            <span class="c1"># Removal</span>
+            <span class="c1"># For removal, pass the average RMS</span>
+            <span class="c1"># This is fast and easy to compute</span>
+            <span class="c1"># For sufficiently functions, this approximation becomes exact</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_length</span><span class="p">:</span>
+                <span class="n">avg_rms</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">rvec</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">rvec</span><span class="p">)</span>
+                <span class="n">rvec</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">avg_rms</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res_length</span><span class="p">)])</span>
+
         <span class="k">return</span> <span class="n">rvec</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pearson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pvals</span><span class="p">):</span>
@@ -203,6 +235,9 @@
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            Exception raised if a minimum cannot be found.</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the number of shared grid points between morphed function and</span>
+<span class="sd">            target function is smaller than the number of parameters.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pars</span> <span class="o">=</span> <span class="n">args</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -229,8 +264,8 @@
 
         <span class="n">sol</span><span class="p">,</span> <span class="n">cov_sol</span><span class="p">,</span> <span class="n">infodict</span><span class="p">,</span> <span class="n">emesg</span><span class="p">,</span> <span class="n">ier</span> <span class="o">=</span> <span class="n">leastsq</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">residual</span><span class="p">,</span>
-            <span class="n">initial</span><span class="p">,</span>
-            <span class="n">full_output</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">array</span><span class="p">(</span><span class="n">initial</span><span class="p">),</span>
+            <span class="n">full_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ftol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">,</span>
             <span class="n">xtol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tolerance</span><span class="p">,</span>
         <span class="p">)</span>

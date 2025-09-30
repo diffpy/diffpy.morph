@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morph_api &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>diffpy.morph.morph_api &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=95e61db4"></script>
+      <script src="../../../_static/documentation_options.js?v=b394bd1b"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -169,9 +169,9 @@
     <span class="n">y_morph</span><span class="p">,</span>
     <span class="n">x_target</span><span class="p">,</span>
     <span class="n">y_target</span><span class="p">,</span>
-    <span class="n">rmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">rmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">rstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">xmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">xmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">xstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">pearson</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">add_pearson</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">fixed_operations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -195,12 +195,12 @@
 <span class="sd">    y_morph: numpy.array</span>
 <span class="sd">        An array of target y values, i.e., those will be kept constant by</span>
 <span class="sd">        morphing.</span>
-<span class="sd">    rmin: float, optional</span>
-<span class="sd">        A value to specify lower r-limit of morph operations.</span>
-<span class="sd">    rmax: float, optional</span>
-<span class="sd">        A value to specify upper r-limit of morph operations.</span>
-<span class="sd">    rstep: float, optional</span>
-<span class="sd">        A value to specify rstep of morph operations.</span>
+<span class="sd">    xmin: float, optional</span>
+<span class="sd">        A value to specify lower x-limit of morph operations.</span>
+<span class="sd">    xmax: float, optional</span>
+<span class="sd">        A value to specify upper x-limit of morph operations.</span>
+<span class="sd">    xstep: float, optional</span>
+<span class="sd">        A value to specify xstep of morph operations.</span>
 <span class="sd">    pearson: Bool, optional</span>
 <span class="sd">        Option to include Pearson coefficient as a minimizing target</span>
 <span class="sd">         during morphing. Default to False.</span>
@@ -274,9 +274,9 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">rv_cfg</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_morph_step_dict</span>
     <span class="p">]</span>
-    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;rmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rmin</span>
-    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;rmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rmax</span>
-    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;rstep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rstep</span>
+    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmin</span>
+    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xmax</span>
+    <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;xstep&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xstep</span>
     <span class="c1"># configure smear, guess baselineslope when it is not provided</span>
     <span class="k">if</span> <span class="n">rv_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;smear&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">rv_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rv_cfg</span><span class="p">[</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
@@ -292,7 +292,7 @@
             <span class="n">refpars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s2">&quot;funcy&quot;</span><span class="p">:</span>
             <span class="n">morph_inst</span> <span class="o">=</span> <span class="n">morph_cls</span><span class="p">()</span>
-            <span class="n">morph_inst</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">rv_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;function&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">morph_inst</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">rv_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;funcy_function&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">morph_inst</span><span class="o">.</span><span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;Must provide a &#39;function&#39; when using &#39;parameters&#39;&quot;</span>
@@ -381,10 +381,10 @@
     <span class="n">rdat</span><span class="p">,</span> <span class="n">grdat</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">xy_target_out</span>
     <span class="n">l_list</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rfit</span><span class="p">,</span> <span class="n">grfit</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;morph&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">l_list</span> <span class="o">+=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rdat</span><span class="p">,</span> <span class="n">grdat</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">chain</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;rmin&quot;</span><span class="p">],</span> <span class="n">chain</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;rmax&quot;</span><span class="p">]])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">chain</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">],</span> <span class="n">chain</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">]])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;r ($\mathrm{\AA}$)&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G ($\mathrm{\AA}^{-2}$)&quot;</span><span class="p">)</span>
+    <span class="c1"># ax.set_xlabel(r&quot;r ($\mathrm{\AA}$)&quot;)</span>
+    <span class="c1"># ax.set_ylabel(r&quot;G ($\mathrm{\AA}^{-2}$)&quot;)</span>
 
     <span class="k">return</span> <span class="n">l_list</span></div>
 

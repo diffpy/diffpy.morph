@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs package &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>diffpy.morph.morphs package &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=95e61db4"></script>
+      <script src="../_static/documentation_options.js?v=b394bd1b"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -348,7 +348,8 @@ y-coordinates of the data.</p>
 </pre></div>
 </div>
 <p>Define or import the user-supplied transformation function:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">sine_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">frequency</span><span class="p">):</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">sine_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">frequency</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">frequency</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span>
 </pre></div>
 </div>
@@ -359,7 +360,7 @@ y-coordinates of the data.</p>
 <p>Run the funcy morph given input morph array (x_morph, y_morph)and target
 array (x_target, y_target):</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span> <span class="o">=</span> <span class="n">MorphFuncy</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">sine_function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">funcy_function</span> <span class="o">=</span> <span class="n">sine_function</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">morph</span><span class="o">.</span><span class="n">funcy</span> <span class="o">=</span> <span class="n">parameters</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x_morph_out</span><span class="p">,</span> <span class="n">y_morph_out</span><span class="p">,</span> <span class="n">x_target_out</span><span class="p">,</span> <span class="n">y_target_out</span> <span class="o">=</span>
 <span class="gp">... </span><span class="n">morph</span><span class="o">.</span><span class="n">morph</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
@@ -382,7 +383,7 @@ of the morph data.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['function',</span> <span class="pre">'funcy']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['funcy_function',</span> <span class="pre">'funcy']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphfuncy.MorphFuncy.parnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -836,6 +837,21 @@ Note that “label” will be ignored.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morph.Morph.set_extrapolation_info">
+<span class="sig-name descname"><span class="pre">set_extrapolation_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_extrapolate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphs/morph.html#Morph.set_extrapolation_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphs.morph.Morph.set_extrapolation_info" title="Link to this definition"></a></dt>
+<dd><p>Set extrapolation information of the concerned morphing
+process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_true</strong> (<em>array</em>) – original x values</p></li>
+<li><p><strong>x_extrapolate</strong> (<em>array</em>) – x values after a morphing process</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morph.Morph.summary">
 <span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'identity</span> <span class="pre">transformation'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morph.Morph.summary" title="Link to this definition"></a></dt>
@@ -973,6 +989,16 @@ data.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.squeeze_cutoff_high">
+<span class="sig-name descname"><span class="pre">squeeze_cutoff_high</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.squeeze_cutoff_high" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.squeeze_cutoff_low">
+<span class="sig-name descname"><span class="pre">squeeze_cutoff_low</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.squeeze_cutoff_low" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphsqueeze.MorphSqueeze.summary">
 <span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Squeeze</span> <span class="pre">morph</span> <span class="pre">by</span> <span class="pre">polynomial</span> <span class="pre">shift'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.summary" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -1014,11 +1040,11 @@ specified grid.</p>
 <section id="id10">
 <h4>Configuration Variables<a class="headerlink" href="#id10" title="Link to this heading"></a></h4>
 <dl class="simple">
-<dt>rmin</dt><dd><p>The lower-bound on the r-range.</p>
+<dt>xmin</dt><dd><p>The lower-bound on the x-range.</p>
 </dd>
-<dt>rmax</dt><dd><p>The upper-bound on the r-range (exclusive within tolerance of 1e-8).</p>
+<dt>xmax</dt><dd><p>The upper-bound on the x-range (exclusive within tolerance of 1e-8).</p>
 </dd>
-<dt>rstep</dt><dd><p>The r-spacing.</p>
+<dt>xstep</dt><dd><p>The x-spacing.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -1034,7 +1060,7 @@ attributes.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid.parnames">
-<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['rmin',</span> <span class="pre">'rmax',</span> <span class="pre">'rstep']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.parnames" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">parnames</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['xmin',</span> <span class="pre">'xmax',</span> <span class="pre">'xstep']</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.parnames" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1048,8 +1074,23 @@ attributes.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid.xmax_origin">
+<span class="sig-name descname"><span class="pre">xmax_origin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.xmax_origin" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid.xmin_origin">
+<span class="sig-name descname"><span class="pre">xmin_origin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.xmin_origin" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid.xoutlabel">
 <span class="sig-name descname"><span class="pre">xoutlabel</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r</span> <span class="pre">(A)'</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.xoutlabel" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="diffpy.morph.morphs.morphrgrid.MorphRGrid.xstep_origin">
+<span class="sig-name descname"><span class="pre">xstep_origin</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#diffpy.morph.morphs.morphrgrid.MorphRGrid.xstep_origin" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

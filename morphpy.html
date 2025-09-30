@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,11 +14,12 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=95e61db4"></script>
+      <script src="_static/documentation_options.js?v=b394bd1b"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=cca77546"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -162,6 +163,10 @@ section below.</p></li>
 <dl class="simple">
 <dt>save: str or path</dt><dd><p>Save the morphed function to a the file passed to save. Use ‘-’ for stdout.</p>
 </dd>
+<dt>get_diff: bool</dt><dd><p>Return the difference function (morphed function minus target function) instead of
+the morphed function (default). When save is enabled, the difference function
+is saved instead of the morphed function.</p>
+</dd>
 <dt>verbose: bool</dt><dd><p>Print additional header details to saved files. These include details about the morph
 inputs and outputs.</p>
 </dd>
@@ -187,21 +192,25 @@ excluded with the apply or exclude parameters.</p>
 <dl>
 <dt>apply: bool</dt><dd><p>Apply morphs but do not refine.</p>
 </dd>
-<dt>exclude: str</dt><dd><p>Exclude a manipulation from refinement by name.</p>
+<dt>exclude: list of str</dt><dd><p>Exclude a manipulations from refinement by name
+(e.g. exclude=[“scale”, “stretch”] excludes the scale and stretch morphs).</p>
 </dd>
-<dt>scale: float</dt><dd><p>Apply scale factor. This multiplies the function ordinate by scale.</p>
+<dt>scale: float</dt><dd><p>Apply scale factor.</p>
+<p>This multiplies the function ordinate by scale.</p>
 </dd>
-<dt>stretch: float</dt><dd><p>Stretch function grid by a fraction stretch. Specifically, this multiplies the function grid by 1+stretch.</p>
+<dt>stretch: float</dt><dd><p>Stretch function grid by a fraction stretch.</p>
+<p>This multiplies the function grid by 1+stretch.</p>
 </dd>
 <dt>squeeze: list of float</dt><dd><p>Squeeze function grid given a polynomial
-p(x) = squeeze[0]+squeeze[1]*x+…+squeeze[n]*x^n. n is dependent on the number
+p(x) = squeeze[0]+squeeze[1]*x+…+squeeze[n]*x^n.</p>
+<p>n is dependent on the number
 of values in the user-inputted comma-separated list.
 The morph transforms the function grid from x to x+p(x).
 When this parameter is given, hshift is disabled.
 When n&gt;1, stretch is disabled.</p>
 </dd>
-<dt>smear: float</dt><dd><p>Smear the peaks with a Gaussian of width smear. This
-is done by convolving the function with a Gaussian
+<dt>smear: float</dt><dd><p>Smear the peaks with a Gaussian of width smear.</p>
+<p>This is done by convolving the function with a Gaussian
 with standard deviation smear. If both smear and
 smear_pdf are used, only smear_pdf will be
 applied.</p>
@@ -211,8 +220,8 @@ of width smear_pdf. Convert back to PDF. If both smear and
 smear_pdf are used, only smear_pdf will be
 applied.</p>
 </dd>
-<dt>slope: float</dt><dd><p>Slope of the baseline used in converting from PDF to RDF.
-This is used with the option smear_pdf. The slope will
+<dt>slope: float</dt><dd><p>Slope of the baseline used in converting from PDF to RDF.</p>
+<p>This is used with the option smear_pdf. The slope will
 be estimated if not provided.</p>
 </dd>
 <dt>hshift: float</dt><dd><p>Shift the function horizontally by hshift to the right.</p>
@@ -222,37 +231,87 @@ be estimated if not provided.</p>
 <dt>qdamp: float</dt><dd><p>Dampen PDF by a factor qdamp.</p>
 </dd>
 <dt>radius: float</dt><dd><p>Apply characteristic function of sphere with radius
-given by parameter radius. If pradius is also specified, instead apply
+given by parameter radius.</p>
+<p>If pradius is also specified, instead apply
 characteristic function of spheroid with equatorial
 radius radius and polar radius pradius.</p>
 </dd>
 <dt>pradius: float</dt><dd><p>Apply characteristic function of spheroid with
-equatorial radius given by above parameter radius and polar radius pradius.
-If only pradius is specified, instead apply
+equatorial radius given by above parameter radius and polar radius pradius.</p>
+<p>If only pradius is specified, instead apply
 characteristic function of sphere with radius pradius.</p>
 </dd>
 <dt>iradius: float</dt><dd><p>Apply inverse characteristic function of sphere with
-radius iradius. If ipradius is also specified, instead
+radius iradius.</p>
+<p>If ipradius is also specified, instead
 apply inverse characteristic function of spheroid with
 equatorial radius iradius and polar radius ipradius.</p>
 </dd>
 <dt>ipradius: float</dt><dd><p>Apply inverse characteristic function of spheroid with
-equatorial radius iradius and polar radius ipradius.
-If only ipradius is specified, instead apply inverse
+equatorial radius iradius and polar radius ipradius.</p>
+<p>If only ipradius is specified, instead apply inverse
 characteristic function of sphere with radius ipradius.</p>
 </dd>
-<dt>funcy: tuple (function, dict)</dt><dd><p>This morph applies the function funcy[0] with parameters given in funcy[1].
-The function funcy[0] must be a function of both the abscissa and ordinate
-(e.g. take in at least two inputs with as many additional parameters as needed).
-For example, let’s start with a two-column table with abscissa x and ordinate y.
+<dt>funcy: tuple (function, dict)</dt><dd><p>Apply a function to the y-axis of the (two-column) data.</p>
+<p>This morph applies the function funcy[0] with parameters given in funcy[1].
+The function funcy[0] take in as parameters both the abscissa and ordinate
+(i.e. take in at least two inputs with as many additional parameters as needed).
+The y-axis values of the data are then replaced by the return value of funcy[0].</p>
+<p>For example, let’s start with a two-column table with abscissa x and ordinate y.
 let us say we want to apply the function</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">linear</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">c</span>
 </pre></div>
 </div>
-<p>This function takes in both the abscissa and ordinate on top of three additional
-parameters a, b, and c. To use the funcy parameter with initial guesses
-a=1.0, b=2.0, c=3.0, we would pass <code class="docutils literal notranslate"><span class="pre">funcy=(linear,</span> <span class="pre">{a:</span> <span class="pre">1.0,</span> <span class="pre">b:</span> <span class="pre">2.0,</span> <span class="pre">c:</span> <span class="pre">3.0})</span></code>.
+<p>This example function above takes in both the abscissa and ordinate on top of
+three additional parameters a, b, and c.
+To use the funcy parameter with parameter values a=1.0, b=2.0, and c=3.0,
+we would pass <code class="docutils literal notranslate"><span class="pre">funcy=(linear,</span> <span class="pre">{&quot;a&quot;:</span> <span class="pre">1.0,</span> <span class="pre">&quot;b&quot;:</span> <span class="pre">2.0,</span> <span class="pre">&quot;c&quot;:</span> <span class="pre">3.0})</span></code>.
+For an explicit example, see the Python-Specific Morphs section below.</p>
+</dd>
+<dt>funcx: tuple (function, dict)</dt><dd><p>Apply a function to the x-axis of the (two-column) data.</p>
+<p>This morph works fundamentally differently from the other grid morphs
+(e.g. stretch and squeeze) as it directly modifies the grid of the
+morph function.
+The other morphs maintain the original grid and apply the morphs by interpolating
+the function <a href="#id1"><span class="problematic" id="id2">**</span></a><a href="#id3"><span class="problematic" id="id4">*</span></a>.</p>
+<p>This morph applies the function funcx[0] with parameters given in funcx[1].
+The function funcx[0] take in as parameters both the abscissa and ordinate
+(i.e. take in at least two inputs with as many additional parameters as needed).
+The x-axis values of the data are then replaced by the return value of funcx[0].
+Note that diffpy.morph requires the x-axis be monotonic increasing
+(i.e. for i &lt; j, x[i] &lt; x[j]): as such,
+if funcx[0] is not a monotonic increasing function of the provided x-axis data,
+the error <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">strictly</span> <span class="pre">increasing</span> <span class="pre">sequence</span></code> will be thrown.</p>
+<p>For example, let’s start with a two-column table with abscissa x and ordinate y.
+let us say we want to apply the function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">exponential</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">decay</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">amp</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">decay</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This example function above takes in both the abscissa and ordinate on top of
+three additional parameters amp and decay.
+(Even though the ordinate is not used in the function,
+it is still required that the function take in both acscissa and ordinate.)
+To use the funcx parameter with parameter values amp=1.0 and decay=2.0,
+we would pass <code class="docutils literal notranslate"><span class="pre">funcx=(exponential,</span> <span class="pre">{&quot;amp&quot;:</span> <span class="pre">1.0,</span> <span class="pre">&quot;decay::</span> <span class="pre">2.0})</span></code>.
+For an explicit example, see the Python-Specific Morphs section below.</p>
+</dd>
+<dt>funcxy: tuple (function, dict)</dt><dd><p>Apply a function the (two-column) data.</p>
+<p>This morph applies the function funcxy[0] with parameters given in funcxy[1].
+The function funcxy[0] take in as parameters both the abscissa and ordinate
+(i.e. take in at least two inputs with as many additional parameters as needed).
+The two columns of the data are then replaced by the two return values of funcxy[0].</p>
+<p>For example, let’s start with a two-column table with abscissa x and ordinate y.
+let us say we want to apply the function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">shift</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hshift</span><span class="p">,</span> <span class="n">vshift</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">hshift</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">vshift</span>
+</pre></div>
+</div>
+<p>This example function above takes in both the abscissa and ordinate on top of
+two additional parameters hshift and vshift.
+To use the funcy parameter with parameter values hshift=1.0 and vshift=2.0,
+we would pass <code class="docutils literal notranslate"><span class="pre">funcy=(shift,</span> <span class="pre">{&quot;hshift&quot;:</span> <span class="pre">1.0,</span> <span class="pre">&quot;vshift&quot;:</span> <span class="pre">1.0})</span></code>.
 For an example use-case, see the Python-Specific Morphs section below.</p>
 </dd>
 </dl>
@@ -262,15 +321,20 @@ For an example use-case, see the Python-Specific Morphs section below.</p>
 <h2>Python-Specific Morphs<a class="headerlink" href="#python-specific-morphs" title="Link to this heading"></a></h2>
 <p>Some morphs in <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> are supported only in Python. Here, we detail
 how they are used and how to call them.</p>
-<section id="morphfuncy-applying-custom-functions">
-<h3>MorphFuncy: Applying custom functions<a class="headerlink" href="#morphfuncy-applying-custom-functions" title="Link to this heading"></a></h3>
+<section id="morphfunc-applying-custom-functions">
+<h3>MorphFunc: Applying custom functions<a class="headerlink" href="#morphfunc-applying-custom-functions" title="Link to this heading"></a></h3>
+<p>In these tutorial, we walk through how to use the <code class="docutils literal notranslate"><span class="pre">MorphFunc</span></code> morphs
+(<code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code>, <code class="docutils literal notranslate"><span class="pre">MorphFuncx</span></code>, <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code>)
+with some example transformations.</p>
+<p>Unlike other morphs that can be run from the command line,
+<code class="docutils literal notranslate"><span class="pre">MorphFunc</span></code> moprhs require a Python function and is therefore
+intended to be used through Python scripting.</p>
+<section id="morphfuncy">
+<h4>MorphFuncy:<a class="headerlink" href="#morphfuncy" title="Link to this heading"></a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> morph allows users to apply a custom Python function
 to the y-axis values of a dataset, enabling flexible and user-defined
 transformations.</p>
-<p>In this tutorial, we walk through how to use <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> with an example
-transformation. Unlike other morphs that can be run from the command line,
-<code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> requires a Python function and is therefore intended to be used
-through Python scripting.</p>
+<p>Let’s try out this morph!</p>
 <blockquote>
 <div><ol class="arabic">
 <li><p>Import the necessary modules into your Python script:</p>
@@ -306,7 +370,7 @@ and offset to it:</p>
 the user-defined function and refine the parameters to best align the
 morph data with the target data. This includes both the transformation
 parameters (our initial guess) and the transformation function itself:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">morph_params</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">morph_params</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
 <span class="n">funcy</span><span class="o">=</span><span class="p">(</span><span class="n">linear_function</span><span class="p">,{</span><span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}))</span>
 </pre></div>
 </div>
@@ -325,6 +389,208 @@ to generate the target (scale=20 &amp; offset=0.8). This example shows how
 <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> can be used to fit and apply custom transformations. Now
 it’s your turn to experiment with other custom functions that may be useful
 for analyzing your data.</p>
+</section>
+<section id="morphfuncx">
+<h4>MorphFuncx:<a class="headerlink" href="#morphfuncx" title="Link to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">MorphFuncx</span></code> morph allows users to apply a custom Python function
+to the x-axis values of a dataset, similar to the <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code> morph.</p>
+<p>One caveat to this morph is that the x-axis values must remain monotonic
+increasing, so it is possible to run into errors when applying this morph.
+For example, if your initial grid is <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">0,</span> <span class="pre">1]</span></code>, and your function is
+<code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x,</span> <span class="pre">y:</span> <span class="pre">x**2</span></code>, the grid after the function is applied will be
+<code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">1]</span></code>, which is no longer monotonic increasing.
+In this case, the error <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">strictly</span> <span class="pre">increasing</span> <span class="pre">sequence</span></code>
+will be thrown.</p>
+<p>Let’s try out this morph!</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Import the necessary modules into your Python script:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</li>
+<li><p>Define a custom Python function to apply a transformation to the data.
+The function must take <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> (1D arrays of the same length)
+along with named parameters, and return a transformed <code class="docutils literal notranslate"><span class="pre">x</span></code> array of the
+same length. Recall that this function must maintain the monotonic
+increasing nature of the <code class="docutils literal notranslate"><span class="pre">x</span></code> array.</p>
+<p>For this example, we will use a simple exponential function transformation that
+greatly modifies the input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">exp_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that, though the function only uses the <code class="docutils literal notranslate"><span class="pre">x</span></code> input,
+the function signature takes in both <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+</li>
+<li><p>Like in the previous example, we will use a sine function for the morph
+data and generate the target data by applying the decay transfomration
+with a known scale and rate:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_morph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
+<span class="n">y_morph</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_morph</span><span class="p">)</span>
+<span class="n">x_target</span> <span class="o">=</span> <span class="n">x_target</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">x_morph</span><span class="p">)</span>
+<span class="n">y_target</span> <span class="o">=</span> <span class="n">y_morph</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p>Setup and run the morph using the <code class="docutils literal notranslate"><span class="pre">morph_arrays(...)</span></code>.
+<code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code> expects the morph and target data as <strong>2D arrays</strong> in
+<em>two-column</em> format <code class="docutils literal notranslate"><span class="pre">[[x0,</span> <span class="pre">y0],</span> <span class="pre">[x1,</span> <span class="pre">y1],</span> <span class="pre">...]</span></code>. This will apply
+the user-defined function and refine the parameters to best align the
+morph data with the target data. This includes both the transformation
+parameters (our initial guess) and the transformation function itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">morph_params</span><span class="p">,</span> <span class="n">morph_table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+<span class="n">funcx</span><span class="o">=</span><span class="p">(</span><span class="n">decay_function</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;scale&#39;</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}))</span>
+</pre></div>
+</div>
+</li>
+<li><p>Extract the fitted parameters from the result:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fitted_params</span> <span class="o">=</span> <span class="n">morph_params</span><span class="p">[</span><span class="s2">&quot;funcx&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitted scale: </span><span class="si">{</span><span class="n">fitted_params</span><span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitted rate: </span><span class="si">{</span><span class="n">fitted_params</span><span class="p">[</span><span class="s1">&#39;rate&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div></blockquote>
+<p>Again, we should see that the fitted scale and offset values match the ones used
+to generate the target (scale=20 &amp; rate=0.8).</p>
+<p>For fun, you can plot the original function to the morphed function to see
+how much the</p>
+</section>
+<section id="morphfuncxy">
+<h4>MorphFuncxy:<a class="headerlink" href="#morphfuncxy" title="Link to this heading"></a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> morph allows users to apply a custom Python function
+to a dataset that modifies both the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> column values.
+This is equivalent to applying a <code class="docutils literal notranslate"><span class="pre">MorphFuncx</span></code> and <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code>
+simultaneously.</p>
+<p>This morph is useful when you want to apply operations that modify both
+the grid and function value. A PDF-specific example includes computing
+PDFs from 1D diffraction data (see paragraph at the end of this section).</p>
+<p>For this tutorial, we will go through two examples. One simple one
+involving shifting a function in the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> directions, and
+another involving a Fourier transform.</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Let’s start by taking a simple <code class="docutils literal notranslate"><span class="pre">sine</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">morph_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">morph_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">morph_x</span><span class="p">)</span>
+<span class="n">morph_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">morph_x</span><span class="p">,</span> <span class="n">morph_y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</li>
+<li><p>Then, let our target function be that same <code class="docutils literal notranslate"><span class="pre">sine</span></code> function shifted
+to the right by <code class="docutils literal notranslate"><span class="pre">0.3</span></code> and up by <code class="docutils literal notranslate"><span class="pre">0.7</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_x</span> <span class="o">=</span> <span class="n">morph_x</span> <span class="o">+</span> <span class="mf">0.3</span>
+<span class="n">target_y</span> <span class="o">=</span> <span class="n">morph_y</span> <span class="o">+</span> <span class="mf">0.7</span>
+<span class="n">target_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">target_x</span><span class="p">,</span> <span class="n">target_y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</li>
+<li><p>While we could use the <code class="docutils literal notranslate"><span class="pre">hshift</span></code> and <code class="docutils literal notranslate"><span class="pre">vshift</span></code> morphs,
+this would require us to refine over two separate morph
+operations. We can instead perform these morphs simultaneously
+by defining a function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">shift</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hshift</span><span class="p">,</span> <span class="n">vshift</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">hshift</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">vshift</span>
+</pre></div>
+</div>
+</li>
+<li><p>Now, let’s try finding the optimal shift parameters using the <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> morph.
+We can try an initial guess of <code class="docutils literal notranslate"><span class="pre">hshift=0.0</span></code> and <code class="docutils literal notranslate"><span class="pre">vshift=0.0</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="n">initial_guesses</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hshift&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+<span class="n">info</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">morph_table</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">funcxy</span><span class="o">=</span><span class="p">(</span><span class="n">shift</span><span class="p">,</span> <span class="n">initial_guesses</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+<li><p>Finally, to see the refined <code class="docutils literal notranslate"><span class="pre">hshift</span></code> and <code class="docutils literal notranslate"><span class="pre">vshift</span></code> parameters, we extract them from <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Refined hshift: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;funcxy&quot;</span><span class="p">][</span><span class="s2">&quot;hshift&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Refined vshift: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;funcxy&quot;</span><span class="p">][</span><span class="s2">&quot;vshift&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div></blockquote>
+<p>Now for an example involving a Fourier transform.</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p>Let’s say you measured a signal of the form <span class="math notranslate nohighlight">\(f(x)=\exp\{\cos(\pi x)\}\)</span>.
+Unfortunately, your measurement was taken against a noisy sinusoidal
+background of the form <span class="math notranslate nohighlight">\(n(x)=A\sin(Bx)\)</span>, where <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code> are unknown.
+For our example, let’s say (unknown to us) that <code class="docutils literal notranslate"><span class="pre">A=2</span></code> and <code class="docutils literal notranslate"><span class="pre">B=1.7</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">201</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">measured_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">signal</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="n">measured_f</span> <span class="o">=</span> <span class="n">signal</span><span class="p">(</span><span class="n">measured_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">noise</span><span class="p">(</span><span class="n">measured_x</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">)</span>
+<span class="n">morph_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">measured_x</span><span class="p">,</span> <span class="n">measured_f</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</li>
+<li><p>Your colleague remembers they previously computed the Fourier transform
+of the function and has sent that to you.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># We only consider the region where the grid is positive for simplicity</span>
+<span class="n">target_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dx</span><span class="p">)[:</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">target_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">(</span><span class="n">measured_x</span><span class="p">))[:</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">target_table</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">target_x</span><span class="p">,</span> <span class="n">target_f</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</li>
+<li><p>We can now write a noise subtraction function that takes in our measured
+signal and guesses for parameters <code class="docutils literal notranslate"><span class="pre">A</span></code>, <code class="docutils literal notranslate"><span class="pre">B</span></code>, and computes the Fourier
+transform post-noise-subtraction.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">noise_subtracted_ft</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">201</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">background_subtracted_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+    <span class="n">ft_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dx</span><span class="p">)[:</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ft_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">background_subtracted_y</span><span class="p">)[:</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">ft_x</span><span class="p">,</span> <span class="n">ft_f</span>
+</pre></div>
+</div>
+</li>
+<li><p>Finally, we can provide initial guesses of <code class="docutils literal notranslate"><span class="pre">A=0</span></code> and <code class="docutils literal notranslate"><span class="pre">B=1</span></code> to the
+<code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> morph and see what refined values we get.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="n">initial_guesses</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;A&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">info</span><span class="p">,</span> <span class="n">table</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span><span class="n">morph_table</span><span class="p">,</span> <span class="n">target_table</span><span class="p">,</span> <span class="n">funcxy</span><span class="o">=</span><span class="p">(</span><span class="n">background_subtracted_ft</span><span class="p">,</span> <span class="n">initial_guesses</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+<li><p>Print these values to see if they match with the true values of
+of <code class="docutils literal notranslate"><span class="pre">A=2.0</span></code> and <code class="docutils literal notranslate"><span class="pre">B=1.7</span></code>!</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Refined A: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;funcxy&quot;</span><span class="p">][</span><span class="s2">&quot;A&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Refined B: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s2">&quot;funcxy&quot;</span><span class="p">][</span><span class="s2">&quot;B&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div></blockquote>
+<p>You can also use this morph to help find optimal parameters
+(e.g. <code class="docutils literal notranslate"><span class="pre">rpoly</span></code>, <code class="docutils literal notranslate"><span class="pre">qmin</span></code>, <code class="docutils literal notranslate"><span class="pre">qmax</span></code>, <code class="docutils literal notranslate"><span class="pre">bgscale</span></code>) for computing
+PDFs of materials with known structures.
+One does this by setting the <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> function to a PDF
+computing function such as
+<a class="reference external" href="https://www.diffpy.org/products/pdfgetx.html">PDFgetx3</a>.
+The input (morphed) 1D function should be the 1D diffraction data
+one wishes to compute the PDF of and the target 1D function
+can be the PDF of a target material with similar geometry.
+More information about this will be released in the <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code>
+manuscript, and we plan to integrate this feature automatically into
+<code class="docutils literal notranslate"><span class="pre">PDFgetx3</span></code> soon.</p>
+</section>
 </section>
 </section>
 </section>

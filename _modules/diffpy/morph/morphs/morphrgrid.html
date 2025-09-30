@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs.morphrgrid &mdash; diffpy.morph 0.2.0 documentation</title>
+  <title>diffpy.morph.morphs.morphrgrid &mdash; diffpy.morph 0.3.0rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=95e61db4"></script>
+      <script src="../../../../_static/documentation_options.js?v=b394bd1b"></script>
       <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -97,9 +97,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphs.morph</span><span class="w"> </span><span class="kn">import</span> <span class="n">LABEL_GR</span><span class="p">,</span> <span class="n">LABEL_RA</span><span class="p">,</span> <span class="n">Morph</span>
 
-<span class="c1"># roundoff tolerance for selecting bounds on arrays.</span>
-<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1e-8</span>
-
 
 <div class="viewcode-block" id="MorphRGrid">
 <a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphrgrid.MorphRGrid">[docs]</a>
@@ -111,12 +108,12 @@
 
 <span class="sd">    Configuration Variables</span>
 <span class="sd">    -----------------------</span>
-<span class="sd">    rmin</span>
-<span class="sd">        The lower-bound on the r-range.</span>
-<span class="sd">    rmax</span>
-<span class="sd">        The upper-bound on the r-range (exclusive within tolerance of 1e-8).</span>
-<span class="sd">    rstep</span>
-<span class="sd">        The r-spacing.</span>
+<span class="sd">    xmin</span>
+<span class="sd">        The lower-bound on the x-range.</span>
+<span class="sd">    xmax</span>
+<span class="sd">        The upper-bound on the x-range (exclusive within tolerance of 1e-8).</span>
+<span class="sd">    xstep</span>
+<span class="sd">        The x-spacing.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -132,30 +129,49 @@
     <span class="n">yinlabel</span> <span class="o">=</span> <span class="n">LABEL_GR</span>
     <span class="n">xoutlabel</span> <span class="o">=</span> <span class="n">LABEL_RA</span>
     <span class="n">youtlabel</span> <span class="o">=</span> <span class="n">LABEL_GR</span>
-    <span class="n">parnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rmin&quot;</span><span class="p">,</span> <span class="s2">&quot;rmax&quot;</span><span class="p">,</span> <span class="s2">&quot;rstep&quot;</span><span class="p">]</span>
+    <span class="n">parnames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">,</span> <span class="s2">&quot;xmax&quot;</span><span class="p">,</span> <span class="s2">&quot;xstep&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Define xmin xmax holders for adaptive x-grid refinement</span>
+    <span class="c1"># Without these, the program r-grid can only decrease in interval size</span>
+    <span class="n">xmin_origin</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">xmax_origin</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">xstep_origin</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="MorphRGrid.morph">
 <a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphrgrid.MorphRGrid.morph">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Resample arrays onto specified grid.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xmin_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xmax_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xstep_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep</span>
+
         <span class="n">Morph</span><span class="o">.</span><span class="n">morph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
-        <span class="n">rmininc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">r_step_target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">r_step_morph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">rstepinc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">r_step_target</span><span class="p">,</span> <span class="n">r_step_morph</span><span class="p">)</span>
-        <span class="n">rmaxinc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r_step_target</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r_step_morph</span><span class="p">,</span>
+        <span class="n">xmininc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">))</span>
+        <span class="n">x_step_target</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="o">&lt;</span> <span class="n">rmininc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="o">=</span> <span class="n">rmininc</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="o">&gt;</span> <span class="n">rmaxinc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="o">=</span> <span class="n">rmaxinc</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span> <span class="o">&lt;</span> <span class="n">rstepinc</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span> <span class="o">=</span> <span class="n">rstepinc</span>
-        <span class="c1"># Make sure that rmax is exclusive</span>
+        <span class="n">x_step_morph</span> <span class="o">=</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">xstepinc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_step_target</span><span class="p">,</span> <span class="n">x_step_morph</span><span class="p">)</span>
+        <span class="n">xmaxinc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_target_in</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_step_target</span><span class="p">,</span>
+            <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_step_morph</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin_origin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmin_origin</span> <span class="o">&lt;</span> <span class="n">xmininc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">xmininc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax_origin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax_origin</span> <span class="o">&gt;</span> <span class="n">xmaxinc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="n">xmaxinc</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep_origin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep_origin</span> <span class="o">&lt;</span> <span class="n">xstepinc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xstep</span> <span class="o">=</span> <span class="n">xstepinc</span>
+        <span class="c1"># roundoff tolerance for selecting bounds on arrays.</span>
+        <span class="n">epsilon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="c1"># Make sure that xmax is exclusive</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_out</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xstep</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_out</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_in</span>
