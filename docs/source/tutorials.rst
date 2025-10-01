@@ -8,6 +8,14 @@ Tutorials for these are included below. The files required for these tutorials c
 
 For a full list of options offered by ``diffpy.morph``, please run ``diffpy.morph --help`` on the command line.
 
+Using MorphFuncxy
+=================
+
+Examples of how to use the general morph ``MorphFuncxy`` with commonly used
+diffraction software like `PDFgetx3 <https://www.diffpy.org/products/pdfgetx.html>`_
+and `PyFai <https://pyfai.readthedocs.io/en/stable/>`_ are directed to the
+`funcxy tutorials <funcxy.html>`__.
+
 Performing Multiple Morphs
 ==========================
 
