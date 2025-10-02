@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.3.0rc0 documentation</title>
+  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.3.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=b394bd1b"></script>
+      <script src="_static/documentation_options.js?v=1ad4c97d"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -87,6 +87,10 @@ All functionality supported on the CLI is also available for Python.
 This page is intended for those acquainted with the basic morphs
 described in the aforementioned quickstart tutorial who want to use <code class="docutils literal notranslate"><span class="pre">diffpy.morph</span></code> in their
 Python scripts.</p>
+<p>For those looking to use the Python-specific morph <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> (described below)
+with commonly used diffraction software like <a class="reference external" href="https://www.diffpy.org/products/pdfgetx.html">PDFgetx3</a>
+and <a class="reference external" href="https://pyfai.readthedocs.io/en/stable/">PyFai</a> are directed to the
+<a class="reference external" href="funcxy.html">funcxy tutorials</a>.</p>
 <section id="python-morphing-functions">
 <h2>Python Morphing Functions<a class="headerlink" href="#python-morphing-functions" title="Link to this heading"></a></h2>
 <blockquote>
@@ -466,8 +470,9 @@ to a dataset that modifies both the <code class="docutils literal notranslate"><
 This is equivalent to applying a <code class="docutils literal notranslate"><span class="pre">MorphFuncx</span></code> and <code class="docutils literal notranslate"><span class="pre">MorphFuncy</span></code>
 simultaneously.</p>
 <p>This morph is useful when you want to apply operations that modify both
-the grid and function value. A PDF-specific example includes computing
-PDFs from 1D diffraction data (see paragraph at the end of this section).</p>
+the grid and function value.
+Examples of using <code class="docutils literal notranslate"><span class="pre">MorphFuncxy</span></code> with <code class="docutils literal notranslate"><span class="pre">PyFai</span></code> azimuthal integration
+and <code class="docutils literal notranslate"><span class="pre">PDFgetx3</span></code> PDF calculation are included <a class="reference external" href="funcxy.html">here</a>.</p>
 <p>For this tutorial, we will go through two examples. One simple one
 involving shifting a function in the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> directions, and
 another involving a Fourier transform.</p>

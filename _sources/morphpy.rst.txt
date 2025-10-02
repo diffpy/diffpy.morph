@@ -10,6 +10,11 @@ This page is intended for those acquainted with the basic morphs
 described in the aforementioned quickstart tutorial who want to use ``diffpy.morph`` in their
 Python scripts.
 
+For those looking to use the Python-specific morph ``MorphFuncxy`` (described below)
+with commonly used diffraction software like `PDFgetx3 <https://www.diffpy.org/products/pdfgetx.html>`_
+and `PyFai <https://pyfai.readthedocs.io/en/stable/>`_ are directed to the
+`funcxy tutorials <funcxy.html>`__.
+
 Python Morphing Functions
 =========================
 
@@ -408,8 +413,10 @@ This is equivalent to applying a ``MorphFuncx`` and ``MorphFuncy``
 simultaneously.
 
 This morph is useful when you want to apply operations that modify both
-the grid and function value. A PDF-specific example includes computing
-PDFs from 1D diffraction data (see paragraph at the end of this section).
+the grid and function value.
+Examples of using ``MorphFuncxy`` with ``PyFai`` azimuthal integration
+and ``PDFgetx3`` PDF calculation are included `here <funcxy.html>`__.
+
 
 For this tutorial, we will go through two examples. One simple one
 involving shifting a function in the ``x`` and ``y`` directions, and

@@ -1,0 +1,275 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using funcxy with Commonly-Used Diffraction Software &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=1ad4c97d"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=cca77546"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.morph
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Advanced Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="morphpy.html">Using diffpy.morph in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.morph.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.morph</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Using funcxy with Commonly-Used Diffraction Software</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/diffpy/diffpy.morph/blob/main/doc/source/funcxy.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="using-funcxy-with-commonly-used-diffraction-software">
+<span id="funcxy"></span><h1>Using funcxy with Commonly-Used Diffraction Software<a class="headerlink" href="#using-funcxy-with-commonly-used-diffraction-software" title="Link to this heading"></a></h1>
+<p>The general xy morph <code class="docutils literal notranslate"><span class="pre">funcxy</span></code> can be used to tune parameters
+of many popular diffraction software functions.</p>
+<p>Below, we give templates for how one can use <code class="docutils literal notranslate"><span class="pre">funcxy</span></code>
+with <a class="reference external" href="https://www.diffpy.org/products/pdfgetx.html">PDFgetx3</a>
+and <a class="reference external" href="https://pyfai.readthedocs.io/en/stable/">PyFai</a>.</p>
+<section id="getting-a-better-pdf-with-pdfgetx3">
+<h2>Getting a Better PDF with PDFgetx3<a class="headerlink" href="#getting-a-better-pdf-with-pdfgetx3" title="Link to this heading"></a></h2>
+<p>In PDFgetx3, the <code class="docutils literal notranslate"><span class="pre">PDFGetter</span></code> takes in a 1D diffraction
+pattern I(Q) and returns a PDF G(r).</p>
+<dl class="simple">
+<dt>There are many parameters you can specify, such as</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">qmin</span></code>: Lower Q-cutoff for the Fourier transform giving the PDF</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qmax</span></code>: Upper Q-cutoff for the Fourier transform giving the PDF</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qmaxinst</span></code>: Upper Q-boundary for meaningful signal</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rpoly</span></code>: Approximately the low-r bound of meaningful G(r) values</p></li>
+</ul>
+</dd>
+</dl>
+<p>Furthermore, you can supply a background file <code class="docutils literal notranslate"><span class="pre">backgroundfile</span></code>
+and subtract a scaled version of the background file by the
+scaling factor <code class="docutils literal notranslate"><span class="pre">bgscale</span></code>.</p>
+<p>We will showcase an example of how one would refine over the
+<code class="docutils literal notranslate"><span class="pre">PDFGetter</span></code> parameters using <code class="docutils literal notranslate"><span class="pre">funcxy</span></code> to obtain a PDF.</p>
+<p>Let’s say you have a measured I(Q) with Q in angstroms of a lead
+nanoparticle (composition PbS) named <code class="docutils literal notranslate"><span class="pre">sample.chi</span></code> taken on a
+glass background. We want to match a target calculated PDF G(r)
+stored in a file named <code class="docutils literal notranslate"><span class="pre">target.cgr</span></code>.
+Let’s also say we have a measured I(Q) of the
+glass background <code class="docutils literal notranslate"><span class="pre">background.chi</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgetx.pdfgetter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFGetter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
+
+<span class="n">pg</span> <span class="o">=</span> <span class="n">PDFGetter</span><span class="p">()</span>
+
+<span class="n">backgroundfile</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;background.chi&quot;</span><span class="p">)</span>
+<span class="n">composition</span> <span class="o">=</span> <span class="s2">&quot;PbS&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">xy_out</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span>
+                    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">dataformat</span><span class="o">=</span><span class="s2">&quot;QA&quot;</span><span class="p">,</span>
+                    <span class="n">composition</span><span class="o">=</span><span class="n">composition</span><span class="p">,</span>
+                    <span class="n">backgroundfile</span><span class="o">=</span><span class="n">backgroundfile</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">xy_out</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">gr</span> <span class="o">=</span> <span class="n">xy_out</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">gr</span><span class="p">)</span>
+
+
+<span class="n">sample_iq</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
+<span class="n">target_gr</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;target.cgr&quot;</span><span class="p">)</span>
+<span class="n">params_to_morph</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bgscale&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="s2">&quot;qmin&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;qmax&quot;</span><span class="p">:</span> <span class="mf">25.0</span><span class="p">,</span>
+    <span class="s2">&quot;qmaxinst&quot;</span><span class="p">:</span> <span class="mf">25.0</span><span class="p">,</span> <span class="s2">&quot;rpoly&quot;</span><span class="p">:</span> <span class="mf">0.9</span>
+<span class="p">}</span>
+
+<span class="n">morph_info</span><span class="p">,</span> <span class="n">morphed_gr</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span>
+                                <span class="n">sample_iq</span><span class="p">,</span> <span class="n">target_gr</span><span class="p">,</span>
+                                <span class="n">funcxy</span><span class="o">=</span><span class="p">(</span><span class="n">wrap</span><span class="p">,</span> <span class="n">params_to_morph</span><span class="p">)</span>
+                            <span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now plot <code class="docutils literal notranslate"><span class="pre">morphed_gr</span></code> against your <code class="docutils literal notranslate"><span class="pre">target_gr</span></code> to see
+how well your morphing refinement of the PDF-getting parameters
+as done!
+To see what the refined values of the parameters are,
+print out <code class="docutils literal notranslate"><span class="pre">morph_info</span></code>.
+You can freely add and remove entries in
+<code class="docutils literal notranslate"><span class="pre">params_to_morph</span></code> to include or not include them as
+parameters to refine over.</p>
+<p>If you expect to see thermal effect differences between your
+measured PDF and <code class="docutils literal notranslate"><span class="pre">target_gr</span></code>, you can also include
+the <code class="docutils literal notranslate"><span class="pre">stretch</span></code>, <code class="docutils literal notranslate"><span class="pre">scale</span></code>, and <code class="docutils literal notranslate"><span class="pre">smear</span></code> morphs in your
+call to <code class="docutils literal notranslate"><span class="pre">morph_arrays</span></code>.</p>
+</section>
+<section id="performing-detector-calibration-with-pyfai">
+<h2>Performing Detector Calibration with PyFai<a class="headerlink" href="#performing-detector-calibration-with-pyfai" title="Link to this heading"></a></h2>
+<p>When performing azimuthal integration, it is important to
+ensure your beam center and detector distances are calibrated.
+However, it is possible that they have shifted
+across measurements. Here, we will use morphing to the rescue!</p>
+<p>Let’s say we just measured a diffraction pattern stored
+as a NumPy object in <code class="docutils literal notranslate"><span class="pre">diffraction_image.npy</span></code>, but some
+of the detector geometries are off.
+Our azimuthally integrated <code class="docutils literal notranslate"><span class="pre">sample.chi</span></code> looks a bit off.
+Before this measurement, you measured an amazing
+I(Q) pattern <code class="docutils literal notranslate"><span class="pre">target.chi</span></code> with a perfectly calibrated
+sample-to-detector distance and beam center.
+We will use morphing to try to match the integration of
+the 2D pattern to the target 1D function.</p>
+<p>For the integration, we will need some information, such as
+the wavelength of the beam,
+the size of each pixel in the 2D image
+(<code class="docutils literal notranslate"><span class="pre">pixel1</span></code> is the horizontal length in meters and
+<code class="docutils literal notranslate"><span class="pre">pixel2</span></code> is the vertical length in meters),
+and a guess of the beam center.
+This information can be found on the
+<a class="reference external" href="https://pyfai.readthedocs.io/en/stable/usage/cookbook/integration_with_python.html">PyFai documentation</a>.
+For our example, let’s say we have a <code class="docutils literal notranslate"><span class="pre">1024``x``1024</span></code> pixel image
+where each pixel is a <code class="docutils literal notranslate"><span class="pre">100</span></code> micron by <code class="docutils literal notranslate"><span class="pre">100</span></code> micron region, and
+our wavelength was <code class="docutils literal notranslate"><span class="pre">1.11</span></code> angstroms.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyFAI.integrator.azimuthal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyfai</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyFAI.detectors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pfd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
+
+<span class="n">pattern_2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;diffraction_image.npy&quot;</span><span class="p">)</span>
+<span class="n">wavelength</span> <span class="o">=</span> <span class="mf">0.1110e-9</span>  <span class="c1"># in m</span>
+<span class="n">pixel1</span> <span class="o">=</span> <span class="mf">1e-4</span>  <span class="c1"># in m</span>
+<span class="n">pixel2</span> <span class="o">=</span> <span class="mf">1e-4</span>  <span class="c1"># in m</span>
+<span class="n">cent_x</span> <span class="o">=</span> <span class="mi">511</span>   <span class="c1"># in number of pixels</span>
+<span class="n">cent_y</span> <span class="o">=</span> <span class="mi">511</span>   <span class="c1"># in number of pixels</span>
+
+<span class="n">ai</span> <span class="o">=</span> <span class="n">pyfai</span><span class="o">.</span><span class="n">AzimuthalIntegrator</span><span class="p">()</span>
+<span class="n">ai</span><span class="o">.</span><span class="n">wavelength</span> <span class="o">=</span> <span class="n">wavelength</span>
+<span class="n">detector</span> <span class="o">=</span> <span class="n">pfd</span><span class="o">.</span><span class="n">Detector</span><span class="p">()</span>
+<span class="n">detector</span><span class="o">.</span><span class="n">max_shape</span> <span class="o">=</span> <span class="n">pattern_2d</span><span class="o">.</span><span class="n">shape</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sample_to_detector_dist</span><span class="p">,</span> <span class="n">cent_offset_x</span><span class="p">,</span> <span class="n">cent_offset_y</span><span class="p">):</span>
+    <span class="n">detector</span><span class="o">.</span><span class="n">pixel1</span> <span class="o">=</span> <span class="n">pixel1</span>
+    <span class="n">detector</span><span class="o">.</span><span class="n">pixel2</span> <span class="o">=</span> <span class="n">pixel2</span>
+    <span class="n">ai</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="n">detector</span>
+
+    <span class="n">ai</span><span class="o">.</span><span class="n">setFit2D</span><span class="p">(</span>
+        <span class="n">directDist</span><span class="o">=</span><span class="n">sample_to_detector_dist</span><span class="p">,</span>
+        <span class="n">centerX</span><span class="o">=</span><span class="n">cent_x</span><span class="o">+</span><span class="n">cent_offset_x</span><span class="p">,</span>
+        <span class="n">centerY</span><span class="o">=</span><span class="n">cent_y</span><span class="o">+</span><span class="n">cent_offset_y</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ai</span><span class="o">.</span><span class="n">integrate1D_ng</span><span class="p">(</span>
+            <span class="n">pattern_2d</span><span class="p">,</span>
+            <span class="n">npt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;q_A^-1&quot;</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
+        <span class="p">)</span>
+
+
+<span class="n">params_to_morph</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sample_to_detector_dist&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>  <span class="c1"># in mm</span>
+    <span class="s2">&quot;cent_offset_x&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># in number of pixels</span>
+    <span class="s2">&quot;cent_offset_y&quot;</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># in number of pixels</span>
+<span class="p">}</span>
+
+<span class="n">sample_chi</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
+<span class="n">target_chi</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;target.chi&quot;</span><span class="p">)</span>
+
+<span class="n">morph_info</span><span class="p">,</span> <span class="n">morphed_chi</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span>
+                                <span class="n">sample_chi</span><span class="p">,</span> <span class="n">target_chi</span><span class="p">,</span>
+                                <span class="n">funcxy</span><span class="o">=</span><span class="p">(</span><span class="n">wrap</span><span class="p">,</span> <span class="n">params_to_morph</span><span class="p">)</span>
+                            <span class="p">)</span>
+</pre></div>
+</div>
+<p>You can now plot <code class="docutils literal notranslate"><span class="pre">morphed_chi</span></code> against your <code class="docutils literal notranslate"><span class="pre">target_chi</span></code>
+to see if the refinement has helped in the calibration!
+To see the calibrated values, you can print out <code class="docutils literal notranslate"><span class="pre">morph_info</span></code>.</p>
+<p>If you would like to morph over other PyFai parameters
+(e.g. <code class="docutils literal notranslate"><span class="pre">rot1</span></code>, <code class="docutils literal notranslate"><span class="pre">tilt</span></code>, <code class="docutils literal notranslate"><span class="pre">wavelength</span></code>),
+you can adjust the wrapper function <code class="docutils literal notranslate"><span class="pre">wrap</span></code> to take in
+these parameters.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

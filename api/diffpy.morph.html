@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph package &mdash; diffpy.morph 0.3.0rc0 documentation</title>
+  <title>diffpy.morph package &mdash; diffpy.morph 0.3.0rc1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=b394bd1b"></script>
+      <script src="../_static/documentation_options.js?v=1ad4c97d"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -102,7 +102,7 @@
 PDFs.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.plot.compare_funcs">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">compare_funcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maglim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#compare_funcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.compare_funcs" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">compare_funcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maglim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rw</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#compare_funcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.compare_funcs" title="Link to this definition"></a></dt>
 <dd><p>Plot two functions g(r) on top of each other and difference
 curve.</p>
 <p>The second function will be shown as blue circles below and the first as
@@ -113,9 +113,9 @@ a red line. The difference curve will be in green and offset for clarity.</p>
 <li><p><strong>pairlist</strong> – Iterable of (r, gr) pairs to plot</p></li>
 <li><p><strong>labels</strong> – Iterable of names for the pairs. If this is not the same length as
 the pairlist, a legend will not be shown (default []).</p></li>
-<li><p><strong>rmin</strong> – The minimum r-value to plot. If this is None (default), the lower
+<li><p><strong>xmin</strong> – The minimum x-value to plot. If this is None (default), the lower
 bound of the function is not altered.</p></li>
-<li><p><strong>rmax</strong> – The maximum r-value to plot. If this is None (default), the upper
+<li><p><strong>xmax</strong> – The maximum x-value to plot. If this is None (default), the upper
 bound of the function is not altered.</p></li>
 <li><p><strong>show</strong> – Show the plot (default True)</p></li>
 <li><p><strong>maglim</strong> – Point after which to magnify the signal by mag. If None (default), no
@@ -130,20 +130,20 @@ magnification will take place.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.plot.plot_funcs">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">plot_funcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#plot_funcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.plot_funcs" title="Link to this definition"></a></dt>
-<dd><p>Plots several functions g(r) on top of one another.</p>
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">plot_funcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pairlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#plot_funcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.plot_funcs" title="Link to this definition"></a></dt>
+<dd><p>Plots several functions f(x) on top of one another.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pairlist</strong> – Iterable of (r, gr) pairs to plot.</p></li>
+<li><p><strong>pairlist</strong> – Iterable of (x, fx) pairs to plot.</p></li>
 <li><p><strong>labels</strong> – Iterable of names for the pairs. If this is not the same length as
 the pairlist, a legend will not be shown (default []).</p></li>
 <li><p><strong>offset</strong> – Offset to place between plots. Functions will be sequentially shifted
 in the y-direction by the offset. If offset is ‘auto’ (default), the
 optimal offset will be determined automatically.</p></li>
-<li><p><strong>rmin</strong> – The minimum r-value to plot. If this is None (default), the lower
+<li><p><strong>xmin</strong> – The minimum r-value to plot. If this is None (default), the lower
 bound of the function is not altered.</p></li>
-<li><p><strong>rmax</strong> – The maximum r-value to plot. If this is None (default), the upper
+<li><p><strong>xmax</strong> – The maximum r-value to plot. If this is None (default), the upper
 bound of the function is not altered.</p></li>
 </ul>
 </dd>
@@ -172,24 +172,24 @@ of Rw values per file.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.plot.truncate_func">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">truncate_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#truncate_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.truncate_func" title="Link to this definition"></a></dt>
-<dd><p>Truncate a function g(r) to specified bounds.</p>
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.plot.</span></span><span class="sig-name descname"><span class="pre">truncate_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/plot.html#truncate_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.plot.truncate_func" title="Link to this definition"></a></dt>
+<dd><p>Truncate a function f(x) to specified bounds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>r</strong> – The r-values of the function g(r).</p></li>
-<li><p><strong>gr</strong> – Function g(r) values.</p></li>
-<li><p><strong>rmin</strong> – The minimum r-value. If this is None (default), the lower bound of
+<li><p><strong>x</strong> – The x-values of the function f(x).</p></li>
+<li><p><strong>fx</strong> – Function f(x) values at each x-value.</p></li>
+<li><p><strong>xmin</strong> – The minimum x-value. If this is None (default), the lower bound of
 the function is not altered.</p></li>
-<li><p><strong>rmax</strong> – The maximum r-value. If this is None (default), the upper bound of
+<li><p><strong>xmax</strong> – The maximum x-value. If this is None (default), the upper bound of
 the function is not altered.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns the truncated r, gr.</p>
+<dd class="field-even"><p>Returns the truncated x, fx.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>r, gr</p>
+<dd class="field-odd"><p>x, fx</p>
 </dd>
 </dl>
 </dd></dl>
