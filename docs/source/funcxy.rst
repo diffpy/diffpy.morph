@@ -29,12 +29,12 @@ scaling factor ``bgscale``.
 We will showcase an example of how one would refine over the
 ``PDFGetter`` parameters using ``funcxy`` to obtain a PDF.
 
-Let's say you have a measured I(Q) with Q in angstroms of a lead
-nanoparticle (composition PbS) named ``sample.chi`` taken on a
-glass background. We want to match a target calculated PDF G(r)
+Let's say you have a measured I(Q) with Q in angstroms of
+glass (composition SiO2) named ``sample.chi`` taken on a
+kapton background. We want to match a target calculated PDF G(r)
 stored in a file named ``target.cgr``.
 Let's also say we have a measured I(Q) of the
-glass background ``background.chi``.
+kapton background ``background.chi``.
 
 .. code-block:: python
 
@@ -44,8 +44,8 @@ glass background ``background.chi``.
 
      pg = PDFGetter()
 
-     backgroundfile = loadData("background.chi")
-     composition = "PbS"
+     backgroundfile = "background.chi"
+     composition = "SiO2"
 
 
      def wrap(x, y, **kwargs):
@@ -150,7 +150,7 @@ our wavelength was ``1.11`` angstroms.
              centerY=cent_y+cent_offset_y
          )
 
-         return ai.integrate1D_ng(
+         return ai.integrate1d_ng(
                  pattern_2d,
                  npt=1000, unit="q_A^-1",
                  method="mean"
