@@ -73,8 +73,7 @@ class MorphSqueeze(Morph):
         super().__init__(config)
         self.check_increase = check_increase
 
-    def _set_squeeze_info(self, x, x_sorted):
-        self.squeeze_info = {"monotonic": True, "overlapping_regions": None}
+    def _ensure_strictly_increase(self, x, x_sorted):
         if list(x) != list(x_sorted):
             if self.check_increase:
                 raise ValueError(
@@ -100,12 +99,9 @@ class MorphSqueeze(Morph):
                     "and stretch parameter for a1."
                 )
             else:
-                if list(x) != list(x_sorted[::-1]):
-                    overlapping_regions = self.get_overlapping_regions(x)
-                    self.squeeze_info["monotonic"] = False
-                    self.squeeze_info["overlapping_regions"] = (
-                        overlapping_regions
-                    )
+                self.strictly_increasing = False
+        else:
+            self.strictly_increasing = True
 
     def _sort_squeeze(self, x, y):
         """Sort x,y according to the value of x."""
@@ -113,32 +109,6 @@ class MorphSqueeze(Morph):
         xy_sorted = sorted(xy, key=lambda pair: pair[0])
         x_sorted, y_sorted = list(zip(*xy_sorted))
         return x_sorted, y_sorted
-
-    def get_overlapping_regions(self, x):
-        diffx = numpy.diff(x)
-        diffx_sign = numpy.sign(diffx)
-        local_min_or_max_index = (
-            numpy.where(numpy.diff(diffx_sign) != 0)[0] + 1
-        )
-        monotonic_regions_x = numpy.concatenate(
-            (
-                [x[0]],
-                numpy.repeat(
-                    numpy.array(x)[local_min_or_max_index], 2
-                ).tolist()[:-1],
-            )
-        ).reshape(-1, 2)
-        monotinic_regions_sign = diffx_sign[local_min_or_max_index - 1]
-
-        overlapping_regions_sign = -1 if x[0] < x[-1] else 1
-        overlapping_regions_index = numpy.where(
-            monotinic_regions_sign == overlapping_regions_sign
-        )[0]
-        overlapping_regions = monotonic_regions_x[overlapping_regions_index]
-        overlapping_regions = [
-            sorted(region) for region in overlapping_regions
-        ]
-        return overlapping_regions
 
     def _handle_duplicates(self, x, y):
         """Remove duplicated x and use the mean value of y corresponded
@@ -159,14 +129,13 @@ class MorphSqueeze(Morph):
         data.
         """
         Morph.morph(self, x_morph, y_morph, x_target, y_target)
-
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
         x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
             x_squeezed, self.y_morph_in
         )
-        self._set_squeeze_info(x_squeezed, x_squeezed_sorted)
+        self._ensure_strictly_increase(x_squeezed, x_squeezed_sorted)
         x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
             x_squeezed_sorted, y_morph_sorted
         )

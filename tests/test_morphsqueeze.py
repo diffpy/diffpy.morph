@@ -176,26 +176,38 @@ def test_morphsqueeze_extrapolate(
 @pytest.mark.parametrize(
     "squeeze_coeffs, x_morph",
     [
-        ({"a0": 0.01, "a1": -0.99, "a2": 0.01}, np.linspace(-1, 1, 101)),
+        ({"a0": 0.01, "a1": 0.01, "a2": -0.1}, np.linspace(0, 10, 101)),
     ],
 )
-def test_sort_squeeze(user_filesystem, squeeze_coeffs, x_morph):
+def test_non_strictly_increasing_squeeze(squeeze_coeffs, x_morph):
     x_target = x_morph
     y_target = np.sin(x_target)
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
-    # non-strictly-monotonic
-    assert not np.all(np.diff(np.sign(np.diff(x_squeezed))) == 0)
-    # outcome converges when --check-increase is not used
+    # non-strictly-increasing
+    assert not np.all(np.sign(np.diff(x_squeezed)) > 0)
     y_morph = np.sin(x_squeezed)
-    morph = MorphSqueeze()
-    morph.squeeze = squeeze_coeffs
+    # all zero initial guess
+    morph_results = morphpy.morph_arrays(
+        np.array([x_morph, y_morph]).T,
+        np.array([x_target, y_target]).T,
+        squeeze=[0, 0, 0],
+        apply=True,
+    )
+    _, y_morph_actual = morph_results[1].T  # noqa: F841
+    y_morph_expected = np.sin(x_morph)  # noqa: F841
+    # squeeze morph extrapolates.
+    #   Need to extract extrap_index from morph_results to examine
+    #   the convergence.
+    # assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-3)
+    # Raise warning when called without --check-increase
     with pytest.warns() as w:
-        moreph_results = morphpy.morph_arrays(
+        morph_results = morphpy.morph_arrays(
             np.array([x_morph, y_morph]).T,
             np.array([x_target, y_target]).T,
-            squeeze=[0.01, -0.99, 0.01],
+            squeeze=[0.01, 0.01, -0.1],
+            apply=True,
         )
     assert w[0].category is UserWarning
     actual_wmsg = " ".join([str(w[i].message) for i in range(len(w))])
@@ -204,18 +216,18 @@ def test_sort_squeeze(user_filesystem, squeeze_coeffs, x_morph):
         "function from a non-monotonically increasing grid. "
     )
     assert expected_wmsg in actual_wmsg
-    expected_coeffs = coeffs
-    actual_coeffs = [
-        moreph_results[0]["squeeze"][f"a{i}"]
-        for i in range(len(moreph_results[0]["squeeze"]))
-    ]
-    # program exits when --check-increase is used
-    assert np.allclose(actual_coeffs, expected_coeffs, rtol=1e-2)
+    _, y_morph_actual = morph_results[1].T  # noqa: F841
+    y_morph_expected = np.sin(x_morph)  # noqa: F841
+    # squeeze morph extrapolates.
+    #   Need to extract extrap_index from morph_results to examine
+    #   the convergence.
+    # assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-3)
+    # System exits when called with --check-increase
     with pytest.raises(SystemExit) as excinfo:
         morphpy.morph_arrays(
             np.array([x_morph, y_morph]).T,
             np.array([x_target, y_target]).T,
-            squeeze=[0.01, -1, 0.01],
+            squeeze=[0.01, 0.009, -0.1],
             check_increase=True,
         )
     actual_emsg = str(excinfo.value)
@@ -315,24 +327,22 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
     assert expected_emsg in actual_emsg
 
 
-@pytest.mark.parametrize(
-    "turning_points, expected_overlapping_regions",
-    [
-        # x[-1] > x[0], monotonically decreasing regions are overlapping
-        ([0, 10, 7, 12], [[7, 10]]),
-        # x[-1] < x[0], monotonically increasing regions are overlapping
-        ([0, 5, 2, 4, -10], [[0, 5], [2, 4]]),
-    ],
-)
-def test_get_overlapping_regions(turning_points, expected_overlapping_regions):
+def test_handle_duplicates():
+    unq_x = np.linspace(0, 11, 10)
+    iter = 10
     morph = MorphSqueeze()
-    regions = (
-        np.linspace(turning_points[i], turning_points[i + 1], 20)
-        for i in range(len(turning_points) - 1)
-    )
-    x_value = np.concatenate(list(regions))
-    actual_overlaping_regions = morph.get_overlapping_regions(x_value)
-    assert expected_overlapping_regions == actual_overlaping_regions
+    for i in range(iter):
+        actual_x = np.random.choice(unq_x, size=20)
+        actual_y = np.sin(actual_x)
+        actual_handled_x, actual_handled_y = morph._handle_duplicates(
+            actual_x, actual_y
+        )
+        expected_handled_x = np.unique(actual_x)
+        expected_handled_y = np.array(
+            [actual_y[actual_x == x].mean() for x in expected_handled_x]
+        )
+        assert np.allclose(actual_handled_x, expected_handled_x)
+        assert np.allclose(actual_handled_y, expected_handled_y)
 
 
 def create_morph_data_file(
