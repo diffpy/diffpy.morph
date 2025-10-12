@@ -27,9 +27,9 @@ class TestMorphRGrid:
     def _runTests(self, xyallout, morph):
         x_morph, y_morph, x_target, y_target = xyallout
         assert (x_morph == x_target).all()
-        pytest.approx(x_morph[0], morph.rmin)
-        pytest.approx(x_morph[-1], morph.rmax - morph.rstep)
-        pytest.approx(x_morph[1] - x_morph[0], morph.rstep)
+        pytest.approx(x_morph[0], morph.xmin)
+        pytest.approx(x_morph[-1], morph.xmax - morph.xstep)
+        pytest.approx(x_morph[1] - x_morph[0], morph.xstep)
         pytest.approx(len(y_morph), len(y_target))
         return
 
@@ -37,70 +37,70 @@ class TestMorphRGrid:
         """Selected range is within input bounds."""
 
         config = {
-            "rmin": 1.0,
-            "rmax": 2.0,
-            "rstep": 0.1,
+            "xmin": 1.0,
+            "xmax": 2.0,
+            "xstep": 0.1,
         }
         morph = MorphRGrid(config)
         xyallout = morph(
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
-        pytest.approx(config["rmin"], morph.rmin)
-        pytest.approx(config["rmax"], morph.rmax)
-        pytest.approx(config["rstep"], morph.rstep)
+        pytest.approx(config["xmin"], morph.xmin)
+        pytest.approx(config["xmax"], morph.xmax)
+        pytest.approx(config["xstep"], morph.xstep)
         self._runTests(xyallout, morph)
         return
 
-    def testRmaxOut(self, setup):
-        """Selected rmax is outside of input bounds."""
+    def testxmaxOut(self, setup):
+        """Selected xmax is outside of input bounds."""
 
         config = {
-            "rmin": 1.0,
-            "rmax": 15.0,
-            "rstep": 0.1,
+            "xmin": 1.0,
+            "xmax": 15.0,
+            "xstep": 0.1,
         }
         morph = MorphRGrid(config)
         xyallout = morph(
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
-        pytest.approx(config["rmin"], morph.rmin)
-        pytest.approx(5, morph.rmax)
-        pytest.approx(config["rstep"], morph.rstep)
+        pytest.approx(config["xmin"], morph.xmin)
+        pytest.approx(5, morph.xmax)
+        pytest.approx(config["xstep"], morph.xstep)
         self._runTests(xyallout, morph)
         return
 
-    def testRminOut(self, setup):
-        """Selected rmin is outside of input bounds."""
+    def testxminOut(self, setup):
+        """Selected xmin is outside of input bounds."""
 
         config = {
-            "rmin": 0.0,
-            "rmax": 2.0,
-            "rstep": 0.01,
+            "xmin": 0.0,
+            "xmax": 2.0,
+            "xstep": 0.01,
         }
         morph = MorphRGrid(config)
         xyallout = morph(
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
-        pytest.approx(1.0, morph.rmin)
-        pytest.approx(config["rmax"], morph.rmax)
-        pytest.approx(config["rstep"], morph.rstep)
+        pytest.approx(1.0, morph.xmin)
+        pytest.approx(config["xmax"], morph.xmax)
+        pytest.approx(config["xstep"], morph.xstep)
         self._runTests(xyallout, morph)
         return
 
-    def testRstepOut(self, setup):
-        """Selected rstep is outside of input bounds."""
+    def testxstepOut(self, setup):
+        """Selected xstep is outside of input bounds."""
 
         config = {
-            "rmin": 1.0,
-            "rmax": 2.0,
-            "rstep": 0.001,
+            "xmin": 1.0,
+            "xmax": 2.0,
+            "xstep": 0.001,
         }
         morph = MorphRGrid(config)
         xyallout = morph(
             self.x_morph, self.y_morph, self.x_target, self.y_target
         )
-        pytest.approx(config["rmin"], morph.rmin)
-        pytest.approx(config["rmax"], morph.rmax)
-        pytest.approx(0.01, morph.rstep)
+        pytest.approx(config["xmin"], morph.xmin)
+        pytest.approx(config["xmax"], morph.xmax)
+        pytest.approx(0.01, morph.xstep)
         self._runTests(xyallout, morph)
         return

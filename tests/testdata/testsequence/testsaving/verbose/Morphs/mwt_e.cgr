@@ -9,9 +9,9 @@
 # vshift = None
 
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 100.010000
-# rstep = 0.010000
+# xmin = 0.000000
+# xmax = 100.010000
+# xstep = 0.010000
 # Rw = 0.034859
 # Pearson = 0.999424
 

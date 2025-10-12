@@ -86,9 +86,9 @@ def morph(
     y_morph,
     x_target,
     y_target,
-    rmin=None,
-    rmax=None,
-    rstep=None,
+    xmin=None,
+    xmax=None,
+    xstep=None,
     pearson=False,
     add_pearson=False,
     fixed_operations=None,
@@ -112,12 +112,12 @@ def morph(
     y_morph: numpy.array
         An array of target y values, i.e., those will be kept constant by
         morphing.
-    rmin: float, optional
-        A value to specify lower r-limit of morph operations.
-    rmax: float, optional
-        A value to specify upper r-limit of morph operations.
-    rstep: float, optional
-        A value to specify rstep of morph operations.
+    xmin: float, optional
+        A value to specify lower x-limit of morph operations.
+    xmax: float, optional
+        A value to specify upper x-limit of morph operations.
+    xstep: float, optional
+        A value to specify xstep of morph operations.
     pearson: Bool, optional
         Option to include Pearson coefficient as a minimizing target
          during morphing. Default to False.
@@ -191,9 +191,9 @@ def morph(
         for k, v in rv_cfg.items()
         if (v is not None) and k in _morph_step_dict
     ]
-    rv_cfg["rmin"] = rmin
-    rv_cfg["rmax"] = rmax
-    rv_cfg["rstep"] = rstep
+    rv_cfg["xmin"] = xmin
+    rv_cfg["xmax"] = xmax
+    rv_cfg["xstep"] = xstep
     # configure smear, guess baselineslope when it is not provided
     if rv_cfg.get("smear") is not None and rv_cfg.get("baselineslope") is None:
         rv_cfg["baselineslope"] = -0.5
@@ -295,9 +295,9 @@ def plot_morph(chain, ax=None, **kwargs):
     rdat, grdat = chain.xy_target_out
     l_list = ax.plot(rfit, grfit, label="morph", **kwargs)
     l_list += ax.plot(rdat, grdat, label="target", **kwargs)
-    ax.set_xlim([chain.config["rmin"], chain.config["rmax"]])
+    ax.set_xlim([chain.config["xmin"], chain.config["xmax"]])
     ax.legend()
-    ax.set_xlabel(r"r ($\mathrm{\AA}$)")
-    ax.set_ylabel(r"G ($\mathrm{\AA}^{-2}$)")
+    # ax.set_xlabel(r"r ($\mathrm{\AA}$)")
+    # ax.set_ylabel(r"G ($\mathrm{\AA}^{-2}$)")
 
     return l_list

@@ -5,6 +5,7 @@ from numpy.polynomial import Polynomial
 import diffpy.morph.morphpy as morphpy
 from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphs.morphsqueeze import MorphSqueeze
+from tests.helper import create_morph_data_file
 
 squeeze_coeffs_dic = [
     # The order of coefficients is {a0, a1, a2, ..., an}
@@ -128,9 +129,7 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
         ),
     ],
 )
-def test_morphsqueeze_extrapolate(
-    user_filesystem, capsys, squeeze_coeffs, wmsg_gen
-):
+def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
     x_morph = np.linspace(0, 10, 101)
     y_morph = np.sin(x_morph)
     x_target = x_morph.copy()
@@ -343,21 +342,3 @@ def test_handle_duplicates():
         )
         assert np.allclose(actual_handled_x, expected_handled_x)
         assert np.allclose(actual_handled_y, expected_handled_y)
-
-
-def create_morph_data_file(
-    data_dir_path, x_morph, y_morph, x_target, y_target
-):
-    morph_file = data_dir_path / "morph_data"
-    morph_data_text = [
-        str(x_morph[i]) + " " + str(y_morph[i]) for i in range(len(x_morph))
-    ]
-    morph_data_text = "\n".join(morph_data_text)
-    morph_file.write_text(morph_data_text)
-    target_file = data_dir_path / "target_data"
-    target_data_text = [
-        str(x_target[i]) + " " + str(y_target[i]) for i in range(len(x_target))
-    ]
-    target_data_text = "\n".join(target_data_text)
-    target_file.write_text(target_data_text)
-    return morph_file, target_file

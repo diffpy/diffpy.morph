@@ -137,9 +137,9 @@ class TestRefine:
         config = {
             "funcx_function": shift,
             "funcx": {"hshift": 0},
-            "rmin": 0,
-            "rmax": 7,
-            "rstep": 0.01,
+            "xmin": 0,
+            "xmax": 7,
+            "xstep": 0.01,
         }
 
         mfuncx = MorphFuncx(config)
@@ -168,9 +168,9 @@ class TestRefine:
         config = {
             "funcx_function": stretch,
             "funcx": {"stretch": 0.7},
-            "rmin": 0,
-            "rmax": 4,
-            "rstep": 0.01,
+            "xmin": 0,
+            "xmax": 4,
+            "xstep": 0.01,
         }
 
         mfuncx = MorphFuncx(config)

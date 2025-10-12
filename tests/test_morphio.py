@@ -72,14 +72,14 @@ def are_diffs_right(file1, file2, diff_file):
     f2_data = loadData(file2)
     diff_data = loadData(diff_file)
 
-    rmin = max(min(f1_data[:, 0]), min(f1_data[:, 1]))
-    rmax = min(max(f2_data[:, 0]), max(f2_data[:, 1]))
-    rnumsteps = max(
-        len(f1_data[:, 0][(rmin <= f1_data[:, 0]) & (f1_data[:, 0] <= rmax)]),
-        len(f2_data[:, 0][(rmin <= f2_data[:, 0]) & (f2_data[:, 0] <= rmax)]),
+    xmin = max(min(f1_data[:, 0]), min(f1_data[:, 1]))
+    xmax = min(max(f2_data[:, 0]), max(f2_data[:, 1]))
+    xnumsteps = max(
+        len(f1_data[:, 0][(xmin <= f1_data[:, 0]) & (f1_data[:, 0] <= xmax)]),
+        len(f2_data[:, 0][(xmin <= f2_data[:, 0]) & (f2_data[:, 0] <= xmax)]),
     )
 
-    share_grid = np.linspace(rmin, rmax, rnumsteps)
+    share_grid = np.linspace(xmin, xmax, xnumsteps)
     f1_interp = np.interp(share_grid, f1_data[:, 0], f1_data[:, 1])
     f2_interp = np.interp(share_grid, f2_data[:, 0], f2_data[:, 1])
     diff_interp = np.interp(share_grid, diff_data[:, 0], diff_data[:, 1])

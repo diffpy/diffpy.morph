@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+title: diffpy.morph
+message: >-
+  If you use this software, please cite the manuscript
+  associated with this repository (will be included here
+  when published).
+type: software
+authors:
+  - given-names: Andrew
+    family-names: Yang
+    email: ayang2@caltech.edu
+    affiliation: Caltech
+    orcid: "https://orcid.org/0000-0003-0553-715X"
+  - given-names: Christopher
+    family-names: Farrow
+    orcid: "https://orcid.org/0000-0001-5768-6654"
+  - given-names: Chia-Hao
+    family-names: Liu
+    affiliation: Columbia University
+    orcid: "https://orcid.org/0000-0002-3216-0354"
+  - given-names: Luis
+    family-names: Kitsu
+    orcid: "https://orcid.org/0000-0002-9292-4416"
+    affiliation: University of Colorado Boulder
+    email: Luis.Kitsu@echemes.ethz.ch
+  - given-names: Simon
+    family-names: Billinge
+    email: sb2896@columbia.edu
+    affiliation: Columbia University
+    orcid: "https://orcid.org/0000-0002-9734-4998"
+abstract: >-
+  diffpy.morph is an open-source and free-to-use Python
+  package that increases the insight researchers can obtain
+  when comparing experimentally measured 1D functions such
+  as diffraction patterns and atomic distribution functions
+  (PDFs). For example, it is often difficult to identify
+  whether or not structural changes have occurred between
+  two diffraction patterns or PDFs of the same material
+  measured at different temperatures due to the presence of
+  benign thermal effects such as lattice expansion and
+  increased atomic motion. These contribute large signals in
+  the difference curves and Rw factors when comparing two
+  curves, which can hide small but significant structural
+  changes. diffpy.morph does its best to correct for these
+  benign effects by applying simple transformations, or
+  “morphs”, to a diffraction pattern or PDF prior to
+  comparison. Other morphs are also possible such as
+  corrections for nanoparticle shape effects on the PDF.
+  diffpy.morph is model-independent and also could be used
+  on other non-diffraction spectra, though it has not been
+  extensively tested beyond powder diffraction patterns
+  and the PDF.
+keywords:
+  - diffpy
+  - pdf
+  - data interpretation
+license: BSD-3-Clause

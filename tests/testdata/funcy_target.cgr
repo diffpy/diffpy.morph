@@ -20,9 +20,9 @@ def quadratic(x, y, a0, a1, a2):
 """
 
 # Optimized morphing parameters:
-# rmin = 0.000000
-# rmax = 10.100000
-# rstep = 0.100000
+# xmin = 0.000000
+# xmax = 10.100000
+# xstep = 0.100000
 # squeeze a0 = 0.000000
 # squeeze a1 = 0.000000
 # squeeze a2 = 0.000000

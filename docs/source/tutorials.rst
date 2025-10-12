@@ -8,6 +8,14 @@ Tutorials for these are included below. The files required for these tutorials c
 
 For a full list of options offered by ``diffpy.morph``, please run ``diffpy.morph --help`` on the command line.
 
+Using MorphFuncxy
+=================
+
+Examples of how to use the general morph ``MorphFuncxy`` with commonly used
+diffraction software like `PDFgetx3 <https://www.diffpy.org/products/pdfgetx.html>`_
+and `PyFai <https://pyfai.readthedocs.io/en/stable/>`_ are directed to the
+`funcxy tutorials <funcxy.html>`__.
+
 Performing Multiple Morphs
 ==========================
 
@@ -171,7 +179,8 @@ files can be found in ``additionalData/morphsqueeze/``.
 .. warning::
 
    **Extrapolation risk:**
-   A polynomial squeeze can shift morph data outside the target’s ``r``-range,
+   A polynomial squeeze can shift morph data outside the target’s grid
+   (``x``-axis) range,
    so parts of the output may be extrapolated.
    This is generally fine if the polynomial coefficients are small and
    the distortion is therefore small. If your coefficients are large, check the
@@ -228,12 +237,12 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
         3. Now, we are ready to perform a morph applying spherical
 	   effects. To do so, we use the ``--radius`` parameter ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 -a --rmax=30
+               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 -a --xmax=30
 
         4. We can see that the :math:`Rw` value has significantly decreased
 	   from before. Run without the ``-a`` tag to refine ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 --rmax=30
+               diffpy.morph Ni_bulk.gr Ni_nano_sphere.cgr --radius=11.2 --xmax=30
 
         5. After refining, we see the actual radius of the
 	   nanoparticle was closer to 12.
@@ -251,7 +260,7 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
 	   enough information to define our spheroid. To apply
 	   spheroid shape effects onto our bulk, run ::
 
-               diffpy.morph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a --rmax=30
+               diffpy.morph Ni_bulk.gr Ni_nano_spheroid.cgr --radius=12 --pradius=6 -a --xmax=30
 
            Note that the equatorial radius corresponds to the
 	   ``--radius`` parameter and polar radius to ``--pradius``.
@@ -259,5 +268,5 @@ Currently, the supported nanoparticle shapes include: spheres and spheroids.
         3. Remove the ``-a`` tag to refine.
 
 There is also support for morphing from a nanoparticle to a bulk. When
-applying the inverse morphs, it is recommended to set ``--rmax=psize``
+applying the inverse morphs, it is recommended to set ``--xmax=psize``
 where ``psize`` is the longest diameter of the nanoparticle.

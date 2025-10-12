@@ -10,6 +10,11 @@ This page is intended for those acquainted with the basic morphs
 described in the aforementioned quickstart tutorial who want to use ``diffpy.morph`` in their
 Python scripts.
 
+For those looking to use the Python-specific morph ``MorphFuncxy`` (described below)
+with commonly used diffraction software like `PDFgetx3 <https://www.diffpy.org/products/pdfgetx.html>`_
+and `PyFai <https://pyfai.readthedocs.io/en/stable/>`_ are directed to the
+`funcxy tutorials <funcxy.html>`__.
+
 Python Morphing Functions
 =========================
 
@@ -17,7 +22,7 @@ Python Morphing Functions
        morph on the files `darkSub_rh20_C_01.gr` and `darkSub_rh20_C_44.gr` using the command-line
        command ::
 
-          diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --rmin=1.5 --rmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+          diffpy.morph --scale=0.8 --smear=-0.08 --stretch=0.005 --xmin=1.5 --xmax=30 darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
 
     2. To do the same on Python, we must first create a new Python script in the same directory as the
        data files `darkSub_rh20_C_01.gr` and `darkSub_rh20_C_44.gr`.
@@ -27,7 +32,7 @@ Python Morphing Functions
 
     3. Finally, we run the ``morph`` function ::
 
-           morph_info, morph_table = morph("darkSub_rh20_C_01.gr", "darkSub_rh20_C_44.gr", scale=0.8, smear=-0.08, stretch=0.005, rmin=1.5, rmax=30)
+           morph_info, morph_table = morph("darkSub_rh20_C_01.gr", "darkSub_rh20_C_44.gr", scale=0.8, smear_pdf=-0.08, stretch=0.005, xmin=1.5, xmax=30)
 
        * The ``morph`` function takes in two file names (or paths). You can also provide various parameters
          for morphing (see the Full Parameter List below).
@@ -57,7 +62,7 @@ Python Morphing Functions
        `darkSub_rh20_C_44.gr` into ``ds_rh20_c_44_array``, we can apply the same morph as step 3
        by running ::
 
-           morph_info, morph_table = morph_arrays(ds_rh20_c_01_array, ds_rh20_c_44_array, scale=0.8, smear=-0.08, stretch=0.5, rmin=1.5, rmax=30)
+           morph_info, morph_table = morph_arrays(ds_rh20_c_01_array, ds_rh20_c_44_array, scale=0.8, smear_pdf=-0.08, stretch=0.5, xmin=1.5, xmax=30)
 
     9. Notice that the two-column format of the input to ``morph_arrays`` is the same as the
        output of ``morph`` and ``morph_arrays``. It is VERY IMPORTANT that the data is in two-column format
@@ -81,9 +86,9 @@ get_diff: bool
 verbose: bool
     Print additional header details to saved files. These include details about the morph
     inputs and outputs.
-rmin: float
+xmin: float
     Minimum r-value (abscissa) to use for function comparisons.
-rmax: float
+xmax: float
     Maximum r-value (abscissa) to use for function comparisons.
 tolerance: float
     Specify least squares refiner tolerance when optimizing for morph parameters. Default: 10e-8.
@@ -408,8 +413,10 @@ This is equivalent to applying a ``MorphFuncx`` and ``MorphFuncy``
 simultaneously.
 
 This morph is useful when you want to apply operations that modify both
-the grid and function value. A PDF-specific example includes computing
-PDFs from 1D diffraction data (see paragraph at the end of this section).
+the grid and function value.
+Examples of using ``MorphFuncxy`` with ``PyFai`` azimuthal integration
+and ``PDFgetx3`` PDF calculation are included `here <funcxy.html>`__.
+
 
 For this tutorial, we will go through two examples. One simple one
 involving shifting a function in the ``x`` and ``y`` directions, and

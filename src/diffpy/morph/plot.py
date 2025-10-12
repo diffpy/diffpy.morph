@@ -24,13 +24,13 @@ plt.style.use(all_styles["bg-style"])
 
 # FIXME - make this return the figure object in the future, so several views
 # can be composed.
-def plot_funcs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
-    """Plots several functions g(r) on top of one another.
+def plot_funcs(pairlist, labels=None, offset="auto", xmin=None, xmax=None):
+    """Plots several functions f(x) on top of one another.
 
     Parameters
     ----------
     pairlist
-        Iterable of (r, gr) pairs to plot.
+        Iterable of (x, fx) pairs to plot.
     labels
         Iterable of names for the pairs. If this is not the same length as
         the pairlist, a legend will not be shown (default []).
@@ -38,10 +38,10 @@ def plot_funcs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
         Offset to place between plots. Functions will be sequentially shifted
         in the y-direction by the offset. If offset is 'auto' (default), the
         optimal offset will be determined automatically.
-    rmin
+    xmin
         The minimum r-value to plot. If this is None (default), the lower
         bound of the function is not altered.
-    rmax
+    xmax
         The maximum r-value to plot. If this is None (default), the upper
         bound of the function is not altered.
     """
@@ -55,16 +55,16 @@ def plot_funcs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
     labels.extend([""] * gap)
 
     for idx, pair in enumerate(pairlist):
-        r, gr = pair
-        plt.plot(r, gr + idx * offset, label=labels[idx])
-    plt.xlim(rmin, rmax)
+        x, fx = pair
+        plt.plot(x, fx + idx * offset, label=labels[idx])
+    plt.xlim(xmin, xmax)
 
     if gap == 0:
         plt.legend(loc=0)
 
     plt.legend()
-    plt.xlabel(r"$r (\mathrm{\AA})$")
-    plt.ylabel(r"$G (\mathrm{\AA}^{-1})$")
+    # plt.xlabel(r"$r (\mathrm{\AA})$")
+    # plt.ylabel(r"$G (\mathrm{\AA}^{-1})$")
     plt.show()
     return
 
@@ -72,8 +72,8 @@ def plot_funcs(pairlist, labels=None, offset="auto", rmin=None, rmax=None):
 def compare_funcs(
     pairlist,
     labels=None,
-    rmin=None,
-    rmax=None,
+    xmin=None,
+    xmax=None,
     show=True,
     maglim=None,
     mag=5,
@@ -94,11 +94,11 @@ def compare_funcs(
     labels
         Iterable of names for the pairs. If this is not the same length as
         the pairlist, a legend will not be shown (default []).
-    rmin
-        The minimum r-value to plot. If this is None (default), the lower
+    xmin
+        The minimum x-value to plot. If this is None (default), the lower
         bound of the function is not altered.
-    rmax
-        The maximum r-value to plot. If this is None (default), the upper
+    xmax
+        The maximum x-value to plot. If this is None (default), the upper
         bound of the function is not altered.
     show
         Show the plot (default True)
@@ -119,24 +119,24 @@ def compare_funcs(
     else:
         labeldata = labels[1]
         labelfit = labels[0]
-    rfit, grfit = pairlist[0]
-    rdat, grdat = pairlist[1]
+    xfit, fxfit = pairlist[0]
+    xdat, fxdat = pairlist[1]
 
     # View min and max
-    rvmin = max(rfit[0], rdat[0])
-    rvmin = rmin or rvmin
-    rvmax = min(rfit[-1], rdat[-1])
-    rvmax = rmax or rvmax
+    xvmin = max(xfit[0], xdat[0])
+    xvmin = xmin or xvmin
+    xvmax = min(xfit[-1], xdat[-1])
+    xvmax = xmax or xvmax
 
     gap = 2 - len(labels)
     labels = list(labels)
     labels.extend([""] * gap)
 
-    # Put gr1 on the same grid as rdat
-    gtemp = numpy.interp(rdat, rfit, grfit)
+    # Put fx1 on the same grid as xdat
+    ftemp = numpy.interp(xdat, xfit, fxfit)
 
     # Calculate the difference
-    diff = grdat - gtemp
+    diff = fxdat - ftemp
 
     # Put rw in the label
     labeldiff = "difference" if len(labels) < 3 else labels[2]
@@ -145,24 +145,24 @@ def compare_funcs(
 
     # Magnify if necessary
     if maglim is not None:
-        grfit = grfit.copy()
-        grfit[rfit > maglim] *= mag
-        sel = rdat > maglim
-        grdat = grdat.copy()
-        grdat[sel] *= mag
+        fxfit = fxfit.copy()
+        fxfit[xfit > maglim] *= mag
+        sel = xdat > maglim
+        fxdat = fxdat.copy()
+        fxdat[sel] *= mag
         diff[sel] *= mag
-        gtemp[sel] *= mag
+        ftemp[sel] *= mag
 
     # Determine the offset for the difference curve.
-    sel = numpy.logical_and(rdat <= rvmax, rdat >= rvmin)
-    ymin = min(min(grdat[sel]), min(gtemp[sel]))
+    sel = numpy.logical_and(xdat <= xvmax, xdat >= xvmin)
+    ymin = min(min(fxdat[sel]), min(ftemp[sel]))
     ymax = max(diff[sel])
     offset = -1.1 * (ymax - ymin)
 
     # Scale the x-limit based on the r-extent of the signal. This gives a nice
     # density of function peaks.
-    rlim = rvmax - rvmin
-    scale = rlim / 25.0
+    xlim = xvmax - xvmin
+    scale = xlim / 25.0
     # Set a reasonable minimum of .8 and maximum of 1
     scale = min(1, max(scale, 0.8))
     figsize = [13.5, 4.5]
@@ -177,12 +177,12 @@ def compare_funcs(
     fig.add_axes(axes)
     plt.minorticks_on()
 
-    plt.plot(rdat, grdat, linewidth=l_width, label=labeldata)
-    plt.plot(rfit, grfit, linewidth=l_width, label=labelfit)
-    plt.plot(rdat, offset * numpy.ones_like(diff), linewidth=3, color="black")
+    plt.plot(xdat, fxdat, linewidth=l_width, label=labeldata)
+    plt.plot(xfit, fxfit, linewidth=l_width, label=labelfit)
+    plt.plot(xdat, offset * numpy.ones_like(diff), linewidth=3, color="black")
 
     diff += offset
-    plt.plot(rdat, diff, linewidth=l_width, label=labeldiff)
+    plt.plot(xdat, diff, linewidth=l_width, label=labeldiff)
 
     if maglim is not None:
         # Add a line for the magnification cutoff
@@ -196,14 +196,14 @@ def compare_funcs(
             dashes=(14, 7),
         )
         # FIXME - look for a place to put the maglim
-        xpos = (rvmax * 0.85 + maglim) / 2 / (rvmax - rvmin)
+        xpos = (xvmax * 0.85 + maglim) / 2 / (xvmax - xvmin)
         if xpos <= 0.9:
             plt.figtext(xpos, 0.7, "x%.1f" % mag, backgroundcolor="w")
 
     # Get a tight view
-    plt.xlim(rvmin, rvmax)
+    plt.xlim(xvmin, xvmax)
     ymin = min(diff[sel])
-    ymax = max(max(grdat[sel]), max(gtemp[sel]))
+    ymax = max(max(fxdat[sel]), max(ftemp[sel]))
     yspan = ymax - ymin
     # Give a small border to the plot
     gap = 0.05 * yspan
@@ -212,8 +212,8 @@ def compare_funcs(
     plt.ylim(ymin, ymax)
 
     # Make labels and legends
-    plt.xlabel(r"r ($\mathrm{\AA})$")
-    plt.ylabel(r"G $(\mathrm{\AA}^{-1})$")
+    # plt.xlabel(r"r ($\mathrm{\AA})$")
+    # plt.ylabel(r"G $(\mathrm{\AA}^{-1})$")
     if legend:
         plt.legend(
             bbox_to_anchor=(0.005, 1.02, 0.99, 0.10),
@@ -306,38 +306,38 @@ def plot_param(target_labels, param_list, param_name=None, field=None):
     return
 
 
-def truncate_func(r, gr, rmin=None, rmax=None):
-    """Truncate a function g(r) to specified bounds.
+def truncate_func(x, fx, xmin=None, xmax=None):
+    """Truncate a function f(x) to specified bounds.
 
     Parameters
     ----------
-    r
-        The r-values of the function g(r).
-    gr
-        Function g(r) values.
-    rmin
-        The minimum r-value. If this is None (default), the lower bound of
+    x
+        The x-values of the function f(x).
+    fx
+        Function f(x) values at each x-value.
+    xmin
+        The minimum x-value. If this is None (default), the lower bound of
         the function is not altered.
-    rmax
-        The maximum r-value. If this is None (default), the upper bound of
+    xmax
+        The maximum x-value. If this is None (default), the upper bound of
         the function is not altered.
 
     Returns
     -------
-    r, gr
-        Returns the truncated r, gr.
+    x, fx
+        Returns the truncated x, fx.
     """
 
-    if rmin is not None:
-        sel = r >= rmin
-        gr = gr[sel]
-        r = r[sel]
-    if rmax is not None:
-        sel = r <= rmax
-        gr = gr[sel]
-        r = r[sel]
+    if xmin is not None:
+        sel = x >= xmin
+        fx = fx[sel]
+        x = x[sel]
+    if xmax is not None:
+        sel = x <= xmax
+        fx = fx[sel]
+        x = x[sel]
 
-    return r, gr
+    return x, fx
 
 
 def _find_offset(pairlist):
