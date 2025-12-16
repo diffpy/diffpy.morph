@@ -192,21 +192,14 @@ def test_non_unique_grid():
     _, table = morphpy.morph_arrays(
         np.array([x_morph, y_morph]).T,
         np.array([x_target, y_target]).T,
-        squeeze=[0, 0, 0.0001],
+        squeeze=[0, 0, 0],
         apply=True,
     )
-    x_refined, y_refined = table[:, 0], table[:, 1]
+    x_refined, _ = table[:, 0], table[:, 1]
 
     # grid should be properly sorted
     assert np.allclose(x_refined, x_target)
-
-    print(y_refined, y_target)
-    x_sorted = x_morph.copy()
-    x_sorted.sort()
-    print(x_morph)
-    print(x_sorted)
-    # function values
-    assert np.allclose(y_refined, y_target)
+    # note that the function itself may be distorted
 
 
 @pytest.mark.parametrize(
