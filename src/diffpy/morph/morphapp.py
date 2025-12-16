@@ -707,9 +707,10 @@ def single_morph(
         chain(x_morph, y_morph, x_target, y_target)
 
     # THROW ANY WARNINGS HERE
-    io.handle_warnings(squeeze_morph)
-    io.handle_warnings(shift_morph)
-    io.handle_warnings(stretch_morph)
+    io.handle_extrapolation_warnings(squeeze_morph)
+    io.handle_check_increase_warning(squeeze_morph)
+    io.handle_extrapolation_warnings(shift_morph)
+    io.handle_extrapolation_warnings(stretch_morph)
 
     # Get Rw for the morph range
     rw = tools.getRw(chain)

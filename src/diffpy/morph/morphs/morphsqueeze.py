@@ -1,6 +1,7 @@
 """Class MorphSqueeze -- Apply a polynomial to squeeze the morph
 function."""
 
+import numpy
 from numpy.polynomial import Polynomial
 from scipy.interpolate import CubicSpline
 
@@ -67,9 +68,35 @@ class MorphSqueeze(Morph):
     extrap_index_high = None
     squeeze_cutoff_low = None
     squeeze_cutoff_high = None
+    strictly_increasing = None
 
     def __init__(self, config=None):
         super().__init__(config)
+
+    def _ensure_strictly_increase(self, x, x_sorted):
+        if list(x) != list(x_sorted):
+            self.strictly_increasing = False
+        else:
+            self.strictly_increasing = True
+
+    def _sort_squeeze(self, x, y):
+        """Sort x,y according to the value of x."""
+        xy = list(zip(x, y))
+        xy_sorted = sorted(xy, key=lambda pair: pair[0])
+        x_sorted, y_sorted = list(zip(*xy_sorted))
+        return x_sorted, y_sorted
+
+    def _handle_duplicates(self, x, y):
+        """Remove duplicated x and use the mean value of y corresponded
+        to the duplicated x."""
+        unq_x, unq_inv = numpy.unique(x, return_inverse=True)
+        if len(unq_x) == len(x):
+            return x, y
+        else:
+            y_avg = numpy.zeros_like(unq_x)
+            for i in range(len(unq_x)):
+                y_avg[i] = numpy.array(y)[unq_inv == i].mean()
+            return unq_x, y_avg
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -82,9 +109,16 @@ class MorphSqueeze(Morph):
         coeffs = [self.squeeze[f"a{i}"] for i in range(len(self.squeeze))]
         squeeze_polynomial = Polynomial(coeffs)
         x_squeezed = self.x_morph_in + squeeze_polynomial(self.x_morph_in)
-        self.y_morph_out = CubicSpline(x_squeezed, self.y_morph_in)(
+        x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
+            x_squeezed, self.y_morph_in
+        )
+        self._ensure_strictly_increase(x_squeezed, x_squeezed_sorted)
+        x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
+            x_squeezed_sorted, y_morph_sorted
+        )
+        self.y_morph_out = CubicSpline(x_squeezed_sorted, y_morph_sorted)(
             self.x_morph_in
         )
-        self.set_extrapolation_info(x_squeezed, self.x_morph_in)
+        self.set_extrapolation_info(x_squeezed_sorted, self.x_morph_in)
 
         return self.xyallout

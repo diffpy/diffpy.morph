@@ -408,9 +408,9 @@ def tabulate_results(multiple_morph_results):
     return tabulated_results
 
 
-def handle_warnings(squeeze_morph):
-    if squeeze_morph is not None:
-        extrapolation_info = squeeze_morph.extrapolation_info
+def handle_extrapolation_warnings(morph):
+    if morph is not None:
+        extrapolation_info = morph.extrapolation_info
         is_extrap_low = extrapolation_info["is_extrap_low"]
         is_extrap_high = extrapolation_info["is_extrap_high"]
         cutoff_low = extrapolation_info["cutoff_low"]
@@ -438,6 +438,25 @@ def handle_warnings(squeeze_morph):
         else:
             wmsg = None
 
+        if wmsg:
+            warnings.warn(
+                wmsg,
+                UserWarning,
+            )
+
+
+def handle_check_increase_warning(squeeze_morph):
+    if squeeze_morph is not None:
+        if squeeze_morph.strictly_increasing:
+            wmsg = None
+        else:
+            wmsg = (
+                "Warning: The squeeze morph has interpolated your morphed "
+                "function from a non-monotonically increasing grid. "
+                "This can result in strange behavior in the non-unique "
+                "grid regions. To disable this setting, "
+                "please enable --check-increasing."
+            )
         if wmsg:
             warnings.warn(
                 wmsg,
