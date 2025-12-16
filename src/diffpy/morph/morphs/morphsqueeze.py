@@ -73,7 +73,7 @@ class MorphSqueeze(Morph):
     def __init__(self, config=None):
         super().__init__(config)
 
-    def _ensure_strictly_increase(self, x, x_sorted):
+    def _check_strictly_increasing(self, x, x_sorted):
         if list(x) != list(x_sorted):
             self.strictly_increasing = False
         else:
@@ -83,20 +83,20 @@ class MorphSqueeze(Morph):
         """Sort x,y according to the value of x."""
         xy = list(zip(x, y))
         xy_sorted = sorted(xy, key=lambda pair: pair[0])
-        x_sorted, y_sorted = list(zip(*xy_sorted))
+        x_sorted, y_sorted = numpy.array(list(zip(*xy_sorted)))
         return x_sorted, y_sorted
 
     def _handle_duplicates(self, x, y):
         """Remove duplicated x and use the mean value of y corresponded
         to the duplicated x."""
-        unq_x, unq_inv = numpy.unique(x, return_inverse=True)
-        if len(unq_x) == len(x):
+        x_unique, inv = numpy.unique(x, return_inverse=True)
+        if len(x_unique) == len(x):
             return x, y
         else:
-            y_avg = numpy.zeros_like(unq_x)
-            for i in range(len(unq_x)):
-                y_avg[i] = numpy.array(y)[unq_inv == i].mean()
-            return unq_x, y_avg
+            y_avg = numpy.zeros_like(x_unique)
+            for idx, _ in enumerate(x_unique):
+                y_avg[idx] = y[inv == idx].mean()
+            return x_unique, y_avg
 
     def morph(self, x_morph, y_morph, x_target, y_target):
         """Apply a polynomial to squeeze the morph function.
@@ -112,7 +112,7 @@ class MorphSqueeze(Morph):
         x_squeezed_sorted, y_morph_sorted = self._sort_squeeze(
             x_squeezed, self.y_morph_in
         )
-        self._ensure_strictly_increase(x_squeezed, x_squeezed_sorted)
+        self._check_strictly_increasing(x_squeezed, x_squeezed_sorted)
         x_squeezed_sorted, y_morph_sorted = self._handle_duplicates(
             x_squeezed_sorted, y_morph_sorted
         )

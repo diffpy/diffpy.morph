@@ -447,17 +447,13 @@ def handle_extrapolation_warnings(morph):
 
 def handle_check_increase_warning(squeeze_morph):
     if squeeze_morph is not None:
-        if squeeze_morph.strictly_increasing:
-            wmsg = None
-        else:
+        if not squeeze_morph.strictly_increasing:
             wmsg = (
                 "Warning: The squeeze morph has interpolated your morphed "
                 "function from a non-monotonically increasing grid. "
-                "This can result in strange behavior in the non-unique "
-                "grid regions. To disable this setting, "
-                "please enable --check-increasing."
+                "This can result in strange behavior in certain "
+                "grid regions."
             )
-        if wmsg:
             warnings.warn(
                 wmsg,
                 UserWarning,

@@ -172,71 +172,47 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
         single_morph(parser, opts, pargs, stdout_flag=False)
 
 
-@pytest.mark.parametrize(
-    "squeeze_coeffs, x_morph",
-    [
-        ({"a0": 0.01, "a1": 0.01, "a2": -0.1}, np.linspace(0, 10, 101)),
-    ],
-)
-def test_non_strictly_increasing_squeeze(squeeze_coeffs, x_morph):
-    x_target = x_morph
-    y_target = np.sin(x_target)
+def test_non_unique_grid():
+    squeeze_coeffs = {"a0": 0.01, "a1": 0.01, "a2": -0.1}
+    x_grid = np.linspace(0, 10, 101)
+
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
-    x_squeezed = x_morph + squeeze_polynomial(x_morph)
-    # non-strictly-increasing
-    assert not np.all(np.sign(np.diff(x_squeezed)) > 0)
-    y_morph = np.sin(x_squeezed)
-    # all zero initial guess
-    morph_results = morphpy.morph_arrays(
+    x_morph = x_grid + squeeze_polynomial(x_grid)
+    x_gradient = np.diff(x_morph)
+    x_gradient_sign = np.sign(x_gradient)
+    # non-strictly increasing means the gradient becomes 0 or negative
+    assert not np.all(x_gradient_sign > 0)
+
+    x_target = np.linspace(min(x_morph), max(x_morph), len(x_morph))
+    y_target = np.sin(x_target)
+
+    y_morph = np.sin(x_morph)
+    # apply no squeeze, but the morph should sort the function
+    _, table = morphpy.morph_arrays(
         np.array([x_morph, y_morph]).T,
         np.array([x_target, y_target]).T,
-        squeeze=[0, 0, 0],
+        squeeze=[0, 0, 0.0001],
         apply=True,
     )
-    _, y_morph_actual = morph_results[1].T  # noqa: F841
-    y_morph_expected = np.sin(x_morph)  # noqa: F841
-    # squeeze morph extrapolates.
-    #   Need to extract extrap_index from morph_results to examine
-    #   the convergence.
-    # assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-3)
-    # Raise warning when called without --check-increase
-    with pytest.warns() as w:
-        morph_results = morphpy.morph_arrays(
-            np.array([x_morph, y_morph]).T,
-            np.array([x_target, y_target]).T,
-            squeeze=[0.01, 0.01, -0.1],
-            apply=True,
-        )
-    assert w[0].category is UserWarning
-    actual_wmsg = " ".join([str(w[i].message) for i in range(len(w))])
-    expected_wmsg = (
-        "Warning: The squeeze morph has interpolated your morphed "
-        "function from a non-monotonically increasing grid. "
-    )
-    assert expected_wmsg in actual_wmsg
-    _, y_morph_actual = morph_results[1].T  # noqa: F841
-    y_morph_expected = np.sin(x_morph)  # noqa: F841
-    # squeeze morph extrapolates.
-    #   Need to extract extrap_index from morph_results to examine
-    #   the convergence.
-    # assert np.allclose(y_morph_actual, y_morph_expected, atol=1e-3)
-    # System exits when called with --check-increase
-    with pytest.raises(SystemExit) as excinfo:
-        morphpy.morph_arrays(
-            np.array([x_morph, y_morph]).T,
-            np.array([x_target, y_target]).T,
-            squeeze=[0.01, 0.009, -0.1],
-            check_increase=True,
-        )
-    actual_emsg = str(excinfo.value)
-    expected_emsg = "2"
-    assert expected_emsg == actual_emsg
+    x_refined, y_refined = table[:, 0], table[:, 1]
+
+    # grid should be properly sorted
+    assert np.allclose(x_refined, x_target)
+
+    print(y_refined, y_target)
+    x_sorted = x_morph.copy()
+    x_sorted.sort()
+    print(x_morph)
+    print(x_sorted)
+    # function values
+    assert np.allclose(y_refined, y_target)
 
 
 @pytest.mark.parametrize(
     "squeeze_coeffs, x_morph",
     [
+        # The following squeezes make the function non-monotonic
         ({"a0": -1, "a1": -1, "a2": 2}, np.linspace(-1, 1, 101)),
         (
             {"a0": -1, "a1": -1, "a2": 0, "a3": 0, "a4": 2},
@@ -244,8 +220,8 @@ def test_non_strictly_increasing_squeeze(squeeze_coeffs, x_morph):
         ),
     ],
 )
-def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
-    # call in .py without --check-increase
+def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
+    # call in .py
     x_target = x_morph
     y_target = np.sin(x_target)
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
@@ -267,10 +243,12 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
     expected_wmsg = (
         "Warning: The squeeze morph has interpolated your morphed "
         "function from a non-monotonically increasing grid. "
+        "This can result in strange behavior in certain "
+        "grid regions."
     )
     assert expected_wmsg in actual_wmsg
 
-    # call in CLI without --check-increase
+    # call in CLI
     morph_file, target_file = create_morph_data_file(
         user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
     )
@@ -293,18 +271,16 @@ def test_sort_squeeze_bad(user_filesystem, squeeze_coeffs, x_morph):
 
 
 def test_handle_duplicates():
-    unq_x = np.linspace(0, 11, 10)
+    x_choices = np.linspace(0, 10, 11)
     iter = 10
     morph = MorphSqueeze()
     for i in range(iter):
-        actual_x = np.random.choice(unq_x, size=20)
-        actual_y = np.sin(actual_x)
-        actual_handled_x, actual_handled_y = morph._handle_duplicates(
-            actual_x, actual_y
+        x_sampled = np.random.choice(x_choices, size=20)
+        y_sampled = np.sin(x_sampled)
+        x_handled, y_handled = morph._handle_duplicates(x_sampled, y_sampled)
+        x_target = np.unique(x_sampled)
+        y_target = np.array(
+            [y_sampled[x_sampled == x].mean() for x in x_target]
         )
-        expected_handled_x = np.unique(actual_x)
-        expected_handled_y = np.array(
-            [actual_y[actual_x == x].mean() for x in expected_handled_x]
-        )
-        assert np.allclose(actual_handled_x, expected_handled_x)
-        assert np.allclose(actual_handled_y, expected_handled_y)
+        assert np.allclose(x_handled, x_target)
+        assert np.allclose(y_handled, y_target)
