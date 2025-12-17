@@ -34,6 +34,85 @@ def custom_formatwarning(msg, *args, **kwargs):
 warnings.formatwarning = custom_formatwarning
 
 
+def get_morph_inputs(
+    scale,
+    stretch,
+    smear_pdf,
+    smear,
+    hshift,
+    vshift,
+    squeeze,
+):
+    """Helper function to extract input morphing parameters for CLI
+    morphs. Python morphs are handled separately.
+
+    Parameters
+    ----------
+    scale
+        opts.scale
+    stretch
+        opts.stretch
+    smear_pdf
+        opts.smear_pdf
+    smear
+        opts.smear
+    hshift
+        opts.hshift
+    vshift
+        opts.vshift
+    squeeze
+        opts.squeeze
+    """
+    squeeze_poly_deg = -1
+    squeeze_in = None
+    if squeeze is not None:
+        squeeze_in = {}
+        # handle list/tuple input
+        if len(squeeze) > 1 and squeeze[0] == "[" and squeeze[-1] == "]":
+            squeeze = squeeze[1:-1]
+        elif len(squeeze) > 1 and squeeze[0] == "(" and squeeze[-1] == ")":
+            squeeze = squeeze[1:-1]
+        squeeze_coeffs = squeeze.strip().split(",")
+        idx = 0
+        for _, coeff in enumerate(squeeze_coeffs):
+            if coeff.strip() != "":
+                try:
+                    squeeze_in.update({f"a{idx}": float(coeff)})
+                    idx += 1
+                except ValueError:
+                    # user has already been warned
+                    pass
+        squeeze_poly_deg = len(squeeze_in.keys())
+
+    scale_in = scale
+    if squeeze_poly_deg < 1:
+        stretch_in = stretch
+    else:
+        stretch_in = None
+    if smear_pdf is None:
+        smear_in = smear
+    else:
+        smear_in = smear_pdf
+    morph_inputs = {
+        "scale": scale_in,
+        "stretch": stretch_in,
+        "smear": smear_in,
+    }
+
+    if squeeze_poly_deg < 0:
+        hshift_in = hshift
+    else:
+        hshift_in = None
+    vshift_in = vshift
+    morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
+
+    if squeeze_in is not None:
+        for idx, _ in enumerate(squeeze_in):
+            morph_inputs.update({f"squeeze a{idx}": squeeze_in[f"a{idx}"]})
+
+    return morph_inputs
+
+
 def single_morph_output(
     morph_inputs,
     morph_results,
