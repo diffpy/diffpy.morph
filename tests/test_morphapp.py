@@ -113,18 +113,18 @@ class TestApp:
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
         _, err = capsys.readouterr()
-        assert "You must supply FILE1 and FILE2." in err
+        assert "You must supply MORPHFILE and TARGETFILE." in err
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
         _, err = capsys.readouterr()
-        assert "You must supply FILE and DIRECTORY." in err
+        assert "You must supply a FILE and DIRECTORY." in err
         (opts, pargs) = self.parser.parse_args(["too", "many", "files"])
         with pytest.raises(SystemExit):
             single_morph(self.parser, opts, pargs, stdout_flag=False)
         _, err = capsys.readouterr()
         assert (
-            "Too many arguments. Make sure you only supply FILE1 and FILE2."
-            in err
+            "Too many arguments. Make sure you only supply MORPHFILE and "
+            "TARGETFILE." in err
         )
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
@@ -186,7 +186,7 @@ class TestApp:
         with pytest.raises(SystemExit):
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
         _, err = capsys.readouterr()
-        assert "The requested field is missing from a PDF file header." in err
+        assert "The requested field is missing from a file header." in err
         (opts, pargs) = self.parser.parse_args(
             [
                 f"{nickel_PDF}",

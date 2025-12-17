@@ -87,11 +87,11 @@ verbose: bool
     Print additional header details to saved files. These include details about the morph
     inputs and outputs.
 xmin: float
-    Minimum r-value (abscissa) to use for function comparisons.
+    Minimum x-value (abscissa) to use for function comparisons.
 xmax: float
-    Maximum r-value (abscissa) to use for function comparisons.
+    Maximum x-value (abscissa) to use for function comparisons.
 tolerance: float
-    Specify least squares refiner tolerance when optimizing for morph parameters. Default: 10e-8.
+    Specify least squares refiner tolerance when optimizing for morph parameters. Default: 1e-8.
 pearson: bool
     The refiner instead maximizes agreement in the Pearson function
     (default behavior is to minimize the residual).
