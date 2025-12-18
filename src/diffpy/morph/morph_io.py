@@ -66,7 +66,7 @@ def build_morph_inputs_container(
     Returns
     -------
     dict
-        Dictionary of input morphing parameters.
+        The dictionary of input morphing parameters.
         Only one of smear and smear_pdf is included
         (takes smear_pdf over smear when both exist).
         Does not include hshift if a degree zero
