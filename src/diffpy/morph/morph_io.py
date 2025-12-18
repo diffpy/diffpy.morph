@@ -408,9 +408,9 @@ def tabulate_results(multiple_morph_results):
     return tabulated_results
 
 
-def handle_warnings(squeeze_morph):
-    if squeeze_morph is not None:
-        extrapolation_info = squeeze_morph.extrapolation_info
+def handle_extrapolation_warnings(morph):
+    if morph is not None:
+        extrapolation_info = morph.extrapolation_info
         is_extrap_low = extrapolation_info["is_extrap_low"]
         is_extrap_high = extrapolation_info["is_extrap_high"]
         cutoff_low = extrapolation_info["cutoff_low"]
@@ -439,6 +439,38 @@ def handle_warnings(squeeze_morph):
             wmsg = None
 
         if wmsg:
+            warnings.warn(
+                wmsg,
+                UserWarning,
+            )
+
+
+def handle_check_increase_warning(squeeze_morph):
+    if squeeze_morph is not None:
+        if not squeeze_morph.strictly_increasing:
+            wmsg = (
+                "Warning: The squeeze morph has interpolated your morphed "
+                "function from a non-monotonically increasing grid. "
+                "\nThis may not be an issue, but please check for your "
+                "particular case. "
+                "\nTo avoid squeeze making your grid non-monotonic, "
+                "here are some suggested fixes: "
+                "\n(1) Please decrease the order of your polynomial and "
+                "try again. "
+                "\n(2) If you are using initial guesses of all 0, please "
+                "ensure your objective function only requires a small "
+                "polynomial squeeze to match your reference. "
+                "(In other words, there is good agreement between the two "
+                "functions.) "
+                "\n(3) If you expect a large polynomial squeeze to be "
+                "needed, please ensure your initial parameters for the "
+                "polynomial morph result in good agreement between your "
+                "reference and objective functions. "
+                "One way to obtain such parameters is to "
+                "first apply a --hshift and --stretch morph. "
+                "Then, use the hshift parameter for a0 and stretch "
+                "parameter for a1."
+            )
             warnings.warn(
                 wmsg,
                 UserWarning,
