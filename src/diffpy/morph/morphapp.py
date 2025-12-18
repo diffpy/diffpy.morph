@@ -52,8 +52,8 @@ def create_option_parser():
     parser = CustomParser(
         usage="\n".join(
             [
-                "%prog [options] FILE1 FILE2",
-                "Manipulate and compare PDFs.",
+                "%prog [options] MORPHFILE TARGETFILE",
+                "Manipulate and compare functions.",
                 "Use --help for help.",
             ]
         ),
@@ -82,10 +82,10 @@ def create_option_parser():
         dest="slocation",
         help=(
             "Save the manipulated function to a file named NAME. "
-            "Use '-' for stdout.\n"
+            "Use '-' for stdout. "
             "When --multiple-<targets/morphs> is enabled, "
             "save each manipulated function as a file in a directory "
-            "named NAME;\n"
+            "named NAME. "
             "you can specify names for each saved function file using "
             "--save-names-file."
         ),
@@ -96,8 +96,8 @@ def create_option_parser():
         dest="get_diff",
         action="store_true",
         help=(
-            "Save the difference curve rather than the manipulated function.\n"
-            "This is computed as manipulated function minus target function.\n"
+            "Save the difference curve rather than the manipulated function. "
+            "This is computed as manipulated function minus target function. "
             "The difference curve is computed on the interval shared by the "
             "grid of the objective and target function."
         ),
@@ -141,8 +141,10 @@ def create_option_parser():
         "--addpearson",
         action="store_true",
         dest="addpearson",
-        help="""Maximize agreement in the Pearson function as well as
- minimizing the residual.""",
+        help=(
+            "Maximize agreement in the Pearson function as well as "
+            "minimizing the residual."
+        ),
     )
 
     # Manipulations
@@ -150,12 +152,12 @@ def create_option_parser():
         parser,
         "Manipulations",
         (
-            "These options select the manipulations that are to be applied to "
-            "the PDF from FILE1. "
+            "These options select the manipulations that are to be applied "
+            "to the function from MORPHFILE. "
             "The passed values will be refined unless specifically "
             "excluded with the -a or -x options. "
-            "If no option is specified, the PDFs from FILE1 and FILE2 will "
-            "be plotted without any manipulations."
+            "If no option is specified, the functions from MORPHFILE and "
+            "TARGETFILE will be plotted without any manipulations."
         ),
     )
     parser.add_option_group(group)
@@ -237,20 +239,30 @@ def create_option_parser():
         "--slope",
         type="float",
         dest="baselineslope",
-        help="""Slope of the baseline. This is used with the option --smear-pdf
- to convert from the PDF to RDF. It will be estimated if not provided.""",
+        help=(
+            "Slope of the baseline. "
+            "For a bulk material with scale factor 1, "
+            "this will have value -4\u03C0 times the atomic density. "
+            "Otherwise, you can estimate it by dividing the y "
+            "position from the x position "
+            "of the base of the first peak. "
+            "This is used with the option "
+            "--smear-pdf to convert from the PDF to RDF. "
+            "It will be estimated as a number near"
+            "-0.5 if not provided. "
+        ),
     )
     group.add_option(
         "--hshift",
         type="float",
         metavar="HSHIFT",
-        help="Shift the PDF horizontally by HSHIFT to the right.",
+        help="Shift the function horizontally by HSHIFT to the right.",
     )
     group.add_option(
         "--vshift",
         type="float",
         metavar="VSHIFT",
-        help="Shift the PDF vertically by VSHIFT upward.",
+        help="Shift the function vertically by VSHIFT upward.",
     )
     group.add_option(
         "--qdamp",
@@ -308,9 +320,9 @@ def create_option_parser():
         parser,
         "Plot Options",
         (
-            "These options control plotting. The manipulated and target PDFs "
-            "will be plotted against each other with a difference curve "
-            "below. "
+            "These options control plotting. The manipulated and target"
+            "functions will be plotted against each other with a difference "
+            "curve below. "
             "When --multiple-<targets/morphs> is enabled, the value of a "
             "parameter (specified by --plot-parameter) will be plotted "
             "instead."
@@ -330,7 +342,7 @@ def create_option_parser():
         dest="mlabel",
         help=(
             "Set label for morphed data to MLABEL on plot. "
-            "Default label is FILE1."
+            "Default label is MORPHFILE."
         ),
     )
     group.add_option(
@@ -339,7 +351,7 @@ def create_option_parser():
         dest="tlabel",
         help=(
             "Set label for target data to TLABEL on plot. "
-            "Default label is FILE2."
+            "Default label is TARGETFILE."
         ),
     )
     group.add_option(
@@ -355,12 +367,12 @@ def create_option_parser():
     group.add_option(
         "--maglim",
         type="float",
-        help="Magnify plot curves beyond r=MAGLIM by MAG.",
+        help="Magnify plot curves beyond x=MAGLIM by MAG.",
     )
     group.add_option(
         "--mag",
         type="float",
-        help="Magnify plot curves beyond r=MAGLIM by MAG.",
+        help="Magnify plot curves beyond x=MAGLIM by MAG.",
     )
     group.add_option(
         "--lwidth", type="float", help="Line thickness of plotted curves."
@@ -371,8 +383,9 @@ def create_option_parser():
         parser,
         "Multiple Morphs",
         (
-            "This program can morph a PDF against multiple targets in one "
-            "command. See -s and Plot Options for how saving and plotting "
+            "This program can morph a function against multiple targets in"
+            " one command. "
+            "See -s and Plot Options for how saving and plotting "
             "functionality changes when performing multiple morphs."
         ),
     )
@@ -382,10 +395,17 @@ def create_option_parser():
         dest="multiple_morphs",
         action="store_true",
         help=(
-            f"Changes usage to '{prog_short} [options] FILE DIRECTORY'. "
-            f"FILE will be morphed with each file in DIRECTORY as target. "
-            f"Files in DIRECTORY are sorted by alphabetical order unless a "
-            f"field is specified by --sort-by."
+            f"Usage: '{prog_short} --multiple-morphs [options] DIRECTORY "
+            f"TARGET'. "
+            f"Morphs every file in DIRECTORY to the a single TARGET file. "
+            f"Paths for DIRECTORY and TARGET are relative to the current "
+            f"working directory. "
+            "By default, the Rw for each morph is plotted, where the x-axis "
+            "is sorted alphanumerically by filename of the file being "
+            "morphed. "
+            "Use --sort-by option to change the x-axis order. "
+            "Use --plot-parameter to modify the parameter plotted on the "
+            "y-axis."
         ),
     )
     group.add_option(
@@ -393,10 +413,17 @@ def create_option_parser():
         dest="multiple_targets",
         action="store_true",
         help=(
-            f"Changes usage to '{prog_short} [options] DIRECTORY FILE'. "
-            f"Each file in DIRECTORY will be morphed with FILE as target. "
-            f"Files in DIRECTORY are sorted by alphabetical order unless a "
-            f"field is specified by --sort-by."
+            f"Usage: '{prog_short} --multiple-targets [options] MORPH "
+            f"DIRECTORY'. "
+            f"Morphs the MORPH file to every file in DIRECTORY. "
+            f"Paths for MORPH and DIRECTORY are relative to the current "
+            f"working directory. "
+            "By default, the Rw for each morph is plotted, where the x-axis "
+            "is sorted alphanumerically by filename of the file being "
+            "morphed. "
+            "Use --sort-by option to change the x-axis order. "
+            "Use --plot-parameter to modify the parameter plotted on the "
+            "y-axis."
         ),
     )
     group.add_option(
@@ -404,11 +431,15 @@ def create_option_parser():
         metavar="FIELD",
         dest="field",
         help=(
-            "Used with --multiple-<targets/morphs> to sort files in DIRECTORY "
-            "by FIELD. "
-            "If the FIELD being used has a numerical value, sort from lowest "
-            "to highest. Otherwise, sort in ASCII sort order. FIELD must be "
-            "included in the header of all the PDF files."
+            "Used with --multiple-<targets/morphs> to sort files in "
+            "DIRECTORY by FIELD. "
+            "If the FIELD being used has a numerical value, sort from "
+            "lowest to highest unless --reverse is enabled. "
+            "Otherwise, sort in ASCII sort order. "
+            "The program will look for the FIELD (case insensitive) in the "
+            "header of each of the files in DIRECTORY. "
+            "If plotting is enabled, the x-axis of the plot will be the "
+            "field."
         ),
     )
     group.add_option(
@@ -421,8 +452,10 @@ def create_option_parser():
         "--serial-file",
         metavar="SERIALFILE",
         dest="serfile",
-        help="""Look for FIELD in a serial file instead.
- Must specify name of serial file SERIALFILE.""",
+        help=(
+            "Look for FIELD in a serialization file (e.g. .json) instead. "
+            "Must specify name of serial file SERIALFILE."
+        ),
     )
     group.add_option(
         "--save-names-file",
@@ -430,13 +463,15 @@ def create_option_parser():
         dest="snamesfile",
         help=(
             "Used when both -s and --multiple-<targets/morphs> are enabled. "
-            "Specify names for each manipulated PDF when saving (see -s) "
-            "using a serial file NAMESFILE. The format of NAMESFILE should be "
-            "as follows: each target PDF is an entry in NAMESFILE. For each "
-            "entry, there should be a key {__save_morph_as__} whose value "
-            "specifies the name to save the manipulated function as."
-            "An example .json serial file is included in the tutorial "
-            "directory on the package GitHub repository."
+            "Specify names for each manipulated function when saving "
+            "(see -s) using a serial file NAMESFILE. "
+            "The format of NAMESFILE should be as follows: "
+            "each target function is an entry in NAMESFILE. "
+            "For each entry, there should be a key {__save_morph_as__} "
+            "whose value specifies the name to save the manipulated "
+            "function as."
+            "An example .json serialization file is included in the "
+            "tutorial directory on the package GitHub repository."
         ),
     )
     group.add_option(
@@ -472,10 +507,11 @@ def single_morph(
     parser, opts, pargs, stdout_flag=True, python_wrap=False, pymorphs=None
 ):
     if len(pargs) < 2:
-        parser.error("You must supply FILE1 and FILE2.")
+        parser.error("You must supply MORPHFILE and TARGETFILE.")
     elif len(pargs) > 2 and not python_wrap:
         parser.error(
-            "Too many arguments. Make sure you only supply FILE1 and FILE2."
+            "Too many arguments. Make sure you only supply "
+            "MORPHFILE and TARGETFILE."
         )
     elif not (len(pargs) == 2 or len(pargs) == 6) and python_wrap:
         parser.error("Python wrapper error.")
@@ -837,7 +873,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # applied
     if len(pargs) < 2:
         parser.custom_error(
-            "You must supply FILE and DIRECTORY. "
+            "You must supply a FILE and DIRECTORY. "
             "See --multiple-targets under --help for usage."
         )
     elif len(pargs) > 2:
@@ -896,7 +932,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
                 )
             else:
                 parser.custom_error(
-                    "The requested field is missing from a PDF file header."
+                    "The requested field is missing from a file header."
                 )
     else:
         # Default is alphabetical sort
@@ -911,7 +947,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     save_names_file = (
         opts.snamesfile
     )  # User-given serialfile with names for each morph
-    save_morphs_here = None  # Subdirectory for saving morphed PDFs
+    save_morphs_here = None  # Subdirectory for saving morphed functions
     save_names = {}  # Dictionary of names to save each morph as
     if save_directory is not None:
         try:
@@ -1020,7 +1056,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # applied
     if len(pargs) < 2:
         parser.custom_error(
-            "You must supply DIRECTORY and FILE. "
+            "You must supply a DIRECTORY and FILE. "
             "See --multiple-morphs under --help for usage."
         )
     elif len(pargs) > 2:
