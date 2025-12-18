@@ -34,7 +34,7 @@ def custom_formatwarning(msg, *args, **kwargs):
 warnings.formatwarning = custom_formatwarning
 
 
-def get_morph_inputs(
+def build_morph_inputs_container(
     scale,
     stretch,
     smear_pdf,
@@ -62,6 +62,17 @@ def get_morph_inputs(
         opts.vshift
     squeeze
         opts.squeeze
+
+    Returns
+    -------
+    dict
+        Dictionary of input morphing parameters.
+        Only one of smear and smear_pdf is included
+        (takes smear_pdf over smear when both exist).
+        Does not include hshift if a degree zero
+        or above squeeze is used.
+        Does not include stretch if a degree one
+        or above squeeze is used.
     """
     squeeze_poly_deg = -1
     squeeze_in = None

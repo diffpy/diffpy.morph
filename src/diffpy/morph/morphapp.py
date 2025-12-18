@@ -725,7 +725,7 @@ def single_morph(
     # if you think there requires special handling
 
     # Input morph parameters
-    morph_inputs = io.get_morph_inputs(
+    morph_inputs = io.build_morph_inputs_container(
         opts.scale,
         opts.stretch,
         opts.smear_pdf,
@@ -952,7 +952,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     for key in morph_results.keys():
         target_file_names.append(key)
 
-    morph_inputs = io.get_morph_inputs(
+    morph_inputs = io.build_morph_inputs_container(
         opts.scale,
         opts.stretch,
         opts.smear_pdf,
@@ -1138,7 +1138,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     for key in morph_results.keys():
         morph_file_names.append(key)
 
-    morph_inputs = io.get_morph_inputs(
+    morph_inputs = io.build_morph_inputs_container(
         opts.scale,
         opts.stretch,
         opts.smear_pdf,
