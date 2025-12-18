@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* Docstrings updated for better clarity
+* <news item>
 
 **Deprecated:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Docstrings updated for better clarity.
 
 **Security:**
 

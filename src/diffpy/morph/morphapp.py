@@ -240,22 +240,29 @@ def create_option_parser():
         type="float",
         dest="baselineslope",
         help=(
-            "Slope of the baseline. This is used with the option "
+            "Slope of the baseline. "
+            "For a bulk material with scale factor 1, "
+            "this will have value -4\u03C0 times the atomic density. "
+            "Otherwise, you can estimate it by dividing the y "
+            "position from the x position "
+            "of the base of the first peak. "
+            "This is used with the option "
             "--smear-pdf to convert from the PDF to RDF. "
-            "It will be estimated if not provided."
+            "It will be estimated as a number near"
+            "-0.5 if not provided. "
         ),
     )
     group.add_option(
         "--hshift",
         type="float",
         metavar="HSHIFT",
-        help="Shift the PDF horizontally by HSHIFT to the right.",
+        help="Shift the function horizontally by HSHIFT to the right.",
     )
     group.add_option(
         "--vshift",
         type="float",
         metavar="VSHIFT",
-        help="Shift the PDF vertically by VSHIFT upward.",
+        help="Shift the function vertically by VSHIFT upward.",
     )
     group.add_option(
         "--qdamp",
@@ -446,7 +453,7 @@ def create_option_parser():
         metavar="SERIALFILE",
         dest="serfile",
         help=(
-            "Look for FIELD in a serial file instead. "
+            "Look for FIELD in a serialization file (e.g. .json) instead. "
             "Must specify name of serial file SERIALFILE."
         ),
     )
@@ -456,14 +463,15 @@ def create_option_parser():
         dest="snamesfile",
         help=(
             "Used when both -s and --multiple-<targets/morphs> are enabled. "
-            "Specify names for each manipulated PDF when saving (see -s) "
-            "using a serial file NAMESFILE. The format of NAMESFILE should "
-            "be as follows: each target PDF is an entry in NAMESFILE. "
+            "Specify names for each manipulated function when saving "
+            "(see -s) using a serial file NAMESFILE. "
+            "The format of NAMESFILE should be as follows: "
+            "each target function is an entry in NAMESFILE. "
             "For each entry, there should be a key {__save_morph_as__} "
             "whose value specifies the name to save the manipulated "
             "function as."
-            "An example .json serial file is included in the tutorial "
-            "directory on the package GitHub repository."
+            "An example .json serialization file is included in the "
+            "tutorial directory on the package GitHub repository."
         ),
     )
     group.add_option(
