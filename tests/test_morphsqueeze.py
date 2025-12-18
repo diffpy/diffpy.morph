@@ -54,6 +54,8 @@ def test_morphsqueeze(x_morph, x_target, squeeze_coeffs):
     x_target_expected = x_target
     y_target_expected = y_target
     # actual output
+    # turn the coefficients into a list for passing to Polynomial
+    # the morphsqueeze function itself requires a dictionary
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
@@ -139,16 +141,16 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
     coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
     squeeze_polynomial = Polynomial(coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
-    with pytest.warns() as w:
+    with pytest.warns() as warning:
         morphpy.morph_arrays(
             np.array([x_morph, y_morph]).T,
             np.array([x_target, y_target]).T,
             squeeze=coeffs,
             apply=True,
         )
-        assert len(w) == 1
-        assert w[0].category is UserWarning
-        actual_wmsg = str(w[0].message)
+        assert len(warning) == 1
+        assert warning[0].category is UserWarning
+        actual_wmsg = str(warning[0].message)
     expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
     assert actual_wmsg == expected_wmsg
 
@@ -173,6 +175,8 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
 
 
 def test_non_unique_grid():
+    # Test giving morphsqueeze a non-unique grid
+    # Expect it to return a unique grid
     squeeze_coeffs = {"a0": 0.01, "a1": 0.01, "a2": -0.1}
     x_grid = np.linspace(0, 10, 101)
 
@@ -205,10 +209,11 @@ def test_non_unique_grid():
 @pytest.mark.parametrize(
     "squeeze_coeffs, x_morph",
     [
-        # The following squeezes make the function non-monotonic
-        ({"a0": -1, "a1": -1, "a2": 2}, np.linspace(-1, 1, 101)),
+        # The following squeezes make the function non-monotonic.
+        # Expect code to work but issue the correct warning.
+        ([-1, -1, 2], np.linspace(-1, 1, 101)),
         (
-            {"a0": -1, "a1": -1, "a2": 0, "a3": 0, "a4": 2},
+            [-1, -1, 0, 0, 2],
             np.linspace(-1, 1, 101),
         ),
     ],
@@ -217,27 +222,40 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
     # call in .py
     x_target = x_morph
     y_target = np.sin(x_target)
-    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
-    squeeze_polynomial = Polynomial(coeffs)
+    squeeze_polynomial = Polynomial(squeeze_coeffs)
     x_squeezed = x_morph + squeeze_polynomial(x_morph)
     y_morph = np.sin(x_squeezed)
     morph = MorphSqueeze()
     morph.squeeze = squeeze_coeffs
-    with pytest.warns() as w:
+    with pytest.warns() as warning:
         morphpy.morph_arrays(
             np.array([x_morph, y_morph]).T,
             np.array([x_target, y_target]).T,
-            squeeze=coeffs,
+            squeeze=squeeze_coeffs,
             apply=True,
         )
-    assert len(w) == 1
-    assert w[0].category is UserWarning
-    actual_wmsg = str(w[0].message)
+    assert len(warning) == 1
+    assert warning[0].category is UserWarning
+    actual_wmsg = str(warning[0].message)
     expected_wmsg = (
         "Warning: The squeeze morph has interpolated your morphed "
         "function from a non-monotonically increasing grid. "
-        "This can result in strange behavior in certain "
-        "grid regions."
+        "\nThis may not be an issue, but please check for your "
+        "particular case. "
+        "\nTo avoid squeeze making your grid non-monotonic, "
+        "here are some suggested fixes: "
+        "\n(1) Please decrease the order of your polynomial and try again. "
+        "\n(2) If you are using initial guesses of all 0, please ensure "
+        "your objective function only requires a small polynomial "
+        "squeeze to match your reference. "
+        "(In other words, there is good agreement between the two "
+        "functions.) "
+        "\n(3) If you expect a large polynomial squeeze to be needed, "
+        "please ensure your initial parameters for the polynomial "
+        "morph result in good agreement between your reference and "
+        "objective functions. One way to obtain such parameters is to "
+        "first apply a --hshift and --stretch morph. "
+        "Then, use the hshift parameter for a0 and stretch parameter for a1."
     )
     assert expected_wmsg in actual_wmsg
 
@@ -249,31 +267,38 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
     (opts, pargs) = parser.parse_args(
         [
             "--squeeze",
-            ",".join(map(str, coeffs)),
+            ",".join(map(str, squeeze_coeffs)),
             f"{morph_file.as_posix()}",
             f"{target_file.as_posix()}",
             "--apply",
             "-n",
         ]
     )
-    with pytest.warns(UserWarning) as w:
+    with pytest.warns(UserWarning) as warning:
         single_morph(parser, opts, pargs, stdout_flag=False)
-    assert len(w) == 1
-    actual_wmsg = str(w[0].message)
+    assert len(warning) == 1
+    actual_wmsg = str(warning[0].message)
     assert expected_wmsg in actual_wmsg
 
 
-def test_handle_duplicates():
-    x_choices = np.linspace(0, 10, 11)
-    iter = 10
+@pytest.mark.parametrize(
+    "x_sampled",
+    [
+        # Test one duplicate per number
+        np.array([0, 0, 1, 1, 2, 2, 3, 3]),
+        # Test more than one duplicates per number
+        np.array([0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2]),
+        # Test with only one grid number
+        np.array([0, 0, 0, 0]),
+        # Test no duplicates
+        np.array([0, 1, 2, 3, 4]),
+    ],
+)
+def test_handle_duplicates(x_sampled):
     morph = MorphSqueeze()
-    for i in range(iter):
-        x_sampled = np.random.choice(x_choices, size=20)
-        y_sampled = np.sin(x_sampled)
-        x_handled, y_handled = morph._handle_duplicates(x_sampled, y_sampled)
-        x_target = np.unique(x_sampled)
-        y_target = np.array(
-            [y_sampled[x_sampled == x].mean() for x in x_target]
-        )
-        assert np.allclose(x_handled, x_target)
-        assert np.allclose(y_handled, y_target)
+    y_sampled = np.sin(x_sampled)
+    x_handled, y_handled = morph._handle_duplicates(x_sampled, y_sampled)
+    x_target = np.unique(x_sampled)
+    y_target = np.array([y_sampled[x_sampled == x].mean() for x in x_target])
+    assert np.allclose(x_handled, x_target)
+    assert np.allclose(y_handled, y_target)

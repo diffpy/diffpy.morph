@@ -93,7 +93,7 @@ class MorphSqueeze(Morph):
         if len(x_unique) == len(x):
             return x, y
         else:
-            y_avg = numpy.zeros_like(x_unique)
+            y_avg = numpy.zeros_like(x_unique, dtype=float)
             for idx, _ in enumerate(x_unique):
                 y_avg[idx] = y[inv == idx].mean()
             return x_unique, y_avg

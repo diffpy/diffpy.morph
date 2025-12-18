@@ -451,8 +451,25 @@ def handle_check_increase_warning(squeeze_morph):
             wmsg = (
                 "Warning: The squeeze morph has interpolated your morphed "
                 "function from a non-monotonically increasing grid. "
-                "This can result in strange behavior in certain "
-                "grid regions."
+                "\nThis may not be an issue, but please check for your "
+                "particular case. "
+                "\nTo avoid squeeze making your grid non-monotonic, "
+                "here are some suggested fixes: "
+                "\n(1) Please decrease the order of your polynomial and "
+                "try again. "
+                "\n(2) If you are using initial guesses of all 0, please "
+                "ensure your objective function only requires a small "
+                "polynomial squeeze to match your reference. "
+                "(In other words, there is good agreement between the two "
+                "functions.) "
+                "\n(3) If you expect a large polynomial squeeze to be "
+                "needed, please ensure your initial parameters for the "
+                "polynomial morph result in good agreement between your "
+                "reference and objective functions. "
+                "One way to obtain such parameters is to "
+                "first apply a --hshift and --stretch morph. "
+                "Then, use the hshift parameter for a0 and stretch "
+                "parameter for a1."
             )
             warnings.warn(
                 wmsg,
