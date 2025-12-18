@@ -762,17 +762,16 @@ def single_morph(
     # if you think there requires special handling
 
     # Input morph parameters
-    morph_inputs = {
-        "scale": scale_in,
-        "stretch": stretch_in,
-        "smear": smear_in,
-    }
-    morph_inputs.update({"hshift": hshift_in, "vshift": vshift_in})
-    # More complex input morph parameters are only displayed conditionally
-    if opts.squeeze is not None:
-        squeeze_dict = squeeze_dict_in.copy()
-        for idx, _ in enumerate(squeeze_dict):
-            morph_inputs.update({f"squeeze a{idx}": squeeze_dict[f"a{idx}"]})
+    morph_inputs = io.build_morph_inputs_container(
+        opts.scale,
+        opts.stretch,
+        opts.smear_pdf,
+        opts.smear,
+        opts.hshift,
+        opts.vshift,
+        opts.squeeze,
+    )
+    # Special python morph inputs (for single morph only)
     if pymorphs is not None:
         if "funcxy" in pymorphs:
             for funcxy_param in pymorphs["funcxy"][1].keys():
@@ -990,12 +989,15 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     for key in morph_results.keys():
         target_file_names.append(key)
 
-    morph_inputs = {
-        "scale": opts.scale,
-        "stretch": opts.stretch,
-        "smear": opts.smear_pdf,
-    }
-    morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
+    morph_inputs = io.build_morph_inputs_container(
+        opts.scale,
+        opts.stretch,
+        opts.smear_pdf,
+        opts.smear,
+        opts.hshift,
+        opts.vshift,
+        opts.squeeze,
+    )
 
     try:
         # Print summary of morphs to terminal and to file (if requested)
@@ -1173,12 +1175,15 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     for key in morph_results.keys():
         morph_file_names.append(key)
 
-    morph_inputs = {
-        "scale": opts.scale,
-        "stretch": opts.stretch,
-        "smear": opts.smear_pdf,
-    }
-    morph_inputs.update({"hshift": opts.hshift, "vshift": opts.vshift})
+    morph_inputs = io.build_morph_inputs_container(
+        opts.scale,
+        opts.stretch,
+        opts.smear_pdf,
+        opts.smear,
+        opts.hshift,
+        opts.vshift,
+        opts.squeeze,
+    )
 
     try:
         # Print summary of morphs to terminal and to file (if requested)
