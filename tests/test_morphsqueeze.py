@@ -284,6 +284,7 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
 @pytest.mark.parametrize(
     "x_sampled",
     [
+        # Expected output: all repeated datapoints are removed
         # Test one duplicate per number
         np.array([0, 0, 1, 1, 2, 2, 3, 3]),
         # Test more than one duplicates per number
