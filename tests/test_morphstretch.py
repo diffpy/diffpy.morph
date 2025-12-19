@@ -101,16 +101,16 @@ def test_morphshift_extrapolate(user_filesystem, stretch, wmsg_gen):
     y_morph = numpy.sin(x_morph)
     x_target = x_morph.copy()
     y_target = y_morph.copy()
-    with pytest.warns() as w:
+    with pytest.warns() as warning:
         morphpy.morph_arrays(
             numpy.array([x_morph, y_morph]).T,
             numpy.array([x_target, y_target]).T,
             stretch=stretch,
             apply=True,
         )
-        assert len(w) == 1
-        assert w[0].category is UserWarning
-        actual_wmsg = str(w[0].message)
+        assert len(warning) == 1
+        assert warning[0].category is UserWarning
+        actual_wmsg = str(warning[0].message)
     expected_wmsg = wmsg_gen([min(x_morph), max(x_morph)])
     assert actual_wmsg == expected_wmsg
 
@@ -131,3 +131,35 @@ def test_morphshift_extrapolate(user_filesystem, stretch, wmsg_gen):
     )
     with pytest.warns(UserWarning, match=expected_wmsg):
         single_morph(parser, opts, pargs, stdout_flag=False)
+
+
+def test_morphshift_no_warning(user_filesystem):
+    # Apply a stretch with no extrapolation
+    # There should be no warning or errors produced
+    x_morph = numpy.linspace(1, 10, 101)
+    y_morph = numpy.sin(x_morph)
+    x_target = x_morph.copy()
+    y_target = y_morph.copy()
+    morphpy.morph_arrays(
+        numpy.array([x_morph, y_morph]).T,
+        numpy.array([x_target, y_target]).T,
+        stretch=0,
+        apply=True,
+    )
+
+    # CLI test
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--stretch=0",
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+        ]
+    )
+    single_morph(parser, opts, pargs, stdout_flag=False)

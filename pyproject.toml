@@ -11,7 +11,7 @@ authors = [
 maintainers = [
   { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
 ]
-description = "Python package for manipulating and comparing PDF profiles"
+description = "Python package for manipulating and comparing 1D signals."
 keywords = ['diffpy', 'pdf', 'data interpretation']
 readme = "README.rst"
 requires-python = ">=3.11, <3.14"
