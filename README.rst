@@ -38,9 +38,9 @@
 Python package for manipulating and comparing diffraction data
 
 ``diffpy.morph`` is a Python software package designed to increase the insight
-researchers can obtain from measured diffraction data
+researchers can obtain from measured data including diffraction data
 and atomic pair distribution functions
-(PDFs) in a model-independent way. The program was designed to help a
+(PDFs) in a model-independent way. For example, the program was designed to help a
 researcher answer the question: "Has my material undergone a phase
 transition between these two measurements?"
 
@@ -73,26 +73,12 @@ Citation
 
 If you use diffpy.morph in a scientific publication, we would like you to cite this package as
 
-        diffpy.morph Package, https://github.com/diffpy/diffpy.morph
 
-REQUIREMENTS
-------------------------------------------------------------------------
-
-``diffpy.morph`` is currently run from the command line, which requires opening
-and typing into a terminal window or Windows command prompt. It is
-recommended that you consult online resources and become somewhat
-familiar before using ``diffpy.morph``.
-
-``diffpy.morph`` can be run with Python 3.11 or higher. It makes use of several third party
-libraries that you'll need to run the app and its components.
-
-* `NumPy`              - library for scientific computing with Python
-* `matplotlib`         - Python 2D plotting library
-* `SciPy`              - library for highly technical Python computing
-* `diffpy.utils`       - `shared helper utilities <https://github.com/diffpy/diffpy.utils/>`_ for wx GUI
-
-These dependencies will be installed automatically if you use the conda
-installation procedure described below.
+"diffpy.morph: Python tools for model independent comparisons between sets of 1D functions" by
+Andrew Yang, Luis Kitsu Iglesias, Michael F. Toney, Samuel D. Marks, Joshua Safin, Vivian R. K. Wall,
+Katherine Page, Naomi S. Ginsberg, Dillon Hanlon, Nicholas Leonard, Samuel W. Teitelbaum,
+Timothy B. van Driel, Chia-Hao Liu, Soham Banerjee, Christopher L. Farrow, Pavol Juhas,
+Emil S.  Bozin, Simon J.  L.  Billinge, to be published.
 
 Installation
 ------------
