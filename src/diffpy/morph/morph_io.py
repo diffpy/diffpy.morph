@@ -501,38 +501,39 @@ def tabulate_results(multiple_morph_results):
 def handle_extrapolation_warnings(morph):
     if morph is not None:
         extrapolation_info = morph.extrapolation_info
-        is_extrap_low = extrapolation_info["is_extrap_low"]
-        is_extrap_high = extrapolation_info["is_extrap_high"]
-        cutoff_low = extrapolation_info["cutoff_low"]
-        cutoff_high = extrapolation_info["cutoff_high"]
+        if extrapolation_info is not None:
+            is_extrap_low = extrapolation_info["is_extrap_low"]
+            is_extrap_high = extrapolation_info["is_extrap_high"]
+            cutoff_low = extrapolation_info["cutoff_low"]
+            cutoff_high = extrapolation_info["cutoff_high"]
 
-        if is_extrap_low and is_extrap_high:
-            wmsg = (
-                "Warning: points with grid value below "
-                f"{cutoff_low} and above "
-                f"{cutoff_high} "
-                f"are extrapolated."
-            )
-        elif is_extrap_low:
-            wmsg = (
-                "Warning: points with grid value below "
-                f"{cutoff_low} "
-                f"are extrapolated."
-            )
-        elif is_extrap_high:
-            wmsg = (
-                "Warning: points with grid value above "
-                f"{cutoff_high} "
-                f"are extrapolated."
-            )
-        else:
-            wmsg = None
+            if is_extrap_low and is_extrap_high:
+                wmsg = (
+                    "Warning: points with grid value below "
+                    f"{cutoff_low} and above "
+                    f"{cutoff_high} "
+                    f"are extrapolated."
+                )
+            elif is_extrap_low:
+                wmsg = (
+                    "Warning: points with grid value below "
+                    f"{cutoff_low} "
+                    f"are extrapolated."
+                )
+            elif is_extrap_high:
+                wmsg = (
+                    "Warning: points with grid value above "
+                    f"{cutoff_high} "
+                    f"are extrapolated."
+                )
+            else:
+                wmsg = None
 
-        if wmsg:
-            warnings.warn(
-                wmsg,
-                UserWarning,
-            )
+            if wmsg:
+                warnings.warn(
+                    wmsg,
+                    UserWarning,
+                )
 
 
 def handle_check_increase_warning(squeeze_morph):

@@ -124,6 +124,7 @@ class Morph(object):
             All configuration variables.
         """
         # declare empty attributes
+        self.extrapolation_info = None
         if config is None:
             config = {}
         self.x_morph_in = None
