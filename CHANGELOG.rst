@@ -4,6 +4,14 @@ Release notes
 
 .. current developments
 
+0.3.1
+=====
+
+**Fixed:**
+
+* Applying a function with no extrapolation no longer produces an error.
+
+
 0.3.0
 =====
 
