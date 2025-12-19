@@ -105,3 +105,36 @@ def test_morphshift_extrapolate(user_filesystem, capsys, hshift, wmsg_gen):
     )
     with pytest.warns(UserWarning, match=expected_wmsg):
         single_morph(parser, opts, pargs, stdout_flag=False)
+
+
+def test_morphshift_no_warning(user_filesystem):
+    # Apply a shift with no extrapolation
+    # There should be no warning or errors produced
+    x_morph = numpy.linspace(0, 10, 101)
+    y_morph = numpy.sin(x_morph)
+    x_target = x_morph.copy()
+    y_target = y_morph.copy()
+    morphpy.morph_arrays(
+        numpy.array([x_morph, y_morph]).T,
+        numpy.array([x_target, y_target]).T,
+        hshift=0,
+        apply=True,
+    )
+
+    # CLI test
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--scale=1",
+            "--hshift=0",
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+        ]
+    )
+    single_morph(parser, opts, pargs, stdout_flag=False)

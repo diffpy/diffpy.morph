@@ -155,6 +155,7 @@ def test_morphshift_no_warning(user_filesystem):
     parser = create_option_parser()
     (opts, pargs) = parser.parse_args(
         [
+            "--scale=1",
             "--stretch=0",
             f"{morph_file.as_posix()}",
             f"{target_file.as_posix()}",
