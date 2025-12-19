@@ -174,6 +174,44 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
         single_morph(parser, opts, pargs, stdout_flag=False)
 
 
+def test_morphsqueeze_no_warning(user_filesystem):
+    # Apply a squeeze with no extrapolation
+    # There should be no warning or errors produced
+    squeeze_coeffs = {"a0": 0, "a1": 0}
+    x_morph = np.linspace(0, 10, 101)
+    y_morph = np.sin(x_morph)
+    x_target = x_morph.copy()
+    y_target = y_morph.copy()
+    morph = MorphSqueeze()
+    morph.squeeze = squeeze_coeffs
+    coeffs = [squeeze_coeffs[f"a{i}"] for i in range(len(squeeze_coeffs))]
+    morphpy.morph_arrays(
+        np.array([x_morph, y_morph]).T,
+        np.array([x_target, y_target]).T,
+        squeeze=coeffs,
+        apply=True,
+    )
+
+    # CLI test
+    morph_file, target_file = create_morph_data_file(
+        user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
+    )
+
+    parser = create_option_parser()
+    (opts, pargs) = parser.parse_args(
+        [
+            "--scale=1",
+            "--squeeze",
+            ",".join(map(str, coeffs)),
+            f"{morph_file.as_posix()}",
+            f"{target_file.as_posix()}",
+            "--apply",
+            "-n",
+        ]
+    )
+    single_morph(parser, opts, pargs, stdout_flag=False)
+
+
 def test_non_unique_grid():
     # Test giving morphsqueeze a non-unique grid
     # Expect it to return a unique grid
