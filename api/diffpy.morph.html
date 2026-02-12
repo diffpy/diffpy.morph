@@ -6,17 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph package &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>diffpy.morph package &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../_static/copybutton.js?v=cca77546"></script>
     <script src="../_static/js/theme.js"></script>
@@ -571,6 +571,38 @@ morph_table[:,1] is the ordinate.</p></li>
 <section id="module-diffpy.morph.morph_io">
 <span id="diffpy-morph-morph-io-module"></span><h3>diffpy.morph.morph_io module<a class="headerlink" href="#module-diffpy.morph.morph_io" title="Link to this heading"></a></h3>
 <dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.build_morph_inputs_container">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">build_morph_inputs_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stretch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smear_pdf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smear</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hshift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vshift</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squeeze</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#build_morph_inputs_container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.build_morph_inputs_container" title="Link to this definition"></a></dt>
+<dd><p>Helper function to extract input morphing parameters for CLI
+morphs. Python morphs are handled separately.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>scale</strong> – opts.scale</p></li>
+<li><p><strong>stretch</strong> – opts.stretch</p></li>
+<li><p><strong>smear_pdf</strong> – opts.smear_pdf</p></li>
+<li><p><strong>smear</strong> – opts.smear</p></li>
+<li><p><strong>hshift</strong> – opts.hshift</p></li>
+<li><p><strong>vshift</strong> – opts.vshift</p></li>
+<li><p><strong>squeeze</strong> – opts.squeeze</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dictionary of input morphing parameters.
+Only one of smear and smear_pdf is included
+(takes smear_pdf over smear when both exist).
+Does not include hshift if a degree zero
+or above squeeze is used.
+Does not include stretch if a degree one
+or above squeeze is used.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.morph_io.create_morphs_directory">
 <span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">create_morphs_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#create_morphs_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.create_morphs_directory" title="Link to this definition"></a></dt>
 <dd><p>Create a directory for saving multiple morphed functions.</p>
@@ -624,8 +656,13 @@ names used to produce that morph.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.morph_io.handle_warnings">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">handle_warnings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">squeeze_morph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#handle_warnings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.handle_warnings" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.handle_check_increase_warning">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">handle_check_increase_warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">squeeze_morph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#handle_check_increase_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.handle_check_increase_warning" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.handle_extrapolation_warnings">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">handle_extrapolation_warnings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#handle_extrapolation_warnings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.handle_extrapolation_warnings" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -705,7 +742,7 @@ corresponding value is a list of data for that column.</p>
 <p>refine – Refine a morph or morph chain</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="diffpy.morph.refine.Refiner">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.morph.refine.</span></span><span class="sig-name descname"><span class="pre">Refiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">diffpy.morph.refine.</span></span><span class="sig-name descname"><span class="pre">Refiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_morph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class for refining a Morph or MorphChain.</p>
 <p>This is provided to allow for custom residuals and refinement algorithms.</p>
@@ -834,7 +871,7 @@ dictionary of the morph or morph chain.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -34,10 +34,11 @@ plotted below.
 
 There are also a few other morphing transformations in the program.
 If no morphing transformation is specified, ``diffpy.morph`` will return just
-the plotted PDFs.
+the plotted functions.
 
 Finally, we note that though ``diffpy.morph`` should work on other spectra
-that are not PDFs, it has not been extensively tested beyond the PDF.
+that are not from diffraction, it has not been extensively tested beyond 1D
+diffraction patterns and PDFs.
 
 To get started, please visit the `quickstart tutorial <quickstart.html>`__.
 For those looking to see more advanced features, you can read our

@@ -6,20 +6,20 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Advanced Tutorials &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>Advanced Tutorials &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=cca77546"></script>
-      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -252,7 +252,8 @@ between the squeezed, scaled morph function and the target.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><strong>Extrapolation risk:</strong>
-A polynomial squeeze can shift morph data outside the target’s <code class="docutils literal notranslate"><span class="pre">r</span></code>-range,
+A polynomial squeeze can shift morph data outside the target’s grid
+(<code class="docutils literal notranslate"><span class="pre">x</span></code>-axis) range,
 so parts of the output may be extrapolated.
 This is generally fine if the polynomial coefficients are small and
 the distortion is therefore small. If your coefficients are large, check the
@@ -305,13 +306,13 @@ would be half of that, or 11.2.</p>
 </li>
 <li><p>Now, we are ready to perform a morph applying spherical
 effects. To do so, we use the <code class="docutils literal notranslate"><span class="pre">--radius</span></code> parameter</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span>
 </pre></div>
 </div>
 </li>
 <li><p>We can see that the <span class="math notranslate nohighlight">\(Rw\)</span> value has significantly decreased
 from before. Run without the <code class="docutils literal notranslate"><span class="pre">-a</span></code> tag to refine</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_sphere</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mf">11.2</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span>
 </pre></div>
 </div>
 </li>
@@ -335,7 +336,7 @@ the bulk material against our nanoparticle</p>
 the equatorial radius is 12 and polar radius is 6. This is
 enough information to define our spheroid. To apply
 spheroid shape effects onto our bulk, run</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_spheroid</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mi">12</span> <span class="o">--</span><span class="n">pradius</span><span class="o">=</span><span class="mi">6</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="n">Ni_bulk</span><span class="o">.</span><span class="n">gr</span> <span class="n">Ni_nano_spheroid</span><span class="o">.</span><span class="n">cgr</span> <span class="o">--</span><span class="n">radius</span><span class="o">=</span><span class="mi">12</span> <span class="o">--</span><span class="n">pradius</span><span class="o">=</span><span class="mi">6</span> <span class="o">-</span><span class="n">a</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span>
 </pre></div>
 </div>
 <p>Note that the equatorial radius corresponds to the
@@ -350,7 +351,7 @@ spheroid shape effects onto our bulk, run</p>
 </li>
 </ul>
 <p>There is also support for morphing from a nanoparticle to a bulk. When
-applying the inverse morphs, it is recommended to set <code class="docutils literal notranslate"><span class="pre">--rmax=psize</span></code>
+applying the inverse morphs, it is recommended to set <code class="docutils literal notranslate"><span class="pre">--xmax=psize</span></code>
 where <code class="docutils literal notranslate"><span class="pre">psize</span></code> is the longest diameter of the nanoparticle.</p>
 </section>
 </section>
@@ -366,7 +367,7 @@ where <code class="docutils literal notranslate"><span class="pre">psize</span><
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

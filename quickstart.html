@@ -6,17 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quickstart &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>Quickstart &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
@@ -223,7 +223,7 @@ for convergence.</p></li>
 <ol class="arabic" start="7">
 <li><p>Now, we will examine the Gaussian smearing factor. We provide an
 initial guess by typing</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">-</span><span class="n">pdf</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
 </pre></div>
 </div>
 <p>And viewing the results. We’ve tailored our scale factor to be
@@ -238,17 +238,17 @@ indicate a physically irrelevant guess. These are somewhat
 superficial and in most cases can be ignored.</p></li>
 </ul>
 <p>We see that this has had hardly any effect on our PDF. To see
-an effect, we restrict the <code class="docutils literal notranslate"><span class="pre">rmin</span></code> and <code class="docutils literal notranslate"><span class="pre">rmax</span></code> values to
+an effect, we restrict the <code class="docutils literal notranslate"><span class="pre">xmin</span></code> and <code class="docutils literal notranslate"><span class="pre">xmax</span></code> values to
 reflect relevant data range by typing</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">--</span><span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">-</span><span class="n">pdf</span><span class="o">=</span><span class="mf">0.5</span> <span class="o">--</span><span class="n">xmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
 </pre></div>
 </div>
 <p>Now, we see that the difference Rw = 0.204 and that the optimized
 <code class="docutils literal notranslate"><span class="pre">smear=-0.084138</span></code>.</p>
 <ul class="simple">
-<li><p>We restricted the r values because some of the Gaussian
-smear effects are only visible in a fixed r range. We
-chose this r range by noting where most of our relevant
+<li><p>We restricted the <code class="docutils literal notranslate"><span class="pre">x</span></code>-axis (<code class="docutils literal notranslate"><span class="pre">r</span></code>) values because some of the Gaussian
+smear effects are only visible in a fixed <code class="docutils literal notranslate"><span class="pre">x</span></code> range. We
+chose this <code class="docutils literal notranslate"><span class="pre">x</span></code> range by noting where most of our relevant
 data was that was not exponentially decayed by
 instrumental shortcomings.</p></li>
 </ul>
@@ -258,7 +258,7 @@ instrumental shortcomings.</p></li>
 <ol class="arabic" start="8">
 <li><p>Finally, we will examine the stretch factor. Provide an initial
 guess by typing</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">-</span><span class="n">pdf</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">xmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
 </pre></div>
 </div>
 <p>And noting that the difference has increased. Before continuing,
@@ -266,7 +266,7 @@ see if you can see which direction (higher or lower) our initial
 estimate for the stretch factor needs to go and then removing
 the <code class="docutils literal notranslate"><span class="pre">-a</span></code> to check optimized value!</p>
 <p>If you cannot, type</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">rmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">rmax</span><span class="o">=</span><span class="mi">30</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">-</span><span class="n">pdf</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">xmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span> <span class="o">-</span><span class="n">a</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
 </pre></div>
 </div>
 <p>to observe decreased difference and then remove <code class="docutils literal notranslate"><span class="pre">-a</span></code> to see
@@ -308,7 +308,7 @@ application, please report them to <a class="reference external" href="mailto:di
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

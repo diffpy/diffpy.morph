@@ -6,17 +6,17 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using funcxy with Commonly-Used Diffraction Software &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>Using funcxy with Commonly-Used Diffraction Software &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="_static/doctools.js?v=9bcbadda"></script>
-      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="_static/copybutton.js?v=cca77546"></script>
     <script src="_static/js/theme.js"></script>
@@ -101,20 +101,20 @@ and subtract a scaled version of the background file by the
 scaling factor <code class="docutils literal notranslate"><span class="pre">bgscale</span></code>.</p>
 <p>We will showcase an example of how one would refine over the
 <code class="docutils literal notranslate"><span class="pre">PDFGetter</span></code> parameters using <code class="docutils literal notranslate"><span class="pre">funcxy</span></code> to obtain a PDF.</p>
-<p>Let’s say you have a measured I(Q) with Q in angstroms of a lead
-nanoparticle (composition PbS) named <code class="docutils literal notranslate"><span class="pre">sample.chi</span></code> taken on a
-glass background. We want to match a target calculated PDF G(r)
+<p>Let’s say you have a measured I(Q) with Q in angstroms of
+glass (composition SiO2) named <code class="docutils literal notranslate"><span class="pre">sample.chi</span></code> taken on a
+kapton background. We want to match a target calculated PDF G(r)
 stored in a file named <code class="docutils literal notranslate"><span class="pre">target.cgr</span></code>.
 Let’s also say we have a measured I(Q) of the
-glass background <code class="docutils literal notranslate"><span class="pre">background.chi</span></code>.</p>
+kapton background <code class="docutils literal notranslate"><span class="pre">background.chi</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgetx.pdfgetter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFGetter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
 
 <span class="n">pg</span> <span class="o">=</span> <span class="n">PDFGetter</span><span class="p">()</span>
 
-<span class="n">backgroundfile</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;background.chi&quot;</span><span class="p">)</span>
-<span class="n">composition</span> <span class="o">=</span> <span class="s2">&quot;PbS&quot;</span>
+<span class="n">backgroundfile</span> <span class="o">=</span> <span class="s2">&quot;background.chi&quot;</span>
+<span class="n">composition</span> <span class="o">=</span> <span class="s2">&quot;SiO2&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">wrap</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -212,7 +212,7 @@ our wavelength was <code class="docutils literal notranslate"><span class="pre">
         <span class="n">centerY</span><span class="o">=</span><span class="n">cent_y</span><span class="o">+</span><span class="n">cent_offset_y</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">ai</span><span class="o">.</span><span class="n">integrate1D_ng</span><span class="p">(</span>
+    <span class="k">return</span> <span class="n">ai</span><span class="o">.</span><span class="n">integrate1d_ng</span><span class="p">(</span>
             <span class="n">pattern_2d</span><span class="p">,</span>
             <span class="n">npt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;q_A^-1&quot;</span><span class="p">,</span>
             <span class="n">method</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span>
@@ -252,7 +252,7 @@ these parameters.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

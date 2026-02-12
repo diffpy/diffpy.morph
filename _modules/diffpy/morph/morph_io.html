@@ -5,17 +5,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morph_io &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>diffpy.morph.morph_io &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../_static/js/theme.js"></script>
@@ -113,6 +113,99 @@
 
 
 <span class="n">warnings</span><span class="o">.</span><span class="n">formatwarning</span> <span class="o">=</span> <span class="n">custom_formatwarning</span>
+
+
+<div class="viewcode-block" id="build_morph_inputs_container">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.build_morph_inputs_container">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_morph_inputs_container</span><span class="p">(</span>
+    <span class="n">scale</span><span class="p">,</span>
+    <span class="n">stretch</span><span class="p">,</span>
+    <span class="n">smear_pdf</span><span class="p">,</span>
+    <span class="n">smear</span><span class="p">,</span>
+    <span class="n">hshift</span><span class="p">,</span>
+    <span class="n">vshift</span><span class="p">,</span>
+    <span class="n">squeeze</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Helper function to extract input morphing parameters for CLI</span>
+<span class="sd">    morphs. Python morphs are handled separately.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scale</span>
+<span class="sd">        opts.scale</span>
+<span class="sd">    stretch</span>
+<span class="sd">        opts.stretch</span>
+<span class="sd">    smear_pdf</span>
+<span class="sd">        opts.smear_pdf</span>
+<span class="sd">    smear</span>
+<span class="sd">        opts.smear</span>
+<span class="sd">    hshift</span>
+<span class="sd">        opts.hshift</span>
+<span class="sd">    vshift</span>
+<span class="sd">        opts.vshift</span>
+<span class="sd">    squeeze</span>
+<span class="sd">        opts.squeeze</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        The dictionary of input morphing parameters.</span>
+<span class="sd">        Only one of smear and smear_pdf is included</span>
+<span class="sd">        (takes smear_pdf over smear when both exist).</span>
+<span class="sd">        Does not include hshift if a degree zero</span>
+<span class="sd">        or above squeeze is used.</span>
+<span class="sd">        Does not include stretch if a degree one</span>
+<span class="sd">        or above squeeze is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">squeeze_poly_deg</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">squeeze_in</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">squeeze</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">squeeze_in</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># handle list/tuple input</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">squeeze</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;[&quot;</span> <span class="ow">and</span> <span class="n">squeeze</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;]&quot;</span><span class="p">:</span>
+            <span class="n">squeeze</span> <span class="o">=</span> <span class="n">squeeze</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">squeeze</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;(&quot;</span> <span class="ow">and</span> <span class="n">squeeze</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;)&quot;</span><span class="p">:</span>
+            <span class="n">squeeze</span> <span class="o">=</span> <span class="n">squeeze</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">squeeze_coeffs</span> <span class="o">=</span> <span class="n">squeeze</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_coeffs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">coeff</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">squeeze_in</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)})</span>
+                    <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="c1"># user has already been warned</span>
+                    <span class="k">pass</span>
+        <span class="n">squeeze_poly_deg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze_in</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">scale_in</span> <span class="o">=</span> <span class="n">scale</span>
+    <span class="k">if</span> <span class="n">squeeze_poly_deg</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">stretch_in</span> <span class="o">=</span> <span class="n">stretch</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stretch_in</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">smear_pdf</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">smear_in</span> <span class="o">=</span> <span class="n">smear</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">smear_in</span> <span class="o">=</span> <span class="n">smear_pdf</span>
+    <span class="n">morph_inputs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;scale&quot;</span><span class="p">:</span> <span class="n">scale_in</span><span class="p">,</span>
+        <span class="s2">&quot;stretch&quot;</span><span class="p">:</span> <span class="n">stretch_in</span><span class="p">,</span>
+        <span class="s2">&quot;smear&quot;</span><span class="p">:</span> <span class="n">smear_in</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">squeeze_poly_deg</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">hshift_in</span> <span class="o">=</span> <span class="n">hshift</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hshift_in</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">vshift_in</span> <span class="o">=</span> <span class="n">vshift</span>
+    <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;hshift&quot;</span><span class="p">:</span> <span class="n">hshift_in</span><span class="p">,</span> <span class="s2">&quot;vshift&quot;</span><span class="p">:</span> <span class="n">vshift_in</span><span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">squeeze_in</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_in</span><span class="p">):</span>
+            <span class="n">morph_inputs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;squeeze a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">squeeze_in</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]})</span>
+
+    <span class="k">return</span> <span class="n">morph_inputs</span></div>
+
 
 
 <div class="viewcode-block" id="single_morph_output">
@@ -504,39 +597,75 @@
 
 
 
-<div class="viewcode-block" id="handle_warnings">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.handle_warnings">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">handle_warnings</span><span class="p">(</span><span class="n">squeeze_morph</span><span class="p">):</span>
+<div class="viewcode-block" id="handle_extrapolation_warnings">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.handle_extrapolation_warnings">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_extrapolation_warnings</span><span class="p">(</span><span class="n">morph</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">morph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">extrapolation_info</span> <span class="o">=</span> <span class="n">morph</span><span class="o">.</span><span class="n">extrapolation_info</span>
+        <span class="k">if</span> <span class="n">extrapolation_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">is_extrap_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_low&quot;</span><span class="p">]</span>
+            <span class="n">is_extrap_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_high&quot;</span><span class="p">]</span>
+            <span class="n">cutoff_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_low&quot;</span><span class="p">]</span>
+            <span class="n">cutoff_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_high&quot;</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">is_extrap_low</span> <span class="ow">and</span> <span class="n">is_extrap_high</span><span class="p">:</span>
+                <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Warning: points with grid value below &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> and above &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">is_extrap_low</span><span class="p">:</span>
+                <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Warning: points with grid value below &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">is_extrap_high</span><span class="p">:</span>
+                <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Warning: points with grid value above &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">wmsg</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">wmsg</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="n">wmsg</span><span class="p">,</span>
+                    <span class="ne">UserWarning</span><span class="p">,</span>
+                <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="handle_check_increase_warning">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morph_io.handle_check_increase_warning">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">handle_check_increase_warning</span><span class="p">(</span><span class="n">squeeze_morph</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">squeeze_morph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">extrapolation_info</span> <span class="o">=</span> <span class="n">squeeze_morph</span><span class="o">.</span><span class="n">extrapolation_info</span>
-        <span class="n">is_extrap_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_low&quot;</span><span class="p">]</span>
-        <span class="n">is_extrap_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;is_extrap_high&quot;</span><span class="p">]</span>
-        <span class="n">cutoff_low</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_low&quot;</span><span class="p">]</span>
-        <span class="n">cutoff_high</span> <span class="o">=</span> <span class="n">extrapolation_info</span><span class="p">[</span><span class="s2">&quot;cutoff_high&quot;</span><span class="p">]</span>
-
-        <span class="k">if</span> <span class="n">is_extrap_low</span> <span class="ow">and</span> <span class="n">is_extrap_high</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">squeeze_morph</span><span class="o">.</span><span class="n">strictly_increasing</span><span class="p">:</span>
             <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Warning: points with grid value below &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> and above &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
+                <span class="s2">&quot;Warning: The squeeze morph has interpolated your morphed &quot;</span>
+                <span class="s2">&quot;function from a non-monotonically increasing grid. &quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">This may not be an issue, but please check for your &quot;</span>
+                <span class="s2">&quot;particular case. &quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">To avoid squeeze making your grid non-monotonic, &quot;</span>
+                <span class="s2">&quot;here are some suggested fixes: &quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(1) Please decrease the order of your polynomial and &quot;</span>
+                <span class="s2">&quot;try again. &quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(2) If you are using initial guesses of all 0, please &quot;</span>
+                <span class="s2">&quot;ensure your objective function only requires a small &quot;</span>
+                <span class="s2">&quot;polynomial squeeze to match your reference. &quot;</span>
+                <span class="s2">&quot;(In other words, there is good agreement between the two &quot;</span>
+                <span class="s2">&quot;functions.) &quot;</span>
+                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(3) If you expect a large polynomial squeeze to be &quot;</span>
+                <span class="s2">&quot;needed, please ensure your initial parameters for the &quot;</span>
+                <span class="s2">&quot;polynomial morph result in good agreement between your &quot;</span>
+                <span class="s2">&quot;reference and objective functions. &quot;</span>
+                <span class="s2">&quot;One way to obtain such parameters is to &quot;</span>
+                <span class="s2">&quot;first apply a --hshift and --stretch morph. &quot;</span>
+                <span class="s2">&quot;Then, use the hshift parameter for a0 and stretch &quot;</span>
+                <span class="s2">&quot;parameter for a1.&quot;</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">is_extrap_low</span><span class="p">:</span>
-            <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Warning: points with grid value below &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_low</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">is_extrap_high</span><span class="p">:</span>
-            <span class="n">wmsg</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;Warning: points with grid value above &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cutoff_high</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;are extrapolated.&quot;</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">wmsg</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="k">if</span> <span class="n">wmsg</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="n">wmsg</span><span class="p">,</span>
                 <span class="ne">UserWarning</span><span class="p">,</span>
@@ -551,7 +680,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

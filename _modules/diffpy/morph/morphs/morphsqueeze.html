@@ -5,17 +5,17 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs.morphsqueeze &mdash; diffpy.morph 0.3.0rc1 documentation</title>
+  <title>diffpy.morph.morphs.morphsqueeze &mdash; diffpy.morph 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
 
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=1ad4c97d"></script>
-      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../../_static/copybutton.js?v=cca77546"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -79,6 +79,7 @@
 <span></span><span class="sd">&quot;&quot;&quot;Class MorphSqueeze -- Apply a polynomial to squeeze the morph</span>
 <span class="sd">function.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.polynomial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Polynomial</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">CubicSpline</span>
 
@@ -147,9 +148,35 @@
     <span class="n">extrap_index_high</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">squeeze_cutoff_low</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">squeeze_cutoff_high</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">strictly_increasing</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_strictly_increasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_sorted</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_sorted</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strictly_increasing</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strictly_increasing</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sort_squeeze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sort x,y according to the value of x.&quot;&quot;&quot;</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">xy_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">x_sorted</span><span class="p">,</span> <span class="n">y_sorted</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">xy_sorted</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">x_sorted</span><span class="p">,</span> <span class="n">y_sorted</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_handle_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove duplicated x and use the mean value of y corresponded</span>
+<span class="sd">        to the duplicated x.&quot;&quot;&quot;</span>
+        <span class="n">x_unique</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_unique</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y_avg</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x_unique</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x_unique</span><span class="p">):</span>
+                <span class="n">y_avg</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">inv</span> <span class="o">==</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">x_unique</span><span class="p">,</span> <span class="n">y_avg</span>
 
 <div class="viewcode-block" id="MorphSqueeze.morph">
 <a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morphsqueeze.MorphSqueeze.morph">[docs]</a>
@@ -164,10 +191,17 @@
         <span class="n">coeffs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">squeeze</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">squeeze</span><span class="p">))]</span>
         <span class="n">squeeze_polynomial</span> <span class="o">=</span> <span class="n">Polynomial</span><span class="p">(</span><span class="n">coeffs</span><span class="p">)</span>
         <span class="n">x_squeezed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span> <span class="o">+</span> <span class="n">squeeze_polynomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x_squeezed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_in</span><span class="p">)(</span>
+        <span class="n">x_squeezed_sorted</span><span class="p">,</span> <span class="n">y_morph_sorted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sort_squeeze</span><span class="p">(</span>
+            <span class="n">x_squeezed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_in</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_strictly_increasing</span><span class="p">(</span><span class="n">x_squeezed</span><span class="p">,</span> <span class="n">x_squeezed_sorted</span><span class="p">)</span>
+        <span class="n">x_squeezed_sorted</span><span class="p">,</span> <span class="n">y_morph_sorted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_duplicates</span><span class="p">(</span>
+            <span class="n">x_squeezed_sorted</span><span class="p">,</span> <span class="n">y_morph_sorted</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_morph_out</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x_squeezed_sorted</span><span class="p">,</span> <span class="n">y_morph_sorted</span><span class="p">)(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_extrapolation_info</span><span class="p">(</span><span class="n">x_squeezed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_extrapolation_info</span><span class="p">(</span><span class="n">x_squeezed_sorted</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_morph_in</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xyallout</span></div>
 </div>
@@ -181,7 +215,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2026, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
