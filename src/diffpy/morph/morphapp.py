@@ -41,13 +41,13 @@ def create_option_parser():
         def __init__(self, *args, **kwargs):
             super(CustomParser, self).__init__(*args, **kwargs)
 
-        def custom_error(self, msg):
-            """custom_error(msg : string)
+        def morph_error(self, msg, error):
+            """morph_error(msg : string)
 
             Print a message incorporating 'msg' to stderr and exit. Does
             not print usage.
             """
-            self.exit(2, "%s: error: %s\n" % (self.get_prog_name(), msg))
+            raise error(f"{self.get_prog_name()}: {msg}")
 
     parser = CustomParser(
         usage="\n".join(
@@ -507,14 +507,17 @@ def single_morph(
     parser, opts, pargs, stdout_flag=True, python_wrap=False, pymorphs=None
 ):
     if len(pargs) < 2:
-        parser.error("You must supply MORPHFILE and TARGETFILE.")
+        parser.morph_error(
+            "You must supply MORPHFILE and TARGETFILE.", TypeError
+        )
     elif len(pargs) > 2 and not python_wrap:
-        parser.error(
+        parser.morph_error(
             "Too many arguments. Make sure you only supply "
-            "MORPHFILE and TARGETFILE."
+            "MORPHFILE and TARGETFILE.",
+            TypeError,
         )
     elif not (len(pargs) == 2 or len(pargs) == 6) and python_wrap:
-        parser.error("Python wrapper error.")
+        parser.morph_error("Python wrapper error.", RuntimeError)
 
     # Get the PDFs
     # If we get from python, we may wrap, which has input size 4
@@ -528,9 +531,9 @@ def single_morph(
         x_target, y_target = getPDFFromFile(pargs[1])
 
     if y_morph is None:
-        parser.error(f"No data table found in: {pargs[0]}.")
+        parser.morph_error(f"No data table found in: {pargs[0]}.", ValueError)
     if y_target is None:
-        parser.error(f"No data table found in: {pargs[1]}.")
+        parser.morph_error(f"No data table found in: {pargs[1]}.", ValueError)
 
     # Get tolerance
     tolerance = 1e-08
@@ -549,8 +552,8 @@ def single_morph(
         and opts.xmax is not None
         and opts.xmax <= opts.xmin
     ):
-        e = "xmin must be less than xmax"
-        parser.custom_error(e)
+        emsg = "xmin must be less than xmax"
+        parser.morph_error(emsg, ValueError)
 
     # Set up the morphs
     chain = morphs.MorphChain(config)
@@ -607,7 +610,9 @@ def single_morph(
                     squeeze_dict_in.update({f"a{idx}": float(coeff)})
                     idx += 1
                 except ValueError:
-                    parser.error(f"{coeff} could not be converted to float.")
+                    parser.morph_error(
+                        f"{coeff} could not be converted to float.", ValueError
+                    )
         squeeze_poly_deg = len(squeeze_dict_in.keys())
         squeeze_morph = morphs.MorphSqueeze()
         chain.append(squeeze_morph)
@@ -727,7 +732,7 @@ def single_morph(
             # Adjust all parameters
             refiner.refine(*refpars)
         except ValueError as e:
-            parser.custom_error(str(e))
+            parser.morph_error(str(e), ValueError)
     # Smear is not being refined, but baselineslope needs to refined to apply
     # smear
     # Note that baselineslope is only added to the refine list if smear is
@@ -738,7 +743,7 @@ def single_morph(
                 "baselineslope", baselineslope=config["baselineslope"]
             )
         except ValueError as e:
-            parser.custom_error(str(e))
+            parser.morph_error(str(e), ValueError)
     else:
         chain(x_morph, y_morph, x_target, y_target)
 
@@ -827,9 +832,9 @@ def single_morph(
             stdout_flag=stdout_flag,
         )
 
-    except (FileNotFoundError, RuntimeError):
+    except (FileNotFoundError, RuntimeError) as e:
         save_fail_message = "Unable to save to designated location."
-        parser.custom_error(save_fail_message)
+        parser.morph_error(save_fail_message, type(e))
 
     if opts.plot:
         pairlist = [chain.xy_target_out, chain.xy_morph_out]
@@ -871,25 +876,29 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
-        parser.custom_error(
+        parser.morph_error(
             "You must supply a FILE and DIRECTORY. "
-            "See --multiple-targets under --help for usage."
+            "See --multiple-targets under --help for usage.",
+            TypeError,
         )
     elif len(pargs) > 2:
-        parser.custom_error(
-            "Too many arguments. You must only supply a FILE and a DIRECTORY."
+        parser.morph_error(
+            "Too many arguments. You must only supply a FILE and a DIRECTORY.",
+            TypeError,
         )
 
     # Parse paths
     morph_file = Path(pargs[0])
     if not morph_file.is_file():
-        parser.custom_error(
-            f"{morph_file} is not a file. Go to --help for usage."
+        parser.morph_error(
+            f"{morph_file} is not a file. Go to --help for usage.",
+            FileNotFoundError,
         )
     target_directory = Path(pargs[1])
     if not target_directory.is_dir():
-        parser.custom_error(
-            f"{target_directory} is not a directory. Go to --help for usage."
+        parser.morph_error(
+            f"{target_directory} is not a directory. Go to --help for usage.",
+            NotADirectoryError,
         )
 
     # Get list of files from target directory
@@ -926,12 +935,14 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             )
         except KeyError:
             if opts.serfile is not None:
-                parser.custom_error(
-                    "The requested field was not found in the metadata file."
+                parser.morph_error(
+                    "The requested field was not found in the metadata file.",
+                    KeyError,
                 )
             else:
-                parser.custom_error(
-                    "The requested field is missing from a file header."
+                parser.morph_error(
+                    "The requested field is missing from a file header.",
+                    KeyError,
                 )
     else:
         # Default is alphabetical sort
@@ -953,9 +964,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             save_morphs_here = io.create_morphs_directory(save_directory)
 
         # Could not create directory or find names to save morphs as
-        except (FileNotFoundError, RuntimeError):
+        except (FileNotFoundError, RuntimeError) as e:
             save_fail_message = "\nUnable to create directory"
-            parser.custom_error(save_fail_message)
+            parser.morph_error(save_fail_message, type(e))
 
         try:
             save_names = io.get_multisave_names(
@@ -964,7 +975,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             # Could not create directory or find names to save morphs as
         except FileNotFoundError:
             save_fail_message = "\nUnable to read from save names file"
-            parser.custom_error(save_fail_message)
+            parser.morph_error(save_fail_message, FileNotFoundError)
 
     # Morph morph_file against all other files in target_directory
     morph_results = {}
@@ -1013,9 +1024,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             verbose=opts.verbose,
             stdout_flag=stdout_flag,
         )
-    except (FileNotFoundError, RuntimeError):
+    except (FileNotFoundError, RuntimeError) as e:
         save_fail_message = "Unable to save summary to directory."
-        parser.custom_error(save_fail_message)
+        parser.morph_error(save_fail_message, type(e))
 
     # Plot the values of some parameter for each target if requested
     if plot_opt:
@@ -1032,8 +1043,9 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         # Not an available parameter to plot or no values found for the
         # parameter
         if param_list is None:
-            parser.custom_error(
-                "Cannot find specified plot parameter. No plot shown."
+            parser.morph_error(
+                "Cannot find specified plot parameter. No plot shown.",
+                KeyError,
             )
         else:
             try:
@@ -1045,9 +1057,10 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter
             except ValueError:
-                parser.custom_error(
+                parser.morph_error(
                     "The plot parameter is missing values for at least one "
-                    "morph and target pair. No plot shown."
+                    "morph and target pair. No plot shown.",
+                    ValueError,
                 )
 
     return morph_results
@@ -1057,25 +1070,29 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     # Custom error messages since usage is distinct when --multiple tag is
     # applied
     if len(pargs) < 2:
-        parser.custom_error(
+        parser.morph_error(
             "You must supply a DIRECTORY and FILE. "
-            "See --multiple-morphs under --help for usage."
+            "See --multiple-morphs under --help for usage.",
+            TypeError,
         )
     elif len(pargs) > 2:
-        parser.custom_error(
-            "Too many arguments. You must only supply a DIRECTORY and FILE."
+        parser.morph_error(
+            "Too many arguments. You must only supply a DIRECTORY and FILE.",
+            TypeError,
         )
 
     # Parse paths
     target_file = Path(pargs[1])
     if not target_file.is_file():
-        parser.custom_error(
-            f"{target_file} is not a file. Go to --help for usage."
+        parser.morph_error(
+            f"{target_file} is not a file. Go to --help for usage.",
+            FileNotFoundError,
         )
     morph_directory = Path(pargs[0])
     if not morph_directory.is_dir():
-        parser.custom_error(
-            f"{morph_directory} is not a directory. Go to --help for usage."
+        parser.morph_error(
+            f"{morph_directory} is not a directory. Go to --help for usage.",
+            NotADirectoryError,
         )
 
     # Get list of files from morph directory
@@ -1112,12 +1129,14 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             )
         except KeyError:
             if opts.serfile is not None:
-                parser.custom_error(
-                    "The requested field was not found in the metadata file."
+                parser.morph_error(
+                    "The requested field was not found in the metadata file.",
+                    KeyError,
                 )
             else:
-                parser.custom_error(
-                    "The requested field is missing from a PDF file header."
+                parser.morph_error(
+                    "The requested field is missing from a PDF file header.",
+                    KeyError,
                 )
     else:
         # Default is alphabetical sort
@@ -1139,9 +1158,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             save_morphs_here = io.create_morphs_directory(save_directory)
 
         # Could not create directory or find names to save morphs as
-        except (FileNotFoundError, RuntimeError):
+        except (FileNotFoundError, RuntimeError) as e:
             save_fail_message = "\nUnable to create directory"
-            parser.custom_error(save_fail_message)
+            parser.morph_error(save_fail_message, type(e))
 
         try:
             save_names = io.get_multisave_names(
@@ -1150,7 +1169,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             # Could not create directory or find names to save morphs as
         except FileNotFoundError:
             save_fail_message = "\nUnable to read from save names file"
-            parser.custom_error(save_fail_message)
+            parser.morph_error(save_fail_message, FileNotFoundError)
 
     # Morph morph_file against all other files in target_directory
     morph_results = {}
@@ -1200,9 +1219,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             stdout_flag=stdout_flag,
             mm=True,
         )
-    except (FileNotFoundError, RuntimeError):
+    except (FileNotFoundError, RuntimeError) as e:
         save_fail_message = "Unable to save summary to directory."
-        parser.custom_error(save_fail_message)
+        parser.morph_error(save_fail_message, type(e))
 
     # Plot the values of some parameter for each target if requested
     if plot_opt:
@@ -1219,8 +1238,9 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         # Not an available parameter to plot or no values found for the
         # parameter
         if param_list is None:
-            parser.custom_error(
-                "Cannot find specified plot parameter. No plot shown."
+            parser.morph_error(
+                "Cannot find specified plot parameter. No plot shown.",
+                KeyError,
             )
         else:
             try:
@@ -1232,9 +1252,10 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             # i.e. --smear is not selected as an option, but smear is the
             # plotting parameter
             except ValueError:
-                parser.custom_error(
+                parser.morph_error(
                     "The plot parameter is missing values for at least one "
-                    "morph and target pair. No plot shown."
+                    "morph and target pair. No plot shown.",
+                    ValueError,
                 )
 
     return morph_results

@@ -231,10 +231,9 @@ class TestRefine:
         run_cmd.append("-n")
         parser = create_option_parser()
         (opts, pargs) = parser.parse_args(run_cmd)
-        with pytest.raises(SystemExit):
+        with pytest.raises(ValueError) as excinfo:
             single_morph(parser, opts, pargs, stdout_flag=False)
-        _, err = capsys.readouterr()
-        assert expected_error_message in actual_error_message
+        assert expected_error_message in str(excinfo.value)
 
 
 # End of class TestRefine
