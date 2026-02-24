@@ -35,7 +35,7 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.morph/issues
 
-Python package for manipulating and comparing diffraction data
+Python package for manipulating and comparing diffraction data.
 
 ``diffpy.morph`` is a Python software package designed to increase the insight
 researchers can obtain from measured data including diffraction data

@@ -223,7 +223,7 @@ def single_morph_output(
             path_name = "NO FILE PATH PROVIDED"
         else:
             path_name = str(Path(morph_file).resolve())
-        header = "# PDF created by diffpy.morph\n"
+        header = "# Function created by diffpy.morph\n"
         header += f"# from {path_name}"
 
         header_verbose = f"{morphs_in}\n{morphs_out}"
@@ -236,7 +236,7 @@ def single_morph_output(
                     print(header_verbose, file=outfile)
 
                 # Print table with label
-                print("\n# Labels: [r] [gr]", file=outfile)
+                print("\n# Labels: [x] [fx]", file=outfile)
                 numpy.savetxt(outfile, numpy.transpose(xy_out))
 
             if stdout_flag:
@@ -246,7 +246,7 @@ def single_morph_output(
 
         else:
             # Just print table with label if save is to stdout
-            print("# Labels: [r] [gr]")
+            print("# Labels: [x] [fx]")
             numpy.savetxt(sys.stdout, numpy.transpose(xy_out))
 
 

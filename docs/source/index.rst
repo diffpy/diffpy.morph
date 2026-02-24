@@ -2,7 +2,7 @@
 diffpy.morph documentation
 ##########################
 
-``diffpy.morph`` - Tools for manipulating and comparing PDF profiles
+``diffpy.morph`` - Tools for manipulating and comparing 1D signals.
 
 | Software version |release|
 | Last updated |today|.

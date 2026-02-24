@@ -1,4 +1,4 @@
-# PDF created by diffpy.morph
+# Function created by diffpy.morph
 # from PATH
 
 # Input morphing parameters:
@@ -24,7 +24,7 @@
 # Rw = 0.000000
 # Pearson = 1.000000
 
-# Labels: [r] [gr]
+# Labels: [x] [fx]
 0.000000000000000000e+00 -8.357788796904224253e-08
 1.000000000000000056e-01 9.983335989539958433e-02
 2.000000000000000111e-01 1.986692882755068390e-01
