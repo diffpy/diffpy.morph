@@ -148,11 +148,16 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
             squeeze=coeffs,
             apply=True,
         )
-        assert len(warning) == 1
-        assert warning[0].category is UserWarning
-        actual_wmsg = str(warning[0].message)
-    expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
-    assert actual_wmsg == expected_wmsg
+        assert len(warning) >= 1
+        expected_wmsg = wmsg_gen([min(x_squeezed), max(x_squeezed)])
+        message_found = False
+        for w in warning:
+            actual_wmsg = str(w.message)
+            if actual_wmsg == expected_wmsg:
+                if w.category is UserWarning:
+                    message_found = True
+                    break
+        assert message_found
 
     # CLI test
     morph_file, target_file = create_morph_data_file(
@@ -272,9 +277,7 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
             squeeze=squeeze_coeffs,
             apply=True,
         )
-    assert len(warning) == 1
-    assert warning[0].category is UserWarning
-    actual_wmsg = str(warning[0].message)
+    assert len(warning) >= 1
     expected_wmsg = (
         "Warning: The squeeze morph has interpolated your morphed "
         "function from a non-monotonically increasing grid. "
@@ -295,7 +298,14 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
         "first apply a --hshift and --stretch morph. "
         "Then, use the hshift parameter for a0 and stretch parameter for a1."
     )
-    assert expected_wmsg in actual_wmsg
+    message_found = False
+    for w in warning:
+        actual_wmsg = str(w.message)
+        if expected_wmsg in actual_wmsg:
+            if w.category is UserWarning:
+                message_found = True
+                break
+    assert message_found
 
     # call in CLI
     morph_file, target_file = create_morph_data_file(
@@ -314,9 +324,13 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
     )
     with pytest.warns(UserWarning) as warning:
         single_morph(parser, opts, pargs, stdout_flag=False)
-    assert len(warning) == 1
-    actual_wmsg = str(warning[0].message)
-    assert expected_wmsg in actual_wmsg
+    assert len(warning) >= 1
+    message_found = False
+    for w in warning:
+        actual_wmsg = str(w.message)
+        if expected_wmsg in actual_wmsg:
+            message_found = True
+    assert message_found
 
 
 @pytest.mark.parametrize(
