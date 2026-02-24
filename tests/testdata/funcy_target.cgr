@@ -1,4 +1,4 @@
-# PDF created by diffpy.morph
+# Function created by diffpy.morph
 # from NO FILE PATH PROVIDED
 
 # Input morphing parameters:
@@ -32,7 +32,7 @@ def quadratic(x, y, a0, a1, a2):
 # Rw = 0.000000
 # Pearson = 1.000000
 
-# Labels: [r] [gr]
+# Labels: [x] [fx]
 0.000000000000000000e+00 1.000000000000000000e+00
 1.000000000000000056e-01 1.229999999999999982e+00
 2.000000000000000111e-01 1.520000000000000018e+00
