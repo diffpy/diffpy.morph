@@ -47,7 +47,13 @@ def create_option_parser():
             Print a message incorporating 'msg' to stderr and exit. Does
             not print usage.
             """
-            self.exit(2, "%s: error: %s\n" % (self.get_prog_name(), msg))
+            dis = (
+                "To except this error on Python, "
+                "please use 'except SystemExit:'."
+            )
+            self.exit(
+                2, "%s: error: %s\n%s\n" % (self.get_prog_name(), msg, dis)
+            )
 
     parser = CustomParser(
         usage="\n".join(
