@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* No news: fixing tests, no user-facing changes.
 
 **Changed:**
 
