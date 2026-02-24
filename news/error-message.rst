@@ -4,7 +4,7 @@
 
 **Changed:**
 
-* <news item>
+* Program no longer gives SystemExit. Proper errors are assigned to each case.
 
 **Deprecated:**
 
