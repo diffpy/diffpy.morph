@@ -27,14 +27,6 @@ def get_args(parser, params, kwargs):
 
 
 def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
-    # Check for Python-specific options
-    python_morphs = ["funcy", "funcx", "funcxy"]
-    pymorphs = {}
-    for pmorph in python_morphs:
-        if pmorph in kwargs:
-            pmorph_value = kwargs.pop(pmorph)
-            pymorphs.update({pmorph: pmorph_value})
-
     # Special handling of parameters with dashes
     kwargs_copy = kwargs.copy()
     kwargs = {}
@@ -43,6 +35,15 @@ def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
         if "_" in key:
             new_key = key.replace("_", "-")
         kwargs.update({new_key: kwargs_copy[key]})
+
+    # Check for Python-specific options
+    python_morphs = ["funcy", "funcx", "funcxy"]
+    pymorphs = {}
+    for pmorph in python_morphs:
+        if pmorph in kwargs:
+            pmorph_value = kwargs.pop(pmorph)
+            if pmorph_value is not None:
+                pymorphs.update({pmorph: pmorph_value})
 
     # Special handling of store_true and store_false parameters
     opts_storing_values = [
