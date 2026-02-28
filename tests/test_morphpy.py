@@ -116,6 +116,38 @@ class TestMorphpy:
             else:
                 assert getattr(opts, opt)
 
+        # Check that morphs can be set as None
+        kwargs = {
+            "hshift": None,
+            "vshift": None,
+            "squeeze": None,
+            "funcx": None,
+            "funcy": None,
+            "funcxy": None,
+            "verbose": None,
+            "addpearson": None,
+            "apply": None,
+            "exclude": None,
+            "reverse": None,
+            "get_diff": None,
+            "multiple_morphs": None,
+            "multiple_targets": None,
+        }
+        kwargs_copy = kwargs.copy()
+        opts, pymorphs = __get_morph_opts__(
+            self.parser,
+            scale=1,
+            stretch=0,
+            smear=0,
+            plot=False,
+            **kwargs_copy,
+        )
+        for opt in kwargs:
+            try:
+                assert not getattr(opts, opt)
+            except AttributeError:
+                pass
+
     def test_morph(self, setup_morph):
         morph_results = {}
         morph_file = self.testfiles[0]

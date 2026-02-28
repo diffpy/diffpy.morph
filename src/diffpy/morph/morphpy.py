@@ -12,27 +12,21 @@ def get_args(parser, params, kwargs):
             inputs.append(f"--{key}")
             inputs.append(f"{value}")
     for key, value in kwargs.items():
-        key = key.replace("_", "-")
-        if key == "exclude":
-            for param in value:
+        if value is not None:
+            key = key.replace("_", "-")
+            if key == "exclude":
+                for param in value:
+                    if param:
+                        inputs.append(f"--{key}")
+                        inputs.append(f"{param}")
+            else:
                 inputs.append(f"--{key}")
-                inputs.append(f"{param}")
-        else:
-            inputs.append(f"--{key}")
-            inputs.append(f"{value}")
+                inputs.append(f"{value}")
     (opts, pargs) = parser.parse_args(inputs)
     return opts, pargs
 
 
 def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
-    # Check for Python-specific options
-    python_morphs = ["funcy", "funcx", "funcxy"]
-    pymorphs = {}
-    for pmorph in python_morphs:
-        if pmorph in kwargs:
-            pmorph_value = kwargs.pop(pmorph)
-            pymorphs.update({pmorph: pmorph_value})
-
     # Special handling of parameters with dashes
     kwargs_copy = kwargs.copy()
     kwargs = {}
@@ -41,6 +35,15 @@ def __get_morph_opts__(parser, scale, stretch, smear, plot, **kwargs):
         if "_" in key:
             new_key = key.replace("_", "-")
         kwargs.update({new_key: kwargs_copy[key]})
+
+    # Check for Python-specific options
+    python_morphs = ["funcy", "funcx", "funcxy"]
+    pymorphs = {}
+    for pmorph in python_morphs:
+        if pmorph in kwargs:
+            pmorph_value = kwargs.pop(pmorph)
+            if pmorph_value is not None:
+                pymorphs.update({pmorph: pmorph_value})
 
     # Special handling of store_true and store_false parameters
     opts_storing_values = [
