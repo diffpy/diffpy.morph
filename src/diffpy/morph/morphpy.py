@@ -12,14 +12,16 @@ def get_args(parser, params, kwargs):
             inputs.append(f"--{key}")
             inputs.append(f"{value}")
     for key, value in kwargs.items():
-        key = key.replace("_", "-")
-        if key == "exclude":
-            for param in value:
+        if value is not None:
+            key = key.replace("_", "-")
+            if key == "exclude":
+                for param in value:
+                    if param:
+                        inputs.append(f"--{key}")
+                        inputs.append(f"{param}")
+            else:
                 inputs.append(f"--{key}")
-                inputs.append(f"{param}")
-        else:
-            inputs.append(f"--{key}")
-            inputs.append(f"{value}")
+                inputs.append(f"{value}")
     (opts, pargs) = parser.parse_args(inputs)
     return opts, pargs
 
