@@ -127,6 +127,7 @@ def build_morph_inputs_container(
 def single_morph_output(
     morph_inputs,
     morph_results,
+    uncertainties=None,
     save_file=None,
     morph_file=None,
     xy_out=None,
@@ -142,6 +143,8 @@ def single_morph_output(
         Parameters given by the user.
     morph_results: dict
         Resulting data after morphing.
+    uncertainties: dict
+        Uncertainties of all morphed parameters.
     save_file
         Name of file to print to. If None (default) print to terminal.
     morph_file
@@ -155,6 +158,9 @@ def single_morph_output(
     stdout_flag: bool
         Print to terminal when True (default False).
     """
+
+    print(uncertainties)
+
     # Input and output parameters
     morphs_in = "\n# Input morphing parameters:\n"
     morphs_in += (
@@ -197,9 +203,20 @@ def single_morph_output(
             mr_copy = dict(morph_results_list)
 
     # Normal inputs
-    morphs_out += "\n".join(
-        f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
-    )
+    if uncertainties is None:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
+        )
+    else:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}"
+            + (
+                f" +/- {uncertainties[key]:.6f}"
+                if key in uncertainties
+                else ""
+            )
+            for key in mr_copy
+        )
 
     # Handle special inputs (functional add)
     for func in func_dicts.keys():
@@ -301,6 +318,7 @@ def get_multisave_names(target_list: list, save_names_file=None, mm=False):
         The names to save each morph as. Keys are the target function file
         names used to produce that morph.
     """
+
     # Dictionary storing save file names
     save_names = {}
 
@@ -380,6 +398,7 @@ def multiple_morph_output(
         Multiple morphs done with a single target rather than multiple
         targets for a single morphed file. Swaps morph and target in the code.
     """
+
     # Input parameters used for every morph
     inputs = "\n# Input morphing parameters:\n"
     inputs += "\n".join(
@@ -477,6 +496,7 @@ def tabulate_results(multiple_morph_results):
         Keys in tabulated_results are the table's column names and each
         corresponding value is a list of data for that column.
     """
+
     # We only care about the following parameters in our data tables
     relevant_parameters = ["Scale", "Smear", "Stretch", "Pearson", "Rw"]
 

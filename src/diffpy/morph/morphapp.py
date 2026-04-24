@@ -110,6 +110,21 @@ def create_option_parser():
         help="Print additional header details to saved files.",
     )
     parser.add_option(
+        "-u",
+        "--uncertainty",
+        "--estimate-uncertainty",
+        dest="estimate_uncertainty",
+        action="store_true",
+        help=(
+            "Estimate uncertainties for each refined morphing parameter. "
+            "This is done by estimating the Hessian of the fit. "
+            "Caution should be taken as this is not the true uncertainty "
+            "of the fit, and the user should make their own judgement "
+            "about what measure of uncertainty to use for their particular "
+            "use case."
+        ),
+    )
+    parser.add_option(
         "--xmin",
         type="float",
         metavar="XMIN",
@@ -721,6 +736,7 @@ def single_morph(
         refiner.residual = refiner._pearson
     if opts.addpearson:
         refiner.residual = refiner._add_pearson
+    unc = None
     if opts.refine and refpars:
         try:
             # This works better when we adjust scale and smear first.
@@ -730,7 +746,7 @@ def single_morph(
                     rptemp.append("scale")
                 refiner.refine(*rptemp)
             # Adjust all parameters
-            refiner.refine(*refpars)
+            unc = refiner.refine(*refpars, estimate_uncertainty=True)
         except ValueError as e:
             parser.morph_error(str(e), ValueError)
     # Smear is not being refined, but baselineslope needs to refined to apply
@@ -738,9 +754,12 @@ def single_morph(
     # Note that baselineslope is only added to the refine list if smear is
     # applied
     elif "baselineslope" in refpars:
+        # Note, you cannot estimate uncertainty here as the baselineslope
+        # does not change the fit
         try:
             refiner.refine(
-                "baselineslope", baselineslope=config["baselineslope"]
+                "baselineslope",
+                baselineslope=config["baselineslope"],
             )
         except ValueError as e:
             parser.morph_error(str(e), ValueError)
@@ -825,6 +844,7 @@ def single_morph(
         io.single_morph_output(
             morph_inputs,
             morph_results,
+            uncertainties=None if opts.estimate_uncertainty is None else unc,
             save_file=opts.slocation,
             morph_file=pargs[0],
             xy_out=xy_save,

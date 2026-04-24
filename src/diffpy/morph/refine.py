@@ -14,7 +14,9 @@
 ##############################################################################
 """refine -- Refine a morph or morph chain"""
 
-from numpy import array, concatenate, dot, exp, ones_like
+import warnings
+
+from numpy import array, concatenate, diag, dot, exp, ones_like, sqrt
 from scipy.optimize import leastsq
 from scipy.stats import pearsonr
 
@@ -133,7 +135,7 @@ class Refiner(object):
         res = concatenate([res1, res2])
         return res
 
-    def refine(self, *args, **kw):
+    def refine(self, *args, estimate_uncertainty=False, **kw):
         """Refine the chain.
 
         Additional arguments are used to specify which parameters are to be
@@ -144,7 +146,9 @@ class Refiner(object):
 
         This uses the leastsq algorithm from scipy.optimize.
 
-        This returns the final scalar residual value.
+        If estimate_uncertainty is True, return an estimated uncertainty
+        for each parameter.
+        Otherwise, return the final scalar residual value (used for testing).
         The parameters from the fit can be retrieved from the config
         dictionary of the morph or morph chain.
 
@@ -178,7 +182,7 @@ class Refiner(object):
                 initial.append(val)
                 self.flat_to_grouped[len(initial) - 1] = (p, None)
 
-        sol, cov_sol, infodict, emesg, ier = leastsq(
+        sol, hess_inv_sol, infodict, emesg, ier = leastsq(
             self.residual,
             array(initial),
             full_output=True,
@@ -197,7 +201,30 @@ class Refiner(object):
             vals = [vals]
         self._update_chain(vals)
 
-        return dot(fvec, fvec)
+        if estimate_uncertainty:
+            if hess_inv_sol is None:
+                warnings.warn(
+                    "Warning: Could not estimate "
+                    "uncertainty as estimated Hessian is singular.",
+                    UserWarning,
+                )
+                return None
+            dof = len(fvec) - len(sol)
+            if dof <= 0:
+                warnings.warn(
+                    "Warning: Could not estimate "
+                    "uncertainty as the number of fit parameters "
+                    "exceeds the number of data points.",
+                    UserWarning,
+                )
+                return None
+            par_names = list(self.pars)
+            cov_sol = hess_inv_sol * dot(fvec, fvec) / dof
+            unc = sqrt(diag(cov_sol))
+
+            return dict(zip(par_names, unc))
+        else:
+            return dot(fvec, fvec)
 
 
 # End class Refiner
