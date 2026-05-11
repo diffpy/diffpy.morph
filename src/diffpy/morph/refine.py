@@ -202,12 +202,22 @@ class Refiner(object):
         self._update_chain(vals)
 
         if estimate_uncertainty:
+            par_names = list(self.pars)
             if hess_inv_sol is None:
-                warnings.warn(
-                    "Warning: Could not estimate "
-                    "uncertainty as estimated Hessian is singular.",
-                    UserWarning,
-                )
+                if len(par_names) == 1:
+                    warnings.warn(
+                        "Warning: Could not estimate "
+                        f"uncertainty of {par_names[0].lower()} parameter "
+                        "as estimated Hessian is singular.",
+                        UserWarning,
+                    )
+                else:
+                    warnings.warn(
+                        "Warning: Certain parameters may be "
+                        "missing uncertainties as estimated Hessian "
+                        "is singular.",
+                        UserWarning,
+                    )
                 return None
             dof = len(fvec) - len(sol)
             if dof <= 0:
@@ -218,7 +228,23 @@ class Refiner(object):
                     UserWarning,
                 )
                 return None
-            par_names = list(self.pars)
+            # Handle squeeze morph params
+            if "squeeze" in par_names and "squeeze" in config.keys():
+                squeeze_par_names = [
+                    f"squeeze a{i}"
+                    for i in range(len(config["squeeze"].keys()))
+                ]
+                squeeze_idx = par_names.index("squeeze")
+                par_names[squeeze_idx : squeeze_idx + 1] = squeeze_par_names
+            # Handle funcx, funcy, funcxy morph params
+            func_types = ["funcx", "funcy", "funcxy"]
+            for func in func_types:
+                if func in par_names and func in config.keys():
+                    func_par_names = [
+                        f"{func} {fparam}" for fparam in config[func].keys()
+                    ]
+                    func_idx = par_names.index(func)
+                    par_names[func_idx : func_idx + 1] = func_par_names
             cov_sol = hess_inv_sol * dot(fvec, fvec) / dof
             unc = sqrt(diag(cov_sol))
 

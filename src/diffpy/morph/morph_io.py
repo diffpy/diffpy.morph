@@ -124,6 +124,57 @@ def build_morph_inputs_container(
     return morph_inputs
 
 
+def get_terminal_morph_output(mr_copy, uncertainties):
+    morphs_out = "# Optimized morphing parameters:\n"
+    # Handle special inputs (numerical)
+    if "squeeze" in mr_copy:
+        sq_dict = mr_copy.pop("squeeze")
+        rw_pos = list(mr_copy.keys()).index("Rw")
+        morph_results_list = list(mr_copy.items())
+        for idx, _ in enumerate(sq_dict):
+            morph_results_list.insert(
+                rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
+            )
+        mr_copy = dict(morph_results_list)
+
+    # Handle special inputs (functional remove)
+    func_dicts = {
+        "funcxy": [None, None],
+        "funcx": [None, None],
+        "funcy": [None, None],
+    }
+    for func in func_dicts.keys():
+        if f"{func}_function" in mr_copy:
+            func_dicts[func][0] = mr_copy.pop(f"{func}_function")
+        if func in mr_copy:
+            func_dicts[func][1] = mr_copy.pop(func)
+            rw_pos = list(mr_copy.keys()).index("Rw")
+            morph_results_list = list(mr_copy.items())
+            for idx, key in enumerate(func_dicts[func][1]):
+                morph_results_list.insert(
+                    rw_pos + idx, (f"{func} {key}", func_dicts[func][1][key])
+                )
+            mr_copy = dict(morph_results_list)
+
+    # Get uncertainties
+    if uncertainties is None:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
+        )
+    else:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}"
+            + (
+                f" +/- {uncertainties[key]:.6f}"
+                if key in uncertainties
+                else ""
+            )
+            for key in mr_copy
+        )
+
+    return morphs_out, func_dicts
+
+
 def single_morph_output(
     morph_inputs,
     morph_results,
@@ -159,8 +210,6 @@ def single_morph_output(
         Print to terminal when True (default False).
     """
 
-    print(uncertainties)
-
     # Input and output parameters
     morphs_in = "\n# Input morphing parameters:\n"
     morphs_in += (
@@ -171,52 +220,7 @@ def single_morph_output(
     )
 
     mr_copy = morph_results.copy()
-    morphs_out = "# Optimized morphing parameters:\n"
-    # Handle special inputs (numerical)
-    if "squeeze" in mr_copy:
-        sq_dict = mr_copy.pop("squeeze")
-        rw_pos = list(mr_copy.keys()).index("Rw")
-        morph_results_list = list(mr_copy.items())
-        for idx, _ in enumerate(sq_dict):
-            morph_results_list.insert(
-                rw_pos + idx, (f"squeeze a{idx}", sq_dict[f"a{idx}"])
-            )
-        mr_copy = dict(morph_results_list)
-
-    # Handle special inputs (functional remove)
-    func_dicts = {
-        "funcxy": [None, None],
-        "funcx": [None, None],
-        "funcy": [None, None],
-    }
-    for func in func_dicts.keys():
-        if f"{func}_function" in mr_copy:
-            func_dicts[func][0] = mr_copy.pop(f"{func}_function")
-        if func in mr_copy:
-            func_dicts[func][1] = mr_copy.pop(func)
-            rw_pos = list(mr_copy.keys()).index("Rw")
-            morph_results_list = list(mr_copy.items())
-            for idx, key in enumerate(func_dicts[func][1]):
-                morph_results_list.insert(
-                    rw_pos + idx, (f"{func} {key}", func_dicts[func][1][key])
-                )
-            mr_copy = dict(morph_results_list)
-
-    # Normal inputs
-    if uncertainties is None:
-        morphs_out += "\n".join(
-            f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
-        )
-    else:
-        morphs_out += "\n".join(
-            f"# {key} = {mr_copy[key]:.6f}"
-            + (
-                f" +/- {uncertainties[key]:.6f}"
-                if key in uncertainties
-                else ""
-            )
-            for key in mr_copy
-        )
+    morphs_out, func_dicts = get_terminal_morph_output(mr_copy, uncertainties)
 
     # Handle special inputs (functional add)
     for func in func_dicts.keys():
@@ -356,6 +360,7 @@ def multiple_morph_output(
     morph_inputs,
     morph_results,
     target_files,
+    uncertainties_dict=None,
     field=None,
     field_list=None,
     save_directory=None,
@@ -376,6 +381,8 @@ def multiple_morph_output(
         Resulting data after morphing.
     target_files: list
         Files that acted as targets to morphs.
+    uncertainties_dict: dict
+        Dictionary of uncertainties for each morph.
     save_directory
         Name of directory to save morphs in.
     field
@@ -415,11 +422,16 @@ def multiple_morph_output(
                 output = f"\n# Target: {target}\n"
             else:
                 output = f"\n# Morph: {target}\n"
-            output += "# Optimized morphing parameters:\n"
-            output += "\n".join(
-                f"# {param} = {morph_results[target][param]:.6f}"
-                for param in morph_results[target]
-            )
+            # output += "# Optimized morphing parameters:\n"
+            # output += "\n".join(
+            #     f"# {param} = {morph_results[target][param]:.6f}"
+            #     for param in morph_results[target]
+            # )
+
+            mr_copy = morph_results[target].copy()
+            uncertainties = uncertainties_dict[target]
+            output_body, _ = get_terminal_morph_output(mr_copy, uncertainties)
+            output += output_body
             verbose_outputs += f"{output}\n"
 
     # Get items we want to put in table
