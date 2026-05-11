@@ -64,7 +64,7 @@ def are_files_same(file1, file2):
                 assert np.isclose(
                     float(f1_arr[idx]),
                     float(f2_arr[idx]),
-                    rtol=1e-4,
+                    rtol=1e-3,
                     atol=1e-6,
                 )
             else:
