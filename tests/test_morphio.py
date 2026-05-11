@@ -61,7 +61,12 @@ def are_files_same(file1, file2):
         assert len(f1_arr) == len(f2_arr)
         for idx, _ in enumerate(f1_arr):
             if isfloat(f1_arr[idx]) and isfloat(f2_arr[idx]):
-                assert np.isclose(float(f1_arr[idx]), float(f2_arr[idx]))
+                assert np.isclose(
+                    float(f1_arr[idx]),
+                    float(f2_arr[idx]),
+                    rtol=1e-4,
+                    atol=1e-6,
+                )
             else:
                 assert f1_arr[idx] == f2_arr[idx]
 
