@@ -422,11 +422,6 @@ def multiple_morph_output(
                 output = f"\n# Target: {target}\n"
             else:
                 output = f"\n# Morph: {target}\n"
-            # output += "# Optimized morphing parameters:\n"
-            # output += "\n".join(
-            #     f"# {param} = {morph_results[target][param]:.6f}"
-            #     for param in morph_results[target]
-            # )
 
             mr_copy = morph_results[target].copy()
             uncertainties = uncertainties_dict[target]
