@@ -35,7 +35,6 @@ class TestMorphRGrid:
 
     def testRangeInBounds(self, setup):
         """Selected range is within input bounds."""
-
         config = {
             "xmin": 1.0,
             "xmax": 2.0,
@@ -53,7 +52,6 @@ class TestMorphRGrid:
 
     def testxmaxOut(self, setup):
         """Selected xmax is outside of input bounds."""
-
         config = {
             "xmin": 1.0,
             "xmax": 15.0,
@@ -71,7 +69,6 @@ class TestMorphRGrid:
 
     def testxminOut(self, setup):
         """Selected xmin is outside of input bounds."""
-
         config = {
             "xmin": 0.0,
             "xmax": 2.0,
@@ -89,7 +86,6 @@ class TestMorphRGrid:
 
     def testxstepOut(self, setup):
         """Selected xstep is outside of input bounds."""
-
         config = {
             "xmin": 1.0,
             "xmax": 2.0,

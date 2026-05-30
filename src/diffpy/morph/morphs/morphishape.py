@@ -15,7 +15,6 @@
 """Class MorphISphere -- apply inverse spherical shape function class
 MorphISpheroid -- apply inverse spheroidal shape function."""
 
-
 import numpy
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph

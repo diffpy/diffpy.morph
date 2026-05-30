@@ -14,7 +14,6 @@
 ##############################################################################
 """Class MorphSmear -- smear the morph."""
 
-
 import numpy
 
 from diffpy.morph.morphs.morph import LABEL_RA, LABEL_RR, Morph

@@ -13,6 +13,7 @@
 #
 ##############################################################################
 """Morph -- base class for defining a morph."""
+
 import numpy
 
 LABEL_RA = "r (A)"  # r-grid
@@ -189,9 +190,10 @@ class Morph(object):
         return
 
     def checkConfig(self):
-        """Verify data in self.config. No action by default.
+        """Verify data in self.config.
 
-        To be overridden in a derived class.
+        No action by default.         To be overridden in a derived
+        class.
         """
         return
 
@@ -257,7 +259,6 @@ class Morph(object):
         x_extrapolate : array
             x values after a morphing process
         """
-
         cutoff_low = min(x_true)
         extrap_low_x = numpy.where(x_extrapolate < cutoff_low)[0]
         is_extrap_low = False if len(extrap_low_x) == 0 else True

@@ -22,7 +22,7 @@ def get_args(parser, params, kwargs):
             else:
                 inputs.append(f"--{key}")
                 inputs.append(f"{value}")
-    (opts, pargs) = parser.parse_args(inputs)
+    opts, pargs = parser.parse_args(inputs)
     return opts, pargs
 
 

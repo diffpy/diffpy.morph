@@ -155,7 +155,6 @@ def single_morph_output(
     stdout_flag: bool
         Print to terminal when True (default False).
     """
-
     # Input and output parameters
     morphs_in = "\n# Input morphing parameters:\n"
     morphs_in += (
@@ -302,7 +301,6 @@ def get_multisave_names(target_list: list, save_names_file=None, mm=False):
         The names to save each morph as. Keys are the target function file
         names used to produce that morph.
     """
-
     # Dictionary storing save file names
     save_names = {}
 
@@ -382,7 +380,6 @@ def multiple_morph_output(
         Multiple morphs done with a single target rather than multiple
         targets for a single morphed file. Swaps morph and target in the code.
     """
-
     # Input parameters used for every morph
     inputs = "\n# Input morphing parameters:\n"
     inputs += "\n".join(
@@ -480,7 +477,6 @@ def tabulate_results(multiple_morph_results):
         Keys in tabulated_results are the table's column names and each
         corresponding value is a list of data for that column.
     """
-
     # We only care about the following parameters in our data tables
     relevant_parameters = ["Scale", "Smear", "Stretch", "Pearson", "Rw"]
 

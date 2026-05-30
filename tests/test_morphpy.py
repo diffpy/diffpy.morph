@@ -40,7 +40,7 @@ class TestMorphpy:
         self.morphapp_results = {}
 
         # Parse arguments sorting by field
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--scale",
                 "1",

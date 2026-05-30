@@ -14,7 +14,6 @@
 ##############################################################################
 """Class TransformXtalPDFtoRDF -- Transform crystal PDFs to RDFs."""
 
-
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, LABEL_RR, Morph
 
 

@@ -109,7 +109,7 @@ class TestApp:
         # ###Basic tests for any variety of morphing###
 
         # Ensure only two pargs given for morphing
-        (opts, pargs) = self.parser.parse_args(["toofewfiles"])
+        opts, pargs = self.parser.parse_args(["toofewfiles"])
         with pytest.raises(TypeError) as excinfo:
             single_morph(self.parser, opts, pargs, stdout_flag=False)
         assert "You must supply MORPHFILE and TARGETFILE." in str(
@@ -118,7 +118,7 @@ class TestApp:
         with pytest.raises(TypeError) as excinfo:
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
         assert "You must supply a FILE and DIRECTORY." in str(excinfo.value)
-        (opts, pargs) = self.parser.parse_args(["too", "many", "files"])
+        opts, pargs = self.parser.parse_args(["too", "many", "files"])
         with pytest.raises(TypeError) as excinfo:
             single_morph(self.parser, opts, pargs, stdout_flag=False)
         assert (
@@ -133,7 +133,7 @@ class TestApp:
         )
 
         # Make sure xmax greater than xmin
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [f"{nickel_PDF}", f"{nickel_PDF}", "--xmin", "10", "--xmax", "1"]
         )
         with pytest.raises(ValueError) as excinfo:
@@ -143,7 +143,7 @@ class TestApp:
         # ###Tests exclusive to multiple morphs###
         # Make sure we save to a directory that exists
         # (user must create the directory if non-existing)
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
                 f"{nickel_PDF}",
@@ -159,12 +159,12 @@ class TestApp:
         assert "is not a directory." in str(excinfo.value)
 
         # Ensure first parg is a FILE and second parg is a DIRECTORY
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [f"{nickel_PDF}", f"{nickel_PDF}"]
         )
         with pytest.raises(NotADirectoryError) as excinfo:
             multiple_targets(self.parser, opts, pargs, stdout_flag=False)
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [f"{testsequence_dir}", f"{testsequence_dir}"]
         )
         assert "is not a directory." in str(excinfo.value)
@@ -173,7 +173,7 @@ class TestApp:
         assert "is not a file." in str(excinfo.value)
 
         # Try sorting by non-existing field
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [f"{nickel_PDF}", f"{testsequence_dir}", "--sort-by", "fake_field"]
         )
         with pytest.raises(KeyError) as excinfo:
@@ -181,7 +181,7 @@ class TestApp:
         assert "The requested field is missing from a file header." in str(
             excinfo.value
         )
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
                 f"{testsequence_dir}",
@@ -199,7 +199,7 @@ class TestApp:
         )
 
         # Try plotting an unknown parameter
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
                 f"{testsequence_dir}",
@@ -214,7 +214,7 @@ class TestApp:
         )
 
         # Try plotting an unrefined parameter
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
                 f"{testsequence_dir}",
@@ -231,7 +231,7 @@ class TestApp:
         )
 
         # Pass a non-float list to squeeze
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 f"{nickel_PDF}",
                 f"{nickel_PDF}",
@@ -245,7 +245,7 @@ class TestApp:
 
     def test_morphsequence(self, setup_morphsequence):
         # Parse arguments sorting by field
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--scale",
                 "1",
@@ -282,7 +282,7 @@ class TestApp:
 
         # Check using a serial file produces the same result
         s_file = tssf.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--scale",
                 "1",
@@ -331,7 +331,7 @@ class TestApp:
             np.savetxt(f, np.array([x_grid, g3_bl]).T)
 
         # No PDF smear (should not activate baseline slope)
-        (opts, _) = self.parser.parse_args(
+        opts, _ = self.parser.parse_args(
             [
                 "--smear",
                 "1",
@@ -347,7 +347,7 @@ class TestApp:
         assert pytest.approx(smear_results["Rw"]) == 0.0
 
         # PDF-specific smear (should activate baseline slope)
-        (opts, _) = self.parser.parse_args(
+        opts, _ = self.parser.parse_args(
             [
                 "--smear",
                 "100",

@@ -14,7 +14,6 @@
 ##############################################################################
 """Tools used in morphs and morph chains."""
 
-
 import numpy
 
 from diffpy.utils.parsers.loaddata import loadData
@@ -117,7 +116,6 @@ def readPDF(fname):
     r,gr
         Arrays read from data.
     """
-
     rv = loadData(fname, unpack=True)
     if len(rv) >= 2:
         return rv[:2]
@@ -165,7 +163,6 @@ def case_insensitive_dictionary_search(key: str, dictionary: dict):
     value or None
         Corresponding value if key is in dictionary. None otherwise.
     """
-
     for ci_key in dictionary.keys():
         if key.lower() == ci_key.lower():
             key = ci_key
@@ -177,8 +174,9 @@ def case_insensitive_dictionary_search(key: str, dictionary: dict):
 def field_sort(
     filepaths: list, field, reverse=False, serfile=None, get_field_values=False
 ):
-    """Sort a list of files by a field stored in header information. All
-    files must contain this header information.
+    """Sort a list of files by a field stored in header information.
+
+    All files must contain this header information.
 
     Parameters
     ----------
@@ -202,7 +200,6 @@ def field_sort(
         Sorted list of paths. When get_fv is true, also return an associated
         field list.
     """
-
     # Get the field from each file
     files_field_values = []
     if serfile is None:
@@ -258,7 +255,6 @@ def get_values_from_dictionary_collection(
     list
         The found values.
     """
-
     # Store all values corresponding to the target_key into this list
     values = []
 
