@@ -81,7 +81,6 @@ class TestMorphSpheroid:
 
     def test_morph(self):
         """Check MorphSpheroid.morph() and MorphISpheroid.morph()"""
-
         for idx in range(len(self.testfiles)):
             self.testfile = self.testfiles[idx]
 

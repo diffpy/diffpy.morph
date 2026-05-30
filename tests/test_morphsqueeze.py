@@ -165,7 +165,7 @@ def test_morphsqueeze_extrapolate(user_filesystem, squeeze_coeffs, wmsg_gen):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             "--squeeze",
             ",".join(map(str, coeffs)),
@@ -203,7 +203,7 @@ def test_morphsqueeze_no_warning(user_filesystem):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             "--scale=1",
             "--squeeze",
@@ -312,7 +312,7 @@ def test_squeeze_warnings(user_filesystem, squeeze_coeffs, x_morph):
         user_filesystem / "cwd_dir", x_morph, y_morph, x_target, y_target
     )
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             "--squeeze",
             ",".join(map(str, squeeze_coeffs)),

@@ -2,7 +2,6 @@
 
 """Unit tests for tools.py."""
 
-
 import os
 from pathlib import Path
 

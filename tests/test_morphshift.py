@@ -94,7 +94,7 @@ def test_morphshift_extrapolate(user_filesystem, capsys, hshift, wmsg_gen):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             f"--hshift={hshift}",
             f"{morph_file.as_posix()}",
@@ -127,7 +127,7 @@ def test_morphshift_no_warning(user_filesystem):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             "--scale=1",
             "--hshift=0",

@@ -246,7 +246,6 @@ def plot_param(target_labels, param_list, param_name=None, field=None):
         When None (default) or values are non-numerical, it plots a bar chart
         of Rw values per file.
     """
-
     # ensure all entries in target_labels are distinct for plotting
     unique_labels = set()
     for idx in range(len(target_labels)):
@@ -327,7 +326,6 @@ def truncate_func(x, fx, xmin=None, xmax=None):
     x, fx
         Returns the truncated x, fx.
     """
-
     if xmin is not None:
         sel = x >= xmin
         fx = fx[sel]

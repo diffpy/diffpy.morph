@@ -14,7 +14,6 @@
 ##############################################################################
 """Class MorphRGrid -- put morph and target on desired grid."""
 
-
 import numpy
 
 from diffpy.morph.morphs.morph import LABEL_GR, LABEL_RA, Morph

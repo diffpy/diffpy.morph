@@ -242,7 +242,7 @@ def create_option_parser():
         help=(
             "Slope of the baseline. "
             "For a bulk material with scale factor 1, "
-            "this will have value -4\u03C0 times the atomic density. "
+            "this will have value -4\u03c0 times the atomic density. "
             "Otherwise, you can estimate it by dividing the y "
             "position from the x position "
             "of the base of the first peak. "
@@ -334,7 +334,7 @@ def create_option_parser():
         "--noplot",
         action="store_false",
         dest="plot",
-        help="""Do not show a plot.""",
+        help="Do not show a plot.",
     )
     group.add_option(
         "--mlabel",
@@ -446,7 +446,7 @@ def create_option_parser():
         "--reverse",
         dest="reverse",
         action="store_true",
-        help="""Sort from highest to lowest instead.""",
+        help="Sort from highest to lowest instead.",
     )
     group.add_option(
         "--serial-file",
@@ -1279,7 +1279,7 @@ def get_two_column_from_file(fn):
 
 def main():
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args()
+    opts, pargs = parser.parse_args()
     if opts.multiple_targets:
         multiple_targets(parser, opts, pargs, stdout_flag=True)
     elif opts.multiple_morphs:

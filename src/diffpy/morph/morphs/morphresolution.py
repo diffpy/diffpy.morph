@@ -15,7 +15,6 @@
 """Class MorphResolutionDamping -- apply resolution broadening to the
 morph."""
 
-
 import numpy
 
 from diffpy.morph.morphs.morph import LABEL_RA, LABEL_RR, Morph
