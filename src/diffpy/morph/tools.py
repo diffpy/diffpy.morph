@@ -116,7 +116,6 @@ def read_two_column(fname):
     x,fx
         Arrays read from data.
     """
-
     rv = load_data(fname, unpack=True)
     if len(rv) >= 2:
         return rv[:2]
