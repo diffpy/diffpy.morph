@@ -527,8 +527,8 @@ def single_morph(
         x_target = pargs[4]
         y_target = pargs[5]
     else:
-        x_morph, y_morph = getPDFFromFile(pargs[0])
-        x_target, y_target = getPDFFromFile(pargs[1])
+        x_morph, y_morph = get_two_column_from_file(pargs[0])
+        x_target, y_target = get_two_column_from_file(pargs[1])
 
     if y_morph is None:
         parser.morph_error(f"No data table found in: {pargs[0]}.", ValueError)
@@ -754,7 +754,7 @@ def single_morph(
     io.handle_extrapolation_warnings(stretch_morph)
 
     # Get Rw for the morph range
-    rw = tools.getRw(chain)
+    rw = tools.get_rw(chain)
     pcc = tools.get_pearson(chain)
     # Replace the MorphRGrid with Morph identity
     # This removes the r-range morph as mentioned above
@@ -1261,11 +1261,12 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
     return morph_results
 
 
-def getPDFFromFile(fn):
-    from diffpy.morph.tools import readPDF
+def get_two_column_from_file(fn):
+    """Open a two column data file and extract the data."""
+    from diffpy.morph.tools import read_two_column
 
     try:
-        r, gr = readPDF(fn)
+        x, fx = read_two_column(fn)
     except IOError as errmsg:
         print("%s: %s" % (fn, errmsg), file=sys.stderr)
         sys.exit(1)
@@ -1273,7 +1274,7 @@ def getPDFFromFile(fn):
         print("Cannot read %s" % fn, file=sys.stderr)
         sys.exit(1)
 
-    return r, gr
+    return x, fx
 
 
 def main():

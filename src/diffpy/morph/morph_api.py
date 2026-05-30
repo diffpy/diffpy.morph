@@ -245,7 +245,7 @@ def morph(
         chain(x_morph, y_morph, x_target, y_target)
 
     # summary
-    rw = tools.getRw(chain)
+    rw = tools.get_rw(chain)
     pcc = tools.get_pearson(chain)
     # restore rgrid
     chain[0] = morphs.Morph()

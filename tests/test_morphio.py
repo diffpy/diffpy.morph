@@ -11,7 +11,7 @@ from diffpy.morph.morphapp import (
     single_morph,
 )
 from diffpy.morph.morphpy import morph_arrays
-from diffpy.utils.parsers.loaddata import loadData
+from diffpy.utils.parsers import load_data
 
 # Support Python 2
 try:
@@ -68,9 +68,9 @@ def are_files_same(file1, file2):
 def are_diffs_right(file1, file2, diff_file):
     """Assert that diff_file ordinate data is approximately file1
     ordinate data minus file2 ordinate data."""
-    f1_data = loadData(file1)
-    f2_data = loadData(file2)
-    diff_data = loadData(diff_file)
+    f1_data = load_data(file1)
+    f2_data = load_data(file2)
+    diff_data = load_data(diff_file)
 
     xmin = max(min(f1_data[:, 0]), min(f1_data[:, 1]))
     xmax = min(max(f2_data[:, 0]), max(f2_data[:, 1]))

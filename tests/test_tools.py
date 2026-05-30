@@ -27,9 +27,9 @@ class TestTools:
         self.rho0 = 0.0917132
         return
 
-    def test_estimateBaselineSlope(self, setup):
+    def test_estimate_baseline_slope(self, setup):
         """Check estimateBaselineSlope() using calculated data."""
-        slope = tools.estimateBaselineSlope(self.x_morph, self.y_morph)
+        slope = tools.estimate_baseline_slope(self.x_morph, self.y_morph)
         slopecalc = -4 * numpy.pi * self.rho0
         assert numpy.allclose(slopecalc, slope, 1e-2)
         return
@@ -39,7 +39,7 @@ class TestTools:
         import random
 
         x = random.random()
-        scale = tools.estimateScale(self.y_morph, x * self.y_morph)
+        scale = tools.estimate_scale(self.y_morph, x * self.y_morph)
         assert x, scale
         return
 
