@@ -114,7 +114,7 @@ class TestApp:
         tmp_succinct = tmp_path.joinpath("succinct")
         tmp_succinct_name = tmp_succinct.resolve().as_posix()
 
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--multiple-targets",
                 "--sort-by",
@@ -132,7 +132,7 @@ class TestApp:
         # Save a single succinct morph
         ssm = tmp_succinct.joinpath("single_succinct_morph.cgr")
         ssm_name = ssm.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(["-s", ssm_name, "-n"])
+        opts, pargs = self.parser.parse_args(["-s", ssm_name, "-n"])
         pargs = [morph_file, target_file]
         single_morph(self.parser, opts, pargs, stdout_flag=False)
 
@@ -152,7 +152,7 @@ class TestApp:
         tmp_verbose = tmp_path.joinpath("verbose")
         tmp_verbose_name = tmp_verbose.resolve().as_posix()
 
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--multiple-targets",
                 "--sort-by",
@@ -171,7 +171,7 @@ class TestApp:
         # Save a single verbose morph
         svm = tmp_verbose.joinpath("single_verbose_morph.cgr")
         svm_name = svm.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             ["-s", svm_name, "-n", "--verbose"]
         )
         pargs = [morph_file, target_file]
@@ -198,7 +198,7 @@ class TestApp:
         tmp_diff = tmp_path.joinpath("diff")
         tmp_diff_name = tmp_diff.resolve().as_posix()
 
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--multiple-targets",
                 "--sort-by",
@@ -218,7 +218,7 @@ class TestApp:
         diff_name = "single_diff_morph.cgr"
         diff_file = tmp_diff.joinpath(diff_name)
         df_name = diff_file.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(["-s", df_name, "-n", "--diff"])
+        opts, pargs = self.parser.parse_args(["-s", df_name, "-n", "--diff"])
         pargs = [morph_file, target_file]
         single_morph(self.parser, opts, pargs, stdout_flag=False)
 
@@ -249,7 +249,7 @@ class TestApp:
         sqr = tmp_path / "squeeze_morph_result.cgr"
         sqr_name = sqr.resolve().as_posix()
         # Note that stretch and hshift should not be considered
-        (opts, _) = self.parser.parse_args(
+        opts, _ = self.parser.parse_args(
             [
                 "--scale",
                 "2",

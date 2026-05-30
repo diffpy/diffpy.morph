@@ -12,8 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""refine -- Refine a morph or morph chain
-"""
+"""refine -- Refine a morph or morph chain"""
 
 from numpy import array, concatenate, dot, exp, ones_like
 from scipy.optimize import leastsq
@@ -157,7 +156,6 @@ class Refiner(object):
             If the number of shared grid points between morphed function and
             target function is smaller than the number of parameters.
         """
-
         self.pars = args or self.chain.config.keys()
 
         config = self.chain.config

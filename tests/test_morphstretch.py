@@ -120,7 +120,7 @@ def test_morphshift_extrapolate(user_filesystem, stretch, wmsg_gen):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             f"--stretch={stretch}",
             f"{morph_file.as_posix()}",
@@ -153,7 +153,7 @@ def test_morphshift_no_warning(user_filesystem):
     )
 
     parser = create_option_parser()
-    (opts, pargs) = parser.parse_args(
+    opts, pargs = parser.parse_args(
         [
             "--scale=1",
             "--stretch=0",

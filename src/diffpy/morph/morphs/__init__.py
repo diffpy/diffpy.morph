@@ -14,7 +14,6 @@
 ##############################################################################
 """Definition of morphs."""
 
-
 from diffpy.morph.morphs.morph import Morph  # noqa: F401
 from diffpy.morph.morphs.morphchain import MorphChain  # noqa: F401
 from diffpy.morph.morphs.morphfuncx import MorphFuncx

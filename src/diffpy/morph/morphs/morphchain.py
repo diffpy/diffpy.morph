@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""MorphChain -- Chain of morphs executed in order.
-"""
-
+"""MorphChain -- Chain of morphs executed in order."""
 
 class MorphChain(list):
     """Class for chaining morphs together.

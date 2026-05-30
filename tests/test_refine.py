@@ -230,7 +230,7 @@ class TestRefine:
         run_cmd.extend([str(morph_file), str(target_file)])
         run_cmd.append("-n")
         parser = create_option_parser()
-        (opts, pargs) = parser.parse_args(run_cmd)
+        opts, pargs = parser.parse_args(run_cmd)
         with pytest.raises(ValueError) as excinfo:
             single_morph(parser, opts, pargs, stdout_flag=False)
         assert expected_error_message in str(excinfo.value)
