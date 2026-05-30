@@ -16,18 +16,18 @@
 
 import numpy
 
-from diffpy.utils.parsers.loaddata import loadData
+from diffpy.utils.parsers import load_data
 from diffpy.utils.parsers.serialization import deserialize_data
 
 
-def estimateScale(y_morph_in, y_target_in):
+def estimate_scale(y_morph_in, y_target_in):
     """Set the scale that best matches the morph to the target."""
     dot = numpy.dot
     scale = dot(y_morph_in, y_target_in) / dot(y_morph_in, y_morph_in)
     return scale
 
 
-def estimateBaselineSlope(r, gr, rmin=None, rmax=None):
+def estimate_baseline_slope(r, gr, rmin=None, rmax=None):
     """Estimate the slope of the linear baseline of a PDF.
 
     This fits a slope into the equation slope*r through the bottom of the PDF.
@@ -84,7 +84,7 @@ def estimateBaselineSlope(r, gr, rmin=None, rmax=None):
     return slope
 
 
-def getRw(chain):
+def get_rw(chain):
     """Get Rw from the outputs of a morph or chain."""
     # Make sure we put these on the proper grid
     x_morph, y_morph, x_target, y_target = chain.xyallout
@@ -103,8 +103,8 @@ def get_pearson(chain):
     return pcc
 
 
-def readPDF(fname):
-    """Reads an .gr file, loads r and G(r) vectors.
+def read_two_column(fname):
+    """Reads a two-column data file, loads x and f(x) vectors.
 
     Parameters
     ----------
@@ -113,10 +113,10 @@ def readPDF(fname):
 
     Returns
     -------
-    r,gr
+    x,fx
         Arrays read from data.
     """
-    rv = loadData(fname, unpack=True)
+    rv = load_data(fname, unpack=True)
     if len(rv) >= 2:
         return rv[:2]
     return (None, None)
@@ -204,7 +204,7 @@ def field_sort(
     files_field_values = []
     if serfile is None:
         for path in filepaths:
-            fhd = loadData(path, headers=True)
+            fhd = load_data(path, headers=True)
             files_field_values.append(
                 [path, case_insensitive_dictionary_search(field, fhd)]
             )

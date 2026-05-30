@@ -7,7 +7,7 @@ import pytest
 
 from diffpy.morph.morphapp import create_option_parser, single_morph
 from diffpy.morph.morphpy import __get_morph_opts__, morph, morph_arrays
-from diffpy.morph.tools import getRw
+from diffpy.morph.tools import get_rw
 
 thisfile = locals().get("__file__", "file.py")
 tests_dir = Path(thisfile).parent.resolve()
@@ -166,7 +166,7 @@ class TestMorphpy:
                 xyallout = grm[:, 0], grm[:, 1], grt[:, 0], grt[:, 1]
 
             chain = Chain()
-            rw = getRw(chain)
+            rw = get_rw(chain)
             del chain
             assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]
@@ -237,7 +237,7 @@ class TestMorphpy:
                 xyallout = grm[:, 0], grm[:, 1], grt[:, 0], grt[:, 1]
 
             chain = Chain()
-            rw = getRw(chain)
+            rw = get_rw(chain)
             del chain
             assert np.allclose(
                 [rw], [self.morphapp_results[target_file.name]["Rw"]]

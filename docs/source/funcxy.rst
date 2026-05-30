@@ -40,7 +40,7 @@ kapton background ``background.chi``.
 
      from diffpy.pdfgetx.pdfgetter import PDFGetter
      from diffpy.morph.morphpy import morph_arrays
-     from diffpy.utils.parsers.loaddata import loadData
+     from diffpy.utils.parsers import load_data
 
      pg = PDFGetter()
 
@@ -60,8 +60,8 @@ kapton background ``background.chi``.
          return (r, gr)
 
 
-     sample_iq = loadData("sample.chi")
-     target_gr = loadData("target.cgr")
+     sample_iq = load_data("sample.chi")
+     target_gr = load_data("target.cgr")
      params_to_morph = {
          "bgscale": 1.0,
          "qmin": 0.0, "qmax": 25.0,
@@ -124,7 +124,7 @@ our wavelength was ``1.11`` angstroms.
      import pyFAI.integrator.azimuthal as pyfai
      import pyFAI.detectors as pfd
      from diffpy.morph.morphpy import morph_arrays
-     from diffpy.utils.parsers.loaddata import loadData
+     from diffpy.utils.parsers.load_data import load_data
 
      pattern_2d = np.load("diffraction_image.npy")
      wavelength = 0.1110e-9  # in m
@@ -163,8 +163,8 @@ our wavelength was ``1.11`` angstroms.
          "cent_offset_y": 0  # in number of pixels
      }
 
-     sample_chi = loadData("sample.chi")
-     target_chi = loadData("target.chi")
+     sample_chi = load_data("sample.chi")
+     target_chi = load_data("target.chi")
 
      morph_info, morphed_chi = morph_arrays(
                                      sample_chi, target_chi,
