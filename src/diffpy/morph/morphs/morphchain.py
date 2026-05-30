@@ -14,6 +14,9 @@
 ##############################################################################
 """MorphChain -- Chain of morphs executed in order."""
 
+# Comment required to resolve black/docformatter conflict
+
+
 class MorphChain(list):
     """Class for chaining morphs together.
 

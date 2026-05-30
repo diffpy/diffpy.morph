@@ -334,8 +334,7 @@ def create_option_parser():
         "--noplot",
         action="store_false",
         dest="plot",
-        help="""Do not show a plot."""
-                                      ,
+        help="Do not show a plot.",
     )
     group.add_option(
         "--mlabel",
@@ -447,9 +446,7 @@ def create_option_parser():
         "--reverse",
         dest="reverse",
         action="store_true",
-        help=\
-             """Sort from highest to lowest instead."""
-                                                       ,
+        help="Sort from highest to lowest instead.",
     )
     group.add_option(
         "--serial-file",
