@@ -63,7 +63,7 @@ class TestMorphpy:
                     {
                         target_file.name: single_morph(
                             self.parser, opts, pargs, stdout_flag=False
-                        )
+                        )[0]
                     }
                 )
         return

@@ -92,6 +92,11 @@ original_grid: bool
 verbose: bool
     Print additional header details to saved files. These include details about the morph
     inputs and outputs.
+uncertainty: bool
+    Estimate uncertainties for each refined morphing parameter. This is done by estimating
+    the Hessian of the fit. Caution should be taken as this is not the true uncertainty
+    of the fit, and the user should make their own judgement about what measure of uncertainty
+    to use for their particular use case.
 xmin: float
     Minimum x-value (abscissa) to use for function comparisons.
 xmax: float

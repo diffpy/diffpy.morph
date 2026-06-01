@@ -124,47 +124,7 @@ def build_morph_inputs_container(
     return morph_inputs
 
 
-def single_morph_output(
-    morph_inputs,
-    morph_results,
-    save_file=None,
-    morph_file=None,
-    xy_out=None,
-    verbose=False,
-    stdout_flag=False,
-):
-    """Helper function for printing details about a single morph.
-    Handles both printing to terminal and printing to a file.
-
-    Parameters
-    ----------
-    morph_inputs: dict
-        Parameters given by the user.
-    morph_results: dict
-        Resulting data after morphing.
-    save_file
-        Name of file to print to. If None (default) print to terminal.
-    morph_file
-        Name of the morphed function file. Required when printing to a
-        non-terminal file.
-    param xy_out: list
-        List of the form [x_morph_out, y_morph_out]. x_morph_out is a List of
-        r values and y_morph_out is a List of gr values.
-    verbose: bool
-        Print additional details about the morph when True (default False).
-    stdout_flag: bool
-        Print to terminal when True (default False).
-    """
-    # Input and output parameters
-    morphs_in = "\n# Input morphing parameters:\n"
-    morphs_in += (
-        "\n".join(
-            f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys()
-        )
-        + "\n"
-    )
-
-    mr_copy = morph_results.copy()
+def get_terminal_morph_output(mr_copy, uncertainties):
     morphs_out = "# Optimized morphing parameters:\n"
     # Handle special inputs (numerical)
     if "squeeze" in mr_copy:
@@ -196,10 +156,70 @@ def single_morph_output(
                 )
             mr_copy = dict(morph_results_list)
 
-    # Normal inputs
-    morphs_out += "\n".join(
-        f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
+    # Get uncertainties
+    if uncertainties is None:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
+        )
+    else:
+        morphs_out += "\n".join(
+            f"# {key} = {mr_copy[key]:.6f}"
+            + (
+                f" +/- {uncertainties[key]:.6f}"
+                if key in uncertainties
+                else ""
+            )
+            for key in mr_copy
+        )
+
+    return morphs_out, func_dicts
+
+
+def single_morph_output(
+    morph_inputs,
+    morph_results,
+    uncertainties=None,
+    save_file=None,
+    morph_file=None,
+    xy_out=None,
+    verbose=False,
+    stdout_flag=False,
+):
+    """Helper function for printing details about a single morph.
+    Handles both printing to terminal and printing to a file.
+
+    Parameters
+    ----------
+    morph_inputs: dict
+        Parameters given by the user.
+    morph_results: dict
+        Resulting data after morphing.
+    uncertainties: dict
+        Uncertainties of all morphed parameters.
+    save_file
+        Name of file to print to. If None (default) print to terminal.
+    morph_file
+        Name of the morphed function file. Required when printing to a
+        non-terminal file.
+    param xy_out: list
+        List of the form [x_morph_out, y_morph_out]. x_morph_out is a List of
+        r values and y_morph_out is a List of gr values.
+    verbose: bool
+        Print additional details about the morph when True (default False).
+    stdout_flag: bool
+        Print to terminal when True (default False).
+    """
+    # Input and output parameters
+    morphs_in = "\n# Input morphing parameters:\n"
+    morphs_in += (
+        "\n".join(
+            f"# {key} = {morph_inputs[key]}" for key in morph_inputs.keys()
+        )
+        + "\n"
     )
+
+    mr_copy = morph_results.copy()
+    morphs_out, func_dicts = get_terminal_morph_output(mr_copy, uncertainties)
 
     # Handle special inputs (functional add)
     for func in func_dicts.keys():
@@ -338,6 +358,7 @@ def multiple_morph_output(
     morph_inputs,
     morph_results,
     target_files,
+    uncertainties_dict=None,
     field=None,
     field_list=None,
     save_directory=None,
@@ -358,6 +379,8 @@ def multiple_morph_output(
         Resulting data after morphing.
     target_files: list
         Files that acted as targets to morphs.
+    uncertainties_dict: dict
+        Dictionary of uncertainties for each morph.
     save_directory
         Name of directory to save morphs in.
     field
@@ -396,11 +419,11 @@ def multiple_morph_output(
                 output = f"\n# Target: {target}\n"
             else:
                 output = f"\n# Morph: {target}\n"
-            output += "# Optimized morphing parameters:\n"
-            output += "\n".join(
-                f"# {param} = {morph_results[target][param]:.6f}"
-                for param in morph_results[target]
-            )
+
+            mr_copy = morph_results[target].copy()
+            uncertainties = uncertainties_dict[target]
+            output_body, _ = get_terminal_morph_output(mr_copy, uncertainties)
+            output += output_body
             verbose_outputs += f"{output}\n"
 
     # Get items we want to put in table

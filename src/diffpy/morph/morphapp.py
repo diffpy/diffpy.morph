@@ -15,6 +15,7 @@
 
 from __future__ import print_function
 
+import copy
 import sys
 from pathlib import Path
 
@@ -121,6 +122,21 @@ def create_option_parser():
         dest="verbose",
         action="store_true",
         help="Print additional header details to saved files.",
+    )
+    parser.add_option(
+        "-u",
+        "--uncertainty",
+        "--estimate-uncertainty",
+        dest="estimate_uncertainty",
+        action="store_true",
+        help=(
+            "Estimate uncertainties for each refined morphing parameter. "
+            "This is done by estimating the Hessian of the fit. "
+            "Caution should be taken as this is not the true uncertainty "
+            "of the fit, and the user should make their own judgement "
+            "about what measure of uncertainty to use for their particular "
+            "use case."
+        ),
     )
     parser.add_option(
         "--xmin",
@@ -734,6 +750,7 @@ def single_morph(
         refiner.residual = refiner._pearson
     if opts.addpearson:
         refiner.residual = refiner._add_pearson
+    unc = None
     if opts.refine and refpars:
         try:
             # This works better when we adjust scale and smear first.
@@ -743,7 +760,26 @@ def single_morph(
                     rptemp.append("scale")
                 refiner.refine(*rptemp)
             # Adjust all parameters
-            refiner.refine(*refpars)
+            unc = refiner.refine(*refpars, estimate_uncertainty=True)
+            # If one parameter is causing trouble with uncertainty estimate
+            # compute all uncertainties individually
+            if unc is None:
+                unc = {}
+                for param in refpars:
+                    refiner_single_param = type(refiner)(
+                        refiner.chain,
+                        refiner.x_morph,
+                        refiner.y_morph,
+                        refiner.x_target,
+                        refiner.y_target,
+                        tolerance=refiner.tolerance,
+                    )
+                    refiner_single_param.chain.config = copy.deepcopy(config)
+                    unc_param = refiner_single_param.refine(
+                        *[param], estimate_uncertainty=True
+                    )
+                    if unc_param is not None:
+                        unc.update(unc_param)
         except ValueError as e:
             parser.morph_error(str(e), ValueError)
     # Smear is not being refined, but baselineslope needs to refined to apply
@@ -751,9 +787,12 @@ def single_morph(
     # Note that baselineslope is only added to the refine list if smear is
     # applied
     elif "baselineslope" in refpars:
+        # Note, you cannot estimate uncertainty here as the baselineslope
+        # does not change the fit
         try:
             refiner.refine(
-                "baselineslope", baselineslope=config["baselineslope"]
+                "baselineslope",
+                baselineslope=config["baselineslope"],
             )
         except ValueError as e:
             parser.morph_error(str(e), ValueError)
@@ -839,6 +878,7 @@ def single_morph(
         io.single_morph_output(
             morph_inputs,
             morph_results,
+            uncertainties=None if opts.estimate_uncertainty is None else unc,
             save_file=opts.slocation,
             morph_file=pargs[0],
             xy_out=xy_save,
@@ -880,10 +920,12 @@ def single_morph(
     # Return different things depending on whether it is python interfaced
     if python_wrap:
         morph_info = morph_results
+        if opts.estimate_uncertainty is not None and unc is not None:
+            morph_info.update({"Uncertainties": unc})
         morph_table = numpy.array(xy_save).T
         return morph_info, morph_table
     else:
-        return morph_results
+        return morph_results, unc
 
 
 def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
@@ -993,6 +1035,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
 
     # Morph morph_file against all other files in target_directory
     morph_results = {}
+    uncs = {}
     for target_file in target_list:
         if target_file.is_file:
             # Set the save file destination to be a file within the SLOC
@@ -1002,13 +1045,11 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
                 opts.slocation = Path(save_morphs_here).joinpath(save_as)
             # Perform a morph of morph_file against target_file
             pargs = [morph_file, target_file]
-            morph_results.update(
-                {
-                    target_file.name: single_morph(
-                        parser, opts, pargs, stdout_flag=False
-                    ),
-                }
+            morph_result, unc = single_morph(
+                parser, opts, pargs, stdout_flag=False
             )
+            morph_results.update({target_file.name: morph_result})
+            uncs.update({target_file.name: unc})
 
     target_file_names = []
     for key in morph_results.keys():
@@ -1030,6 +1071,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             morph_inputs,
             morph_results,
             target_file_names,
+            uncertainties_dict=uncs,
             save_directory=save_directory,
             morph_file=morph_file,
             target_directory=target_directory,
@@ -1187,6 +1229,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
 
     # Morph morph_file against all other files in target_directory
     morph_results = {}
+    uncs = {}
     for morph_file in morph_list:
         if morph_file.is_file:
             # Set the save file destination to be a file within the SLOC
@@ -1196,13 +1239,11 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
                 opts.slocation = Path(save_morphs_here).joinpath(save_as)
             # Perform a morph of morph_file against target_file
             pargs = [morph_file, target_file]
-            morph_results.update(
-                {
-                    morph_file.name: single_morph(
-                        parser, opts, pargs, stdout_flag=False
-                    ),
-                }
+            morph_result, unc = single_morph(
+                parser, opts, pargs, stdout_flag=False
             )
+            morph_results.update({morph_file.name: morph_result})
+            uncs.update({morph_file.name: unc})
 
     morph_file_names = []
     for key in morph_results.keys():
@@ -1224,6 +1265,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
             morph_inputs,
             morph_results,
             morph_file_names,
+            uncertainties_dict=uncs,
             save_directory=save_directory,
             morph_file=target_file,
             target_directory=morph_directory,

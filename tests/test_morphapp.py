@@ -267,7 +267,7 @@ class TestApp:
                 {
                     target_file.name: single_morph(
                         self.parser, opts, pargs, stdout_flag=False
-                    )
+                    )[0]
                 }
             )
         pargs = [morph_file, testsequence_dir]
@@ -341,7 +341,7 @@ class TestApp:
         pargs = [mf, tf]
         smear_results = single_morph(
             self.parser, opts, pargs, stdout_flag=False
-        )
+        )[0]
         # Variances add, and 3^2+4^2=5^2
         assert pytest.approx(abs(smear_results["smear"])) == 4.0
         assert pytest.approx(smear_results["Rw"]) == 0.0
@@ -359,6 +359,6 @@ class TestApp:
         pargs = [pmf, ptf]
         pdf_smear_results = single_morph(
             self.parser, opts, pargs, stdout_flag=False
-        )
+        )[0]
         assert pytest.approx(abs(pdf_smear_results["smear"])) == 4.0
         assert pytest.approx(pdf_smear_results["Rw"]) == 0.0
