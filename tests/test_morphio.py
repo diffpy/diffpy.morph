@@ -7,6 +7,7 @@ import pytest
 
 from diffpy.morph.morphapp import (
     create_option_parser,
+    multiple_morphs,
     multiple_targets,
     single_morph,
 )
@@ -27,6 +28,11 @@ testsequence_dir = testdata_dir.joinpath("testsequence")
 testsaving_dir = testsequence_dir.joinpath("testsaving")
 test_saving_succinct = testsaving_dir.joinpath("succinct")
 test_saving_verbose = testsaving_dir.joinpath("verbose")
+
+test_saving_grid = testsaving_dir.joinpath("grids")
+test_saving_grid_default = test_saving_grid.joinpath("default")
+test_saving_grid_original = test_saving_grid.joinpath("original")
+
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
 
 
@@ -185,6 +191,78 @@ class TestApp:
         for file in common:
             with open(tmp_verbose.joinpath(file)) as gf:
                 with open(test_saving_verbose.joinpath(file)) as tf:
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
+
+    def test_grid_selection(self, setup, tmp_path):
+        morph_file = self.testfiles[0]
+
+        # Save on default grid
+        tmp_default = tmp_path.joinpath("default")
+        tmp_default_name = tmp_default.resolve().as_posix()
+
+        opts, pargs = self.parser.parse_args(
+            [
+                "--multiple-morphs",
+                "-s",
+                tmp_default_name,
+                "-n",
+                "--save-names-file",
+                tssf,
+                "--xmax",
+                "35",
+            ]
+        )
+
+        pargs = [testsequence_dir, morph_file]
+        multiple_morphs(self.parser, opts, pargs, stdout_flag=False)
+
+        tmp_default_morphs = tmp_default.joinpath("Morphs")
+
+        # Check the saved files are the same for verbose
+        common = []
+        for item in tmp_default_morphs.glob("**/*.*"):
+            if item.is_file():
+                common.append(item.relative_to(tmp_default_morphs).as_posix())
+        for file in common:
+            with open(tmp_default_morphs.joinpath(file)) as gf:
+                with open(test_saving_grid_default.joinpath(file)) as tf:
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
+
+        # Save on original grid
+        tmp_original = tmp_path.joinpath("original")
+        tmp_original_name = tmp_original.resolve().as_posix()
+
+        opts, pargs = self.parser.parse_args(
+            [
+                "--multiple-morphs",
+                "-s",
+                tmp_original_name,
+                "-n",
+                "--save-names-file",
+                tssf,
+                "--xmax",
+                "35",
+                "-o",
+            ]
+        )
+
+        pargs = [testsequence_dir, morph_file]
+        multiple_morphs(self.parser, opts, pargs, stdout_flag=False)
+
+        tmp_original_morphs = tmp_default.joinpath("Morphs")
+
+        # Check the saved files are the same for verbose
+        common = []
+        for item in tmp_original_morphs.glob("**/*.*"):
+            if item.is_file():
+                common.append(item.relative_to(tmp_original_morphs).as_posix())
+        for file in common:
+            with open(tmp_original_morphs.joinpath(file)) as gf:
+                with open(test_saving_grid_original.joinpath(file)) as tf:
                     actual = filter(ignore_path, gf)
                     expected = filter(ignore_path, tf)
                     are_files_same(actual, expected)
