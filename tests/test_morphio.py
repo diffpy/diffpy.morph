@@ -199,7 +199,7 @@ class TestApp:
         tmp_verbose_unc = tmp_path.joinpath("verbose_unc")
         tmp_verbose_unc_name = tmp_verbose_unc.resolve().as_posix()
 
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "--multiple-targets",
                 "--sort-by",
@@ -223,7 +223,7 @@ class TestApp:
         # Save a single verbose morph
         svum = tmp_verbose_unc.joinpath("single_verbose_unc_morph.cgr")
         svum_name = svum.resolve().as_posix()
-        (opts, pargs) = self.parser.parse_args(
+        opts, pargs = self.parser.parse_args(
             [
                 "-s",
                 svum_name,
