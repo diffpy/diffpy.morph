@@ -118,7 +118,7 @@ class TestApp:
             self.testfiles.append(testsequence_dir.joinpath(filename))
         return
 
-    def test_morph_outputs(self, setup, tmp_path):
+        def test_morph_outputs(self, setup, tmp_path):
         morph_file = self.testfiles[0]
         target_file = self.testfiles[-1]
 
@@ -201,61 +201,60 @@ class TestApp:
                     expected = filter(ignore_path, tf)
                     are_files_same(actual, expected)
 
-            # Save multiple verbose morphs with uncertainties
-            tmp_verbose_unc = tmp_path.joinpath("verbose_unc")
-            tmp_verbose_unc_name = tmp_verbose_unc.resolve().as_posix()
+        # Save multiple verbose morphs with uncertainties
+        tmp_verbose_unc = tmp_path.joinpath("verbose_unc")
+        tmp_verbose_unc_name = tmp_verbose_unc.resolve().as_posix()
 
-            opts, pargs = self.parser.parse_args(
-                [
-                    "--multiple-targets",
-                    "--sort-by",
-                    "temperature",
-                    "-s",
-                    tmp_verbose_unc_name,
-                    "-n",
-                    "--save-names-file",
-                    tssf,
-                    "--scale",
-                    "1",
-                    "--squeeze",
-                    "0,0",
-                    "-u",
-                    "--verbose",
-                ]
-            )
-            pargs = [morph_file, testsequence_dir]
-            multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+        opts, pargs = self.parser.parse_args(
+            [
+                "--multiple-targets",
+                "--sort-by",
+                "temperature",
+                "-s",
+                tmp_verbose_unc_name,
+                "-n",
+                "--save-names-file",
+                tssf,
+                "--scale",
+                "1",
+                "--squeeze",
+                "0,0",
+                "-u",
+                "--verbose",
+            ]
+        )
+        pargs = [morph_file, testsequence_dir]
+        multiple_targets(self.parser, opts, pargs, stdout_flag=False)
 
-            # Save a single verbose morph
-            svum = tmp_verbose_unc.joinpath("single_verbose_unc_morph.cgr")
-            svum_name = svum.resolve().as_posix()
-            opts, pargs = self.parser.parse_args(
-                [
-                    "-s",
-                    svum_name,
-                    "-n",
-                    "--scale",
-                    "1",
-                    "--squeeze",
-                    "0,0",
-                    "-u",
-                    "--verbose",
-                ]
-            )
-            pargs = [morph_file, target_file]
-            single_morph(self.parser, opts, pargs, stdout_flag=False)
+        # Save a single verbose morph with un certainties
+        svum = tmp_verbose_unc.joinpath("single_verbose_unc_morph.cgr")
+        svum_name = svum.resolve().as_posix()
+        opts, pargs = self.parser.parse_args(
+            [
+                "-s",
+                svum_name,
+                "-n",
+                "--scale",
+                "1",
+                "--squeeze",
+                "0,0",
+                "-u",
+                "--verbose",
+            ]
+        )
+        pargs = [morph_file, target_file]
+        single_morph(self.parser, opts, pargs, stdout_flag=False)
 
-            # Check the saved files are the same for verbose
-            common = []
-            for item in tmp_verbose_unc.glob("**/*.*"):
-                if item.is_file():
-                    common.append(item.relative_to(tmp_verbose_unc).as_posix())
-            for file in common:
-                with open(tmp_verbose_unc.joinpath(file)) as gf:
-                    with open(test_saving_verbose_unc.joinpath(file)) as tf:
-                        actual = filter(ignore_path, gf)
-                        expected = filter(ignore_path, tf)
-                        are_files_same(actual, expected)
+        common = []
+        for item in tmp_verbose_unc.glob("**/*.*"):
+            if item.is_file():
+                common.append(item.relative_to(tmp_verbose_unc).as_posix())
+        for file in common:
+            with open(tmp_verbose_unc.joinpath(file)) as gf:
+                with open(test_saving_verbose_unc.joinpath(file)) as tf:
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
 
     def test_grid_selection(self, setup, tmp_path):
         morph_file = self.testfiles[0]
@@ -282,7 +281,7 @@ class TestApp:
 
         tmp_default_morphs = tmp_default.joinpath("Morphs")
 
-        # Check the saved files are the same for verbose
+        # Check the saved files are the same for default grid
         common = []
         for item in tmp_default_morphs.glob("**/*.*"):
             if item.is_file():
@@ -317,7 +316,7 @@ class TestApp:
 
         tmp_original_morphs = tmp_default.joinpath("Morphs")
 
-        # Check the saved files are the same for verbose
+        # Check the saved files are the same for original grid
         common = []
         for item in tmp_original_morphs.glob("**/*.*"):
             if item.is_file():
