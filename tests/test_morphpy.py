@@ -148,6 +148,23 @@ class TestMorphpy:
             except AttributeError:
                 pass
 
+    def test_morphpy_grid_selection(self, setup_morph):
+        morph_file = self.testfiles[0]
+        _, grm = morph(morph_file, morph_file)
+        # Notice that this is a strict less than, not a less than or equal to.
+        # This is because xmax is an exclusive function (see MorphRGrid).
+        grm_truncated_grid = grm[:, 0][grm[:, 0] < 35]
+        grm_truncated_func = grm[:, 1][grm[:, 0] < 35]
+        grm_truncated = np.array([grm_truncated_grid, grm_truncated_func]).T
+
+        _, grt_default = morph(morph_file, morph_file, xmax=35)
+        assert np.allclose(grt_default, grm_truncated)
+
+        _, grt_original = morph(
+            morph_file, morph_file, xmax=35, original_grid=True
+        )
+        assert np.allclose(grt_original, grm)
+
     def test_morph(self, setup_morph):
         morph_results = {}
         morph_file = self.testfiles[0]

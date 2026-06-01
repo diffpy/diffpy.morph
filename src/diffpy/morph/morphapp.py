@@ -104,6 +104,19 @@ def create_option_parser():
         ),
     )
     parser.add_option(
+        "-o",
+        "--original-grid",
+        action="store_true",
+        dest="original_grid",
+        help=(
+            "Save/return the morphed function on the original grid. "
+            "Automatically disabled when --get-diff enabled. "
+            "Default: save/return the morphed function on the "
+            "grid defined by the intersection of the original "
+            "and target grids. "
+        ),
+    )
+    parser.add_option(
         "-v",
         "--verbose",
         dest="verbose",
@@ -797,7 +810,8 @@ def single_morph(
     pcc = tools.get_pearson(chain)
     # Replace the MorphRGrid with Morph identity
     # This removes the r-range morph as mentioned above
-    mrg = morphs.Morph()
+    if opts.original_grid is not None:
+        chain[chain.index(mrg)] = morphs.Morph()
     chain(x_morph, y_morph, x_target, y_target)
 
     # FOR FUTURE MAINTAINERS
