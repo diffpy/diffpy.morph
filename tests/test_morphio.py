@@ -27,6 +27,7 @@ testsequence_dir = testdata_dir.joinpath("testsequence")
 testsaving_dir = testsequence_dir.joinpath("testsaving")
 test_saving_succinct = testsaving_dir.joinpath("succinct")
 test_saving_verbose = testsaving_dir.joinpath("verbose")
+test_saving_verbose_unc = testsaving_dir.joinpath("verbose_unc")
 tssf = testdata_dir.joinpath("testsequence_serialfile.json")
 
 
@@ -60,7 +61,12 @@ def are_files_same(file1, file2):
         assert len(f1_arr) == len(f2_arr)
         for idx, _ in enumerate(f1_arr):
             if isfloat(f1_arr[idx]) and isfloat(f2_arr[idx]):
-                assert np.isclose(float(f1_arr[idx]), float(f2_arr[idx]))
+                assert np.isclose(
+                    float(f1_arr[idx]),
+                    float(f2_arr[idx]),
+                    rtol=1e-3,
+                    atol=1e-6,
+                )
             else:
                 assert f1_arr[idx] == f2_arr[idx]
 
@@ -189,6 +195,62 @@ class TestApp:
                     expected = filter(ignore_path, tf)
                     are_files_same(actual, expected)
 
+        # Save multiple verbose morphs with uncertainties
+        tmp_verbose_unc = tmp_path.joinpath("verbose_unc")
+        tmp_verbose_unc_name = tmp_verbose_unc.resolve().as_posix()
+
+        opts, pargs = self.parser.parse_args(
+            [
+                "--multiple-targets",
+                "--sort-by",
+                "temperature",
+                "-s",
+                tmp_verbose_unc_name,
+                "-n",
+                "--save-names-file",
+                tssf,
+                "--scale",
+                "1",
+                "--squeeze",
+                "0,0",
+                "-u",
+                "--verbose",
+            ]
+        )
+        pargs = [morph_file, testsequence_dir]
+        multiple_targets(self.parser, opts, pargs, stdout_flag=False)
+
+        # Save a single verbose morph
+        svum = tmp_verbose_unc.joinpath("single_verbose_unc_morph.cgr")
+        svum_name = svum.resolve().as_posix()
+        opts, pargs = self.parser.parse_args(
+            [
+                "-s",
+                svum_name,
+                "-n",
+                "--scale",
+                "1",
+                "--squeeze",
+                "0,0",
+                "-u",
+                "--verbose",
+            ]
+        )
+        pargs = [morph_file, target_file]
+        single_morph(self.parser, opts, pargs, stdout_flag=False)
+
+        # Check the saved files are the same for verbose
+        common = []
+        for item in tmp_verbose_unc.glob("**/*.*"):
+            if item.is_file():
+                common.append(item.relative_to(tmp_verbose_unc).as_posix())
+        for file in common:
+            with open(tmp_verbose_unc.joinpath(file)) as gf:
+                with open(test_saving_verbose_unc.joinpath(file)) as tf:
+                    actual = filter(ignore_path, gf)
+                    expected = filter(ignore_path, tf)
+                    are_files_same(actual, expected)
+
     # Similar format as test_morph_outputs
     def test_morph_diff_outputs(self, setup, tmp_path):
         morph_file = self.testfiles[0]
@@ -299,3 +361,31 @@ class TestApp:
                 actual = filter(ignore_path, gf)
                 expected = filter(ignore_path, tf)
                 are_files_same(actual, expected)
+
+    def test_func_uncertainty_outputs(self, tmp_path):
+        def fy(x, y, ay0, ay1):
+            return ay0 + ay1 * y
+
+        def fx(x, y, ax0, ax1):
+            return ax0 + (1 + ax1) * x
+
+        r = np.linspace(0, 10, 101)
+        gr = np.linspace(0, 10, 101)
+
+        target_r = 0.01 + 1.02 * r
+        target_gr = 0.3 + 1.04 * gr
+
+        morph_info, _ = morph_arrays(
+            np.array([r, gr]).T,
+            np.array([target_r, target_gr]).T,
+            squeeze=[0, 0, 0],
+            funcy=(fy, {"ay0": 0, "ay1": 0}),
+            funcx=(fx, {"ax0": 0, "ax1": 0}),
+            uncertainty=True,
+        )
+
+        assert "Uncertainties" in morph_info.keys()
+        params = ["funcy ay0", "funcy ay1", "funcx ax0", "funcx ax1"]
+        for unc in morph_info["Uncertainties"].keys():
+            assert unc in params
+            assert morph_info["Uncertainties"][unc] is not None

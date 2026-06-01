@@ -202,7 +202,13 @@ Basic diffpy.morph Workflow
 
        The optimal fit after applying the scale, smear, and stretch morphs.
 
-    9. Now, try it on your own! If you have personally collected or
+    9. We are also able to estimate the uncertainties of each of the fitted parameters.
+       This is done by using the ``uncertainty`` parameter.
+       Below we have replaced the ``-a`` from the previous step with a ``-u`` to obtain uncertainty estimates ::
+
+          diffpy.morph --scale=0.8 --smear-pdf=-0.08 --stretch=0.005 --xmin=1.5 --xmax=30 -u darkSub_rh20_C_01.gr darkSub_rh20_C_44.gr
+
+    10. Now, try it on your own! If you have personally collected or
        otherwise readily available PDF data, try this process to see if
        you can morph your PDFs to one another. Many of the parameters
        provided in this tutorial are unique to it, so be cautious about
