@@ -118,7 +118,7 @@ class TestApp:
             self.testfiles.append(testsequence_dir.joinpath(filename))
         return
 
-        def test_morph_outputs(self, setup, tmp_path):
+    def test_morph_outputs(self, setup, tmp_path):
         morph_file = self.testfiles[0]
         target_file = self.testfiles[-1]
 
