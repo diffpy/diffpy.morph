@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphs.morph &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>diffpy.morph.morphs.morph &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../../../../_static/documentation_options.js?v=503e29a9"></script>
       <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -91,6 +91,7 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 <span class="sd">&quot;&quot;&quot;Morph -- base class for defining a morph.&quot;&quot;&quot;</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
 <span class="n">LABEL_RA</span> <span class="o">=</span> <span class="s2">&quot;r (A)&quot;</span>  <span class="c1"># r-grid</span>
@@ -277,9 +278,10 @@
 <div class="viewcode-block" id="Morph.checkConfig">
 <a class="viewcode-back" href="../../../../api/diffpy.morph.morphs.html#diffpy.morph.morphs.morph.Morph.checkConfig">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">checkConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify data in self.config. No action by default.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify data in self.config.</span>
 
-<span class="sd">        To be overridden in a derived class.</span>
+<span class="sd">        No action by default.         To be overridden in a derived</span>
+<span class="sd">        class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span></div>
 
@@ -354,7 +356,6 @@
 <span class="sd">        x_extrapolate : array</span>
 <span class="sd">            x values after a morphing process</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">cutoff_low</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x_true</span><span class="p">)</span>
         <span class="n">extrap_low_x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x_extrapolate</span> <span class="o">&lt;</span> <span class="n">cutoff_low</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">is_extrap_low</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">extrap_low_x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="kc">True</span>

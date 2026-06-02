@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using funcxy with Commonly-Used Diffraction Software &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>Using funcxy with Commonly-Used Diffraction Software &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/documentation_options.js?v=503e29a9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -109,7 +109,7 @@ Let’s also say we have a measured I(Q) of the
 kapton background <code class="docutils literal notranslate"><span class="pre">background.chi</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgetx.pdfgetter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFGetter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_data</span>
 
 <span class="n">pg</span> <span class="o">=</span> <span class="n">PDFGetter</span><span class="p">()</span>
 
@@ -129,8 +129,8 @@ kapton background <code class="docutils literal notranslate"><span class="pre">b
     <span class="k">return</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">gr</span><span class="p">)</span>
 
 
-<span class="n">sample_iq</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
-<span class="n">target_gr</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;target.cgr&quot;</span><span class="p">)</span>
+<span class="n">sample_iq</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
+<span class="n">target_gr</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;target.cgr&quot;</span><span class="p">)</span>
 <span class="n">params_to_morph</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;bgscale&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="s2">&quot;qmin&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">&quot;qmax&quot;</span><span class="p">:</span> <span class="mf">25.0</span><span class="p">,</span>
@@ -186,7 +186,7 @@ our wavelength was <code class="docutils literal notranslate"><span class="pre">
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyFAI.integrator.azimuthal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyfai</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pyFAI.detectors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pfd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.morphpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">morph_arrays</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.load_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_data</span>
 
 <span class="n">pattern_2d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;diffraction_image.npy&quot;</span><span class="p">)</span>
 <span class="n">wavelength</span> <span class="o">=</span> <span class="mf">0.1110e-9</span>  <span class="c1"># in m</span>
@@ -225,8 +225,8 @@ our wavelength was <code class="docutils literal notranslate"><span class="pre">
     <span class="s2">&quot;cent_offset_y&quot;</span><span class="p">:</span> <span class="mi">0</span>  <span class="c1"># in number of pixels</span>
 <span class="p">}</span>
 
-<span class="n">sample_chi</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
-<span class="n">target_chi</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="s2">&quot;target.chi&quot;</span><span class="p">)</span>
+<span class="n">sample_chi</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;sample.chi&quot;</span><span class="p">)</span>
+<span class="n">target_chi</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;target.chi&quot;</span><span class="p">)</span>
 
 <span class="n">morph_info</span><span class="p">,</span> <span class="n">morphed_chi</span> <span class="o">=</span> <span class="n">morph_arrays</span><span class="p">(</span>
                                 <span class="n">sample_chi</span><span class="p">,</span> <span class="n">target_chi</span><span class="p">,</span>

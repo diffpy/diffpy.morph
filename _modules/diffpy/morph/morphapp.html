@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.morphapp &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>diffpy.morph.morphapp &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../../../_static/documentation_options.js?v=503e29a9"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -93,6 +93,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
@@ -121,13 +122,13 @@
         <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">CustomParser</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">custom_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;custom_error(msg : string)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">morph_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;morph_error(msg : string)</span>
 
 <span class="sd">            Print a message incorporating &#39;msg&#39; to stderr and exit. Does</span>
 <span class="sd">            not print usage.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: error: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prog_name</span><span class="p">(),</span> <span class="n">msg</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_prog_name</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">parser</span> <span class="o">=</span> <span class="n">CustomParser</span><span class="p">(</span>
         <span class="n">usage</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -183,11 +184,39 @@
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--original-grid&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;original_grid&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Save/return the morphed function on the original grid. &quot;</span>
+            <span class="s2">&quot;Automatically disabled when --get-diff enabled. &quot;</span>
+            <span class="s2">&quot;Default: save/return the morphed function on the &quot;</span>
+            <span class="s2">&quot;grid defined by the intersection of the original &quot;</span>
+            <span class="s2">&quot;and target grids. &quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
         <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;verbose&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Print additional header details to saved files.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
+        <span class="s2">&quot;-u&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--uncertainty&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--estimate-uncertainty&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;estimate_uncertainty&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Estimate uncertainties for each refined morphing parameter. &quot;</span>
+            <span class="s2">&quot;This is done by estimating the Hessian of the fit. &quot;</span>
+            <span class="s2">&quot;Caution should be taken as this is not the true uncertainty &quot;</span>
+            <span class="s2">&quot;of the fit, and the user should make their own judgement &quot;</span>
+            <span class="s2">&quot;about what measure of uncertainty to use for their particular &quot;</span>
+            <span class="s2">&quot;use case.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--xmin&quot;</span><span class="p">,</span>
@@ -322,7 +351,7 @@
         <span class="n">help</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;Slope of the baseline. &quot;</span>
             <span class="s2">&quot;For a bulk material with scale factor 1, &quot;</span>
-            <span class="s2">&quot;this will have value -4</span><span class="se">\u03C0</span><span class="s2"> times the atomic density. &quot;</span>
+            <span class="s2">&quot;this will have value -4</span><span class="se">\u03c0</span><span class="s2"> times the atomic density. &quot;</span>
             <span class="s2">&quot;Otherwise, you can estimate it by dividing the y &quot;</span>
             <span class="s2">&quot;position from the x position &quot;</span>
             <span class="s2">&quot;of the base of the first peak. &quot;</span>
@@ -414,7 +443,7 @@
         <span class="s2">&quot;--noplot&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;plot&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Do not show a plot.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Do not show a plot.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--mlabel&quot;</span><span class="p">,</span>
@@ -526,7 +555,7 @@
         <span class="s2">&quot;--reverse&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;reverse&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Sort from highest to lowest instead.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Sort from highest to lowest instead.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">group</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span>
         <span class="s2">&quot;--serial-file&quot;</span><span class="p">,</span>
@@ -590,14 +619,17 @@
     <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">python_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pymorphs</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;You must supply MORPHFILE and TARGETFILE.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="s2">&quot;You must supply MORPHFILE and TARGETFILE.&quot;</span><span class="p">,</span> <span class="ne">TypeError</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">python_wrap</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
             <span class="s2">&quot;Too many arguments. Make sure you only supply &quot;</span>
-            <span class="s2">&quot;MORPHFILE and TARGETFILE.&quot;</span>
+            <span class="s2">&quot;MORPHFILE and TARGETFILE.&quot;</span><span class="p">,</span>
+            <span class="ne">TypeError</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span> <span class="ow">and</span> <span class="n">python_wrap</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Python wrapper error.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="s2">&quot;Python wrapper error.&quot;</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span>
 
     <span class="c1"># Get the PDFs</span>
     <span class="c1"># If we get from python, we may wrap, which has input size 4</span>
@@ -607,13 +639,13 @@
         <span class="n">x_target</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
         <span class="n">y_target</span> <span class="o">=</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">getPDFFromFile</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span> <span class="o">=</span> <span class="n">get_two_column_from_file</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">get_two_column_from_file</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">y_morph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">y_target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No data table found in: </span><span class="si">{</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
 
     <span class="c1"># Get tolerance</span>
     <span class="n">tolerance</span> <span class="o">=</span> <span class="mf">1e-08</span>
@@ -632,8 +664,8 @@
         <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="ow">and</span> <span class="n">opts</span><span class="o">.</span><span class="n">xmax</span> <span class="o">&lt;=</span> <span class="n">opts</span><span class="o">.</span><span class="n">xmin</span>
     <span class="p">):</span>
-        <span class="n">e</span> <span class="o">=</span> <span class="s2">&quot;xmin must be less than xmax&quot;</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;xmin must be less than xmax&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">emsg</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
 
     <span class="c1"># Set up the morphs</span>
     <span class="n">chain</span> <span class="o">=</span> <span class="n">morphs</span><span class="o">.</span><span class="n">MorphChain</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -690,7 +722,9 @@
                     <span class="n">squeeze_dict_in</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">coeff</span><span class="p">)})</span>
                     <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> could not be converted to float.&quot;</span><span class="p">)</span>
+                    <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">coeff</span><span class="si">}</span><span class="s2"> could not be converted to float.&quot;</span><span class="p">,</span> <span class="ne">ValueError</span>
+                    <span class="p">)</span>
         <span class="n">squeeze_poly_deg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze_dict_in</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="n">squeeze_morph</span> <span class="o">=</span> <span class="n">morphs</span><span class="o">.</span><span class="n">MorphSqueeze</span><span class="p">()</span>
         <span class="n">chain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">squeeze_morph</span><span class="p">)</span>
@@ -799,6 +833,7 @@
         <span class="n">refiner</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="n">refiner</span><span class="o">.</span><span class="n">_pearson</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">addpearson</span><span class="p">:</span>
         <span class="n">refiner</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="n">refiner</span><span class="o">.</span><span class="n">_add_pearson</span>
+    <span class="n">unc</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">refine</span> <span class="ow">and</span> <span class="n">refpars</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># This works better when we adjust scale and smear first.</span>
@@ -808,20 +843,42 @@
                     <span class="n">rptemp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;scale&quot;</span><span class="p">)</span>
                 <span class="n">refiner</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span><span class="o">*</span><span class="n">rptemp</span><span class="p">)</span>
             <span class="c1"># Adjust all parameters</span>
-            <span class="n">refiner</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span><span class="o">*</span><span class="n">refpars</span><span class="p">)</span>
+            <span class="n">unc</span> <span class="o">=</span> <span class="n">refiner</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span><span class="o">*</span><span class="n">refpars</span><span class="p">,</span> <span class="n">estimate_uncertainty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># If one parameter is causing trouble with uncertainty estimate</span>
+            <span class="c1"># compute all uncertainties individually</span>
+            <span class="k">if</span> <span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">unc</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">refpars</span><span class="p">:</span>
+                    <span class="n">refiner_single_param</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">refiner</span><span class="p">)(</span>
+                        <span class="n">refiner</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span>
+                        <span class="n">refiner</span><span class="o">.</span><span class="n">x_morph</span><span class="p">,</span>
+                        <span class="n">refiner</span><span class="o">.</span><span class="n">y_morph</span><span class="p">,</span>
+                        <span class="n">refiner</span><span class="o">.</span><span class="n">x_target</span><span class="p">,</span>
+                        <span class="n">refiner</span><span class="o">.</span><span class="n">y_target</span><span class="p">,</span>
+                        <span class="n">tolerance</span><span class="o">=</span><span class="n">refiner</span><span class="o">.</span><span class="n">tolerance</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">refiner_single_param</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+                    <span class="n">unc_param</span> <span class="o">=</span> <span class="n">refiner_single_param</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span>
+                        <span class="o">*</span><span class="p">[</span><span class="n">param</span><span class="p">],</span> <span class="n">estimate_uncertainty</span><span class="o">=</span><span class="kc">True</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">unc_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">unc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">unc_param</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="ne">ValueError</span><span class="p">)</span>
     <span class="c1"># Smear is not being refined, but baselineslope needs to refined to apply</span>
     <span class="c1"># smear</span>
     <span class="c1"># Note that baselineslope is only added to the refine list if smear is</span>
     <span class="c1"># applied</span>
     <span class="k">elif</span> <span class="s2">&quot;baselineslope&quot;</span> <span class="ow">in</span> <span class="n">refpars</span><span class="p">:</span>
+        <span class="c1"># Note, you cannot estimate uncertainty here as the baselineslope</span>
+        <span class="c1"># does not change the fit</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">refiner</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span>
-                <span class="s2">&quot;baselineslope&quot;</span><span class="p">,</span> <span class="n">baselineslope</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">]</span>
+                <span class="s2">&quot;baselineslope&quot;</span><span class="p">,</span>
+                <span class="n">baselineslope</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;baselineslope&quot;</span><span class="p">],</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="ne">ValueError</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">chain</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
 
@@ -832,11 +889,12 @@
     <span class="n">io</span><span class="o">.</span><span class="n">handle_extrapolation_warnings</span><span class="p">(</span><span class="n">stretch_morph</span><span class="p">)</span>
 
     <span class="c1"># Get Rw for the morph range</span>
-    <span class="n">rw</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">getRw</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+    <span class="n">rw</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_rw</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
     <span class="n">pcc</span> <span class="o">=</span> <span class="n">tools</span><span class="o">.</span><span class="n">get_pearson</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
     <span class="c1"># Replace the MorphRGrid with Morph identity</span>
     <span class="c1"># This removes the r-range morph as mentioned above</span>
-    <span class="n">mrg</span> <span class="o">=</span> <span class="n">morphs</span><span class="o">.</span><span class="n">Morph</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">original_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chain</span><span class="p">[</span><span class="n">chain</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">mrg</span><span class="p">)]</span> <span class="o">=</span> <span class="n">morphs</span><span class="o">.</span><span class="n">Morph</span><span class="p">()</span>
     <span class="n">chain</span><span class="p">(</span><span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span><span class="p">)</span>
 
     <span class="c1"># FOR FUTURE MAINTAINERS</span>
@@ -903,6 +961,7 @@
         <span class="n">io</span><span class="o">.</span><span class="n">single_morph_output</span><span class="p">(</span>
             <span class="n">morph_inputs</span><span class="p">,</span>
             <span class="n">morph_results</span><span class="p">,</span>
+            <span class="n">uncertainties</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">estimate_uncertainty</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">unc</span><span class="p">,</span>
             <span class="n">save_file</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">slocation</span><span class="p">,</span>
             <span class="n">morph_file</span><span class="o">=</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="n">xy_out</span><span class="o">=</span><span class="n">xy_save</span><span class="p">,</span>
@@ -910,9 +969,9 @@
             <span class="n">stdout_flag</span><span class="o">=</span><span class="n">stdout_flag</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;Unable to save to designated location.&quot;</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">plot</span><span class="p">:</span>
         <span class="n">pairlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">chain</span><span class="o">.</span><span class="n">xy_target_out</span><span class="p">,</span> <span class="n">chain</span><span class="o">.</span><span class="n">xy_morph_out</span><span class="p">]</span>
@@ -944,10 +1003,12 @@
     <span class="c1"># Return different things depending on whether it is python interfaced</span>
     <span class="k">if</span> <span class="n">python_wrap</span><span class="p">:</span>
         <span class="n">morph_info</span> <span class="o">=</span> <span class="n">morph_results</span>
+        <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">estimate_uncertainty</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">unc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">morph_info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;Uncertainties&quot;</span><span class="p">:</span> <span class="n">unc</span><span class="p">})</span>
         <span class="n">morph_table</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xy_save</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
         <span class="k">return</span> <span class="n">morph_info</span><span class="p">,</span> <span class="n">morph_table</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">morph_results</span></div>
+        <span class="k">return</span> <span class="n">morph_results</span><span class="p">,</span> <span class="n">unc</span></div>
 
 
 
@@ -957,25 +1018,29 @@
     <span class="c1"># Custom error messages since usage is distinct when --multiple tag is</span>
     <span class="c1"># applied</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
             <span class="s2">&quot;You must supply a FILE and DIRECTORY. &quot;</span>
-            <span class="s2">&quot;See --multiple-targets under --help for usage.&quot;</span>
+            <span class="s2">&quot;See --multiple-targets under --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">TypeError</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="s2">&quot;Too many arguments. You must only supply a FILE and a DIRECTORY.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="s2">&quot;Too many arguments. You must only supply a FILE and a DIRECTORY.&quot;</span><span class="p">,</span>
+            <span class="ne">TypeError</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Parse paths</span>
     <span class="n">morph_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">morph_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morph_file</span><span class="si">}</span><span class="s2"> is not a file. Go to --help for usage.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morph_file</span><span class="si">}</span><span class="s2"> is not a file. Go to --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">FileNotFoundError</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="n">target_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target_directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_directory</span><span class="si">}</span><span class="s2"> is not a directory. Go to --help for usage.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_directory</span><span class="si">}</span><span class="s2"> is not a directory. Go to --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">NotADirectoryError</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Get list of files from target directory</span>
@@ -1012,12 +1077,14 @@
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">serfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                    <span class="s2">&quot;The requested field was not found in the metadata file.&quot;</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                    <span class="s2">&quot;The requested field was not found in the metadata file.&quot;</span><span class="p">,</span>
+                    <span class="ne">KeyError</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                    <span class="s2">&quot;The requested field is missing from a file header.&quot;</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                    <span class="s2">&quot;The requested field is missing from a file header.&quot;</span><span class="p">,</span>
+                    <span class="ne">KeyError</span><span class="p">,</span>
                 <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Default is alphabetical sort</span>
@@ -1039,9 +1106,9 @@
             <span class="n">save_morphs_here</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">create_morphs_directory</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span>
 
         <span class="c1"># Could not create directory or find names to save morphs as</span>
-        <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unable to create directory&quot;</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">save_names</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">get_multisave_names</span><span class="p">(</span>
@@ -1050,10 +1117,11 @@
             <span class="c1"># Could not create directory or find names to save morphs as</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unable to read from save names file&quot;</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">)</span>
 
     <span class="c1"># Morph morph_file against all other files in target_directory</span>
     <span class="n">morph_results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">uncs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">target_file</span> <span class="ow">in</span> <span class="n">target_list</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">target_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">:</span>
             <span class="c1"># Set the save file destination to be a file within the SLOC</span>
@@ -1063,13 +1131,11 @@
                 <span class="n">opts</span><span class="o">.</span><span class="n">slocation</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_morphs_here</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">save_as</span><span class="p">)</span>
             <span class="c1"># Perform a morph of morph_file against target_file</span>
             <span class="n">pargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morph_file</span><span class="p">,</span> <span class="n">target_file</span><span class="p">]</span>
-            <span class="n">morph_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="n">target_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">single_morph</span><span class="p">(</span>
-                        <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span>
-                    <span class="p">),</span>
-                <span class="p">}</span>
+            <span class="n">morph_result</span><span class="p">,</span> <span class="n">unc</span> <span class="o">=</span> <span class="n">single_morph</span><span class="p">(</span>
+                <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
+            <span class="n">morph_results</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">target_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">morph_result</span><span class="p">})</span>
+            <span class="n">uncs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">target_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">unc</span><span class="p">})</span>
 
     <span class="n">target_file_names</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">morph_results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1091,6 +1157,7 @@
             <span class="n">morph_inputs</span><span class="p">,</span>
             <span class="n">morph_results</span><span class="p">,</span>
             <span class="n">target_file_names</span><span class="p">,</span>
+            <span class="n">uncertainties_dict</span><span class="o">=</span><span class="n">uncs</span><span class="p">,</span>
             <span class="n">save_directory</span><span class="o">=</span><span class="n">save_directory</span><span class="p">,</span>
             <span class="n">morph_file</span><span class="o">=</span><span class="n">morph_file</span><span class="p">,</span>
             <span class="n">target_directory</span><span class="o">=</span><span class="n">target_directory</span><span class="p">,</span>
@@ -1099,9 +1166,9 @@
             <span class="n">verbose</span><span class="o">=</span><span class="n">opts</span><span class="o">.</span><span class="n">verbose</span><span class="p">,</span>
             <span class="n">stdout_flag</span><span class="o">=</span><span class="n">stdout_flag</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;Unable to save summary to directory.&quot;</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
     <span class="c1"># Plot the values of some parameter for each target if requested</span>
     <span class="k">if</span> <span class="n">plot_opt</span><span class="p">:</span>
@@ -1118,8 +1185,9 @@
         <span class="c1"># Not an available parameter to plot or no values found for the</span>
         <span class="c1"># parameter</span>
         <span class="k">if</span> <span class="n">param_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot find specified plot parameter. No plot shown.&quot;</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot find specified plot parameter. No plot shown.&quot;</span><span class="p">,</span>
+                <span class="ne">KeyError</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1131,9 +1199,10 @@
             <span class="c1"># i.e. --smear is not selected as an option, but smear is the</span>
             <span class="c1"># plotting parameter</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
                     <span class="s2">&quot;The plot parameter is missing values for at least one &quot;</span>
-                    <span class="s2">&quot;morph and target pair. No plot shown.&quot;</span>
+                    <span class="s2">&quot;morph and target pair. No plot shown.&quot;</span><span class="p">,</span>
+                    <span class="ne">ValueError</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">morph_results</span></div>
@@ -1146,25 +1215,29 @@
     <span class="c1"># Custom error messages since usage is distinct when --multiple tag is</span>
     <span class="c1"># applied</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
             <span class="s2">&quot;You must supply a DIRECTORY and FILE. &quot;</span>
-            <span class="s2">&quot;See --multiple-morphs under --help for usage.&quot;</span>
+            <span class="s2">&quot;See --multiple-morphs under --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">TypeError</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="s2">&quot;Too many arguments. You must only supply a DIRECTORY and FILE.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="s2">&quot;Too many arguments. You must only supply a DIRECTORY and FILE.&quot;</span><span class="p">,</span>
+            <span class="ne">TypeError</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Parse paths</span>
     <span class="n">target_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">target_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_file</span><span class="si">}</span><span class="s2"> is not a file. Go to --help for usage.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_file</span><span class="si">}</span><span class="s2"> is not a file. Go to --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">FileNotFoundError</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="n">morph_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">morph_directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morph_directory</span><span class="si">}</span><span class="s2"> is not a directory. Go to --help for usage.&quot;</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">morph_directory</span><span class="si">}</span><span class="s2"> is not a directory. Go to --help for usage.&quot;</span><span class="p">,</span>
+            <span class="ne">NotADirectoryError</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># Get list of files from morph directory</span>
@@ -1201,12 +1274,14 @@
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">serfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                    <span class="s2">&quot;The requested field was not found in the metadata file.&quot;</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                    <span class="s2">&quot;The requested field was not found in the metadata file.&quot;</span><span class="p">,</span>
+                    <span class="ne">KeyError</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                    <span class="s2">&quot;The requested field is missing from a PDF file header.&quot;</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                    <span class="s2">&quot;The requested field is missing from a PDF file header.&quot;</span><span class="p">,</span>
+                    <span class="ne">KeyError</span><span class="p">,</span>
                 <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Default is alphabetical sort</span>
@@ -1228,9 +1303,9 @@
             <span class="n">save_morphs_here</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">create_morphs_directory</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span>
 
         <span class="c1"># Could not create directory or find names to save morphs as</span>
-        <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unable to create directory&quot;</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">save_names</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">get_multisave_names</span><span class="p">(</span>
@@ -1239,10 +1314,11 @@
             <span class="c1"># Could not create directory or find names to save morphs as</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
             <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Unable to read from save names file&quot;</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">)</span>
 
     <span class="c1"># Morph morph_file against all other files in target_directory</span>
     <span class="n">morph_results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">uncs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">morph_file</span> <span class="ow">in</span> <span class="n">morph_list</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">morph_file</span><span class="o">.</span><span class="n">is_file</span><span class="p">:</span>
             <span class="c1"># Set the save file destination to be a file within the SLOC</span>
@@ -1252,13 +1328,11 @@
                 <span class="n">opts</span><span class="o">.</span><span class="n">slocation</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_morphs_here</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">save_as</span><span class="p">)</span>
             <span class="c1"># Perform a morph of morph_file against target_file</span>
             <span class="n">pargs</span> <span class="o">=</span> <span class="p">[</span><span class="n">morph_file</span><span class="p">,</span> <span class="n">target_file</span><span class="p">]</span>
-            <span class="n">morph_results</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="p">{</span>
-                    <span class="n">morph_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">single_morph</span><span class="p">(</span>
-                        <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span>
-                    <span class="p">),</span>
-                <span class="p">}</span>
+            <span class="n">morph_result</span><span class="p">,</span> <span class="n">unc</span> <span class="o">=</span> <span class="n">single_morph</span><span class="p">(</span>
+                <span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">False</span>
             <span class="p">)</span>
+            <span class="n">morph_results</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">morph_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">morph_result</span><span class="p">})</span>
+            <span class="n">uncs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">morph_file</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">unc</span><span class="p">})</span>
 
     <span class="n">morph_file_names</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">morph_results</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1280,6 +1354,7 @@
             <span class="n">morph_inputs</span><span class="p">,</span>
             <span class="n">morph_results</span><span class="p">,</span>
             <span class="n">morph_file_names</span><span class="p">,</span>
+            <span class="n">uncertainties_dict</span><span class="o">=</span><span class="n">uncs</span><span class="p">,</span>
             <span class="n">save_directory</span><span class="o">=</span><span class="n">save_directory</span><span class="p">,</span>
             <span class="n">morph_file</span><span class="o">=</span><span class="n">target_file</span><span class="p">,</span>
             <span class="n">target_directory</span><span class="o">=</span><span class="n">morph_directory</span><span class="p">,</span>
@@ -1289,9 +1364,9 @@
             <span class="n">stdout_flag</span><span class="o">=</span><span class="n">stdout_flag</span><span class="p">,</span>
             <span class="n">mm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">save_fail_message</span> <span class="o">=</span> <span class="s2">&quot;Unable to save summary to directory.&quot;</span>
-        <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span><span class="n">save_fail_message</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
     <span class="c1"># Plot the values of some parameter for each target if requested</span>
     <span class="k">if</span> <span class="n">plot_opt</span><span class="p">:</span>
@@ -1308,8 +1383,9 @@
         <span class="c1"># Not an available parameter to plot or no values found for the</span>
         <span class="c1"># parameter</span>
         <span class="k">if</span> <span class="n">param_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
-                <span class="s2">&quot;Cannot find specified plot parameter. No plot shown.&quot;</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot find specified plot parameter. No plot shown.&quot;</span><span class="p">,</span>
+                <span class="ne">KeyError</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -1321,22 +1397,24 @@
             <span class="c1"># i.e. --smear is not selected as an option, but smear is the</span>
             <span class="c1"># plotting parameter</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">parser</span><span class="o">.</span><span class="n">custom_error</span><span class="p">(</span>
+                <span class="n">parser</span><span class="o">.</span><span class="n">morph_error</span><span class="p">(</span>
                     <span class="s2">&quot;The plot parameter is missing values for at least one &quot;</span>
-                    <span class="s2">&quot;morph and target pair. No plot shown.&quot;</span>
+                    <span class="s2">&quot;morph and target pair. No plot shown.&quot;</span><span class="p">,</span>
+                    <span class="ne">ValueError</span><span class="p">,</span>
                 <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">morph_results</span></div>
 
 
 
-<div class="viewcode-block" id="getPDFFromFile">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.getPDFFromFile">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">getPDFFromFile</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">readPDF</span>
+<div class="viewcode-block" id="get_two_column_from_file">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.get_two_column_from_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_two_column_from_file</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open a two column data file and extract the data.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.morph.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_two_column</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">r</span><span class="p">,</span> <span class="n">gr</span> <span class="o">=</span> <span class="n">readPDF</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">read_two_column</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">errmsg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">errmsg</span><span class="p">),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -1344,7 +1422,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cannot read </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fn</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">r</span><span class="p">,</span> <span class="n">gr</span></div>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">fx</span></div>
 
 
 
@@ -1352,7 +1430,7 @@
 <a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.morphapp.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">create_option_parser</span><span class="p">()</span>
-    <span class="p">(</span><span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">)</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">opts</span><span class="o">.</span><span class="n">multiple_targets</span><span class="p">:</span>
         <span class="n">multiple_targets</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="n">pargs</span><span class="p">,</span> <span class="n">stdout_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">opts</span><span class="o">.</span><span class="n">multiple_morphs</span><span class="p">:</span>

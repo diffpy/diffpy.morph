@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>Using diffpy.morph in Python &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/documentation_options.js?v=503e29a9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -171,8 +171,19 @@ section below.</p></li>
 the morphed function (default). When save is enabled, the difference function
 is saved instead of the morphed function.</p>
 </dd>
+<dt>original_grid: bool</dt><dd><p>Save/return the morphed function on the original grid.
+Automatically disabled when –get-diff enabled.
+Default: save/return the morphed function on the
+grid defined by the intersection of the original
+and target grids.</p>
+</dd>
 <dt>verbose: bool</dt><dd><p>Print additional header details to saved files. These include details about the morph
 inputs and outputs.</p>
+</dd>
+<dt>uncertainty: bool</dt><dd><p>Estimate uncertainties for each refined morphing parameter. This is done by estimating
+the Hessian of the fit. Caution should be taken as this is not the true uncertainty
+of the fit, and the user should make their own judgement about what measure of uncertainty
+to use for their particular use case.</p>
 </dd>
 <dt>xmin: float</dt><dd><p>Minimum x-value (abscissa) to use for function comparisons.</p>
 </dd>

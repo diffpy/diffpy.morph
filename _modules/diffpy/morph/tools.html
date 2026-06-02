@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph.tools &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>diffpy.morph.tools &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -13,7 +13,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../../../_static/documentation_options.js?v=503e29a9"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -92,16 +92,15 @@
 <span class="c1">##############################################################################</span>
 <span class="sd">&quot;&quot;&quot;Tools used in morphs and morph chains.&quot;&quot;&quot;</span>
 
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.loaddata</span><span class="w"> </span><span class="kn">import</span> <span class="n">loadData</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_data</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.parsers.serialization</span><span class="w"> </span><span class="kn">import</span> <span class="n">deserialize_data</span>
 
 
-<div class="viewcode-block" id="estimateScale">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.estimateScale">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">estimateScale</span><span class="p">(</span><span class="n">y_morph_in</span><span class="p">,</span> <span class="n">y_target_in</span><span class="p">):</span>
+<div class="viewcode-block" id="estimate_scale">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.estimate_scale">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_scale</span><span class="p">(</span><span class="n">y_morph_in</span><span class="p">,</span> <span class="n">y_target_in</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the scale that best matches the morph to the target.&quot;&quot;&quot;</span>
     <span class="n">dot</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dot</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">y_morph_in</span><span class="p">,</span> <span class="n">y_target_in</span><span class="p">)</span> <span class="o">/</span> <span class="n">dot</span><span class="p">(</span><span class="n">y_morph_in</span><span class="p">,</span> <span class="n">y_morph_in</span><span class="p">)</span>
@@ -109,9 +108,9 @@
 
 
 
-<div class="viewcode-block" id="estimateBaselineSlope">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.estimateBaselineSlope">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">estimateBaselineSlope</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="estimate_baseline_slope">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.estimate_baseline_slope">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">estimate_baseline_slope</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">gr</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate the slope of the linear baseline of a PDF.</span>
 
 <span class="sd">    This fits a slope into the equation slope*r through the bottom of the PDF.</span>
@@ -169,9 +168,9 @@
 
 
 
-<div class="viewcode-block" id="getRw">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.getRw">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">getRw</span><span class="p">(</span><span class="n">chain</span><span class="p">):</span>
+<div class="viewcode-block" id="get_rw">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.get_rw">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_rw</span><span class="p">(</span><span class="n">chain</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get Rw from the outputs of a morph or chain.&quot;&quot;&quot;</span>
     <span class="c1"># Make sure we put these on the proper grid</span>
     <span class="n">x_morph</span><span class="p">,</span> <span class="n">y_morph</span><span class="p">,</span> <span class="n">x_target</span><span class="p">,</span> <span class="n">y_target</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">xyallout</span>
@@ -194,10 +193,10 @@
 
 
 
-<div class="viewcode-block" id="readPDF">
-<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.readPDF">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">readPDF</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads an .gr file, loads r and G(r) vectors.</span>
+<div class="viewcode-block" id="read_two_column">
+<a class="viewcode-back" href="../../../api/diffpy.morph.html#diffpy.morph.tools.read_two_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_two_column</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a two-column data file, loads x and f(x) vectors.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -206,11 +205,10 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    r,gr</span>
+<span class="sd">    x,fx</span>
 <span class="sd">        Arrays read from data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">rv</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">rv</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
@@ -266,7 +264,6 @@
 <span class="sd">    value or None</span>
 <span class="sd">        Corresponding value if key is in dictionary. None otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">for</span> <span class="n">ci_key</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">ci_key</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">ci_key</span>
@@ -281,8 +278,9 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">field_sort</span><span class="p">(</span>
     <span class="n">filepaths</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">serfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">get_field_values</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort a list of files by a field stored in header information. All</span>
-<span class="sd">    files must contain this header information.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort a list of files by a field stored in header information.</span>
+
+<span class="sd">    All files must contain this header information.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -306,12 +304,11 @@
 <span class="sd">        Sorted list of paths. When get_fv is true, also return an associated</span>
 <span class="sd">        field list.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Get the field from each file</span>
     <span class="n">files_field_values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">serfile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
-            <span class="n">fhd</span> <span class="o">=</span> <span class="n">loadData</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">fhd</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">files_field_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">path</span><span class="p">,</span> <span class="n">case_insensitive_dictionary_search</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">fhd</span><span class="p">)]</span>
             <span class="p">)</span>
@@ -365,7 +362,6 @@
 <span class="sd">    list</span>
 <span class="sd">        The found values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Store all values corresponding to the target_key into this list</span>
     <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
 

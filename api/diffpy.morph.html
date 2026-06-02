@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.morph package &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>diffpy.morph package &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=f539c95a"></script>
+      <script src="../_static/documentation_options.js?v=503e29a9"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -84,7 +84,7 @@
              
   <section id="module-diffpy.morph">
 <span id="diffpy-morph-package"></span><h1>diffpy.morph package<a class="headerlink" href="#module-diffpy.morph" title="Link to this heading"></a></h1>
-<p>Python package for manipulating and comparing PDF profiles.</p>
+<p>Python package for manipulating and comparing 1D signals.</p>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
@@ -382,8 +382,8 @@ plotted data.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.tools.estimateBaselineSlope">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimateBaselineSlope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimateBaselineSlope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimateBaselineSlope" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.tools.estimate_baseline_slope">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimate_baseline_slope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimate_baseline_slope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimate_baseline_slope" title="Link to this definition"></a></dt>
 <dd><p>Estimate the slope of the linear baseline of a PDF.</p>
 <p>This fits a slope into the equation slope*r through the bottom of the PDF.</p>
 <dl class="field-list simple">
@@ -408,16 +408,16 @@ to -4*pi*rho0.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.tools.estimateScale">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimateScale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_morph_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimateScale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimateScale" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="diffpy.morph.tools.estimate_scale">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">estimate_scale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_morph_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_target_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#estimate_scale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.estimate_scale" title="Link to this definition"></a></dt>
 <dd><p>Set the scale that best matches the morph to the target.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.tools.field_sort">
 <span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">field_sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepaths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_field_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#field_sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.field_sort" title="Link to this definition"></a></dt>
-<dd><p>Sort a list of files by a field stored in header information. All
-files must contain this header information.</p>
+<dd><p>Sort a list of files by a field stored in header information.</p>
+<p>All files must contain this header information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -442,15 +442,15 @@ field list.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.tools.getRw">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">getRw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#getRw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.getRw" title="Link to this definition"></a></dt>
-<dd><p>Get Rw from the outputs of a morph or chain.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.tools.get_pearson">
 <span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">get_pearson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#get_pearson"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.get_pearson" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.tools.get_rw">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">get_rw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#get_rw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.get_rw" title="Link to this definition"></a></dt>
+<dd><p>Get Rw from the outputs of a morph or chain.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.tools.get_values_from_dictionary_collection">
@@ -483,9 +483,9 @@ appended to a List called values.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.tools.readPDF">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">readPDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#readPDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.readPDF" title="Link to this definition"></a></dt>
-<dd><p>Reads an .gr file, loads r and G(r) vectors.</p>
+<dt class="sig sig-object py" id="diffpy.morph.tools.read_two_column">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.tools.</span></span><span class="sig-name descname"><span class="pre">read_two_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/tools.html#read_two_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.tools.read_two_column" title="Link to this definition"></a></dt>
+<dd><p>Reads a two-column data file, loads x and f(x) vectors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fname</strong> – Name of the file we want to read.</p>
@@ -494,7 +494,7 @@ appended to a List called values.</p></li>
 <dd class="field-even"><p>Arrays read from data.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>r,gr</p>
+<dd class="field-odd"><p>x,fx</p>
 </dd>
 </dl>
 </dd></dl>
@@ -656,6 +656,11 @@ names used to produce that morph.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="diffpy.morph.morph_io.get_terminal_morph_output">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">get_terminal_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mr_copy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainties</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#get_terminal_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.get_terminal_morph_output" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.morph_io.handle_check_increase_warning">
 <span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">handle_check_increase_warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">squeeze_morph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#handle_check_increase_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.handle_check_increase_warning" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -667,7 +672,7 @@ names used to produce that morph.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.morph_io.multiple_morph_output">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">multiple_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#multiple_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.multiple_morph_output" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">multiple_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainties_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#multiple_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.multiple_morph_output" title="Link to this definition"></a></dt>
 <dd><p>Helper function for printing details about a series of multiple
 morphs. Handles both printing to terminal and printing to a file.</p>
 <dl class="field-list simple">
@@ -676,6 +681,7 @@ morphs. Handles both printing to terminal and printing to a file.</p>
 <li><p><strong>morph_inputs</strong> (<em>dict</em>) – Input parameters given by the user.</p></li>
 <li><p><strong>morph_results</strong> (<em>dict</em>) – Resulting data after morphing.</p></li>
 <li><p><strong>target_files</strong> (<em>list</em>) – Files that acted as targets to morphs.</p></li>
+<li><p><strong>uncertainties_dict</strong> (<em>dict</em>) – Dictionary of uncertainties for each morph.</p></li>
 <li><p><strong>save_directory</strong> – Name of directory to save morphs in.</p></li>
 <li><p><strong>field</strong> – Name of field if data was sorted by a particular field.
 Otherwise, leave blank.</p></li>
@@ -696,7 +702,7 @@ targets for a single morphed file. Swaps morph and target in the code.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.morph_io.single_morph_output">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">single_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#single_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.single_morph_output" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morph_io.</span></span><span class="sig-name descname"><span class="pre">single_morph_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">morph_inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_results</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uncertainties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">morph_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xy_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morph_io.html#single_morph_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morph_io.single_morph_output" title="Link to this definition"></a></dt>
 <dd><p>Helper function for printing details about a single morph.
 Handles both printing to terminal and printing to a file.</p>
 <dl class="field-list simple">
@@ -704,6 +710,7 @@ Handles both printing to terminal and printing to a file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>morph_inputs</strong> (<em>dict</em>) – Parameters given by the user.</p></li>
 <li><p><strong>morph_results</strong> (<em>dict</em>) – Resulting data after morphing.</p></li>
+<li><p><strong>uncertainties</strong> (<em>dict</em>) – Uncertainties of all morphed parameters.</p></li>
 <li><p><strong>save_file</strong> – Name of file to print to. If None (default) print to terminal.</p></li>
 <li><p><strong>morph_file</strong> – Name of the morphed function file. Required when printing to a
 non-terminal file.</p></li>
@@ -779,7 +786,7 @@ to other functions.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="diffpy.morph.refine.Refiner.refine">
-<span class="sig-name descname"><span class="pre">refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner.refine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner.refine" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">refine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate_uncertainty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/refine.html#Refiner.refine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.refine.Refiner.refine" title="Link to this definition"></a></dt>
 <dd><p>Refine the chain.</p>
 <p>Additional arguments are used to specify which parameters are to be
 refined.
@@ -787,7 +794,9 @@ If no arguments are passed, then all parameters will be refined.
 Keywords pass initial values to the parameters, whether or not they
 are refined.</p>
 <p>This uses the leastsq algorithm from scipy.optimize.</p>
-<p>This returns the final scalar residual value.
+<p>If estimate_uncertainty is True, return an estimated uncertainty
+for each parameter.
+Otherwise, return the final scalar residual value (used for testing).
 The parameters from the fit can be retrieved from the config
 dictionary of the morph or morph chain.</p>
 <dl class="field-list simple">
@@ -812,9 +821,10 @@ dictionary of the morph or morph chain.</p>
 <dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.morph.morphapp.getPDFFromFile">
-<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">getPDFFromFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#getPDFFromFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.getPDFFromFile" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="diffpy.morph.morphapp.get_two_column_from_file">
+<span class="sig-prename descclassname"><span class="pre">diffpy.morph.morphapp.</span></span><span class="sig-name descname"><span class="pre">get_two_column_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/morph/morphapp.html#get_two_column_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.morph.morphapp.get_two_column_from_file" title="Link to this definition"></a></dt>
+<dd><p>Open a two column data file and extract the data.</p>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.morph.morphapp.main">

@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quickstart &mdash; diffpy.morph 0.0.1 documentation</title>
+  <title>Quickstart &mdash; diffpy.morph 0.3.2rc0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=f539c95a"></script>
+      <script src="_static/documentation_options.js?v=503e29a9"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -280,13 +280,22 @@ the optimal fit for our PDF!</p>
 <p><span class="caption-text">The optimal fit after applying the scale, smear, and stretch morphs.</span><a class="headerlink" href="#id3" title="Link to this image"></a></p>
 </figcaption>
 </figure>
-<ol class="arabic simple" start="9">
-<li><p>Now, try it on your own! If you have personally collected or
-otherwise readily available PDF data, try this process to see if
+<ol class="arabic" start="9">
+<li><p>We are also able to estimate the uncertainties of each of the fitted parameters.
+This is done by using the <code class="docutils literal notranslate"><span class="pre">uncertainty</span></code> parameter.
+Below we have replaced the <code class="docutils literal notranslate"><span class="pre">-a</span></code> from the previous step with a <code class="docutils literal notranslate"><span class="pre">-u</span></code> to obtain uncertainty estimates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">diffpy</span><span class="o">.</span><span class="n">morph</span> <span class="o">--</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.8</span> <span class="o">--</span><span class="n">smear</span><span class="o">-</span><span class="n">pdf</span><span class="o">=-</span><span class="mf">0.08</span> <span class="o">--</span><span class="n">stretch</span><span class="o">=</span><span class="mf">0.005</span> <span class="o">--</span><span class="n">xmin</span><span class="o">=</span><span class="mf">1.5</span> <span class="o">--</span><span class="n">xmax</span><span class="o">=</span><span class="mi">30</span> <span class="o">-</span><span class="n">u</span> <span class="n">darkSub_rh20_C_01</span><span class="o">.</span><span class="n">gr</span> <span class="n">darkSub_rh20_C_44</span><span class="o">.</span><span class="n">gr</span>
+</pre></div>
+</div>
+</li>
+<li><p>Now, try it on your own! If you have personally collected or</p></li>
+</ol>
+<blockquote>
+<div><p>otherwise readily available PDF data, try this process to see if
 you can morph your PDFs to one another. Many of the parameters
 provided in this tutorial are unique to it, so be cautious about
-your choices and made sure that they remain physically relevant.</p></li>
-</ol>
+your choices and made sure that they remain physically relevant.</p>
+</div></blockquote>
 </div></blockquote>
 <p>Enjoy the software!</p>
 </section>

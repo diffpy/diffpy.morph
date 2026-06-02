@@ -83,9 +83,20 @@ get_diff: bool
     Return the difference function (morphed function minus target function) instead of
     the morphed function (default). When save is enabled, the difference function
     is saved instead of the morphed function.
+original_grid: bool
+    Save/return the morphed function on the original grid.
+    Automatically disabled when --get-diff enabled.
+    Default: save/return the morphed function on the
+    grid defined by the intersection of the original
+    and target grids.
 verbose: bool
     Print additional header details to saved files. These include details about the morph
     inputs and outputs.
+uncertainty: bool
+    Estimate uncertainties for each refined morphing parameter. This is done by estimating
+    the Hessian of the fit. Caution should be taken as this is not the true uncertainty
+    of the fit, and the user should make their own judgement about what measure of uncertainty
+    to use for their particular use case.
 xmin: float
     Minimum x-value (abscissa) to use for function comparisons.
 xmax: float
