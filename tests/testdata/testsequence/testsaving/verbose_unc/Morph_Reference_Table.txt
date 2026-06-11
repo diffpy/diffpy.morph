@@ -77,7 +77,7 @@
 # Rw = 0.117614
 # Pearson = 0.993059
 
-# Labels: [Target] [Temperature] [Scale] [Pearson] [Rw]
+# Labels: [target] [temperature] [scale] [pearson] [rw]
 f_180K.gr 180.0 0.994948 0.999842 0.017766
 e_186K.gr 186.0 0.992167 0.999549 0.030029
 d_192K.gr 192.0 0.993095 0.998318 0.057982

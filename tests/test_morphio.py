@@ -461,8 +461,8 @@ class TestApp:
             uncertainty=True,
         )
 
-        assert "Uncertainties" in morph_info.keys()
+        assert "uncertainties" in morph_info.keys()
         params = ["funcy ay0", "funcy ay1", "funcx ax0", "funcx ax1"]
-        for unc in morph_info["Uncertainties"].keys():
+        for unc in morph_info["uncertainties"].keys():
             assert unc in params
-            assert morph_info["Uncertainties"][unc] is not None
+            assert morph_info["uncertainties"][unc] is not None

@@ -186,7 +186,7 @@ class TestMorphpy:
             rw = get_rw(chain)
             del chain
             assert np.allclose(
-                [rw], [self.morphapp_results[target_file.name]["Rw"]]
+                [rw], [self.morphapp_results[target_file.name]["rw"]]
             )
         # Check values in dictionaries are approximately equal
         for file in morph_results.keys():
@@ -257,7 +257,7 @@ class TestMorphpy:
             rw = get_rw(chain)
             del chain
             assert np.allclose(
-                [rw], [self.morphapp_results[target_file.name]["Rw"]]
+                [rw], [self.morphapp_results[target_file.name]["rw"]]
             )
             # Check values in dictionaries are approximately equal
             for file in morph_results.keys():
