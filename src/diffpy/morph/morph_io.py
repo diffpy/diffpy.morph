@@ -129,7 +129,7 @@ def get_terminal_morph_output(mr_copy, uncertainties):
     # Handle special inputs (numerical)
     if "squeeze" in mr_copy:
         sq_dict = mr_copy.pop("squeeze")
-        rw_pos = list(mr_copy.keys()).index("Rw")
+        rw_pos = list(mr_copy.keys()).index("rw")
         morph_results_list = list(mr_copy.items())
         for idx, _ in enumerate(sq_dict):
             morph_results_list.insert(
@@ -148,7 +148,7 @@ def get_terminal_morph_output(mr_copy, uncertainties):
             func_dicts[func][0] = mr_copy.pop(f"{func}_function")
         if func in mr_copy:
             func_dicts[func][1] = mr_copy.pop(func)
-            rw_pos = list(mr_copy.keys()).index("Rw")
+            rw_pos = list(mr_copy.keys()).index("rw")
             morph_results_list = list(mr_copy.items())
             for idx, key in enumerate(func_dicts[func][1]):
                 morph_results_list.insert(
@@ -156,14 +156,20 @@ def get_terminal_morph_output(mr_copy, uncertainties):
                 )
             mr_copy = dict(morph_results_list)
 
-    # Get uncertainties
+    # Keywords that should be capitalized in the saved files
+    special_keywords = ["rw", "pearson"]
+
+    # Print outputs including uncertainties when applicable
     if uncertainties is None:
         morphs_out += "\n".join(
-            f"# {key} = {mr_copy[key]:.6f}" for key in mr_copy.keys()
+            f"# {key.capitalize() if key in special_keywords else key} = "
+            f"{mr_copy[key]:.6f}"
+            for key in mr_copy.keys()
         )
     else:
         morphs_out += "\n".join(
-            f"# {key} = {mr_copy[key]:.6f}"
+            f"# {key.capitalize() if key in special_keywords else key} = "
+            f"{mr_copy[key]:.6f}"
             + (
                 f" +/- {uncertainties[key]:.6f}"
                 if key in uncertainties
@@ -431,11 +437,11 @@ def multiple_morph_output(
 
     # Table labels
     if not mm:
-        labels = "\n# Labels: [Target]"
+        labels = "\n# Labels: [target]"
     else:
-        labels = "\n# Labels: [Morph]"
+        labels = "\n# Labels: [morph]"
     if field is not None:
-        labels += f" [{field}]"
+        labels += f" [{field.lower()}]"
     for param in tabulated_results.keys():
         if len(tabulated_results[param]) > 0:
             labels += f" [{param}]"
@@ -501,7 +507,7 @@ def tabulate_results(multiple_morph_results):
         corresponding value is a list of data for that column.
     """
     # We only care about the following parameters in our data tables
-    relevant_parameters = ["Scale", "Smear", "Stretch", "Pearson", "Rw"]
+    relevant_parameters = ["scale", "smear", "stretch", "pearson", "rw"]
 
     # Keys in this table represent column names and the value will be a list
     # of column data

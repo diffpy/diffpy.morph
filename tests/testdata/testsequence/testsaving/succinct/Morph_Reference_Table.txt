@@ -9,7 +9,7 @@
 # hshift = None
 # vshift = None
 
-# Labels: [Target] [Temperature] [Pearson] [Rw]
+# Labels: [target] [temperature] [pearson] [rw]
 f_180K.gr 180.0 0.999810 0.020141
 e_186K.gr 186.0 0.999424 0.034859
 d_192K.gr 192.0 0.998077 0.062392

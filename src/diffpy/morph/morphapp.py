@@ -854,8 +854,8 @@ def single_morph(
     # Output morph parameters
     morph_results = dict(config.items())
     # Ensure Rw, Pearson last two outputs
-    morph_results.update({"Rw": rw})
-    morph_results.update({"Pearson": pcc})
+    morph_results.update({"rw": rw})
+    morph_results.update({"pearson": pcc})
 
     # Print summary to terminal and save morph to file if requested
     xy_save = [chain.x_morph_out, chain.y_morph_out]
@@ -921,7 +921,7 @@ def single_morph(
     if python_wrap:
         morph_info = morph_results
         if opts.estimate_uncertainty is not None and unc is not None:
-            morph_info.update({"Uncertainties": unc})
+            morph_info.update({"uncertainties": unc})
         morph_table = numpy.array(xy_save).T
         return morph_info, morph_table
     else:
@@ -1089,7 +1089,7 @@ def multiple_targets(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         plot_results = io.tabulate_results(morph_results)
         # Default parameter is Rw
         param_name = r"$R_w$"
-        param_list = plot_results["Rw"]
+        param_list = plot_results["rw"]
         # Find parameter if specified
         if opts.plotparam is not None:
             param_name = opts.plotparam
@@ -1284,7 +1284,7 @@ def multiple_morphs(parser, opts, pargs, stdout_flag=True, python_wrap=False):
         plot_results = io.tabulate_results(morph_results)
         # Default parameter is Rw
         param_name = r"$R_w$"
-        param_list = plot_results["Rw"]
+        param_list = plot_results["rw"]
         # Find parameter if specified
         if opts.plotparam is not None:
             param_name = opts.plotparam
