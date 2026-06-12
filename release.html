@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release notes &mdash; diffpy.morph 0.3.2rc0 documentation</title>
+  <title>Release notes &mdash; diffpy.morph 0.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=503e29a9"></script>
+      <script src="_static/documentation_options.js?v=1437fa6d"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -81,14 +81,35 @@
   <section id="release-notes">
 <span id="index-0"></span><h1>Release notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
 <section id="id1">
-<h2>0.3.1<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.4.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added:</strong></p>
+<ul class="simple">
+<li><p>User now has option to select which grid they want the morphed function returned on. The default grid is still the intersection of the original and target grid. The option –original-grid changes the returned grid to be the original grid instead.</p></li>
+<li><p>New option “uncertainty” to allow user to estimate uncertainty of the refined morphing parameters.</p></li>
+</ul>
+<p><strong>Changed:</strong></p>
+<ul class="simple">
+<li><p>Program no longer gives SystemExit. Proper errors are assigned to each case.</p></li>
+<li><p>Default labels for saving are now [x] and [fx] instead of [r] and [gr].</p></li>
+<li><p>All dictionary keys and column headers are lower-cased. This includes Rw-&gt;rw, Pearson-&gt;pearson, and the user-given –field-sort quantity is made lower-case.</p></li>
+<li><p>Updated support from 3.11-3.13 to 3.12-3.14.</p></li>
+<li><p>Requires diffpy.utils&gt;=3.7.1.</p></li>
+<li><p>Now use <cite>PyCQA/docformatter</cite> to format Python docstrings.</p></li>
+</ul>
+<p><strong>Fixed:</strong></p>
+<ul class="simple">
+<li><p>In morphpy, when a parameter is set to None, it will not be used as an option.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>0.3.1<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Fixed:</strong></p>
 <ul class="simple">
 <li><p>Applying a function with no extrapolation no longer produces an error.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>0.3.0<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.3.0<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Tutorials for wrapping PDFgetx3 and PyFai with funcxy.</p></li>
@@ -124,8 +145,8 @@
 <li><p>Removed subprocess calls in test functions.</p></li>
 </ul>
 </section>
-<section id="id3">
-<h2>0.2.0<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.0<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Added a tutorial for MorphFuncy</p></li>
@@ -176,8 +197,8 @@
 <li><p>manual.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>0.1.3<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.1.3<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Add GitHub action to build wheel, release, upload.</p></li>
@@ -192,26 +213,26 @@
 <li><p>Mathematical error in manual</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>0.1.2<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.1.2<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Changed:</strong></p>
 <ul class="simple">
 <li><p>downgraded matplotlib requirement to matplotlib-base</p></li>
 <li><p>updated imports of bg-mpl-stylesheets for latest release of that code</p></li>
 </ul>
 </section>
-<section id="id6">
-<h2>0.1.1<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
-</section>
 <section id="id7">
 <h2>0.1.1<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+</section>
+<section id="id8">
+<h2>0.1.1<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Fixed:</strong></p>
 <ul class="simple">
 <li><p>README title so that it is valid syntax for uploading to PyPi</p></li>
 </ul>
 </section>
-<section id="id8">
-<h2>0.1.0<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.1.0<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Added:</strong></p>
 <ul class="simple">
 <li><p>Add ability to perform multiple morphs in one call using –multiple.
