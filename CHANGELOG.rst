@@ -4,6 +4,28 @@ Release notes
 
 .. current developments
 
+0.4.0
+=====
+
+**Added:**
+
+* User now has option to select which grid they want the morphed function returned on. The default grid is still the intersection of the original and target grid. The option --original-grid changes the returned grid to be the original grid instead.
+* New option "uncertainty" to allow user to estimate uncertainty of the refined morphing parameters.
+
+**Changed:**
+
+* Program no longer gives SystemExit. Proper errors are assigned to each case.
+* Default labels for saving are now [x] and [fx] instead of [r] and [gr].
+* All dictionary keys and column headers are lower-cased. This includes Rw->rw, Pearson->pearson, and the user-given --field-sort quantity is made lower-case.
+* Updated support from 3.11-3.13 to 3.12-3.14.
+* Requires diffpy.utils>=3.7.1.
+* Now use `PyCQA/docformatter` to format Python docstrings.
+
+**Fixed:**
+
+* In morphpy, when a parameter is set to None, it will not be used as an option.
+
+
 0.3.1
 =====
 
