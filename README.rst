@@ -73,12 +73,13 @@ Citation
 
 If you use diffpy.morph in a scientific publication, we would like you to cite this package as
 
-
-"diffpy.morph: Python tools for model independent comparisons between sets of 1D functions" by
-Andrew Yang, Luis Kitsu Iglesias, Michael F. Toney, Samuel D. Marks, Joshua Safin, Vivian R. K. Wall,
-Katherine Page, Naomi S. Ginsberg, Dillon Hanlon, Nicholas Leonard, Samuel W. Teitelbaum,
-Timothy B. van Driel, Chia-Hao Liu, Soham Banerjee, Christopher L. Farrow, Pavol Juhas,
-Emil S.  Bozin, Simon J.  L.  Billinge, to be published.
+        Yang, A., Farrow, C. L., Juhás, P., Iglesias, L. K., Liu, C.-H.,
+        Marks, S. D., Wall, V. R. K., Safin, J., Drewry, S. M., Myers, C.,
+        Hanlon, D. F., Leonard, N., Petrovic, C., Jeong, A., Talapin, D. V.,
+        Nazar, L. F., Zhou, H., Teitelbaum, S. W., van Driel, T. B.,
+        Banerjee, S., Bozin, E. S., Toney, M. F., Page, K., Ginsberg, N. S.,
+        and Billinge, S. J. L. (2026). *diffpy.morph: Python tools for model
+        independent comparisons between sets of 1D functions*. arXiv:2602.06987.
 
 Installation
 ------------
@@ -132,7 +133,7 @@ For detailed instructions and full tutorial, see our `website <www.diffpy.org/di
 Once the required software, including ``diffpy.morph`` is all installed, open
 up a terminal and check installation has worked properly by running ::
 
-	source activate diffpy.morph_env      #if the environment isn't already active
+	conda activate diffpy.morph_env      #if the environment isn't already active
 	diffpy.morph -h			  #get some helpful information
 	diffpy.morph --version
 
@@ -183,7 +184,7 @@ Before contributing, please read our `Code of Conduct <https://github.com/diffpy
 Contact
 -------
 
-For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon J.L. Billinge group at sb2896@columbia.edu.
+For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon J.L. Billinge group at sbillinge@ucsb.edu.
 
 Acknowledgements
 ----------------
