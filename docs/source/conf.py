@@ -38,7 +38,7 @@ sys.path.insert(0, str(Path("../..").resolve()))
 sys.path.insert(0, str(Path("../../src").resolve()))
 
 # abbreviations
-ab_authors = "Sangjoon Lee, Simon Billinge, Billinge Group members"
+ab_authors = "Simon Billinge, Billinge Group members"
 
 # -- General configuration ------------------------------------------------
 
@@ -56,7 +56,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx_rtd_theme",
     "sphinx_copybutton",
-    "m2r",
+    "m2r2",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -75,7 +75,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "diffpy.morph"
-copyright = "%Y, The Trustees of Columbia University in the City of New York"
+copyright = "%Y, diffpy.morph contributors"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -145,7 +145,7 @@ html_context = {
     "github_user": "diffpy",
     "github_repo": "diffpy.morph",
     "github_version": "main",
-    "conf_py_path": "/doc/source/",
+    "conf_py_path": "/docs/source/",
 }
 
 # Theme options are theme-specific and customize the look and feel of a theme

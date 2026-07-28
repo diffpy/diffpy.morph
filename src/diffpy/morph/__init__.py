@@ -2,6 +2,7 @@
 ##############################################################################
 #
 # (c) 2025 The Trustees of Columbia University in the City of New York.
+# (c) 2026 diffpy.morph contributors.
 # All rights reserved.
 #
 # File coded by: Sangjoon Lee, Simon Billinge, Billinge Group members.
@@ -13,9 +14,6 @@
 #
 ##############################################################################
 """Python package for manipulating and comparing 1D signals."""
-
-# key used when saving multiple morphs
-__save_morph_as__ = "save_morph_as"
 
 # package version
 from diffpy.morph.version import __version__  # noqa

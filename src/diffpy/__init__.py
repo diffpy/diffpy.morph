@@ -2,6 +2,7 @@
 ##############################################################################
 #
 # (c) 2025 The Trustees of Columbia University in the City of New York.
+# (c) 2026 diffpy.morph contributors.
 # All rights reserved.
 #
 # File coded by: Billinge Group members and community contributors.

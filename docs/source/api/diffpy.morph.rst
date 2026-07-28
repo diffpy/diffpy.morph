@@ -1,7 +1,9 @@
 :tocdepth: -1
 
-diffpy.morph package
-====================
+|title|
+=======
+
+.. |title| replace:: diffpy.morph package
 
 .. automodule:: diffpy.morph
     :members:
