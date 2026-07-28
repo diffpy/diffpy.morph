@@ -15,6 +15,10 @@
 ##############################################################################
 """Python package for manipulating and comparing 1D signals."""
 
+
+# key used when saving multiple morphs
+__save_morph_as__ = "save_morph_as"
+
 # package version
 from diffpy.morph.version import __version__  # noqa
 
