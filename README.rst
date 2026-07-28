@@ -36,9 +36,35 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.morph/issues
 
-Python package for manipulating and comparing 1D signals.
+Python package for manipulating and comparing diffraction data.
 
-* LONGER DESCRIPTION HERE
+``diffpy.morph`` is a Python software package designed to increase the insight
+researchers can obtain from measured data including diffraction data
+and atomic pair distribution functions
+(PDFs) in a model-independent way. For example, the program was designed to help a
+researcher answer the question: "Has my material undergone a phase
+transition between these two measurements?"
+
+One approach is to compare the two diffraction patterns in a plot
+and view the difference curve underneath. However, significant signal can
+be seen in the difference curve from benign effects such as thermal expansion
+(peak shifts) and increased thermal motion (peak broadening) or a change in
+scale due to differences in incident flux, for example. ``diffpy.morph`` will
+do its best to correct for these benign effects before computing and
+plotting the difference curve. One measured function (typically that collected
+at higher temperature) is identified as the target function and the second
+function is then morphed by "stretching" (changing the r-axis to simulate a
+uniform lattice expansion), "smearing" (broadening peaks through a
+uniform convolution to simulate increased thermal motion), and "scaling"
+(self-explanatory). ``diffpy.morph`` will vary the amplitude of the morphing
+transformations to obtain the best fit between the morphed and the target
+functions, then plot them on top of each other with the difference plotted
+below.
+
+There are also a few other morphing transformations in the program.
+
+Finally, we note that ``diffpy.morph`` should work on other spectra,
+though it has not been extensively tested beyond spectral data and the PDF.
 
 For more information about the diffpy.morph library, please consult our `online documentation <https://diffpy.github.io/diffpy.morph>`_.
 
@@ -47,7 +73,13 @@ Citation
 
 If you use diffpy.morph in a scientific publication, we would like you to cite this package as
 
-        diffpy.morph Package, https://github.com/diffpy/diffpy.morph
+        Yang, A., Farrow, C. L., Juhás, P., Iglesias, L. K., Liu, C.-H.,
+        Marks, S. D., Wall, V. R. K., Safin, J., Drewry, S. M., Myers, C.,
+        Hanlon, D. F., Leonard, N., Petrovic, C., Jeong, A., Talapin, D. V.,
+        Nazar, L. F., Zhou, H., Teitelbaum, S. W., van Driel, T. B.,
+        Banerjee, S., Bozin, E. S., Toney, M. F., Page, K., Ginsberg, N. S.,
+        and Billinge, S. J. L. (2026). *diffpy.morph: Python tools for model
+        independent comparisons between sets of 1D functions*. arXiv:2602.06987.
 
 Installation
 ------------
@@ -98,6 +130,31 @@ Getting Started
 
 You may consult our `online documentation <https://diffpy.github.io/diffpy.morph>`_ for tutorials and API references.
 
+
+USING diffpy.morph
+------------------
+
+For detailed instructions and full tutorial, see our `website <www.diffpy.org/diffpy.morph/>`.
+
+Once the required software, including ``diffpy.morph`` is all installed, open
+up a terminal and check installation has worked properly by running ::
+
+	conda activate diffpy.morph_env      #if the environment isn't already active
+	diffpy.morph -h			  #get some helpful information
+	diffpy.morph --version
+
+If installed correctly, this last command should return the version
+of ``diffpy.morph`` that you have installed on your system. To begin using
+``diffpy.morph``, run a command like ::
+
+	diffpy.morph <morph file> <target file>
+
+where both files are text files which contain two-column data, such as ``.gr``
+or ``.cgr`` files that are produced by ``PDFgetX2``, ``PDFgetX3``,
+or ``PDFgui``. File extensions other than ``.gr`` or ``.cgr``,
+but with the same content structure, also work with ``diffpy.morph``.
+
+Enjoy!
 Support and Contribute
 ----------------------
 
