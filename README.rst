@@ -155,6 +155,8 @@ or ``PDFgui``. File extensions other than ``.gr`` or ``.cgr``,
 but with the same content structure, also work with ``diffpy.morph``.
 
 Enjoy!
+
+
 Support and Contribute
 ----------------------
 
