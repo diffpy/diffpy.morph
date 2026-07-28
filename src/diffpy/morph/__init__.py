@@ -15,7 +15,6 @@
 ##############################################################################
 """Python package for manipulating and comparing 1D signals."""
 
-
 # key used when saving multiple morphs
 __save_morph_as__ = "save_morph_as"
 
