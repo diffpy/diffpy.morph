@@ -192,7 +192,7 @@ Before contributing, please read our `Code of Conduct <https://github.com/diffpy
 Contact
 -------
 
-For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email the maintainers ``Simon J.L. Billinge group(simon.billinge@gmail.com)``.
+For more information on diffpy.morph please visit the project `web-page <https://diffpy.github.io/>`_ or email the maintainers ``Simon J.L. Billinge group(sbillinge@ucsb.edu)``.
 
 Acknowledgements
 ----------------

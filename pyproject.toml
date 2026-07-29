@@ -6,10 +6,10 @@ build-backend = "setuptools.build_meta"
 name = "diffpy.morph"
 dynamic=['version', 'dependencies']
 authors = [
-  {name='Simon J.L. Billinge group', email='simon.billinge@gmail.com'},
+  {name='Simon J.L. Billinge group', email='sbillinge@ucsb.edu'},
 ]
 maintainers = [
-  {name='Simon J.L. Billinge group', email='simon.billinge@gmail.com'},
+  {name='Simon J.L. Billinge group', email='sbillinge@ucsb.edu'},
 ]
 description = "Python package for manipulating and comparing 1D signals."
 keywords = ['diffpy', 'pdf', 'data interpretation']
