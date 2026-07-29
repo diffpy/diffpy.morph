@@ -1,8 +1,10 @@
-##########################
-diffpy.morph documentation
-##########################
+#######
+|title|
+#######
 
-``diffpy.morph`` - Tools for manipulating and comparing 1D signals.
+.. |title| replace:: diffpy.morph documentation
+
+``diffpy.morph`` - Python package for manipulating and comparing 1D signals.
 
 | Software version |release|
 | Last updated |today|.

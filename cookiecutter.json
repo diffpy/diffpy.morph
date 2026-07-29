@@ -1,0 +1,20 @@
+{
+  "author_names": "Simon J.L. Billinge group",
+  "author_emails": "simon.billinge@gmail.com",
+  "maintainer_names": "Simon J.L. Billinge group",
+  "maintainer_emails": "simon.billinge@gmail.com",
+  "maintainer_github_usernames": "sbillinge",
+  "contributors": "Simon Billinge, Billinge Group members",
+  "project_name": "diffpy.morph",
+  "license_holders": "diffpy.morph contributors",
+  "github_username_or_orgname": "diffpy",
+  "github_repo_name": "diffpy.morph",
+  "conda_pypi_package_dist_name": "diffpy.morph",
+  "package_dir_name": "diffpy.morph",
+  "project_short_description": "Python package for manipulating and comparing 1D signals.",
+  "project_keywords": "diffpy, pdf, data interpretation",
+  "minimum_supported_python_version": "3.12",
+  "maximum_supported_python_version": "3.14",
+  "project_needs_c_code_compiled": "No",
+  "project_has_gui_tests": "No"
+}
