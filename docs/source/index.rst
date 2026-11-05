@@ -72,6 +72,21 @@ Acknowledgements
 
 ``diffpy.morph`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
 
+=========
+Reference
+=========
+
+If you use ``diffpy.morph`` in a scientific publication, we would like you to cite this package as:
+
+        Yang, A., Farrow, C. L., Juhás, P., Iglesias, L. K., Liu, C.-H.,
+        Marks, S. D., Wall, V. R. K., Safin, J., Drewry, S. M., Myers, C.,
+        Hanlon, D. F., Leonard, N., Petrovic, C., Jeong, A., Talapin, D. V.,
+        Nazar, L. F., Zhou, H., Teitelbaum, S. W., van Driel, T. B.,
+        Banerjee, S., Bozin, E. S., Toney, M. F., Page, K., Ginsberg, N. S.,
+        and Billinge, S. J. L., diffpy.morph: Python tools for model independent
+        comparisons between sets of 1D functions, Phys. Rev. Mater. 10,
+        113801, (2026). (doi: 10.1103/t39r-v3lx)
+
 =================
 Table of contents
 =================
